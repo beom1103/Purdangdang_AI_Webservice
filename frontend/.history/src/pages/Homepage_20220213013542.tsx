@@ -87,7 +87,7 @@ const Homepage = () => {
         <Intro />
       </div>
       <div>
-        <Intro />
+        <VideoBackground />
       </div>
     </div>
   );
