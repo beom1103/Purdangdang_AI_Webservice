@@ -1,14 +1,10 @@
 import React from 'react';
-import Header from './components/homepage/Header';
-import Intro from './components/homepage/Intro';
-import VideoBackground from './components/homepage/VideoBackground';
+import Routing from './components/routing/Routing';
 
 function App() {
   return (
-    <div className="relative w-full App">
-      <Header />
-      <VideoBackground />
-      <Intro />
+    <div className="App">
+      <Routing />
     </div>
   );
 }
