@@ -1,5 +1,4 @@
 version: "3"
-
 services:
   db:
     image: mysql:5.7
@@ -14,10 +13,10 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     volumes:
-      - ./backend:/django
+      - ./backend:/apps
     ports:
       - 8000:8000
-    image: server:django
+    image: server:apps
     container_name: django_container
     command: python manage.py runserver 0.0.0.0:8000
     depends_on:
