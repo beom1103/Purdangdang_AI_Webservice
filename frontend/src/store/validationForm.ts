@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-export const validateForm = Yup.object().shape({
+export const validationForm = Yup.object().shape({
   username: Yup.string()
     .required('이름을 입력해주세요.')
     .min(2, '이름은 최소 2자 이상 입력해주세요.')

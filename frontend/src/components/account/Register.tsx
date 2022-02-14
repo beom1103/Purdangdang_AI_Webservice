@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { validateForm } from '../../store/validateForm';
+import { validationForm } from '../../store/validationForm';
 import InputField from './InputField';
 
 type RegisterType = {
@@ -19,7 +19,7 @@ const Register = () => {
     formState: { errors },
   } = useForm<RegisterType>({
     mode: 'onChange',
-    resolver: yupResolver(validateForm),
+    resolver: yupResolver(validationForm),
   });
 
   const onSubmit = handleSubmit(({ username, email, password }) => {

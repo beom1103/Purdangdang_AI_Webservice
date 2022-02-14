@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { validateForm } from '../../store/validateForm';
+import { validationForm } from '../../store/validationForm';
 import InputField from './InputField';
 
 type LoginType = {
@@ -17,7 +17,7 @@ const Login = () => {
     formState: { errors },
   } = useForm<LoginType>({
     mode: 'onChange',
-    resolver: yupResolver(validateForm),
+    resolver: yupResolver(validationForm),
   });
 
   const onSubmit = handleSubmit(({ email, password }) => {
