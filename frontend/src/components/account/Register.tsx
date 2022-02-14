@@ -1,10 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { validateForm } from '../../store/validateForm';
+import InputField from './InputField';
 
-type LoginType = {
+type RegisterType = {
+  username: string;
   email: string;
   password: string;
+  confirmPassword: string;
 };
 
 const Register = () => {
@@ -12,10 +17,13 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginType>({ mode: 'onChange' });
+  } = useForm<RegisterType>({
+    mode: 'onChange',
+    resolver: yupResolver(validateForm),
+  });
 
-  const onSubmit = handleSubmit(({ email, password }) => {
-    console.log(email, password);
+  const onSubmit = handleSubmit(({ username, email, password }) => {
+    console.log(username, email, password);
   });
 
   return (
@@ -35,59 +43,38 @@ const Register = () => {
       <div className="mt-8">
         <div className="mt-6">
           <form className="space-y-6" onSubmit={onSubmit}>
-            <div>
-              <div className="flex justify-between">
-                <label htmlFor="email" className="account-label">
-                  아이디
-                </label>
-                <span className="text-red-600">
-                  {errors.email ? '비밀번호를 확인해주세요.' : ''}
-                </span>
-              </div>
-              <div className="account-input-box">
-                <input
-                  {...register('email', {
-                    required: true,
-                    minLength: 6,
-                    maxLength: 30,
-                  })}
-                  id="email"
-                  name="email"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="purdangdang@dang.com"
-                  className={errors.email ? 'account-error' : 'account-input'}
-                />
-              </div>
-            </div>
-
-            <div className="space-y-1">
-              <div className="flex justify-between">
-                <label htmlFor="password" className="account-label">
-                  비밀번호
-                </label>
-                <span className="text-red-600">
-                  {errors.email ? '비밀번호를 확인해주세요.' : ''}
-                </span>
-              </div>
-              <div className="account-input-box">
-                <input
-                  {...register('password', {
-                    required: true,
-                    minLength: 6,
-                    maxLength: 13,
-                  })}
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="off"
-                  placeholder="********"
-                  className={
-                    errors.password ? 'account-error' : 'account-input'
-                  }
-                />
-              </div>
-            </div>
+            <InputField
+              name="username"
+              type="text"
+              label="이름"
+              placeholder="푸르댕"
+              register={register}
+              error={errors.username?.message}
+            />
+            <InputField
+              name="email"
+              type="email"
+              label="이메일"
+              placeholder="purdangdang@dang.com"
+              register={register}
+              error={errors.email?.message}
+            />
+            <InputField
+              name="password"
+              type="password"
+              label="비밀번호"
+              placeholder="********"
+              register={register}
+              error={errors.password?.message}
+            />
+            <InputField
+              name="confirmPassword"
+              type="password"
+              label="비밀번호 확인"
+              placeholder="********"
+              register={register}
+              error={errors.confirmPassword?.message}
+            />
 
             <div>
               <button type="submit" className="account-btn">
