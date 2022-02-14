@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AccountPage from '../../pages/AccountPage';
 import HomePage from '../../pages/HomePage';
-import LoginPage from '../../pages/LoginPage';
-import Register from '../../pages/Register';
+import Login from '../account/Login';
+import Register from '../account/Register';
 
 const Routing = () => {
   return (
@@ -10,8 +11,10 @@ const Routing = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/account/*" element={<AccountPage />}>
+            <Route path="" element={<Login />} />
+            <Route path="register" element={<Register />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>

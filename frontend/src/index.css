@@ -2,26 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-.login-wrap {
+.account-wrap {
   @apply flex flex-col justify-center flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24;
 }
 
-.login-label {
+.account-label {
   @apply block text-sm font-medium;
 }
 
-.login-input {
+.account-input {
   @apply block w-full px-4 py-3 rounded-md appearance-none placeholder-gray-500 sm:text-sm outline-green-500;
 }
 
-.login-error {
+.account-error {
   @apply block w-full px-4 py-3 rounded-md appearance-none placeholder-gray-500 sm:text-sm outline-red-500;
 }
 
-.login-input-box {
+.account-input-box {
   @apply relative flex mt-1 rounded-md shadow-md;
 }
 
-.login-btn {
+.account-link {
+  @apply pl-1 font-medium text-green-600 cursor-pointer hover:text-green-900;
+}
+.account-btn {
   @apply flex justify-center w-full px-5 py-2 text-base font-medium text-white bg-green-600 border border-transparent rounded-md shadow-sm hover:bg-green-700 focus:outline-none;
 }
