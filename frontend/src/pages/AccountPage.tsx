@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import React from "react";
+import { Link, Outlet } from "react-router-dom";
 
 const AccountPage = () => {
   return (
-    <div style={{ outline: 'none' }} tabIndex={-1}>
+    <div style={{ outline: "none" }} tabIndex={-1}>
       <div className="flex min-h-screen bg-white">
         <div className="account-wrap">
           <div className="w-full max-w-sm mx-auto lg:w-96">

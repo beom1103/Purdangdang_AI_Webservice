@@ -6,7 +6,7 @@ import UploadContainer from '../components/homepage/UploadContainer';
 
 const DIVIDER_HEIGHT = 5;
 
-const Homepage = () => {
+const HomePage = () => {
   const outerDivRef: any = useRef<HTMLDivElement>(null);
   const [scrollIndex, setScrollIndex] = useState<number>(1);
 
@@ -98,4 +98,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default HomePage;
