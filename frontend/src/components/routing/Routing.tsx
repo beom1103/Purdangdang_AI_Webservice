@@ -6,6 +6,7 @@ import AccountPage from '../../pages/AccountPage';
 import HomePage from '../../pages/HomePage';
 import Login from '../account/Login';
 import Register from '../account/Register';
+import ErrorPage from '../load-page/ErrorPage';
 
 //접근제한
 import LoginPrivateRoute from './LoginPrivateRoute';
@@ -41,6 +42,7 @@ const Routing = () => {
               }
             />
           </Route>
+          <Route element={<ErrorPage />} path="*" />
         </Routes>
       </BrowserRouter>
     </div>
