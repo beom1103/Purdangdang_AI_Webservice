@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Header from '../components/homepage/Header';
-import VideoBackground from '../components/homepage/VideoBackground';
-import Intro from '../components/homepage/Intro';
-import UploadContainer from '../components/homepage/UploadContainer';
+import React, { useEffect, useRef, useState } from "react";
+import Header from "../components/homepage/Header";
+import VideoBackground from "../components/homepage/VideoBackground";
+import Intro from "../components/homepage/Intro";
+import UploadContainer from "../components/homepage/UploadContainer";
 
 const DIVIDER_HEIGHT = 5;
 
-const Homepage = () => {
+const HomePage = () => {
   const outerDivRef: any = useRef<HTMLDivElement>(null);
   const [scrollIndex, setScrollIndex] = useState<number>(1);
 
@@ -24,21 +24,21 @@ const Homepage = () => {
           outerDivRef.current.scrollTo({
             top: pageHeight + DIVIDER_HEIGHT,
             left: 0,
-            behavior: 'smooth',
+            behavior: "smooth",
           });
           setScrollIndex(2);
         } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
           outerDivRef.current.scrollTo({
             top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
             left: 0,
-            behavior: 'smooth',
+            behavior: "smooth",
           });
           setScrollIndex(3);
         } else {
           outerDivRef.current.scrollTo({
             top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
             left: 0,
-            behavior: 'smooth',
+            behavior: "smooth",
           });
           setScrollIndex(3);
         }
@@ -47,30 +47,30 @@ const Homepage = () => {
           outerDivRef.current.scrollTo({
             top: 0,
             left: 0,
-            behavior: 'smooth',
+            behavior: "smooth",
           });
           setScrollIndex(1);
         } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
           outerDivRef.current.scrollTo({
             top: 0,
             left: 0,
-            behavior: 'smooth',
+            behavior: "smooth",
           });
           setScrollIndex(1);
         } else {
           outerDivRef.current.scrollTo({
             top: pageHeight + DIVIDER_HEIGHT,
             left: 0,
-            behavior: 'smooth',
+            behavior: "smooth",
           });
           setScrollIndex(2);
         }
       }
     };
     const outerDivRefCurrent = outerDivRef.current;
-    outerDivRefCurrent.addEventListener('wheel', wheelHandler);
+    outerDivRefCurrent.addEventListener("wheel", wheelHandler);
     return () => {
-      outerDivRefCurrent.removeEventListener('wheel', wheelHandler);
+      outerDivRefCurrent.removeEventListener("wheel", wheelHandler);
     };
   }, []);
 
@@ -98,4 +98,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default HomePage;
