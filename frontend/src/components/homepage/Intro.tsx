@@ -3,23 +3,24 @@ import React from "react";
 const Intro = () => {
   return (
     <div
-      className="w-full h-screen"
+      className="w-full h-screen bg-right bg-auto"
       style={{
+        backgroundColor: "#f8f8f6",
         backgroundImage: "url(/img/home1.jpg)",
         backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
+        minWidth: "1200px",
       }}
     >
-      {/* <img
-          className="object-cover w-full h-full bg-cover "
-          src="/img/home1.jpg"
-          alt="intro"
-        /> */}
-      <h3 className="flex flex-col items-end justify-center h-screen leading-7 text-center">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, quaerat.
-        Provident ullam vitae minima esse laudantium magni quia ipsa numquam
-        velit voluptates sapiente animi qui ea est, dicta quasi optio?
-      </h3>
+      <div className="flex flex-col justify-start w-8/12 h-screen">
+        <span className="px-20 py-40 text-gray-600 2xl:text-6xl lg:text-3xl">
+          Lorem ipsum dolor sit amet,
+          <br /> consectetur adipisicing elit. In itaque fugit quaerat odio
+          repellendus sapiente cupiditate dicta dolore.
+        </span>
+        <span className="px-20 text-gray-600 py-50 2xl:text-5xl lg:text-2xl">
+          Lorem ipsum dolor, sit amet consectetur
+        </span>
+      </div>
     </div>
   );
 };
