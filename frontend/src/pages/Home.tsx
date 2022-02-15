@@ -67,6 +67,12 @@ const HomePage = () => {
         }
       }
     };
+
+    /**
+     * throttle - interval 하게 세팅한 시간으로 발생. (ex 200m - 0.2초마다 이벤트가 발생)
+     * debounce - 어떤 행위가 끝나마자 바로 이벤트가 설정한 시간에 발생
+     */
+
     const outerDivRefCurrent = outerDivRef.current;
     outerDivRefCurrent.addEventListener("wheel", wheelHandler);
     return () => {
@@ -80,7 +86,7 @@ const HomePage = () => {
       <div className="relative">
         <VideoBackground />
         <div>
-          <h2 className="absolute font-bold text-white 2xl:text-6xl lg:text-4xl b-3 top-72 right-12">
+          <h2 className="absolute font-bold text-white 2xl: text-6xl lg:text-4xl b-3 top-72 right-12">
             푸르른 나무처럼, 행복한 댕댕이 처럼
           </h2>
           <h4 className="absolute font-bold text-white 2xl:text-4xl lg:text-2xl b-3 top-96 right-12">

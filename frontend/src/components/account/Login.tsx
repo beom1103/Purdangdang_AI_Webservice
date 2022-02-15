@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { validationForm } from '../../store/validationForm';
-import InputField from './InputField';
+import React from "react";
+import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { validationForm } from "../../store/validationForm";
+import InputField from "./InputField";
 
 type LoginType = {
   email: string;
@@ -16,7 +16,7 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginType>({
-    mode: 'onChange',
+    mode: "onChange",
     resolver: yupResolver(validationForm),
   });
 

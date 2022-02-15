@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // lazy
 //페이지
@@ -10,10 +10,10 @@ import Register from "../account/Register";
 import ErrorPage from "../load-page/ErrorPage";
 
 const Routing = () => {
-  const isLogin = false;
-  if (!isLogin) {
-    return <Navigate to="/" />;
-  }
+  // const isLogin = false;
+  // if (!isLogin) {
+  //   return <Navigate to="/" />;
+  // }
 
   return (
     <div>
