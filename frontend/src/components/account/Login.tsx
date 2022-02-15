@@ -2,13 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { validationForm } from '../../store/validationForm';
+import { loginValidationForm } from '../../store/validationForm';
 import InputField from './InputField';
-
-type LoginType = {
-  email: string;
-  password: string;
-};
+import { LoginType } from '../../store/type';
+import { login } from '../../api/api';
 
 const Login = () => {
   const {
@@ -17,11 +14,16 @@ const Login = () => {
     formState: { errors },
   } = useForm<LoginType>({
     mode: 'onChange',
-    resolver: yupResolver(validationForm),
+    resolver: yupResolver(loginValidationForm),
   });
 
   const onSubmit = handleSubmit(({ email, password }) => {
-    console.log(email, password);
+    const data = {
+      email,
+      password,
+    };
+    console.log(data);
+    // login(data);
   });
 
   return (
@@ -41,31 +43,27 @@ const Login = () => {
       <div className="mt-8">
         <div className="mt-6">
           <form className="space-y-6" onSubmit={onSubmit}>
-            <div className="space-y-1">
-              <InputField
-                name="email"
-                type="email"
-                label="이메일"
-                placeholder="purdangdang@dang.com"
-                register={register}
-                error={errors.email?.message}
-              />
-            </div>
+            <InputField
+              name="email"
+              type="email"
+              label="이메일"
+              placeholder="purdangdang@dang.com"
+              register={register}
+              error={errors.email?.message}
+            />
 
-            <div className="space-y-1">
-              <InputField
-                name="password"
-                type="password"
-                label="비밀번호"
-                placeholder="********"
-                register={register}
-                error={errors.password?.message}
-              />
-            </div>
+            <InputField
+              name="password"
+              type="password"
+              label="비밀번호"
+              placeholder="********"
+              register={register}
+              error={errors.password?.message}
+            />
 
             <div>
               <button type="submit" className="account-btn">
-                Login
+                로그인
               </button>
             </div>
           </form>

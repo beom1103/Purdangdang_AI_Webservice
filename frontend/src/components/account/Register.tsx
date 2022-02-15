@@ -2,15 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { validationForm } from '../../store/validationForm';
 import InputField from './InputField';
-
-type RegisterType = {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
+import { registerValidationForm } from '../../store/validationForm';
+import { RegisterType } from '../../store/type';
+import { registerAccount } from '../../api/api';
 
 const Register = () => {
   const {
@@ -19,11 +14,17 @@ const Register = () => {
     formState: { errors },
   } = useForm<RegisterType>({
     mode: 'onChange',
-    resolver: yupResolver(validationForm),
+    resolver: yupResolver(registerValidationForm),
   });
 
   const onSubmit = handleSubmit(({ username, email, password }) => {
-    console.log(username, email, password);
+    const data = {
+      username,
+      email,
+      password,
+    };
+    console.log(data);
+    // registerAccount(data);
   });
 
   return (
