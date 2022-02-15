@@ -28,7 +28,7 @@ const UploadContainer = () => {
   const onChangeFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | any): void => {
       let selectFiles: File[] = [];
-      let tempFiles: IFileTypes[] = files;
+      const tempFiles: IFileTypes[] = files;
 
       console.log(isDragging);
 
