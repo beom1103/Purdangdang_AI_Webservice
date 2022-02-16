@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-j#nqqtp=63zxzdf)m85-8nsh+$(tv#4!^ol8r2gn4d)fo1qt5u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['0.0.0.0','localhost']
 
 
 # Application definition
@@ -38,9 +38,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'account',
+    'corsheaders',
+    'rest_framework'
 ]
 
+REST_FRAMEWORK = { # 권한 설정
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -49,6 +58,17 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_WHITELIST = [
+    'http://0.0.0.0:8000',
+    'http://0.0.0.0:3000',
+    'http://127.0.0.1:8000',
+    'http://127.0.0.1:3000',
+    'http://localhost:8000',
+    'http://localhost:3000',   
+] # Scripts 안에서 리소스 요청을 허용할 도메인 추가
+
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'config.urls'
 
