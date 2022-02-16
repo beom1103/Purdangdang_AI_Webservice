@@ -20,7 +20,7 @@ const InputField: React.FC<InputProps> = ({
   return (
     <div>
       <div className="flex justify-between">
-        <label htmlFor="password" className="account-label">
+        <label htmlFor="password" className="label">
           {label}
         </label>
         <span className="text-red-600">{error}</span>

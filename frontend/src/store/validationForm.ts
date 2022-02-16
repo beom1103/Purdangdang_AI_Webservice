@@ -11,7 +11,7 @@ export const loginValidationForm = Yup.object().shape({
 });
 
 export const registerValidationForm = Yup.object().shape({
-  username: Yup.string()
+  name: Yup.string()
     .required('이름을 입력해주세요.')
     .min(2, '이름은 최소 2자 이상 입력해주세요.')
     .max(10, '이름은 최대 10글자까지 가능합니다.'),

@@ -75,15 +75,15 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div ref={outerDivRef} className="h-screen overflow-y-auto scrollbar-hide">
+    <div ref={outerDivRef} className="main">
       <Header />
       <div className="relative">
         <VideoBackground />
         <div>
-          <h2 className="absolute font-bold text-white 2xl:text-6xl lg:text-4xl b-3 top-72 right-12">
+          <h2 className="absolute text-white 2xl:text-6xl top-72 right-12">
             푸르른 나무처럼, 행복한 댕댕이 처럼
           </h2>
-          <h4 className="absolute font-bold text-white 2xl:text-4xl lg:text-2xl b-3 top-96 right-12">
+          <h4 className="absolute text-white top-96 right-12">
             대충 푸르댕댕 소개문구
           </h4>
         </div>

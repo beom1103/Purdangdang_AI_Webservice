@@ -32,8 +32,8 @@ const Login = () => {
         <Link to="/">
           <img className="w-auto h-13" src="/img/logo.png" alt="logo" />
         </Link>
-        <h2 className="mt-6 text-3xl font-extrabold">로그인</h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <h2>로그인</h2>
+        <p className="mt-2 text-gray-600">
           Or
           <Link to="register">
             <span className="account-link">회원가입</span>

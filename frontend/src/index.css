@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   margin: 0;
 }
 
@@ -6,20 +7,99 @@ html, body {
 @tailwind components;
 @tailwind utilities;
 
-.account-wrap {
-  @apply flex flex-col justify-center flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24;
+/* defalut */
+@layer base {
+  h1 {
+    @apply mt-6 text-6xl font-extrabold;
+  }
+
+  h2 {
+    @apply mt-6 text-3xl font-extrabold;
+  }
+
+  h4 {
+    @apply 2xl:text-4xl lg:text-2xl font-bold;
+  }
+
+  p {
+    @apply text-sm;
+  }
+
+  button {
+    @apply text-white border border-transparent rounded-md shadow-sm text-base font-medium  focus:outline-none;
+  }
+
+  input {
+    @apply rounded-md appearance-none placeholder-gray-500 sm:text-sm;
+  }
+
+  nav {
+    @apply flex-wrap text-base md:ml-4 md:py-1 md:pl-4 border-x-2 md:border-gray-400 center;
+  }
 }
 
-.account-label {
+/* 공통 */
+.main-color {
+  @apply bg-green-600;
+}
+
+.wrap {
+  @apply flex justify-center;
+}
+
+.center {
+  @apply flex items-center;
+}
+
+.label {
   @apply block text-sm font-medium;
 }
 
+.link {
+  @apply text-green-400 hover:text-lime-300 cursor-pointer font-medium;
+}
+
+.main {
+  @apply h-screen overflow-y-auto scrollbar-hide;
+}
+
+.logo {
+  @apply w-10 h-10;
+}
+
+.logo-span {
+  @apply ml-3 text-xl font-bold text-green-400;
+}
+
+/* Header */
+.header-link {
+  @apply link mr-5;
+}
+
+.header-div {
+  @apply fixed top-0 right-0 z-20 flex w-full text-center;
+}
+
+.header-bg {
+  @apply center flex-col flex-wrap justify-between w-full p-5 mx-0 bg-transparent md:flex-row backdrop-blur-md;
+}
+
+/* Intro */
+.intro-span {
+  @apply px-20 text-gray-600 2xl:text-6xl lg:text-3xl md:text-2xl sm:text-lg;
+}
+
+/* Accout Page */
+.account-wrap {
+  @apply wrap flex-col flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24;
+}
+
 .account-input {
-  @apply block w-full px-4 py-3 rounded-md appearance-none placeholder-gray-500 sm:text-sm outline-green-500;
+  @apply block w-full px-4 py-3 outline-green-500;
 }
 
 .account-error {
-  @apply block w-full px-4 py-3 rounded-md appearance-none placeholder-gray-500 sm:text-sm outline-red-500;
+  @apply block w-full px-4 py-3 outline-red-500;
 }
 
 .account-input-box {
@@ -27,8 +107,9 @@ html, body {
 }
 
 .account-link {
-  @apply pl-1 font-medium text-green-600 cursor-pointer hover:text-green-900;
+  @apply pl-1 link;
 }
+
 .account-btn {
-  @apply flex justify-center w-full px-5 py-2 text-base font-medium text-white bg-green-600 border border-transparent rounded-md shadow-sm hover:bg-green-700 focus:outline-none;
+  @apply wrap w-full px-5 py-2 main-color hover:bg-green-700;
 }

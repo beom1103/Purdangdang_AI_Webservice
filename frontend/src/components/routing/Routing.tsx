@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // lazy
 //페이지
 import AccountPage from '../../pages/AccountPage';
-import HomePage from '../../pages/Homepage';
+import HomePage from '../../pages/HomePage';
 import PlantList from '../../pages/PlantList';
 import Login from '../account/Login';
 import Register from '../account/Register';

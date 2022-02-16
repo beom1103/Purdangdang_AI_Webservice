@@ -17,9 +17,9 @@ const Register = () => {
     resolver: yupResolver(registerValidationForm),
   });
 
-  const onSubmit = handleSubmit(({ username, email, password }) => {
+  const onSubmit = handleSubmit(({ name, email, password }) => {
     const data = {
-      username,
+      name,
       email,
       password,
     };
@@ -33,8 +33,8 @@ const Register = () => {
         <Link to="/">
           <img className="w-auto h-13" src="/img/logo.png" alt="logo" />
         </Link>
-        <h2 className="mt-6 text-3xl font-extrabold">회원가입</h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <h2>회원가입</h2>
+        <p className="mt-2 text-gray-600">
           Or
           <Link to="../">
             <span className="account-link">로그인</span>
@@ -45,12 +45,12 @@ const Register = () => {
         <div className="mt-6">
           <form className="space-y-6" onSubmit={onSubmit}>
             <InputField
-              name="username"
+              name="name"
               type="text"
               label="이름"
               placeholder="푸르댕"
               register={register}
-              error={errors.username?.message}
+              error={errors.name?.message}
             />
             <InputField
               name="email"

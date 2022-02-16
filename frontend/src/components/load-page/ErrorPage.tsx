@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLottie } from 'lottie-react';
-import error from '../../store/error.json';
+import error from './error.json';
 
 const ErrorPage = () => {
   const options = {
@@ -12,7 +12,7 @@ const ErrorPage = () => {
   const { View } = useLottie(options);
 
   return (
-    <div className="flex flex-col items-center justify-center object-cover min-h-screen mx-auto bg-green-50">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-green-50">
       {View}
       <h3 className="mt-5 text-2xl font-extrabold text-red-500 animate-bounce">
         유효하지 않은 접근입니다.

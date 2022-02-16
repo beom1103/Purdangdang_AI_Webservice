@@ -11,7 +11,7 @@ export const api = axios.create({
 //로그인 요청
 export const login = async (data: LoginType) => {
   try {
-    const response = await api.post('여기에 로그인 url들어가야 함', data);
+    const response = await api.post('account/login', data);
     const token = response.data['foo'];
     localStorage.setItem('token', token);
     return true;
@@ -24,9 +24,9 @@ export const login = async (data: LoginType) => {
 // 회원가입 요청
 export const registerAccount = async (data: RegisterType) => {
   try {
-    await api.post('users/auth/register/', data);
+    await api.post('회원가입 url', data);
     alert('회원가입에 성공하였습니다.');
-    window.location.replace('/login');
+    window.location.replace('/account/accounts');
     return true;
   } catch (error) {
     console.log(error);

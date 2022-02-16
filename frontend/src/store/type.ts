@@ -4,7 +4,7 @@ export type LoginType = {
 };
 
 export type RegisterType = {
-  username: string;
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;

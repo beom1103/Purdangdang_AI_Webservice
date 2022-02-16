@@ -141,8 +141,8 @@ const UploadContainer = () => {
         backgroundSize: 'cover',
       }}
     >
-      <div className="flex justify-center basis-2/4"></div>
-      <div className="flex flex-col items-center justify-center basis-2/5 ">
+      <div className="wrap basis-2/4"></div>
+      <div className="flex-col items-center wrap basis-2/5 ">
         <div className="flex flex-col items-center justify-center w-3/5 h-4/5">
           <p className="py-6 font-bold 2xl:text-3xl lg:text-1xl">
             찾고 싶은 식물을 보여주세요

@@ -11,13 +11,13 @@ const Intro = () => {
         minWidth: '1200px',
       }}
     >
-      <div className="flex flex-col justify-start w-8/12 h-screen">
-        <span className="px-20 py-40 text-gray-600 2xl:text-6xl lg:text-3xl">
+      <div className="flex flex-col justify-start w-8/12">
+        <span className="py-40 intro-span">
           Lorem ipsum dolor sit amet,
           <br /> consectetur adipisicing elit. In itaque fugit quaerat odio
           repellendus sapiente cupiditate dicta dolore.
         </span>
-        <span className="px-20 text-gray-600 py-50 2xl:text-5xl lg:text-2xl">
+        <span className="intro-span py-50">
           Lorem ipsum dolor, sit amet consectetur
         </span>
       </div>
