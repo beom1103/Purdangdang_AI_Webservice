@@ -5,30 +5,19 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { blob } from 'stream/consumers';
-
-interface IFileTypes {
-  id: number;
-  object: File;
-}
 
 const UploadContainer = () => {
   //드래그 중일때와 아닐 때의 스타일을 구분하기 위한 state 변수
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [files, setFiles] = useState<any[]>([]);
 
-  // 각 선택했던 파일들의 고유값 id
-  const fileId = useRef<number>(0);
-
   // 드래그 이벤트를 감지한 ref 참조변수 (label 태그에 들어갈 예정)
   const dragRef = useRef<HTMLLabelElement | null>(null);
-
-  // const saveFileImage = (e) => { setFileImage(URL.createObjectURL(e.target.files[0])); };
 
   const onChangeFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | any): void => {
       let selectFiles: File[] = [];
-      let tempFiles: IFileTypes[] = files;
+      // let tempFiles: IFileTypes[] = files;
 
       console.log(isDragging);
 
@@ -53,7 +42,6 @@ const UploadContainer = () => {
     reader.onloadend = () => {
       if (select.length > 0) {
         imgEl.style.backgroundImage = `url(${reader.result})`;
-        console.log(reader.result);
       }
     };
     if (select === null) {
@@ -157,13 +145,9 @@ const UploadContainer = () => {
             />
             <label htmlFor="fileUpload" ref={dragRef}>
               <div
-                className={
-                  // (isDragging
-                  `bg-gray-50 shadow-xl w-full h-full flex items-center justify-center text-center dropContainer  rounded-2xl hover:bg-gray-200 ${
-                    isDragging ? `bg-slate-200` : 'bg-gray-50'
-                  }
-                  }`
-                }
+                className={`bg-gray-50 shadow-xl w-full h-full flex items-center justify-center text-center dropContainer  rounded-2xl hover:bg-gray-200 ${
+                  isDragging ? `bg-slate-200` : 'bg-gray-50'
+                }`}
               >
                 Drag & Drop <br />
                 <br />

@@ -30,20 +30,12 @@ const Header = () => {
               회원가입
             </Link> */}
           </nav>
-          <button className="inline-flex items-center px-3 py-1 mt-4 text-base bg-gray-100 border-0 rounded focus:outline-none hover:bg-gray-200 md:mt-0">
-            {/* Button */}
-            {/* <svg
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              className="w-4 h-4 ml-1"
-              viewBox="0 0 24 24"
-            >
-              <path d="M5 12h14M12 5l7 7-7 7"></path>
-            </svg> */}
-            <i className="fa-solid fa-bars"></i>
+          <button className="inline-flex items-center px-3 py-1 mt-4 text-base border-0 rounded focus:outline-none md:mt-0">
+            <img
+              src="./img/bars-solid.png"
+              className="w-4 h-4 fill-white"
+              alt="메뉴 버튼"
+            />
           </button>
         </div>
       </header>

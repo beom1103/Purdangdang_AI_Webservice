@@ -21,6 +21,7 @@ const Login = () => {
   });
 
   const onSubmit = handleSubmit(({ email, password }) => {
+    console.log('클릭');
     console.log(email, password);
   });
 
