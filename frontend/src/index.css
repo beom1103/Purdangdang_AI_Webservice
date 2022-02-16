@@ -34,7 +34,7 @@ body {
   }
 
   nav {
-    @apply flex-wrap text-base md:ml-4 md:py-1 md:pl-4 border-x-2 md:border-gray-400 center;
+    @apply flex-wrap text-base md:ml-4 md:py-1 md:pl-4 border-x-2 md:border-gray-400 wrap;
   }
 }
 
@@ -44,11 +44,7 @@ body {
 }
 
 .wrap {
-  @apply flex justify-center;
-}
-
-.center {
-  @apply flex items-center;
+  @apply flex justify-center items-center;
 }
 
 .label {
@@ -81,7 +77,7 @@ body {
 }
 
 .header-bg {
-  @apply center flex-col flex-wrap justify-between w-full p-5 mx-0 bg-transparent md:flex-row backdrop-blur-md;
+  @apply wrap flex-col flex-wrap justify-between w-full p-5 mx-0 bg-transparent md:flex-row backdrop-blur-md;
 }
 
 /* Intro */

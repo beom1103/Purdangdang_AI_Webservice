@@ -14,7 +14,7 @@ const LoadingSpiner = () => {
   return (
     <div
       style={{ backgroundColor: '#f7f0dc' }}
-      className="flex flex-col items-center justify-center object-cover min-h-screen pb-2"
+      className="object-cover min-h-screen pb-2 wrap"
     >
       {View}
       <h3 className="mt-5 text-2xl font-extrabold text-green-500 animate-bounce">

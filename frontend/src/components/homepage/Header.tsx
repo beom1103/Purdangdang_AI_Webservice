@@ -5,7 +5,7 @@ const Header = () => {
     <div className="header-div">
       <header className="w-full">
         <div className="header-bg">
-          <a className="mb-4 center md:mb-0">
+          <a className="mb-4 wrap md:mb-0">
             <img className="logo" src="/img/icon.png" alt="로고 이미지" />
             <span className="logo-span">푸르댕댕</span>
           </a>
