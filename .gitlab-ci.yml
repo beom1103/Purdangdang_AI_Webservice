@@ -2,17 +2,22 @@ image: python:3.8
 
 variables:
   WORK_DIR: .
+  MYSQL_DATABASE: django-app-db
+  MYSQL_ROOT_PASSWORD: 
 cache:
   key: "$CI_COMMIT_REF_SLUG"
 stages:
   - deploy
 Deploy:
+  services:
+    - mysql:latest
   stage: deploy
   only:
     - master
   tags:
     - team-12-runner
   script:
+    - echo "SELECT 'OK';" | mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
     - sudo chmod 777 ./data/mysql/db
     - docker stop $(docker ps -aq) || true
     - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
