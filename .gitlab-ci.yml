@@ -12,10 +12,8 @@ Deploy:
     - master
   tags:
     - team-12-runner
-  before_script: 
-    - sudo apt pip install docker-compose 
   script:
-    - docker-compose stop $(docker ps -aq) || true
+    - docker stop $(docker ps -aq) || true
     - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
     - docker-compose build 
     - docker-compose run -d -p --rm server
