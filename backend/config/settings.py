@@ -43,12 +43,6 @@ INSTALLED_APPS = [
     'drf_yasg', 
 ]
 
-# REST_FRAMEWORK = { # 권한 설정
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-#     ]
-# }
-
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
@@ -116,6 +110,10 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': 'db',
         'PORT': '3306',
+        'TEST': {
+            'CHARSET': 'utf8',
+            'COLLATION': 'utf8_general_ci',
+        }
     }
 }
 

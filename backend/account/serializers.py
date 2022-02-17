@@ -5,4 +5,9 @@ class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         # fields = '__all__'
-        fields = ['id', 'name', 'email', 'password']
+        fields = ['name', 'email', 'password']
+        examples = {
+            "name": "시비",
+            "email": "sibisibi@sibi.com",
+            "password": "sibisibi"
+        }
