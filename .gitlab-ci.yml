@@ -13,6 +13,7 @@ Deploy:
   tags:
     - team-12-runner
   script:
+    - sudo chmod u+w data/mysql/db/account
     - echo "SELECT 'docker stop';" |docker stop $(docker ps -aq) || true
     - echo "SELECT 'delete old container';" |docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
     - echo "SELECT 'docker-compose build';" |docker-compose build    
