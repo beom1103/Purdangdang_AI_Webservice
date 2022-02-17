@@ -1,4 +1,4 @@
-image: python:3.9
+image: python:3.8
 
 variables:
   WORK_DIR: .
@@ -12,8 +12,10 @@ Deploy:
     - master
   tags:
     - team-12-runner
+  before_script: 
+    - sudo apt pip install docker-compose 
   script:
     - docker-compose stop $(docker ps -aq) || true
     - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
-    - docker-compose build -t docker-test 
-    - docker-compose run -d -p 5000:5000 docker-test
+    - docker-compose build 
+    - docker-compose run -d -p --rm server
