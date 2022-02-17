@@ -13,8 +13,8 @@ Deploy:
   tags:
     - team-12-runner
   script:
-    - docker stop $(docker ps -aq) || true
-    - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
-    - docker-compose build    
-    - sudo chmod -R 777 ./data/mysql/db
-    - docker-compose run -d -p server
+    - echo "SELECT 'docker stop';" |docker stop $(docker ps -aq) || true
+    - echo "SELECT 'delete old container';" |docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
+    - echo "SELECT 'docker-compose build';" |docker-compose build    
+    - echo "SELECT 'chmod';" |sudo chmod 777 ./data/mysql/db
+    - echo "SELECT 'docker-compose up';" |docker-compose run -d -p server
