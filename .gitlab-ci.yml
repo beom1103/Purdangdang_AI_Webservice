@@ -15,5 +15,5 @@ Deploy:
   script:
     - docker stop $(docker ps -aq) || true
     - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
-    - docker-compose build -t docker-test . 
-    - docker-compose run -d -p 8000:8000 docker-test
+    - docker-compose build  
+    - docker-compose run -d -p server
