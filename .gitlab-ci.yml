@@ -13,9 +13,8 @@ Deploy:
   tags:
     - team-12-runner
   script:
-    - echo "SELECT 'OK';" | mysql --user=root --password="" --host=mysql "django-app-db"
-    - sudo chmod -R 777 ./data
     - docker stop $(docker ps -aq) || true
     - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
     - docker-compose build    
+    - sudo -R chmod 777 ./data/mysql/db
     - docker-compose run -d -p server
