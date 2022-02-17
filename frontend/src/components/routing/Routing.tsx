@@ -12,6 +12,7 @@ import SearchPage from '../../pages/SearchPage';
 
 //접근제한
 import LoginPrivateRoute from './LoginPrivateRoute';
+import LoadingSpiner from '../load-page/LoadingSpiner';
 
 const Routing = () => {
   return (
@@ -31,7 +32,7 @@ const Routing = () => {
             <Route path="register" element={<Register />} />
           </Route>
           <Route element={<SearchPage />} path="/search" />
-          <Route element={<ErrorPage />} path="*" />
+          <Route element={<LoadingSpiner />} path="*" />
         </Routes>
       </BrowserRouter>
     </div>

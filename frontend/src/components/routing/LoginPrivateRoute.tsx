@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 //로그인 후 페이지 제한
 const LoginPrivateRoute = ({ children }: { children: JSX.Element }) => {
-  const isLogin = true;
+  const isLogin = false;
 
   if (isLogin) {
     return <Navigate to="/" />;

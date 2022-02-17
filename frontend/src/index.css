@@ -17,6 +17,10 @@ body {
     @apply mt-6 text-3xl font-extrabold;
   }
 
+  h3 {
+    @apply font-bold text-green-600;
+  }
+
   h4 {
     @apply 2xl:text-4xl lg:text-2xl font-bold;
   }
@@ -83,6 +87,27 @@ body {
 /* Intro */
 .intro-span {
   @apply px-20 text-gray-600 2xl:text-6xl lg:text-3xl md:text-2xl sm:text-lg;
+}
+
+/* SearchPage */
+.search-input {
+  @apply w-full py-2 pl-10 pr-4 border rounded-md focus:border-green-500;
+}
+
+.card {
+  @apply grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+}
+
+.card-div {
+  @apply ease-in-out duration-300 w-full max-w-sm mx-auto overflow-hidden rounded-md shadow-md hover:scale-110 cursor-pointer;
+}
+
+.radio {
+  @apply p-2 text-center cursor-pointer rounded-xl peer-checked:bg-green-500 peer-checked:text-white peer-checked:font-bold;
+}
+
+.card-img {
+  @apply flex items-end justify-end w-full h-56 bg-cover;
 }
 
 /* Accout Page */
