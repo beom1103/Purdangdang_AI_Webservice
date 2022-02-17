@@ -39,12 +39,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'account',
     'corsheaders',
-    'rest_framework'
+    'rest_framework',
+    'drf_yasg', 
 ]
 
-REST_FRAMEWORK = { # 권한 설정
+# REST_FRAMEWORK = { # 권한 설정
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+#     ]
+# }
+
+REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.AllowAny',
     ]
 }
 
