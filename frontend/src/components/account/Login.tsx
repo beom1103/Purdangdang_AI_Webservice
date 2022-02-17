@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { loginValidationForm } from '../../store/validationForm';
 import InputField from './InputField';
 import { LoginType } from '../../store/type';
-import { login } from '../../api/api';
+import { login } from '../../api';
 
 const Login = () => {
   const {
@@ -17,13 +17,13 @@ const Login = () => {
     resolver: yupResolver(loginValidationForm),
   });
 
-  const onSubmit = handleSubmit(({ email, password }) => {
+  const onSubmit = handleSubmit(async ({ email, password }) => {
     const data = {
       email,
       password,
     };
     console.log(data);
-    // login(data);
+    // await login(data);
   });
 
   return (

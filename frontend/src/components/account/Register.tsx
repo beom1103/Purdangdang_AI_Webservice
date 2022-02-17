@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import InputField from './InputField';
 import { registerValidationForm } from '../../store/validationForm';
 import { RegisterType } from '../../store/type';
-import { registerAccount } from '../../api/api';
+import { registerAccount } from '../../api';
 
 const Register = () => {
   const {

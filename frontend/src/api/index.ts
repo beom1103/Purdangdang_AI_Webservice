@@ -3,13 +3,13 @@ import { selector } from 'recoil';
 import { LoginType, RegisterType } from '../store/type';
 
 //기본 api
-export const api = axios.create({
+const api = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   headers: { 'Content-Type': `application/json` },
 });
 
 //로그인 요청
-export const login = async (data: LoginType) => {
+export const login = async (data: LoginType): Promise<boolean> => {
   try {
     const response = await api.post('account/login', data);
     const token = response.data['foo'];

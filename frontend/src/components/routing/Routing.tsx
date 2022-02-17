@@ -11,21 +11,20 @@ import ErrorPage from '../load-page/ErrorPage';
 import SearchPage from '../../pages/SearchPage';
 
 //접근제한
-import LoginPrivateRoute from './LoginPrivateRoute';
 import LoadingSpiner from '../load-page/LoadingSpiner';
+import PrivateRoute from './PrivateRoute';
 
 const Routing = () => {
   return (
-    <div>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route
             path="/account/*"
             element={
-              <LoginPrivateRoute>
+              <PrivateRoute>
                 <AccountPage />
-              </LoginPrivateRoute>
+              </PrivateRoute>
             }
           >
             <Route path="" element={<Login />} />
@@ -35,7 +34,6 @@ const Routing = () => {
           <Route element={<LoadingSpiner />} path="*" />
         </Routes>
       </BrowserRouter>
-    </div>
   );
 };
 
