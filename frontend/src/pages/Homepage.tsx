@@ -47,43 +47,11 @@ const HomePage = () => {
     }
   }, [pageNum]);
 
-  // const PageMove = (pageNum: any) => {
-  //   const pageHeight = window.innerHeight;
-
-  //   switch (pageNum) {
-  //     case pageNum === 1:
-  //       console.log('2페이지');
-  //       outerDivRef.current.scrollTo({
-  //         top: 0,
-  //         left: 0,
-  //         behavior: 'smooth',
-  //       });
-  //       break;
-  //     case pageNum === 2:
-  //       console.log('3페이지');
-  //       outerDivRef.current.scrollTo({
-  //         top: pageHeight + DIVIDER_HEIGHT,
-  //         left: 0,
-  //         behavior: 'smooth',
-  //       });
-  //       break;
-  //     default:
-  //       console.log('3페이지');
-  //       outerDivRef.current.scrollTo({
-  //         top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
-  //         left: 0,
-  //         behavior: 'smooth',
-  //       });
-  //       break;
-  //   }
-  // };
-
   useEffect(() => {
     const wheelHandler = (e: any) => {
       e.preventDefault();
       const { deltaY } = e;
       const { scrollTop } = outerDivRef.current;
-      // const pageHeight = window.innerHeight;
 
       if (deltaY > 0) {
         if (scrollTop >= 0 && scrollTop < pageHeight) {
@@ -137,29 +105,41 @@ const HomePage = () => {
     };
     const outerDivRefCurrent = outerDivRef.current;
     outerDivRefCurrent.addEventListener('wheel', wheelHandler);
-    // return () => {
-    //   outerDivRefCurrent.removeEventListener('wheel', wheelHandler);
-    // };
+    return () => {
+      outerDivRefCurrent.removeEventListener('wheel', wheelHandler);
+    };
   }, []);
 
   return (
     <div ref={outerDivRef} className="main">
       <Header />
-      <PageMark
-        scrollIndex={scrollIndex}
-        setPageNum={setPageNum}
-        pageHeight={pageHeight}
-      />
+      <div className="container hidden lg:block ">
+        <PageMark
+          scrollIndex={scrollIndex}
+          setPageNum={setPageNum}
+          pageHeight={pageHeight}
+        />
+      </div>
+
       <div className="relative ">
         <VideoBackground />
-        <div>
-          <h2 className="absolute text-white 2xl:text-6xl top-72 right-12">
-            푸르른 나무처럼, 행복한 댕댕이 처럼
-          </h2>
-          <h4 className="absolute text-white top-96 right-12">
-            대충 푸르댕댕 소개문구
-          </h4>
-          <div className="absolute flex items-center justify-center w-10 h-10 p-2 bg-transparent rounded-full bottom-24 left-2/4 animate-bounce">
+        <div className="flex">
+          <div
+            className="absolute flex flex-col w-full h-screen justify-center items-center"
+            style={{
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%,-50%)',
+            }}
+          >
+            <h2 className="text-white text-3xl 2xl:text-6xl">
+              푸르른 나무처럼, 행복한 댕댕이 처럼
+            </h2>
+            <h4 className="text-white text-3xl mt-20 2xl:text-4xl">
+              대충 푸르댕댕 소개문구
+            </h4>
+          </div>
+          <div className="bounce-arrow">
             <svg
               className="w-6 h-6 text-lime-500"
               fill="none"
@@ -177,7 +157,7 @@ const HomePage = () => {
       <div>
         <div className="relative">
           <Intro textAnim={textAnim} />
-          <div className="absolute flex items-center justify-center w-10 h-10 p-2 bg-transparent rounded-full bottom-24 left-2/4 animate-bounce">
+          <div className="bounce-arrow">
             <svg
               className="w-6 h-6 text-lime-500"
               fill="none"

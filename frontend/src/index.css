@@ -22,7 +22,7 @@ body {
   }
 
   h4 {
-    @apply 2xl:text-4xl lg:text-2xl font-bold;
+    @apply font-bold 2xl:text-4xl lg:text-2xl;
   }
 
   p {
@@ -30,15 +30,15 @@ body {
   }
 
   button {
-    @apply text-white border border-transparent rounded-md shadow-sm text-base font-medium  focus:outline-none;
+    @apply text-base font-medium text-white border border-transparent rounded-md shadow-sm focus:outline-none;
   }
 
   input {
-    @apply rounded-md appearance-none placeholder-gray-500 sm:text-sm;
+    @apply placeholder-gray-500 rounded-md appearance-none sm:text-sm;
   }
 
   nav {
-    @apply flex-wrap text-base md:ml-4 md:py-1 md:pl-4 border-x-2 md:border-gray-400 wrap;
+    @apply flex-wrap text-base md:py-1 md:pl-4 border-x-2 md:border-gray-400 center;
   }
 }
 
@@ -56,7 +56,7 @@ body {
 }
 
 .link {
-  @apply text-green-400 hover:text-lime-300 cursor-pointer font-medium;
+  @apply font-medium text-green-400 cursor-pointer hover:text-lime-300;
 }
 
 .main {
@@ -73,7 +73,7 @@ body {
 
 /* Header */
 .header-link {
-  @apply link mr-5;
+  @apply mr-5 link;
 }
 
 .header-div {
@@ -81,13 +81,43 @@ body {
 }
 
 .header-bg {
-  @apply wrap flex-col flex-wrap justify-between w-full p-5 mx-0 bg-transparent md:flex-row backdrop-blur-md;
+  @apply flex-col flex-wrap justify-between w-full p-5 mx-0 bg-transparent center md:flex-row backdrop-blur-md;
+}
+
+.header-btn {
+  @apply inline-flex items-center px-3 py-1 mt-4 text-base border-0 outline-none md:mt-0;
+}
+
+/* BounceArrow */
+.bounce-arrow {
+  @apply absolute justify-center w-10 h-10 p-2 bg-transparent rounded-full center bottom-24 left-2/4 animate-bounce;
 }
 
 /* Intro */
+.intro-div {
+  @apply flex items-center justify-center w-full h-screen bg-right bg-auto;
+}
+
+.intro-section {
+  @apply grid grid-cols-1 mt-6 md:grid-cols-1 lg:grid-cols-3 gap-x-6 gap-y-8;
+}
+
+.intro-article {
+  @apply relative w-full overflow-hidden transition duration-300 ease-in-out bg-center bg-cover rounded-lg shadow-lg h-60 hover:shadow-2xl;
+}
+
+.intro-cardBack {
+  @apply absolute inset-0 transition duration-300 ease-in-out bg-black bg-opacity-50 group-hover:opacity-75;
+}
+
+.intro-cardCenter {
+  @apply relative flex items-center justify-center w-full h-full px-4 sm:px-6 lg:px-4;
+}
+
 .intro-span {
   @apply px-20 text-gray-600 2xl:text-6xl lg:text-3xl md:text-2xl sm:text-lg;
 }
+
 
 /* SearchPage */
 .search-input {
@@ -108,11 +138,36 @@ body {
 
 .card-img {
   @apply flex items-end justify-end w-full h-56 bg-cover;
+
+/* UploadContainer */
+.upload-container {
+  @apply justify-center w-screen h-screen bg-black bg-no-repeat center;
+}
+
+.upload-div {
+  @apply w-2/4 mt-16 wrap h-2/5 rounded-2xl backdrop-blur-md md:h-2/5 lg:h-3/5 xl:h-4/5;
+}
+
+.drop-container {
+  @apply flex flex-col bg-gray-50 shadow-xl border-2 border-green-600  w-full h-full items-center bg-center bg-no-repeat bg-cover justify-center text-center  rounded-2xl  hover:bg-gray-200;
+}
+
+.upload-text {
+  @apply py-6 font-bold hidden text-white;
+}
+
+.upload-btnContainer {
+  @apply flex justify-around items-center w-3/5 flex-col;
+}
+
+.upload-btn {
+  @apply items-center w-32 border-2 wrap main-color hover:bg-green-700 h-9 m-2;
+
 }
 
 /* Accout Page */
 .account-wrap {
-  @apply wrap flex-col flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24;
+  @apply flex-col flex-1 px-4 py-12 wrap sm:px-6 lg:flex-none lg:px-20 xl:px-24;
 }
 
 .account-input {
@@ -132,5 +187,5 @@ body {
 }
 
 .account-btn {
-  @apply wrap w-full px-5 py-2 main-color hover:bg-green-700;
+  @apply w-full px-5 py-2 wrap main-color hover:bg-green-700;
 }

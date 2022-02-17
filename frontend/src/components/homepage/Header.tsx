@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import SideMenu from './SideMenu';
 
 const Header = () => {
+  const [menus, setMenus] = useState(false);
+
+  const menuOpen = () => {
+    setMenus(true);
+  };
+
   return (
     <div className="header-div">
       <header className="w-full">
@@ -28,15 +35,27 @@ const Header = () => {
               회원가입
             </Link> */}
           </nav>
-          <button className="inline-flex items-center px-3 py-1 mt-4 text-base border-0 rounded focus:outline-none md:mt-0">
-            <img
-              src="./img/bars-solid.png"
-              className="w-4 h-4 fill-white"
-              alt="메뉴 버튼"
-            />
+          <button className="header-btn" onClick={() => menuOpen()}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
           </button>
         </div>
       </header>
+      <div className="absolute right-0 z-50">
+        <SideMenu menu={menus} selectMenu={setMenus} />
+      </div>
     </div>
   );
 };
