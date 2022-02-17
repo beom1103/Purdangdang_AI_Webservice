@@ -8,105 +8,115 @@ import PageMark from '../components/homepage/PageMark';
 const DIVIDER_HEIGHT = 0;
 
 const HomePage = () => {
-  const outerDivRef: any = useRef<HTMLDivElement>(null);
-  const [scrollIndex, setScrollIndex] = useState<number>(1);
-  const [pageNum, setPageNum] = useState<number>(1);
+  const outerDivRef = useRef<HTMLDivElement | null>(null);
+  const [scrollIndex, setScrollIndex] = useState(1);
+  const [pageNum, setPageNum] = useState(1);
   const pageHeight = window.innerHeight;
-  const [textAnim, setTextAnim] = useState<boolean>(false);
+  const [textAnim, setTextAnim] = useState(false);
 
   useEffect(() => {
-    switch (
-      pageNum //총 3개의 파트로 나눠진 페이지의 번호를 매개변수로 사용
-    ) {
-      case 1: // 1번 페이지(최상단)
-        outerDivRef.current.scrollTo({
-          //화면의 속성 중 scrollTo 함수를 사용해서 (화면에 표시되는)위치 변경
-          top: 0,
-          left: 0,
-          behavior: 'smooth',
-        });
-        setScrollIndex(1);
-        break;
-      case 2: // 2번 페이지 (중간)
-        outerDivRef.current.scrollTo({
-          top: pageHeight + DIVIDER_HEIGHT,
-          left: 0,
-          behavior: 'smooth',
-        });
-        setScrollIndex(2);
-        setTextAnim(true);
-        break;
-      case 3: // 3번 페이지 (하단)
-        outerDivRef.current.scrollTo({
-          top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
-          left: 0,
-          behavior: 'smooth',
-        });
-        setScrollIndex(3);
-        break;
+    if (outerDivRef.current) {
+      switch (
+        pageNum //총 3개의 파트로 나눠진 페이지의 번호를 매개변수로 사용
+      ) {
+        case 1: // 1번 페이지(최상단)
+          outerDivRef.current.scrollTo({
+            //화면의 속성 중 scrollTo 함수를 사용해서 (화면에 표시되는)위치 변경
+            top: 0,
+            left: 0,
+            behavior: 'smooth',
+          });
+          setScrollIndex(1);
+          break;
+        case 2: // 2번 페이지 (중간)
+          outerDivRef.current.scrollTo({
+            top: pageHeight + DIVIDER_HEIGHT,
+            left: 0,
+            behavior: 'smooth',
+          });
+          setScrollIndex(2);
+          setTextAnim(true);
+          break;
+        case 3: // 3번 페이지 (하단)
+          outerDivRef.current.scrollTo({
+            top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
+            left: 0,
+            behavior: 'smooth',
+          });
+          setScrollIndex(3);
+          break;
+      }
     }
   }, [pageNum]);
 
   useEffect(() => {
     const wheelHandler = (e: any) => {
-      e.preventDefault();
-      const { deltaY } = e;
-      const { scrollTop } = outerDivRef.current;
+      if (outerDivRef.current) {
+        e.preventDefault();
+        const { deltaY } = e;
+        const { scrollTop } = outerDivRef.current;
 
-      if (deltaY > 0) {
-        if (scrollTop >= 0 && scrollTop < pageHeight) {
-          outerDivRef.current.scrollTo({
-            top: pageHeight + DIVIDER_HEIGHT,
-            left: 0,
-            behavior: 'smooth',
-          });
-          setTextAnim(true);
-          setScrollIndex(2);
-        } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
-          outerDivRef.current.scrollTo({
-            top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
-            left: 0,
-            behavior: 'smooth',
-          });
-          setTextAnim(true);
-          setScrollIndex(3);
+        if (deltaY > 0) {
+          if (scrollTop >= 0 && scrollTop < pageHeight) {
+            outerDivRef.current.scrollTo({
+              top: pageHeight + DIVIDER_HEIGHT,
+              left: 0,
+              behavior: 'smooth',
+            });
+            setTextAnim(true);
+            setScrollIndex(2);
+          } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
+            outerDivRef.current.scrollTo({
+              top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
+              left: 0,
+              behavior: 'smooth',
+            });
+            setTextAnim(true);
+            setScrollIndex(3);
+          } else {
+            outerDivRef.current.scrollTo({
+              top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
+              left: 0,
+              behavior: 'smooth',
+            });
+            setScrollIndex(3);
+          }
         } else {
-          outerDivRef.current.scrollTo({
-            top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
-            left: 0,
-            behavior: 'smooth',
-          });
-          setScrollIndex(3);
-        }
-      } else {
-        if (scrollTop >= 0 && scrollTop < pageHeight) {
-          outerDivRef.current.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'smooth',
-          });
-          setScrollIndex(1);
-        } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
-          outerDivRef.current.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'smooth',
-          });
-          setScrollIndex(1);
-        } else {
-          outerDivRef.current.scrollTo({
-            top: pageHeight + DIVIDER_HEIGHT,
-            left: 0,
-            behavior: 'smooth',
-          });
-          setScrollIndex(2);
+          if (scrollTop >= 0 && scrollTop < pageHeight) {
+            outerDivRef.current.scrollTo({
+              top: 0,
+              left: 0,
+              behavior: 'smooth',
+            });
+            setScrollIndex(1);
+          } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
+            outerDivRef.current.scrollTo({
+              top: 0,
+              left: 0,
+              behavior: 'smooth',
+            });
+            setScrollIndex(1);
+          } else {
+            outerDivRef.current.scrollTo({
+              top: pageHeight + DIVIDER_HEIGHT,
+              left: 0,
+              behavior: 'smooth',
+            });
+            setScrollIndex(2);
+          }
         }
       }
     };
+
     const outerDivRefCurrent = outerDivRef.current;
-    outerDivRefCurrent.addEventListener('wheel', wheelHandler);
+    if (outerDivRefCurrent) {
+      outerDivRefCurrent.addEventListener('wheel', wheelHandler);
+    }
+
     return () => {
-      outerDivRefCurrent.removeEventListener('wheel', wheelHandler);
+      if (outerDivRefCurrent) {
+        outerDivRefCurrent.removeEventListener('wheel', wheelHandler);
+      }
     };
   }, []);
 
