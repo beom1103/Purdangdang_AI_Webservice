@@ -1,25 +1,19 @@
-image: python:3.8
+image: python:3.9
 
 variables:
-        IMAGE_VERSION: v1.0.0
-        WORK_DIR: . 
-        NODE_ENV: development
-        DOCKER_DRIVER: overlay2 
-        COMPOSE_FILE: "docker-compose.yml:docker-compose.gitlab-ci.yml" 
-        DOCKER_BUILD_CONTEXT: . 
-        DOCKER_IMAGE: fullstack-recommender:${IMAGE_VERSION}
+  WORK_DIR: .
 cache:
-        key: "$CI_COMMIT_REF_SLUG" 
+  key: "$CI_COMMIT_REF_SLUG"
 stages:
-        - deploy
-Deploy: 
-        stage: deploy 
-        only: 
-                - master
-        tags: 
-                - team-12-runner 
-        script:
-                - docker-compose stop ${docker ps -aq} || true 
-                - docker-compose build -t team-12-backend . 
-                - docker-compose run -p 8080:80 team-12-backend 
-
+  - deploy
+Deploy:
+  stage: deploy
+  only:
+    - master
+  tags:
+    - team-11-runner
+  script:
+    - docker stop $(docker ps -aq) || true
+    - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
+    - docker build -t docker-test back-end
+    - docker run -d -p 5000:5000 docker-test
