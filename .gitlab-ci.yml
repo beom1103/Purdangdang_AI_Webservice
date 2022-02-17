@@ -13,7 +13,7 @@ Deploy:
   tags:
     - team-12-runner
   script:
-    - chmod 777 ./data/mysql/db
+    - sudo chmod 777 ./data/mysql/db
     - docker stop $(docker ps -aq) || true
     - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
     - docker-compose build    
