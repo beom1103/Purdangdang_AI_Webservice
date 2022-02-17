@@ -11,7 +11,7 @@ Deploy:
   only:
     - master
   tags:
-    - team-11-runner
+    - team-12-runner
   script:
     - docker stop $(docker ps -aq) || true
     - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
