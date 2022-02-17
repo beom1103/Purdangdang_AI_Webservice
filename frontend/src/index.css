@@ -51,6 +51,10 @@ body {
   @apply flex justify-center items-center;
 }
 
+.center {
+  @apply flex items-center;
+}
+
 .label {
   @apply block text-sm font-medium;
 }
@@ -118,7 +122,6 @@ body {
   @apply px-20 text-gray-600 2xl:text-6xl lg:text-3xl md:text-2xl sm:text-lg;
 }
 
-
 /* SearchPage */
 .search-input {
   @apply w-full py-2 pl-10 pr-4 border rounded-md focus:border-green-500;
@@ -138,6 +141,7 @@ body {
 
 .card-img {
   @apply flex items-end justify-end w-full h-56 bg-cover;
+}
 
 /* UploadContainer */
 .upload-container {
@@ -162,7 +166,6 @@ body {
 
 .upload-btn {
   @apply items-center w-32 border-2 wrap main-color hover:bg-green-700 h-9 m-2;
-
 }
 
 /* Accout Page */

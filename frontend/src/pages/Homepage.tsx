@@ -125,17 +125,17 @@ const HomePage = () => {
         <VideoBackground />
         <div className="flex">
           <div
-            className="absolute flex flex-col w-full h-screen justify-center items-center"
+            className="absolute flex flex-col items-center justify-center w-full h-screen"
             style={{
               left: '50%',
               top: '50%',
               transform: 'translate(-50%,-50%)',
             }}
           >
-            <h2 className="text-white text-3xl 2xl:text-6xl">
+            <h2 className="text-3xl text-white 2xl:text-6xl">
               푸르른 나무처럼, 행복한 댕댕이 처럼
             </h2>
-            <h4 className="text-white text-3xl mt-20 2xl:text-4xl">
+            <h4 className="mt-20 text-3xl text-white 2xl:text-4xl">
               대충 푸르댕댕 소개문구
             </h4>
           </div>
