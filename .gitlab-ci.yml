@@ -1,0 +1,20 @@
+image: python:3.8
+
+variables:
+  WORK_DIR: .
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+stages:
+  - deploy
+Deploy:
+  stage: deploy
+  only:
+    - master
+  tags:
+    - team-12-runner
+  script:
+    - docker stop $(docker ps -aq) || true
+    - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
+    - docker-compose build
+    - sudo chmod -R 777 ./data/mysql/db
+    - docker-compose run -d -p server
