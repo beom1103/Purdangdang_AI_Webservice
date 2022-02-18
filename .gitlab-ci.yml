@@ -1,21 +1,19 @@
-image: python:3.8
+image: alpine:latest
 
-variables:
-  WORK_DIR: .
-cache:
-  key: "$CI_COMMIT_REF_SLUG"
-stages:
-  - deploy
-Deploy:
+pages:
   stage: deploy
-  only:
-    - master
-  tags:
-    - team-12-runner
+  before_script:
+  - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )' 
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - ssh-keyscan $VM_IPADDRESS >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
   script:
-    - sudo chmod u+w data/mysql/db/account
-    - echo "SELECT 'docker stop';" |docker stop $(docker ps -aq) || true
-    - echo "SELECT 'delete old container';" |docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
-    - echo "SELECT 'docker-compose build';" |docker-compose build    
-    - echo "SELECT 'chmod';" |sudo chmod 777 ./data/mysql/db
-    - echo "SELECT 'docker-compose up';" |docker-compose run -d -p server
+  - ssh $SSH_USER@$VM_IPADDRESS "hostname && echo 'Welcome!!!' > welcome.txt"
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
