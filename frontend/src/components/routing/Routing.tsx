@@ -14,6 +14,7 @@ import PrivateRoute from './PrivateRoute';
 
 import { validLogin } from '../../api';
 import { useRecoilValue } from 'recoil';
+import PlantInfo from '../search/PlantInfo';
 
 //lazy
 const SearchPage = React.lazy(() => import('../../pages/SearchPage'));
@@ -32,10 +33,11 @@ const Routing = () => {
           </PrivateRoute>
         }
       >
-        <Route path="" element={<Login />} />
+        <Route index element={<Login />} />
         <Route path="register" element={<Register />} />
       </Route>
       <Route element={<SearchPage />} path="/search" />
+      <Route element={<PlantInfo />} path="/search/:name" />
       <Route element={<ErrorPage />} path="*" />
     </Routes>
   );

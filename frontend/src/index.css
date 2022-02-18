@@ -104,7 +104,7 @@ body {
 
 /* BounceArrow */
 .bounce-arrow {
-  @apply absolute justify-center w-10 h-10 p-2 bg-transparent rounded-full center bottom-24 left-2/4 animate-bounce;
+  @apply absolute wrap w-10 h-10 p-2 bg-transparent rounded-full bottom-24 left-2/4 animate-bounce;
 }
 
 /* Intro */
