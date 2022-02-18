@@ -4,6 +4,9 @@ module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        un: ['MapoFlowerIsland'],
+      },
       keyframes: {
         'fade-in-down': {
           '0%': {
