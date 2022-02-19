@@ -53,7 +53,7 @@ module.exports = {
         'fade-in-down': 'fade-in-down 0.5s ease-out',
         'fade-out-down': 'fade-out-down 0.5s ease-out',
         'fade-in-up': 'fade-in-up 1.3s ease-out',
-        'fade-in-up-two': 'fade-in-up 1.3s  ease-out',
+        'fade-in-up-two': 'fade-in-up 0.5s  ease-out',
         'fade-in-up-three': 'fade-in-up 1.3s ease-out',
         'fade-out-up': 'fade-out-up 0.5s ease-out',
       },

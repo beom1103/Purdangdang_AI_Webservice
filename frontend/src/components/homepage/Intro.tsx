@@ -1,8 +1,6 @@
 import React from 'react';
 
 const Intro = ({ textAnim }: any) => {
-  console.log(textAnim);
-
   return (
     <div
       className="intro-div"
@@ -15,7 +13,7 @@ const Intro = ({ textAnim }: any) => {
       <div className="flex items-center justify-around w-8/12 h-4/6 ">
         <section className="intro-section">
           <article
-            className={`intro-article lg:h-96 group ${
+            className={`intro-article  lg:h-96 group ${
               textAnim ? `animate-fade-in-up` : null
             } `}
             style={{
@@ -26,10 +24,10 @@ const Intro = ({ textAnim }: any) => {
             <div className="intro-cardCenter">
               <h3 className="text-center">
                 <a
-                  className="text-2xl font-bold text-center text-white"
+                  className="text-sm font-bold text-center text-white md:text-2xl "
                   href="#"
                 >
-                  <span className="absolute inset-0"></span>
+                  <span className="absolute inset-0 "></span>
                   푸르댕댕 소개문구
                 </a>
               </h3>
@@ -47,7 +45,7 @@ const Intro = ({ textAnim }: any) => {
             <div className="intro-cardCenter">
               <h3 className="text-center">
                 <a
-                  className="text-2xl font-bold text-center text-white"
+                  className="text-sm font-bold text-center text-white md:text-2xl"
                   href="#"
                 >
                   <span className="absolute inset-0"></span>
@@ -69,7 +67,7 @@ const Intro = ({ textAnim }: any) => {
             <div className="intro-cardCenter">
               <h3 className="text-center">
                 <a
-                  className="text-2xl font-bold text-center text-white"
+                  className="text-sm font-bold text-center text-white md:text-2xl"
                   href="#"
                 >
                   <span className="absolute inset-0"></span>
