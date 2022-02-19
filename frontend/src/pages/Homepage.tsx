@@ -103,6 +103,7 @@ const HomePage = () => {
         }
       }
     };
+
     const outerDivRefCurrent = outerDivRef.current;
     outerDivRefCurrent.addEventListener('wheel', wheelHandler);
     return () => {
@@ -110,9 +111,24 @@ const HomePage = () => {
     };
   }, []);
 
+  // window.addEventListener('scroll', this.handleScroll);
+  // handleScroll = e => {
+  // const { innerHeight } = window;
+  // const { scrollHeight } = document.body;
+  // const myScroll = e.srcElement.scrollingElement.scrollTop;
+  // console.log('전체 body 의 높이 : ' + scrollHeight);
+  // console.log('전체 스크롤바 높이 : ' + innerHeight);
+  // console.log('현재 스크롤 위치 : ' + myScroll);
+  // };
+
+  // document.body.style.overflow = 'hidden';
+
   return (
     <div ref={outerDivRef} className="main">
-      <Header />
+      <div className="navbar">
+        <Header outerDivRef={outerDivRef} />
+      </div>
+
       <div className="container hidden lg:block ">
         <PageMark
           scrollIndex={scrollIndex}
@@ -125,17 +141,17 @@ const HomePage = () => {
         <VideoBackground />
         <div className="flex">
           <div
-            className="absolute flex flex-col w-full h-screen justify-center items-center"
+            className="absolute flex flex-col items-center justify-center w-full h-screen"
             style={{
               left: '50%',
               top: '50%',
               transform: 'translate(-50%,-50%)',
             }}
           >
-            <h2 className="text-white text-3xl 2xl:text-6xl">
+            <h2 className="text-2xl text-white 2xl:text-6xl">
               푸르른 나무처럼, 행복한 댕댕이 처럼
             </h2>
-            <h4 className="text-white text-3xl mt-20 2xl:text-4xl">
+            <h4 className="mt-20 text-2xl text-white 2xl:text-4xl">
               대충 푸르댕댕 소개문구
             </h4>
           </div>

@@ -103,7 +103,7 @@ body {
 }
 
 .intro-article {
-  @apply relative w-full overflow-hidden transition duration-300 ease-in-out bg-center bg-cover rounded-lg shadow-lg h-60 hover:shadow-2xl;
+  @apply relative w-full h-32 overflow-hidden transition duration-300 ease-in-out bg-center bg-cover rounded-lg shadow-lg hover:shadow-2xl;
 }
 
 .intro-cardBack {
@@ -128,19 +128,19 @@ body {
 }
 
 .drop-container {
-  @apply flex flex-col bg-gray-50 shadow-xl border-2 border-green-600  w-full h-full items-center bg-center bg-no-repeat bg-cover justify-center text-center  rounded-2xl  hover:bg-gray-200;
+  @apply flex flex-col items-center justify-center w-full h-full text-center bg-center bg-no-repeat bg-cover border-2 border-green-600 shadow-xl bg-gray-50 rounded-2xl hover:bg-gray-200;
 }
 
 .upload-text {
-  @apply py-6 font-bold hidden text-white;
+  @apply hidden py-6 font-bold text-white;
 }
 
 .upload-btnContainer {
-  @apply flex justify-around items-center w-3/5 flex-col;
+  @apply flex flex-col items-center justify-around w-3/5;
 }
 
 .upload-btn {
-  @apply items-center w-32 border-2 wrap main-color hover:bg-green-700 h-9 m-2;
+  @apply items-center w-32 m-2 border-2 wrap main-color hover:bg-green-700 h-9;
 }
 
 /* Accout Page */

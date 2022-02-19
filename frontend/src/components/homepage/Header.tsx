@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import SideMenu from './SideMenu';
+import { Link } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({ outerDivRef }: any) => {
   const [menus, setMenus] = useState(false);
 
   const menuOpen = () => {
@@ -17,28 +18,23 @@ const Header = () => {
             <span className="logo-span">푸르댕댕</span>
           </a>
           <nav className="nav">
-            <a className="header-link">First Link</a>
-            <a className="header-link">Second Link</a>
-            <a className="header-link">로그인</a>
-            <a className="header-link">회원가입</a>
-            {/* 
-            <Link to="/" className="mr-5 hover:text-lime-600">
+            <Link to="/" className="header-link">
               First Link
             </Link>
-            <Link to="/" className="mr-5 hover:text-lime-600">
+            <Link to="/" className="header-link">
               Second Link
             </Link>
-            <Link to="/acount" className="mr-5 hover:text-lime-600">
+            <Link to="/account" className="header-link">
               로그인
             </Link>
-            <Link to="/acount/register" className="mr-5 hover:text-lime-600">
+            <Link to="/account/register" className="header-link">
               회원가입
-            </Link> */}
+            </Link>
           </nav>
           <button className="header-btn" onClick={() => menuOpen()}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="w-6 h-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
