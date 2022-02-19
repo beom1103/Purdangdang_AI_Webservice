@@ -1,4 +1,6 @@
+import React from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { selector } from 'recoil';
 import { LoginType, RegisterType } from '../store/type';
 
@@ -24,9 +26,9 @@ export const login = async (data: LoginType): Promise<boolean> => {
 // 회원가입 요청
 export const registerAccount = async (data: RegisterType) => {
   try {
-    await api.post('회원가입 url', data);
+    await api.post('/account/accounts', data);
     alert('회원가입에 성공하였습니다.');
-    window.location.replace('/account/accounts');
+    // window.location.replace('/');
     return true;
   } catch (error) {
     console.log(error);

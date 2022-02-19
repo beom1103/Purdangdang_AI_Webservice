@@ -2,6 +2,7 @@ html,
 body {
   margin: 0;
 }
+
 @font-face {
   font-family: 'MapoFlowerIsland';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoFlowerIslandA.woff')
@@ -201,4 +202,25 @@ body {
 
 .account-btn {
   @apply w-full px-5 py-2 wrap main-color hover:bg-green-700;
+}
+
+/* PlantInfo Page */
+.plant-info-img {
+  @apply object-cover object-center w-full mx-auto mb-6 rounded lg:w-1/2 lg:h-auto lg:px-6 lg:mb-0;
+}
+
+.plant-link {
+  @apply flex-grow px-1 py-2 text-lg border-b-2 border-gray-300 cursor-pointer;
+}
+
+.plant-info-div {
+  @apply flex py-2 border-t border-gray-200;
+}
+
+.buy-button {
+  @apply flex px-6 py-2 ml-auto bg-green-500 hover:bg-green-600;
+}
+
+.like {
+  @apply inline-flex items-center justify-center w-10 h-10 p-0 ml-4 text-gray-600;
 }

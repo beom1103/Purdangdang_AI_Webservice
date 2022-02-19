@@ -9,7 +9,6 @@ import Register from '../account/Register';
 import ErrorPage from '../load-page/ErrorPage';
 
 //접근제한
-import LoadingSpiner from '../load-page/LoadingSpiner';
 import PrivateRoute from './PrivateRoute';
 
 import { validLogin } from '../../api';
