@@ -1,12 +1,3 @@
-# from django.http import HttpResponse, JsonResponse, Http404
-# from django.views.decorators.csrf import csrf_exempt
-# from .models import Account
-# from .serializers import AccountSerializer
-# from rest_framework.parsers import JSONParser
-# from rest_framework.views import APIView
-# from drf_yasg.utils import swagger_auto_schema
-# from drf_yasg import openapi
-
 from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -14,6 +5,15 @@ from rest_framework.decorators import api_view
 from knox.models import AuthToken
 from .serializers import CreateUserSerializer, UserSerializer, LoginUserSerializer, ProfileSerializer
 from .models import Profile
+import re
+ 
+regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+
+def check(email):
+    if(re.fullmatch(regex, email)):
+        return False;
+    return True;
+        
 # Create your views here.
 class ProfileUpdateAPI(generics.UpdateAPIView):
     lookup_field = "user_pk"
@@ -24,8 +24,8 @@ class RegistrationAPI(generics.GenericAPIView):
     serializer_class = CreateUserSerializer
 
     def post(self, request, *args, **kwargs):
-        if len(request.data["username"]) < 6 or len(request.data["password"]) < 4:
-            body = {"message": "short field"}
+        if not (2 <= len(request.data["username"]) <= 10) or not (6 <= len(request.data["password"]) <= 15) or check(request.data["email"]):
+            body = {"message": "wrong field"}
             return Response(body, status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -63,6 +63,7 @@ class UserAPI(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+    
 # class account_list(APIView):
 #     def get(self): # 계정 전체 조회 
 #         query_set = Account.objects.all()
