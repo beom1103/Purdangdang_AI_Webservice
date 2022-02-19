@@ -18,9 +18,9 @@ const Register = () => {
   });
 
   const registerSubmit = handleSubmit(
-    ({ name, email, password, confirmPassword }) => {
+    ({ username, email, password, confirmPassword }) => {
       const data = {
-        name,
+        username,
         email,
         password,
         confirmPassword,
@@ -47,12 +47,12 @@ const Register = () => {
         <div className="mt-6">
           <form className="space-y-6" onSubmit={registerSubmit}>
             <InputField
-              name="name"
+              name="username"
               type="text"
               label="이름"
               placeholder="푸르댕"
               register={register}
-              error={errors.name?.message}
+              error={errors.username?.message}
             />
             <InputField
               name="email"

@@ -42,7 +42,7 @@ const Routing = () => {
         <Route element={<SearchPage />} path="/search" />
         <Route element={<PlantDetailPage />} path="/plant/:name">
           <Route index element={<PlantInfo />} />
-          <Route path="review" element={<PlantReview />} />
+          <Route path="reviews" element={<PlantReview />} />
         </Route>
         <Route element={<ErrorPage />} path="*" />
       </Routes>

@@ -1,20 +1,21 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useParams } from 'react-router-dom';
+// 쿼리스트링? 동적라우팅 작업 해야함.
+import fake from '../store/fake.json';
 
 const PlantDetailPage = () => {
+  const params = useParams();
+  const id = Number(params.name);
+
   return (
     <section className="px-3 pt-16 overflow-hidden">
       <div className="container py-10 mx-auto">
         <div className="flex flex-wrap mx-auto lg:w-4/5">
-          <img
-            alt="plant"
-            className="plant-info-img"
-            src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20210615_232%2F1623739853385wUEKy_JPEG%2F24875681211371768_1566788254.jpg&type=sc960_832"
-          />
+          <img alt="plant" className="plant-info-img" src={fake[id].image} />
           <div className="w-full my-auto lg:w-1/2">
             <h4 className="text-sm">이름</h4>
             <h2 className="mb-4 text-green-600 ">
-              보스턴 고사리
+              {fake[id].kor}
               <button className="like">
                 <svg
                   fill="currentColor"
@@ -32,7 +33,7 @@ const PlantDetailPage = () => {
               <Link to="" className="plant-link">
                 Info
               </Link>
-              <Link to="review" className="plant-link">
+              <Link to="reviews" className="plant-link">
                 Reviews
               </Link>
             </div>

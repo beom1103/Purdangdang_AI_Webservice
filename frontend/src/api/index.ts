@@ -1,4 +1,3 @@
-import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { selector } from 'recoil';
@@ -14,7 +13,7 @@ const api = axios.create({
 export const login = async (data: LoginType): Promise<boolean> => {
   try {
     const response = await api.post('account/login', data);
-    const token = response.data['foo'];
+    const token = response.data['token'];
     localStorage.setItem('token', token);
     return true;
   } catch (error) {
