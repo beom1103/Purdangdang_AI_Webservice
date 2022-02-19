@@ -13,14 +13,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-# from django.contrib import admin
-# from django.urls import path, include
-
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-#     path('account/', include('account.urls'))
-# ]
-
 from django.urls import path, include, re_path
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -45,10 +37,16 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    # django 앱 
-    path('admin/', admin.site.urls),
-    path('account/', include('account.urls'))
+    path("admin/", admin.site.urls),
+    path("api/", include("api.urls")),
+    path("api/auth", include("knox.urls")),
 ]
+
+# urlpatterns = [
+#     # django 앱 
+#     path('admin/', admin.site.urls),
+#     path('account/', include('account.urls'))
+# ]
 
 if settings.DEBUG:
     urlpatterns += [
