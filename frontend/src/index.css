@@ -222,5 +222,5 @@ body {
 }
 
 .like {
-  @apply inline-flex items-center justify-center w-10 h-10 p-0 ml-4 text-gray-600;
+  @apply rounded-full inline-flex w-10 h-10 ml-4 text-gray-600;
 }

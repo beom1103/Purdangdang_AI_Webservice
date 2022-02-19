@@ -141,7 +141,7 @@ const HomePage = () => {
         <VideoBackground />
         <div className="flex">
           <div
-            className="absolute flex flex-col items-center justify-center w-full h-screen"
+            className="absolute flex-col w-full h-screen wrap"
             style={{
               left: '50%',
               top: '50%',
@@ -159,9 +159,9 @@ const HomePage = () => {
             <svg
               className="w-6 h-6 text-lime-500"
               fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
@@ -177,9 +177,9 @@ const HomePage = () => {
             <svg
               className="w-6 h-6 text-lime-500"
               fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               viewBox="0 0 24 24"
               stroke="currentColor"
             >

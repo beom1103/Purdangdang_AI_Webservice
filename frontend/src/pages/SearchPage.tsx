@@ -13,7 +13,7 @@ type Fake = {
 
 const SearchPage = () => {
   return (
-    <div className="container px-6 mx-auto">
+    <div className="container px-6 pt-16 mx-auto">
       <header>
         <div className="wrap">
           <h2 className="font-semibold text-green-600">푸르댕댕</h2>
