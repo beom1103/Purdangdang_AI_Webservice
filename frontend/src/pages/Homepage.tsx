@@ -111,18 +111,6 @@ const HomePage = () => {
     };
   }, []);
 
-  // window.addEventListener('scroll', this.handleScroll);
-  // handleScroll = e => {
-  // const { innerHeight } = window;
-  // const { scrollHeight } = document.body;
-  // const myScroll = e.srcElement.scrollingElement.scrollTop;
-  // console.log('전체 body 의 높이 : ' + scrollHeight);
-  // console.log('전체 스크롤바 높이 : ' + innerHeight);
-  // console.log('현재 스크롤 위치 : ' + myScroll);
-  // };
-
-  // document.body.style.overflow = 'hidden';
-
   return (
     <div ref={outerDivRef} className="main">
       <div className="navbar">
@@ -141,7 +129,7 @@ const HomePage = () => {
         <VideoBackground />
         <div className="flex">
           <div
-            className="absolute flex flex-col items-center justify-center w-full h-screen"
+            className="absolute center flex-col justify-center w-full h-screen"
             style={{
               left: '50%',
               top: '50%',

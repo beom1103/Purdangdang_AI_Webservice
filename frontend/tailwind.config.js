@@ -71,6 +71,20 @@ module.exports = {
             display: 'none',
           },
         },
+        '.scroll-style': {
+          '&::-webkit-scrollbar': {
+            width: '5px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            height: `5%`,
+            background: `#1faa00`,
+            borderRadius: '30px',
+          },
+          '&::-webkit-scrollbar-track': {
+            background: '#e8f5e9',
+            // borderRadius: '30%',
+          },
+        },
       });
     }),
   ],

@@ -18,12 +18,7 @@ const SideMenu = ({ menu, selectMenu }: any) => {
           menu ? `translate-x-0` : `translate-x-full`
         }`}
       >
-        <div
-          className="flex items-center justify-center text-3xl font-extrabold rounded-tl-xl py-7"
-          // style={{
-          //   background: `rgb(199,255,206) linear-gradient(180deg, rgba(199,255,206,1) 0%, rgba(243,244,246,1) 100%)`,
-          // }}
-        >
+        <div className="flex items-center justify-center text-3xl font-extrabold rounded-tl-xl py-7">
           <span className="inline-block pr-2">
             <svg className="w-8 h-8 fill-current " viewBox="0 0 24 24">
               <path
