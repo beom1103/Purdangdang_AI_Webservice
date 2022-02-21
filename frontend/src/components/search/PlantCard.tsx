@@ -5,11 +5,18 @@ type CardProps = {
   name: string;
   image: string;
   rank: number;
+  onClick: React.MouseEventHandler<HTMLDivElement>;
 };
 
-const PlantCard: React.FC<CardProps> = ({ kor, image, name, rank }) => {
+const PlantCard: React.FC<CardProps> = ({
+  kor,
+  image,
+  name,
+  rank,
+  onClick,
+}) => {
   return (
-    <div className="card-div" id={`${rank}`}>
+    <div className="card-div" id={`${rank}`} onClick={onClick}>
       <div
         id={`${rank}`}
         className="card-img"

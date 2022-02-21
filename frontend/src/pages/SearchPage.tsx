@@ -31,7 +31,7 @@ const SearchPage = () => {
 
       <main>
         <div>
-          <div className="card" onClick={goDetail}>
+          <div className="card">
             {fake.map((data: Fake): JSX.Element => {
               return (
                 <PlantCard
@@ -40,6 +40,7 @@ const SearchPage = () => {
                   name={data.name}
                   rank={data.rank - 1}
                   image={data.image}
+                  onClick={goDetail}
                 />
               );
             })}
