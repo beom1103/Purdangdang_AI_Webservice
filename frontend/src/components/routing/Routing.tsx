@@ -17,6 +17,7 @@ import PlantInfo from '../plant-detail/PlantInfo';
 import Header from '../homepage/Header';
 import PlantDetailPage from '../../pages/PlantDetailPage';
 import PlantReview from '../plant-detail/PlantReview';
+import Footer from '../global/Footer';
 //lazy
 const SearchPage = React.lazy(() => import('../../pages/SearchPage'));
 
@@ -41,11 +42,12 @@ const Routing = () => {
         </Route>
         <Route element={<SearchPage />} path="/search" />
         <Route element={<PlantDetailPage />} path="/plant/:name">
-          <Route index element={<PlantInfo />} />
+          <Route path="info" element={<PlantInfo />} />
           <Route path="reviews" element={<PlantReview />} />
         </Route>
         <Route element={<ErrorPage />} path="*" />
       </Routes>
+      <Footer />
     </div>
   );
 };

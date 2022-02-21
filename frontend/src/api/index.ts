@@ -12,7 +12,7 @@ const api = axios.create({
 //로그인 요청
 export const login = async (data: LoginType): Promise<boolean> => {
   try {
-    const response = await api.post('account/login', data);
+    const response = await api.post('api/auth/login', data);
     const token = response.data['token'];
     localStorage.setItem('token', token);
     return true;
@@ -23,11 +23,12 @@ export const login = async (data: LoginType): Promise<boolean> => {
 };
 
 // 회원가입 요청
-export const registerAccount = async (data: RegisterType) => {
+export const registerAccount = async (data: RegisterType): Promise<boolean> => {
   try {
-    await api.post('/account/accounts', data);
+    await api.post('api/auth/register/', data);
     alert('회원가입에 성공하였습니다.');
     // window.location.replace('/');
+    console.log(data);
     return true;
   } catch (error) {
     console.log(error);

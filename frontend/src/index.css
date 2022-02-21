@@ -95,6 +95,11 @@ body {
   @apply inline-flex items-center px-3 py-1 mt-4 text-base border-0 outline-none md:mt-0;
 }
 
+/*Footer*/
+.footer-div {
+  @apply container flex-col justify-between mx-auto center my-10;
+}
+
 /* BounceArrow */
 .bounce-arrow {
   @apply absolute wrap w-10 h-10 p-2 bg-transparent rounded-full bottom-24 left-2/4 animate-bounce;
@@ -198,11 +203,15 @@ body {
 
 /* PlantInfo Page */
 .plant-info-img {
-  @apply object-cover object-center w-full mx-auto mb-6 rounded lg:w-1/2 lg:h-auto lg:px-6 lg:mb-0;
+  @apply object-cover object-center w-full mx-auto mb-6 rounded lg:w-1/2 lg:px-6 lg:mb-0 lg:max-w-lg lg:max-h-[464px] lg:ml-0;
 }
 
 .plant-link {
-  @apply flex-grow px-1 py-2 text-lg border-b-2 border-gray-300 cursor-pointer;
+  @apply flex-grow px-1 py-2 text-lg border-b-2 cursor-pointer;
+}
+
+.active-link {
+  @apply plant-link font-bold text-blue-600 border-b-blue-600;
 }
 
 .plant-info-div {

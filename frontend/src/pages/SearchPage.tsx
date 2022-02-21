@@ -16,7 +16,7 @@ const SearchPage = () => {
   const navigate = useNavigate();
   // 타입 수정
   const goDetail = (e: any) => {
-    navigate(`/plant/${e.target.id}`);
+    navigate(`/plant/${e.target.id}/info`);
   };
   return (
     <div className="container px-6 pt-16 mx-auto">
