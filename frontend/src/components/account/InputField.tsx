@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { InputHTMLAttributes } from 'react';
+
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   type?: string;

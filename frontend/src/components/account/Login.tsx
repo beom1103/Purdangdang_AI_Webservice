@@ -22,7 +22,6 @@ const Login = () => {
       email,
       password,
     };
-
     await login(data);
   });
 

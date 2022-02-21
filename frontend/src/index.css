@@ -201,7 +201,7 @@ body {
   @apply w-full px-5 py-2 wrap main-color hover:bg-green-700;
 }
 
-/* PlantInfo Page */
+/* PlantDetail Page */
 .plant-info-img {
   @apply object-cover object-center w-full mx-auto mb-6 rounded lg:w-1/2 lg:px-6 lg:mb-0 lg:max-w-lg lg:max-h-[464px] lg:ml-0;
 }
@@ -223,5 +223,5 @@ body {
 }
 
 .like {
-  @apply rounded-full inline-flex w-10 h-10 ml-4 text-gray-600;
+  @apply inline-flex ml-4 text-gray-600 outline-none;
 }

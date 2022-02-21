@@ -17,7 +17,7 @@ const PlantDetailPage = () => {
             <h2 className="mb-4 text-green-600 ">
               {fake[id].kor}
               <button className="like">
-                <i className="fas fa-heart" />
+                <i className="fas fa-heart like" />
               </button>
             </h2>
             <div className="flex mb-4">
