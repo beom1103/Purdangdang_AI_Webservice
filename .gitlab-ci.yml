@@ -13,7 +13,7 @@ Deploy:
   tags:
     - team-12-runner
   before_script: 
-    - apt install net-tools
+    - sudo apt install net-tools
   script:
     - docker stop $(docker ps -aq) || true
     - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
