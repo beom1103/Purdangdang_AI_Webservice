@@ -16,7 +16,10 @@ Deploy:
     - docker stop $(docker ps -aq) || true
     - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
     - docker-compose build
+    - docker-compose ps 
+    - docker-compose run -d --service-ports myapp
     - docker-compose run -d -p 8000:8000 server
+    - netstat -nap | grep 8000
   variables:
     GIT_STRATEGY: none
 
