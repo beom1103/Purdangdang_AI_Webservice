@@ -56,4 +56,4 @@ const Header = ({ outerDivRef }: any) => {
   );
 };
 
-export default Header;
+export default React.memo(Header);

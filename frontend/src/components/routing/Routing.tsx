@@ -57,7 +57,6 @@ const Routing = () => {
         </Route>
         <Route element={<ErrorPage />} path="*" />
       </Routes>
-      <Footer />
     </div>
   );
 };

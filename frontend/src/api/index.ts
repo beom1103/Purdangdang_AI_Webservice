@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { LoginType, RegisterType } from '../store/type';
+import { LoginType, RegisterType, User } from '../store/type';
 
 const token = localStorage.getItem('token');
 
@@ -52,7 +52,7 @@ export const registerAccount = async (
 };
 
 //로그인을 확인하는 API
-export const validLogin = async () => {
+export const validLogin = async (): Promise<User | any> => {
   try {
     const { data } = await athentication.get('api/auth/user/');
     console.log(data);
@@ -63,10 +63,14 @@ export const validLogin = async () => {
 };
 
 //로그아웃
-export const logout = async () => {
+export const logout = async (): Promise<boolean> => {
   try {
-    await athentication.get('api/auth/logout');
+    await athentication.post('api/authlogout/');
+    localStorage.clear();
+    window.location.replace('/');
+    return true;
   } catch (error) {
     console.log(error);
+    return false;
   }
 };
