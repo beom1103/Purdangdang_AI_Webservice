@@ -10,7 +10,7 @@
 **엔드유저에게 보이는 웹서비스에 대한 소개**
   - 기술 스택 <br/>
   FrontEnd : react, react-router-dom, react-hook-form, typescript, recoil, axios, tailwind css,  eslint, prettier <br/>
-  BackEnd: python, Django, Flask, Docker, Mysql <br/>
+  BackEnd: python, Django, Docker, Mysql <br/>
   AI : python, keras, tensorflow, numpy, pandas, matplotlib, seaborn, os
 
 - 엔드유저의 희망사항과 취향을 반영한 반려식물을 검색해주는 서비스
