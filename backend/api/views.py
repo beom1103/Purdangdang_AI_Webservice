@@ -40,6 +40,7 @@ class RegistrationAPI(generics.GenericAPIView):
         )
 
 
+
 class LoginAPI(generics.GenericAPIView):
     serializer_class = LoginUserSerializer
 
@@ -64,56 +65,3 @@ class UserAPI(generics.RetrieveAPIView):
     def get_object(self):
         return self.request.user
     
-# class account_list(APIView):
-#     def get(self): # 계정 전체 조회 
-#         query_set = Account.objects.all()
-#         serializer = AccountSerializer(query_set, many=True)
-#         return JsonResponse(serializer.data, safe=False)
-
-#     def post(self, request): # 회원가입 
-#         data = JSONParser().parse(request)
-#         serializer = AccountSerializer(data=data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return JsonResponse(serializer.data, status=201)
-#         return JsonResponse(serializer.errors, status=400)
-
-
-# class account(APIView):
-#     def get_object(self, pk):
-#         try:
-#             return Account.objects.get(pk=pk)
-#         except Account.DoesNotExist:
-#             raise Http404
-            
-#     def get(self, request, pk, format=None): # pk로 특정 계정 조회 
-#         obj = self.get_object(pk)
-#         serializer = AccountSerializer(obj)
-
-#         return JsonResponse(serializer.data, safe=False)
-
-#     def put(self, request, pk): # pk로 특정 계정 수정
-#         obj = Account.objects.get(pk=pk)
-#         data = JSONParser().parse(request)
-#         serializer = AccountSerializer(obj, data=data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return JsonResponse(serializer.data, status=201)
-#         return JsonResponse(serializer.errors, status=400)
-
-#     def delete(self, pk): # pk로 특정 계정 삭제
-#         obj = Account.objects.get(pk=pk)
-#         obj.delete()
-#         return HttpResponse(status=204)
-
-
-# class login(APIView):
-#     def post(self, request): # 로그인
-#         data = JSONParser().parse(request)
-#         search_email = data['email']
-#         obj = Account.objects.get(email=search_email)
-
-#         if data['password'] == obj.password:
-#             return HttpResponse(status=200)
-#         else:
-#             return HttpResponse(status=400)

@@ -1,3 +1,4 @@
+from django.forms import EmailField
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 from .models import Profile
@@ -24,17 +25,20 @@ class CreateUserSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "username", "email")
+        fields = ("id", "email")
 
 
 # 로그인
+
 class LoginUserSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    email = serializers.EmailField()
+    email = serializers.CharField()
     password = serializers.CharField()
 
     def validate(self, data):
-        user = authenticate(**data)
+        email= data.get('email')
+        password = data.get('password')
+        username = User.objects.get(email=email.lower()).username
+        user = authenticate(username=username, password=password)
         if user and user.is_active:
             return user
         raise serializers.ValidationError("Unable to log in with provided credentials.")
@@ -44,13 +48,3 @@ class ProfileSerializer():
         model = Profile
         fields = ("id", "username", "email")
 
-# class AccountSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Account
-#         # fields = '__all__'
-#         fields = ['name', 'email', 'password']
-#         examples = {
-#             "name": "시비",
-#             "email": "sibisibi@sibi.com",
-#             "password": "sibisibi"
-#         }
