@@ -1,18 +1,21 @@
-image: docker:latest
+image: python:3.8
 
-services:
-- docker:18.09.9-dind
-
+variables:
+  WORK_DIR: .
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
 stages:
   - deploy
-
-step-deploy-prod:
+Deploy:
   stage: deploy
   only:
     - master
+  tags:
+    - team-12-runner
   script:
-    - docker-compose up -d --build
-  when: always
-  environment: master
+    - docker stop $(docker ps -aq) || true
+    - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
+    - docker-compose build    
+    - docker-compose run -d -p server
   variables: 
     GIT_STRATEGY: none
