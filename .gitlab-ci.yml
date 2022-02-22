@@ -18,6 +18,8 @@ Deploy:
     - docker-compose build
     - docker-compose ps 
     - docker-compose run -d --service-ports server
+    - netstat -a 
+    - netstat -nap | grep 8000
     - docker-compose run -d -p 8000:8000 server
     - netstat -nap | grep 8000
   variables:
