@@ -29,19 +29,25 @@ ALLOWED_HOSTS = ['0.0.0.0','localhost']
 
 
 # Application definition
-
-INSTALLED_APPS = [
+DJANGO_APPS = [    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api',
+]
+
+THIRD_PARTY_APPS = [
     'corsheaders',
     'rest_framework',
     'drf_yasg', 
     'knox',
+]
+
+LOCAL_APPS = [
+    'apps.common',
+    # 'apps.plant',
 ]
 
 REST_FRAMEWORK = {
@@ -50,6 +56,8 @@ REST_FRAMEWORK = {
     ],
      "DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",),
 }
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

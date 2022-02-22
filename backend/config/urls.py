@@ -38,8 +38,9 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", include("api.urls")),
-    path("api/auth", include("knox.urls")),
+    path("common/", include("apps.common.urls")),
+    path("plant/",include("apps.plant.urls")),
+    path("common/auth", include("knox.urls")),
 ]
 
 if settings.DEBUG:
