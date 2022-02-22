@@ -6,7 +6,7 @@ import FIlterButton from '../components/search/FIlterButton';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { userAtom } from '../store/user';
-import { User } from '../store/type';
+import tw from 'tailwind-styled-components';
 
 type Fake = {
   kor: string;
@@ -25,19 +25,15 @@ const SearchPage = () => {
     navigate(`/plant/${e.target.id}/info`);
   };
   return (
-    <div className="container px-6 pt-16 mx-auto">
+    <SearchDiv>
       <header>
         <div className="wrap">
-          <h2 className="font-semibold text-green-600">푸르댕댕</h2>
+          <H2>푸르댕댕</H2>
         </div>
         <SearchInput />
 
-        {userInfo && (
-          <h3 className="mt-6 text-black md:text-xl">
-            {userInfo.email}님께 추천하는 식물!
-          </h3>
-        )}
-        <h3 className="mt-6 text-black md:text-xl">이런 식물을 찾으시나요?</h3>
+        {userInfo && <H3>{userInfo.email}님께 추천하는 식물!</H3>}
+        <H3>이런 식물을 찾으시나요?</H3>
         <FIlterButton />
       </header>
 
@@ -59,8 +55,26 @@ const SearchPage = () => {
           </div>
         </div>
       </main>
-    </div>
+    </SearchDiv>
   );
 };
 
 export default SearchPage;
+
+const SearchDiv = tw.div`
+  container 
+  px-6 
+  pt-16 
+  mx-auto
+`;
+
+const H2 = tw.h2`
+  font-semibold 
+  text-green-600
+`;
+
+const H3 = tw.h3`
+  mt-6 
+  text-black 
+  md:text-xl
+`;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLottie } from 'lottie-react';
 import loading from './loading.json';
+import tw from 'tailwind-styled-components';
 
 const LoadingSpiner = () => {
   const options = {
@@ -12,16 +13,23 @@ const LoadingSpiner = () => {
   const { View } = useLottie(options);
 
   return (
-    <div
-      style={{ backgroundColor: '#f7f0dc' }}
-      className="flex-col min-h-screen wrap "
-    >
+    <LoadingDiv style={{ backgroundColor: '#f7f0dc' }}>
       {View}
-      <h3 className="mt-5 text-2xl font-extrabold text-green-500 animate-bounce">
-        로딩중입니다.
-      </h3>
-    </div>
+      <H3>로딩중입니다.</H3>
+    </LoadingDiv>
   );
 };
 
 export default LoadingSpiner;
+
+const LoadingDiv = tw.div`
+  flex-col min-h-screen wrap
+`;
+
+const H3 = tw.div`
+  mt-5 
+  text-2xl 
+  font-extrabold 
+  text-green-500 
+  animate-bounce
+`;

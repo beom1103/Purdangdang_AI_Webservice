@@ -3,17 +3,18 @@ import { NavLink, Outlet, useParams } from 'react-router-dom';
 import Footer from '../components/global/Footer';
 // 쿼리스트링? 동적라우팅 작업 해야함.
 import fake from '../store/fake.json';
+import tw from 'tailwind-styled-components';
 
 const PlantDetailPage = () => {
   const params = useParams();
   const id = Number(params.name);
 
   return (
-    <section className="content-center px-3 overflow-hidden lg:pt-32">
-      <div className="container py-10 mx-auto">
-        <div className="flex flex-wrap mx-auto lg:w-4/5">
+    <Main>
+      <Container>
+        <Wrap>
           <img alt="plant" className="plant-info-img" src={fake[id].image} />
-          <div className="w-full my-auto lg:w-1/2">
+          <Div>
             <h4 className="text-sm">이름</h4>
             <h2 className="mb-4 text-green-600 ">
               {fake[id].kor}
@@ -40,12 +41,38 @@ const PlantDetailPage = () => {
               </NavLink>
             </div>
             <Outlet />
-          </div>
-        </div>
-      </div>
+          </Div>
+        </Wrap>
+      </Container>
       <Footer />
-    </section>
+    </Main>
   );
 };
 
 export default PlantDetailPage;
+
+const Main = tw.main`
+  content-center 
+  px-3 
+  overflow-hidden 
+  lg:pt-32
+`;
+
+const Container = tw.div`
+  container 
+  py-10 
+  mx-auto
+`;
+
+const Wrap = tw.div`
+  flex 
+  flex-wrap 
+  mx-auto 
+  lg:w-4/5
+`;
+
+const Div = tw.div`
+  w-full 
+  my-auto 
+  lg:w-1/2
+`;

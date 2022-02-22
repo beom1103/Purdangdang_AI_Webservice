@@ -1,4 +1,5 @@
 import React from 'react';
+import tw from 'tailwind-styled-components';
 
 // 그냥 예시 버튼 나중에 다 지우고 다시 구현해야 함.
 
@@ -7,38 +8,23 @@ const FIlterButton = () => {
     <div className="mt-5">
       <div className="flex rounded-xl">
         <div>
-          <input
-            type="radio"
-            name="option"
-            id="1"
-            className="peer"
-            hidden
-            defaultChecked
-          />
-          <label htmlFor="1" className="radio">
-            전체
-          </label>
+          <Input type="radio" name="option" id="1" hidden defaultChecked />
+          <Label htmlFor="1">전체</Label>
         </div>
 
         <div>
-          <input type="radio" name="option" id="2" className="peer" hidden />
-          <label htmlFor="2" className="radio">
-            꽃이 피는
-          </label>
+          <Input type="radio" name="option" id="2" hidden />
+          <Label htmlFor="2">꽃이 피는</Label>
         </div>
 
         <div>
-          <input type="radio" name="option" id="3" className="peer" hidden />
-          <label htmlFor="3" className="radio">
-            공기정화
-          </label>
+          <Input type="radio" name="option" id="3" hidden />
+          <Label htmlFor="3">공기정화</Label>
         </div>
 
         <div>
-          <input type="radio" name="option" id="4" className="peer" hidden />
-          <label htmlFor="4" className="radio">
-            반려동물 무해
-          </label>
+          <Input type="radio" name="option" id="4" hidden />
+          <Label htmlFor="4">반려동물 무해</Label>
         </div>
       </div>
     </div>
@@ -46,3 +32,11 @@ const FIlterButton = () => {
 };
 
 export default FIlterButton;
+
+const Input = tw.input`
+  peer
+`;
+
+const Label = tw.label`
+  radio
+`;
