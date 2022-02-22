@@ -1,26 +1,32 @@
 import axios, { AxiosInstance } from 'axios';
-import { selector } from 'recoil';
 import { LoginType, RegisterType } from '../store/type';
 
 const token = localStorage.getItem('token');
 
 //기본 api
-const instance: AxiosInstance = axios.create({
+const api: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   headers: { 'Content-Type': `application/json` },
 });
 
-// const api: AxiosInstance = instance.create({
-//   headers: {
-//     Authorization: `Token ${token}`,
-//   },
+const athentication: AxiosInstance = axios.create({
+  baseURL: process.env.REACT_APP_BASE_URL,
+  headers: { Authorization: `Token ${token}` },
+});
+
+// api.interceptors.request.use((config: any) => {
+//   const token = localStorage.get('token');
+//   if (token != null) {
+//     config.headers.Authorization = `Token ${token}`;
+//   }
 // });
 
 //로그인 요청
-export const login = async (data: LoginType): Promise<boolean> => {
+export const login = async (login: LoginType): Promise<boolean> => {
   try {
-    const response = await instance.post('api/auth/login/', data);
-    const token = response.data['token'];
+    const { data } = await api.post('api/auth/login/', login);
+    console.log(data);
+    const token = data['token'];
     localStorage.setItem('token', token);
     window.location.replace('/');
     return true;
@@ -31,9 +37,11 @@ export const login = async (data: LoginType): Promise<boolean> => {
 };
 
 // 회원가입 요청
-export const registerAccount = async (data: RegisterType): Promise<boolean> => {
+export const registerAccount = async (
+  register: RegisterType,
+): Promise<boolean> => {
   try {
-    await instance.post('api/auth/register/', data);
+    await api.post('api/auth/register/', register);
     alert('회원가입에 성공하였습니다.');
     window.location.replace('/account');
     return true;
@@ -44,14 +52,21 @@ export const registerAccount = async (data: RegisterType): Promise<boolean> => {
 };
 
 //로그인을 확인하는 API
-export const validLogin = selector({
-  key: 'validLogin',
-  get: async () => {
-    try {
-      const response = await instance.get('api/auth/user/');
-      return response;
-    } catch (e) {
-      return false;
-    }
-  },
-});
+export const validLogin = async () => {
+  try {
+    const { data } = await athentication.get('api/auth/user/');
+    console.log(data);
+    return data;
+  } catch (error) {
+    return false;
+  }
+};
+
+//로그아웃
+export const logout = async () => {
+  try {
+    await athentication.get('api/auth/logout');
+  } catch (error) {
+    console.log(error);
+  }
+};

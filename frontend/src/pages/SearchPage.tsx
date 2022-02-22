@@ -4,6 +4,9 @@ import PlantCard from '../components/search/PlantCard';
 import fake from '../store/fake.json';
 import FIlterButton from '../components/search/FIlterButton';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { userAtom } from '../store/user';
+import { User } from '../store/type';
 
 type Fake = {
   kor: string;
@@ -14,6 +17,9 @@ type Fake = {
 
 const SearchPage = () => {
   const navigate = useNavigate();
+
+  const userInfo = useRecoilValue(userAtom);
+
   // 타입 수정
   const goDetail = (e: any) => {
     navigate(`/plant/${e.target.id}/info`);
@@ -25,6 +31,12 @@ const SearchPage = () => {
           <h2 className="font-semibold text-green-600">푸르댕댕</h2>
         </div>
         <SearchInput />
+
+        {userInfo && (
+          <h3 className="mt-6 text-black md:text-xl">
+            {userInfo.email}님께 추천하는 식물!
+          </h3>
+        )}
         <h3 className="mt-6 text-black md:text-xl">이런 식물을 찾으시나요?</h3>
         <FIlterButton />
       </header>
