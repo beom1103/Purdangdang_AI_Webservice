@@ -1,0 +1,204 @@
+html,
+body {
+  margin: 0;
+}
+@font-face {
+  font-family: 'MapoFlowerIsland';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoFlowerIslandA.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* defalut */
+@layer base {
+  html {
+    @apply font-un;
+  }
+  h1 {
+    @apply mt-6 text-6xl font-extrabold;
+  }
+
+  h2 {
+    @apply mt-6 text-3xl font-extrabold;
+  }
+
+  h3 {
+    @apply font-bold text-green-600;
+  }
+
+  h4 {
+    @apply font-bold 2xl:text-4xl lg:text-2xl;
+  }
+
+  p {
+    @apply text-sm;
+  }
+
+  button {
+    @apply text-base font-medium text-white border border-transparent rounded-md shadow-sm focus:outline-none;
+  }
+
+  input {
+    @apply placeholder-gray-500 rounded-md appearance-none sm:text-sm;
+  }
+
+  nav {
+    @apply flex-wrap text-base md:py-1 md:pl-4 border-x-2 md:border-gray-400 center;
+  }
+}
+
+/* 공통 */
+.main-color {
+  @apply bg-green-600;
+}
+
+.wrap {
+  @apply flex justify-center items-center;
+}
+
+.center {
+  @apply flex items-center;
+}
+
+.label {
+  @apply block text-sm font-medium;
+}
+
+.link {
+  @apply font-medium text-green-400 cursor-pointer hover:text-lime-300;
+}
+
+.main {
+  @apply h-screen overflow-y-auto scrollbar-hide;
+}
+
+.logo {
+  @apply w-10 h-10;
+}
+
+.logo-span {
+  @apply ml-3 text-xl font-bold text-green-400;
+}
+
+/* Header */
+.header-link {
+  @apply mr-5 link;
+}
+
+.header-div {
+  @apply fixed top-0 right-0 z-20 flex w-full text-center;
+}
+
+.header-bg {
+  @apply flex-col flex-wrap justify-between w-full p-5 mx-0 bg-transparent center md:flex-row backdrop-blur-md;
+}
+
+.header-btn {
+  @apply inline-flex items-center px-3 py-1 mt-4 text-base border-0 outline-none md:mt-0;
+}
+
+/* BounceArrow */
+.bounce-arrow {
+  @apply absolute justify-center w-10 h-10 p-2 bg-transparent rounded-full center bottom-24 left-2/4 animate-bounce;
+}
+
+/* Intro */
+.intro-div {
+  @apply wrap w-full h-screen bg-right bg-auto;
+}
+
+.intro-section {
+  @apply grid grid-cols-1 mt-6 md:grid-cols-1 lg:grid-cols-3 gap-x-6 gap-y-8;
+}
+
+.intro-article {
+  @apply relative w-full overflow-hidden transition duration-300 ease-in-out bg-center bg-cover rounded-lg shadow-lg h-60 hover:shadow-2xl;
+}
+
+.intro-cardBack {
+  @apply absolute inset-0 transition duration-300 ease-in-out bg-black bg-opacity-50 group-hover:opacity-75;
+}
+
+.intro-cardCenter {
+  @apply relative wrap w-full h-full px-4 sm:px-6 lg:px-4;
+}
+
+.intro-span {
+  @apply px-20 text-gray-600 2xl:text-6xl lg:text-3xl md:text-2xl sm:text-lg;
+}
+
+/* SearchPage */
+.search-input {
+  @apply w-full py-2 pl-10 pr-4 border rounded-md focus:border-green-500;
+}
+
+.card {
+  @apply grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+}
+
+.card-div {
+  @apply ease-in-out duration-300 w-full max-w-sm mx-auto overflow-hidden rounded-md shadow-md xl:hover:scale-110 cursor-pointer;
+}
+
+.radio {
+  @apply p-2 text-center cursor-pointer rounded-xl peer-checked:bg-green-500 peer-checked:text-white peer-checked:font-bold;
+}
+
+.card-img {
+  @apply flex items-end justify-end w-full h-56 bg-cover;
+}
+
+/* UploadContainer */
+.upload-container {
+  @apply w-screen h-screen bg-black bg-no-repeat wrap;
+}
+
+.upload-div {
+  @apply w-2/4 mt-16 wrap h-2/5 rounded-2xl backdrop-blur-md md:h-2/5 lg:h-3/5 xl:h-4/5;
+}
+
+.drop-container {
+  @apply flex flex-col bg-gray-50 shadow-xl border-2 border-green-600  w-full h-full items-center bg-center bg-no-repeat bg-cover justify-center text-center  rounded-2xl  hover:bg-gray-200;
+}
+
+.upload-text {
+  @apply py-6 font-bold hidden text-white;
+}
+
+.upload-btnContainer {
+  @apply flex justify-around items-center w-3/5 flex-col;
+}
+
+.upload-btn {
+  @apply w-32 border-2 wrap main-color hover:bg-green-700 h-9 m-2;
+}
+
+/* Accout Page */
+.account-wrap {
+  @apply flex-col flex-1 px-4 py-12 wrap sm:px-6 lg:flex-none lg:px-20 xl:px-24;
+}
+
+.account-input {
+  @apply block w-full px-4 py-3 outline-green-500;
+}
+
+.account-error {
+  @apply block w-full px-4 py-3 outline-red-500;
+}
+
+.account-input-box {
+  @apply relative flex mt-1 rounded-md shadow-md;
+}
+
+.account-link {
+  @apply pl-1 link;
+}
+
+.account-btn {
+  @apply w-full px-5 py-2 wrap main-color hover:bg-green-700;
+}
