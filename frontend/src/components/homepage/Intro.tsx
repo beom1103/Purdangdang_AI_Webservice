@@ -1,8 +1,7 @@
 import React from 'react';
+import tw from 'tailwind-styled-components';
 
 const Intro = ({ textAnim }: any) => {
-  console.log(textAnim);
-
   return (
     <div
       className="intro-div"
@@ -14,10 +13,8 @@ const Intro = ({ textAnim }: any) => {
     >
       <div className="flex items-center justify-around w-8/12 h-4/6 ">
         <section className="intro-section">
-          <article
-            className={`intro-article lg:h-96 group ${
-              textAnim ? `animate-fade-in-up` : null
-            } `}
+          <Article
+            className={` ${textAnim ? `animate-fade-in-up` : null} `}
             style={{
               backgroundImage: `url('https://images.unsplash.com/photo-1583753075968-1236ccb83c66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=754&q=80')`,
             }}
@@ -26,19 +23,17 @@ const Intro = ({ textAnim }: any) => {
             <div className="intro-cardCenter">
               <h3 className="text-center">
                 <a
-                  className="text-2xl font-bold text-center text-white"
+                  className="text-sm font-bold text-center text-white md:text-2xl "
                   href="#"
                 >
-                  <span className="absolute inset-0"></span>
+                  <span className="absolute inset-0 "></span>
                   푸르댕댕 소개문구
                 </a>
               </h3>
             </div>
-          </article>
-          <article
-            className={`intro-article lg:h-96 group ${
-              textAnim ? `animate-fade-in-up` : null
-            } `}
+          </Article>
+          <Article
+            className={` ${textAnim ? `animate-fade-in-up` : null} `}
             style={{
               backgroundImage: `url('https://images.unsplash.com/photo-1495908333425-29a1e0918c5f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80')`,
             }}
@@ -47,7 +42,7 @@ const Intro = ({ textAnim }: any) => {
             <div className="intro-cardCenter">
               <h3 className="text-center">
                 <a
-                  className="text-2xl font-bold text-center text-white"
+                  className="text-sm font-bold text-center text-white md:text-2xl"
                   href="#"
                 >
                   <span className="absolute inset-0"></span>
@@ -56,11 +51,9 @@ const Intro = ({ textAnim }: any) => {
                 </a>
               </h3>
             </div>
-          </article>
-          <article
-            className={`intro-article lg:h-96 group ${
-              textAnim ? `animate-fade-in-up` : null
-            } `}
+          </Article>
+          <Article
+            className={` ${textAnim ? `animate-fade-in-up` : null} `}
             style={{
               backgroundImage: `url('https://images.unsplash.com/photo-1566836610593-62a64888a216?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1077&q=80')`,
             }}
@@ -69,7 +62,7 @@ const Intro = ({ textAnim }: any) => {
             <div className="intro-cardCenter">
               <h3 className="text-center">
                 <a
-                  className="text-2xl font-bold text-center text-white"
+                  className="text-sm font-bold text-center text-white md:text-2xl"
                   href="#"
                 >
                   <span className="absolute inset-0"></span>
@@ -78,7 +71,7 @@ const Intro = ({ textAnim }: any) => {
                 </a>
               </h3>
             </div>
-          </article>
+          </Article>
         </section>
       </div>
     </div>
@@ -86,3 +79,9 @@ const Intro = ({ textAnim }: any) => {
 };
 
 export default Intro;
+
+const Article = tw.article`
+  intro-article
+  lg:h-96
+  group
+`;

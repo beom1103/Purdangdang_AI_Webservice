@@ -17,13 +17,12 @@ const Login = () => {
     resolver: yupResolver(loginValidationForm),
   });
 
-  const onSubmit = handleSubmit(async ({ email, password }) => {
+  const signIn = handleSubmit(async ({ email, password }) => {
     const data = {
       email,
       password,
     };
-    console.log(data);
-    // await login(data);
+    await login(data);
   });
 
   return (
@@ -42,7 +41,7 @@ const Login = () => {
       </div>
       <div className="mt-8">
         <div className="mt-6">
-          <form className="space-y-6" onSubmit={onSubmit}>
+          <form className="space-y-6" onSubmit={signIn}>
             <InputField
               name="email"
               type="email"

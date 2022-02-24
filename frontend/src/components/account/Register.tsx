@@ -17,16 +17,18 @@ const Register = () => {
     resolver: yupResolver(registerValidationForm),
   });
 
-  const onSubmit = handleSubmit(({ name, email, password }) => {
-    const data = {
-      name,
-      email,
-      password,
-    };
-    console.log(data);
-    // registerAccount(data);
-  });
+  const signUp = handleSubmit(
+    async ({ username, email, password, confirmPassword }) => {
+      const data = {
+        username,
+        email,
+        password,
+        confirmPassword,
+      };
 
+      await registerAccount(data);
+    },
+  );
   return (
     <div>
       <div>
@@ -43,14 +45,14 @@ const Register = () => {
       </div>
       <div className="mt-8">
         <div className="mt-6">
-          <form className="space-y-6" onSubmit={onSubmit}>
+          <form className="space-y-6" onSubmit={signUp}>
             <InputField
-              name="name"
+              name="username"
               type="text"
               label="이름"
               placeholder="푸르댕"
               register={register}
-              error={errors.name?.message}
+              error={errors.username?.message}
             />
             <InputField
               name="email"
