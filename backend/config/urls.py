@@ -36,11 +36,15 @@ schema_view = get_schema_view(
     permission_classes=(AllowAny,)
 )
 
+app_urls = [
+    path("", include("apps.common.urls")),
+    path("plant/",include("apps.plant.urls")),
+    path("auth/", include("knox.urls")),
+]
+
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("common/", include("apps.common.urls")),
-    path("plant/",include("apps.plant.urls")),
-    path("common/auth", include("knox.urls")),
+    path("api/", include(app_urls)),
 ]
 
 if settings.DEBUG:

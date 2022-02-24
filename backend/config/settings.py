@@ -47,7 +47,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'apps.common',
-    # 'apps.plant',
+    'apps.plant',
 ]
 
 REST_FRAMEWORK = {
@@ -116,7 +116,7 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'django-app-db',
+#         'NAME': 'django_app_db',
 #         'USER': 'root',
 #         'PASSWORD': '',
 #         'HOST': 'db',
