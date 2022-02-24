@@ -1,20 +1,31 @@
-import React from 'react';
-import { NavLink, Outlet, useParams } from 'react-router-dom';
-import Footer from '../components/global/Footer';
+import React from "react";
+import { NavLink, Outlet, useParams } from "react-router-dom";
+import Footer from "../components/global/Footer";
 
-import fake from '../store/fake.json';
-import tw from 'tailwind-styled-components';
+import fake from "../store/fake.json";
+import tw from "tailwind-styled-components";
 // import { useSetRecoilState } from 'recoil';
 // import { plantAtom } from '../api/shop';
 
 const PlantDetailPage = () => {
-  const params = useParams();
-  const id = Number(params.name);
+  const params = useParams() as { name: string };
+
+  const id = React.useMemo(() => {
+    if (params.name !== undefined) {
+      return Number(params.name);
+    }
+    return null;
+  }, [params]);
+
   // const setPlant = useSetRecoilState(plantAtom);
 
   // useEffect(() => {
   //   setPlant(fake[id].kor);
   // }, []);
+
+  if (id === null) {
+    return null;
+  }
 
   return (
     <Main>
@@ -33,7 +44,7 @@ const PlantDetailPage = () => {
               <NavLink
                 to="info"
                 className={({ isActive }) =>
-                  isActive ? 'active-link' : 'plant-link'
+                  isActive ? "active-link" : "plant-link"
                 }
               >
                 Info
@@ -41,7 +52,7 @@ const PlantDetailPage = () => {
               <NavLink
                 to="reviews"
                 className={({ isActive }) =>
-                  isActive ? 'active-link' : 'plant-link'
+                  isActive ? "active-link" : "plant-link"
                 }
               >
                 Reviews

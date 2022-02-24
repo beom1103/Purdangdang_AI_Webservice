@@ -1,25 +1,35 @@
-import React, { useState, useRef, useEffect } from 'react';
-import SideMenu from './SideMenu';
-import { Link } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from "react";
+import SideMenu from "./SideMenu";
+import { Link } from "react-router-dom";
 
 const Header = ({ pageNum }: any) => {
   const [menus, setMenus] = useState(false);
   const [headerColor, setHeaderColor] = useState(false);
+  const headerRef = React.useRef<HTMLHeadElement | null>(null);
 
-  const menuOpen = () => {
+  const menuOpen = React.useCallback(() => {
     setMenus(true);
-  };
+  }, []);
 
   // const navbar = document.querySelector('.navbar');
   // const navbarHeight = navbar?.getBoundingClientRect().height;
 
-  document.addEventListener('scroll', () => {
-    if (window.scrollY > 80 || window.scrollY > 160) {
-      setHeaderColor(true);
-    } else {
-      setHeaderColor(false);
+  const handleHeaderScroll = React.useCallback(() => {
+    const headerHeight = headerRef.current?.clientHeight ?? 0;
+    if (window.scrollY > headerHeight) {
+      return setHeaderColor(true);
     }
-  });
+
+    setHeaderColor(false);
+  }, []);
+
+  React.useEffect(() => {
+    window.addEventListener("scroll", handleHeaderScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleHeaderScroll);
+    };
+  }, []);
 
   // useEffect(() => {
   //   console.log(pageNum);
@@ -42,7 +52,7 @@ const Header = ({ pageNum }: any) => {
 
   return (
     <div className={`header-div`}>
-      <header className="w-full navbar">
+      <header ref={headerRef} className="w-full navbar">
         <div
           className={`header-bg transition duration-300 ease-in-out ${
             headerColor ? `bg-white drop-shadow-md` : `backdrop-blur-md`
@@ -71,6 +81,7 @@ const Header = ({ pageNum }: any) => {
           </button>
         </div>
       </header>
+
       <div className="absolute right-0">
         <SideMenu menu={menus} selectMenu={setMenus} />
       </div>
