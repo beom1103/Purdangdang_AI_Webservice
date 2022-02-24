@@ -2,13 +2,6 @@ html,
 body {
   margin: 0;
 }
-@font-face {
-  font-family: 'MapoFlowerIsland';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoFlowerIslandA.woff')
-    format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
 
 @tailwind base;
 @tailwind components;
@@ -58,7 +51,7 @@ body {
 }
 
 .wrap {
-  @apply flex justify-center items-center;
+  @apply flex items-center justify-center;
 }
 
 .center {
@@ -95,21 +88,43 @@ body {
 }
 
 .header-bg {
-  @apply flex-col flex-wrap justify-between w-full p-5 mx-0 bg-transparent center md:flex-row backdrop-blur-md;
+  @apply flex-col flex-wrap justify-between w-full p-5 mx-0 center md:flex-row;
 }
 
 .header-btn {
   @apply inline-flex items-center px-3 py-1 mt-4 text-base border-0 outline-none md:mt-0;
 }
 
+/* SideMenu */
+.side-div {
+  @apply absolute right-0 h-screen space-y-6 text-black transition duration-300 ease-in-out transform bg-gray-100 w-96 rounded-l-xl drop-shadow-md;
+}
+
+.side-title {
+  @apply text-3xl font-extrabold wrap rounded-tl-xl py-7;
+}
+
+.side-link {
+  @apply py-2.5 px-10 hover:bg-green-400 transition duration-200 ease-in-out w-full p-0 flex items-start;
+}
+
+.side-exit {
+  @apply flex w-full h-max items-center m-0 text-black outline-none py-2.5 px-10 hover:bg-green-400 transition duration-200 ease-in-out border-0 rounded-none;
+}
+
+/*Footer*/
+.footer-div {
+  @apply container flex-col justify-between mx-auto my-10 center;
+}
+
 /* BounceArrow */
 .bounce-arrow {
-  @apply absolute justify-center w-10 h-10 p-2 bg-transparent rounded-full center bottom-24 left-2/4 animate-bounce;
+  @apply absolute w-10 h-10 p-2 bg-transparent rounded-full wrap bottom-24 left-2/4 animate-bounce;
 }
 
 /* Intro */
 .intro-div {
-  @apply wrap w-full h-screen bg-right bg-auto;
+  @apply w-full h-screen bg-right bg-auto wrap;
 }
 
 .intro-section {
@@ -117,7 +132,7 @@ body {
 }
 
 .intro-article {
-  @apply relative w-full overflow-hidden transition duration-300 ease-in-out bg-center bg-cover rounded-lg shadow-lg h-60 hover:shadow-2xl;
+  @apply relative w-full h-32 overflow-hidden transition duration-300 ease-in-out bg-center bg-cover rounded-lg shadow-lg hover:shadow-2xl;
 }
 
 .intro-cardBack {
@@ -125,7 +140,7 @@ body {
 }
 
 .intro-cardCenter {
-  @apply relative wrap w-full h-full px-4 sm:px-6 lg:px-4;
+  @apply relative w-full h-full px-4 wrap sm:px-6 lg:px-4;
 }
 
 .intro-span {
@@ -142,7 +157,7 @@ body {
 }
 
 .card-div {
-  @apply ease-in-out duration-300 w-full max-w-sm mx-auto overflow-hidden rounded-md shadow-md xl:hover:scale-110 cursor-pointer;
+  @apply w-full max-w-sm mx-auto overflow-hidden duration-300 ease-in-out rounded-md shadow-md cursor-pointer xl:hover:scale-110;
 }
 
 .radio {
@@ -155,27 +170,27 @@ body {
 
 /* UploadContainer */
 .upload-container {
-  @apply w-screen h-screen bg-black bg-no-repeat wrap;
+  @apply flex items-end justify-center w-screen h-screen bg-black bg-no-repeat lg:items-center;
 }
 
 .upload-div {
-  @apply w-2/4 mt-16 wrap h-2/5 rounded-2xl backdrop-blur-md md:h-2/5 lg:h-3/5 xl:h-4/5;
+  @apply w-10/12 mt-16 rounded-t-lg wrap h-3/5 backdrop-blur-md md:w-10/12 lg:w-6/12 md:h-4/6 lg:h-4/5 lg:rounded-2xl xl:h-4/5;
 }
 
 .drop-container {
-  @apply flex flex-col bg-gray-50 shadow-xl border-2 border-green-600  w-full h-full items-center bg-center bg-no-repeat bg-cover justify-center text-center  rounded-2xl  hover:bg-gray-200;
+  @apply flex flex-col items-center justify-center w-full h-full text-center bg-center bg-no-repeat bg-cover border-2 border-green-600 shadow-xl bg-gray-50 rounded-2xl hover:bg-gray-200;
 }
 
 .upload-text {
-  @apply py-6 font-bold hidden text-white;
+  @apply hidden py-6 font-bold text-white;
 }
 
 .upload-btnContainer {
-  @apply flex justify-around items-center w-3/5 flex-col;
+  @apply flex flex-col items-center justify-around w-3/5;
 }
 
 .upload-btn {
-  @apply w-32 border-2 wrap main-color hover:bg-green-700 h-9 m-2;
+  @apply items-center w-32 m-2 border-2 wrap main-color hover:bg-green-700 h-9;
 }
 
 /* Accout Page */
@@ -201,4 +216,103 @@ body {
 
 .account-btn {
   @apply w-full px-5 py-2 wrap main-color hover:bg-green-700;
+}
+
+/* PlantDetail Page */
+.plant-info-img {
+  @apply object-cover object-center w-full mx-auto mb-6 rounded
+  max-h-[500px] lg:w-1/2 lg:px-6 lg:mb-0 lg:max-w-lg lg:max-h-[500px] lg:ml-0;
+}
+
+.plant-link {
+  @apply flex-grow px-1 py-2 text-lg border-b-2 cursor-pointer;
+}
+
+.active-link {
+  @apply font-bold text-blue-600 plant-link border-b-blue-600;
+}
+
+.plant-info-div {
+  @apply flex py-2 border-t border-gray-200;
+}
+
+.buy-button {
+  @apply flex px-6 py-2 ml-auto bg-green-500 hover:bg-green-600;
+}
+
+.like {
+  @apply inline-flex ml-4 text-gray-600 outline-none;
+}
+
+/* modal */
+.modal-div {
+  @apply fixed top-0 w-screen h-screen overflow-hidden bg-gray-900 bg-opacity-70;
+}
+
+.modal-container {
+  @apply flex items-end justify-center w-screen h-screen animate-fade-in-up-two lg:items-center;
+}
+
+.modal-background {
+  @apply relative flex flex-col items-center justify-center w-full overflow-auto transition duration-300 ease-in-out bg-white rounded-t-lg scroll-style h-5/6 lg:rounded-lg lg:w-4/12 lg:h-4/6;
+}
+
+.modal-box {
+  @apply relative flex flex-col items-center justify-center w-full px-4 py-6;
+}
+
+.modal-btn {
+  @apply top-0 right-0 text-gray-400 transition duration-150 ease-in-out rounded outline-none cursor-pointer hover:text-gray-600;
+}
+
+.modal-title {
+  @apply h-10 mb-6 text-2xl font-bold leading-10 text-center;
+}
+
+.modal-text {
+  @apply static top-0 text-base font-semibold sm:text-lg lg:text-lg;
+}
+
+.modal-img {
+  @apply w-full my-3 overflow-hidden border-0 rounded-md h-3/5 drop-shadow-2xl md:w-60;
+}
+
+.modal-next {
+  @apply mb-4 text-sm font-semibold border-b-2 border-slate-300 md:text-xl;
+}
+
+.detail_Modal-title {
+  @apply flex items-center h-10 pl-6 my-3 text-base font-bold text-gray-600;
+}
+
+.detail_Modal-exit {
+  @apply top-0 right-0 pr-6 text-gray-400 transition duration-150 ease-in-out rounded outline-none cursor-pointer hover:text-gray-600;
+}
+
+.detail_Modal-box {
+  @apply flex flex-col items-center lg:h-full lg:px-6 lg:flex lg:justify-between lg:w-2/4;
+}
+
+.detail_Modal-name {
+  @apply mt-4 text-2xl font-bold leading-tight tracking-normal text-center text-gray-800 lg:mb-4;
+}
+
+.detail_Modal-li {
+  @apply flex flex-row justify-between py-1 mb-3 list-none;
+}
+
+.detail_Modal-i {
+  @apply inline-block w-4 h-4 mr-8;
+}
+
+.detail_Modal-line {
+  @apply w-full my-4 border-b-2 border-gray-200 lg:my-0 lg:pl-6;
+}
+
+.detail_Modal-btnBox {
+  @apply flex items-center justify-center w-full mt-8;
+}
+
+.detail_Modal-btn {
+  @apply px-8 py-2 mb-4 ml-3 text-sm text-gray-600 transition duration-150 ease-in-out bg-gray-100 border rounded focus:ring-gray-400 hover:bg-gray-400;
 }

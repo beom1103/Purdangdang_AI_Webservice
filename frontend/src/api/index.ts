@@ -1,32 +1,49 @@
-import axios from 'axios';
-import { selector } from 'recoil';
-import { LoginType, RegisterType } from '../store/type';
+import axios, { AxiosInstance } from 'axios';
+import { LoginType, RegisterType, User } from '../store/type';
+
+const token = localStorage.getItem('token');
 
 //기본 api
-const api = axios.create({
+const api: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   headers: { 'Content-Type': `application/json` },
 });
 
+const athentication: AxiosInstance = axios.create({
+  baseURL: process.env.REACT_APP_BASE_URL,
+  headers: { Authorization: `Token ${token}` },
+});
+
+// api.interceptors.request.use((config: any) => {
+//   const token = localStorage.get('token');
+//   if (token != null) {
+//     config.headers.Authorization = `Token ${token}`;
+//   }
+// });
+
 //로그인 요청
-export const login = async (data: LoginType): Promise<boolean> => {
+export const login = async (login: LoginType): Promise<boolean> => {
   try {
-    const response = await api.post('account/login', data);
-    const token = response.data['foo'];
+    const { data } = await api.post('api/auth/login/', login);
+    console.log(data);
+    const token = data['token'];
     localStorage.setItem('token', token);
+    window.location.replace('/');
     return true;
   } catch (error) {
-    console.log(error);
+    alert('아이디와 비밀번호를 확인해주세요.');
     return false;
   }
 };
 
 // 회원가입 요청
-export const registerAccount = async (data: RegisterType) => {
+export const registerAccount = async (
+  register: RegisterType,
+): Promise<boolean> => {
   try {
-    await api.post('회원가입 url', data);
+    await api.post('api/auth/register/', register);
     alert('회원가입에 성공하였습니다.');
-    window.location.replace('/account/accounts');
+    window.location.replace('/account');
     return true;
   } catch (error) {
     console.log(error);
@@ -35,14 +52,25 @@ export const registerAccount = async (data: RegisterType) => {
 };
 
 //로그인을 확인하는 API
-export const validLogin = selector({
-  key: 'validLogin',
-  get: async () => {
-    try {
-      const response = await api.get('여기에 토큰 검사 url들어가야 함 ');
-      return response;
-    } catch (e) {
-      return false;
-    }
-  },
-});
+export const validLogin = async (): Promise<User | any> => {
+  try {
+    const { data } = await athentication.get('api/auth/user/');
+    console.log(data);
+    return data;
+  } catch (error) {
+    return false;
+  }
+};
+
+//로그아웃
+export const logout = async (): Promise<boolean> => {
+  try {
+    await athentication.post('api/authlogout/');
+    localStorage.clear();
+    window.location.replace('/');
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};

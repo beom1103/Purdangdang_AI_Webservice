@@ -1,29 +1,52 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
+import tw from 'tailwind-styled-components';
 
 const AccountPage = () => {
   return (
     <div style={{ outline: 'none' }} tabIndex={-1}>
-      <div className="flex min-h-screen bg-white">
+      <div className="flex min-h-screen">
         <div className="account-wrap">
-          <div className="w-full max-w-sm mx-auto lg:w-96">
+          <AcountDiv>
             <Link to="" aria-current="page" />
             <Link to="register" />
             <Outlet />
-          </div>
+          </AcountDiv>
         </div>
-        <div className="relative flex-1 hidden w-0 lg:block">
-          <img
+        <AcountImgDiv>
+          <AcountImg
             width="100%"
             height="100%"
-            className="absolute inset-0 object-cover w-full h-full"
             alt="Login Image"
             src="/img/login.jpg"
           />
-        </div>
+        </AcountImgDiv>
       </div>
     </div>
   );
 };
 
 export default AccountPage;
+
+const AcountDiv = tw.div`
+  w-full 
+  max-w-sm 
+  mx-auto 
+  lg:w-96
+`;
+
+const AcountImgDiv = tw.div`
+  relative 
+  flex-1 
+  hidden 
+  w-0 
+  lg:block
+`;
+
+const AcountImg = tw.img`
+  absolute 
+  inset-0 
+  object-cover 
+  w-full 
+  h-full
+`;
