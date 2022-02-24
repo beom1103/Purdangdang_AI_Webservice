@@ -8,5 +8,5 @@ from .views import PlantListView
 """
 
 urlpatterns = [
-    path("questions", view=PlantListView.as_view()),
+    path("search", view=PlantListView.as_view()),
 ]
