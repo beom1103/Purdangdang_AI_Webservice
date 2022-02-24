@@ -1,29 +1,33 @@
 import React from 'react';
 import SearchInput from '../components/search/SearchInput';
 import PlantCard from '../components/search/PlantCard';
-import fake from '../store/fake.json';
 import FIlterButton from '../components/search/FIlterButton';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import { userAtom } from '../store/user';
 import tw from 'tailwind-styled-components';
+import { fetchPlant, searchPlant } from '../api/search';
 
-type Fake = {
+type Plant = {
   kor: string;
   name: string;
   rank: number;
-  image: string;
+  image_url: string;
 };
 
 const SearchPage = () => {
   const navigate = useNavigate();
-
   const userInfo = useRecoilValue(userAtom);
+  const plantData = useRecoilValue(fetchPlant);
+  const searchResult = useRecoilValueLoadable(searchPlant);
 
-  // 타입 수정
+  const plantsList = plantData.results;
+
   const goDetail = (e: any) => {
     navigate(`/plant/${e.target.id}/info`);
   };
+
+  console.log(searchResult);
   return (
     <SearchDiv>
       <header>
@@ -38,21 +42,20 @@ const SearchPage = () => {
       </header>
 
       <main>
-        <div>
-          <div className="card">
-            {fake.map((data: Fake): JSX.Element => {
+        <div className="card">
+          {plantsList &&
+            plantsList.map((data: Plant): JSX.Element => {
               return (
                 <PlantCard
                   key={data.rank}
                   kor={data.kor}
                   name={data.name}
                   rank={data.rank - 1}
-                  image={data.image}
+                  image={data.image_url}
                   onClick={goDetail}
                 />
               );
             })}
-          </div>
         </div>
       </main>
     </SearchDiv>
