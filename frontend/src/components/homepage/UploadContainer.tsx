@@ -6,6 +6,7 @@ import React, {
   useState,
 } from 'react';
 import UploadModal from './UploadModal';
+import imageResize from './ImageResize';
 
 const UploadContainer = () => {
   //드래그 중일때와 아닐 때의 스타일을 구분하기 위한 state 변수
@@ -31,10 +32,20 @@ const UploadContainer = () => {
     (e: ChangeEvent<HTMLInputElement> | any): void => {
       let selectFiles: File[] = [];
 
-      selectFiles = e.target.files;
+      selectFiles = e.target?.files;
 
-      preview(selectFiles);
       setFiles(selectFiles);
+
+      imageResize({
+        file: selectFiles[0],
+        maxSize: 500,
+      })
+        .then(res => {
+          preview(res);
+        })
+        .catch(function (err) {
+          console.error(err);
+        });
     },
     [files],
   );
@@ -48,8 +59,19 @@ const UploadContainer = () => {
       } else {
         selectFiles = e.target.files;
       }
-      preview(selectFiles);
+
       setFiles(selectFiles);
+
+      imageResize({
+        file: selectFiles[0],
+        maxSize: 500,
+      })
+        .then(res => {
+          preview(res);
+        })
+        .catch(function (err) {
+          console.error(err);
+        });
     },
     [files],
   );
@@ -57,18 +79,7 @@ const UploadContainer = () => {
   const preview = (select: any) => {
     const imgEl: any = document.querySelector('.dragContainer');
 
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      if (select.length > 0) {
-        imgEl.style.backgroundImage = `url(${reader.result})`;
-      }
-    };
-    if (select === null) {
-      imgEl.style.backgroundImage = `url()`;
-    }
-
-    reader.readAsDataURL(select !== null ? select[0] : null);
+    imgEl.style.backgroundImage = `url(${select})`;
   };
 
   const handleFilterFile = useCallback((): void => {
@@ -146,14 +157,14 @@ const UploadContainer = () => {
   return (
     <div className="flex ">
       <div
-        className="flex items-end justify-center w-screen h-screen bg-black bg-no-repeat lg:items-center"
+        className="upload-container "
         style={{
           background: `linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url(/img/dog.jpg)`,
           backgroundSize: 'cover',
         }}
       >
         <div
-          className="w-10/12 mt-16 rounded-t-lg wrap h-3/5 backdrop-blur-md md:w-10/12 lg:w-6/12 md:h-4/6 lg:h-4/5 lg:rounded-2xl xl:h-4/5 "
+          className="upload-div "
           style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
         >
           <div className="flex flex-col items-center justify-center w-full">
@@ -230,7 +241,7 @@ const UploadContainer = () => {
       </div>
 
       {showModal ? (
-        <div className="fixed z-50 w-screen h-screen overflow-hidden">
+        <div className="fixed z-50 w-screen h-screen">
           <UploadModal showModal={setShowModal}></UploadModal>
         </div>
       ) : null}

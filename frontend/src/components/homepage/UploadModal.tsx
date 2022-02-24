@@ -13,13 +13,10 @@ const UploadModal = ({ showModal }: any) => {
   }, []);
 
   return (
-    <div
-      className="fixed top-0 w-screen h-screen overflow-hidden bg-gray-900 bg-opacity-70 sticky-0 modal"
-      onClick={() => closeModal()}
-    >
-      <div className="flex items-end justify-center w-screen h-screen animate-fade-in-up-two lg:items-center">
+    <div className="modal-div sticky-0 modal" onClick={() => closeModal()}>
+      <div className="modal-container">
         <div
-          className={`relative  flex flex-col items-center justify-center w-full bg-white rounded-t-lg h-5/6 lg:rounded-lg lg:w-4/12 lg:h-4/6 transition duration-300 ease-in-out ${
+          className={`modal-background ${
             detail
               ? `lg:scale-x-150 lg:scale-y-125 overflow-auto scroll-style`
               : null
@@ -27,41 +24,38 @@ const UploadModal = ({ showModal }: any) => {
           onClick={e => e.stopPropagation()}
         >
           {detail ? (
-            <DetailModal></DetailModal>
+            <DetailModal showModal={showModal}></DetailModal>
           ) : (
-            <div className="relative flex flex-col items-center justify-center w-full px-4 py-16">
-              <p className="static top-0 text-base font-semibold sm:text-lg lg:text-lg">
-                이 댕댕이는 식물댕댕이일 확률이 높습니다.
-              </p>
-              <button
-                className="absolute text-gray-800 closeBtn dark:text-gray-400 top-8 right-8 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 "
-                onClick={() => closeModal()}
-                aria-label="close"
-              >
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+            <div className="modal-box">
+              <div className="flex justify-end w-full mb-8">
+                <button
+                  className="modal-btn"
+                  aria-label="close modal"
+                  role="button"
+                  onClick={() => closeModal()}
                 >
-                  <path
-                    d="M18 6L6 18"
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="icon icon-tabler icon-tabler-x"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    stroke-width="2.5"
                     stroke="currentColor"
-                    strokeWidth="1.66667"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M6 6L18 18"
-                    stroke="currentColor"
-                    strokeWidth="1.66667"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <div className="w-full my-3 overflow-hidden border-0 rounded-md h-3/5 drop-shadow-2xl md:w-60">
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" />
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
+              </div>
+              <p className="modal-title">이 댕댕이는?</p>
+              <p className="modal-text">식물댕댕이일 확률이 높습니다.</p>
+
+              <div className="modal-img">
                 <img
                   src="https://i.pinimg.com/originals/1c/cc/23/1ccc23d257858830d213aea46bef2c0c.jpg"
                   alt=""
@@ -69,9 +63,7 @@ const UploadModal = ({ showModal }: any) => {
                   style={{ objectFit: 'cover' }}
                 />
               </div>
-              <div className="mb-4 text-sm font-semibold border-b-2 border-slate-300 md:text-xl">
-                이 댕댕이가 더 궁금하다면?
-              </div>
+              <div className="modal-next">이 댕댕이가 더 궁금하다면?</div>
               <div>
                 <button
                   className=" upload-btn"

@@ -1,24 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 
 const SideMenu = ({ menu, selectMenu }: any) => {
-  const back: any = document.querySelector('.menuBackground');
-
-  back?.addEventListener('click', () => {
+  const menuClose = useCallback((): void => {
     selectMenu(false);
-  });
-
-  const menuClose = () => {
-    selectMenu(false);
-  };
+  }, [menu]);
 
   return (
-    <div className="z-50">
+    <div className="">
       <div
-        className={`menuBar bg-gray-100 text-black w-96 h-screen absolute right-0 space-y-6 rounded-l-xl drop-shadow-md transform  transition duration-300 ease-in-out ${
-          menu ? `translate-x-0` : `translate-x-full`
-        }`}
+        className={`side-div ${menu ? `translate-x-0` : `translate-x-full`}`}
+        onClick={e => e.stopPropagation()}
       >
-        <div className="text-3xl font-extrabold wrap rounded-tl-xl py-7">
+        <div className="side-title">
           <span className="inline-block pr-2">
             <svg className="w-8 h-8 fill-current " viewBox="0 0 24 24">
               <path
@@ -31,10 +24,7 @@ const SideMenu = ({ menu, selectMenu }: any) => {
           메뉴
         </div>
         <nav className="flex flex-col p-0 py-10 border-0 ">
-          <a
-            href="#"
-            className="py-2.5 px-10 hover:bg-green-400 transition duration-200 ease-in-out w-full p-0 flex items-start"
-          >
+          <a href="#" className="side-link">
             <div className="flex-row">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -54,10 +44,7 @@ const SideMenu = ({ menu, selectMenu }: any) => {
           <div className="flex w-full">
             <div className="w-11/12 border-b-2 border-gray-200"></div>
           </div>
-          <a
-            href="#"
-            className="py-2.5 px-10 hover:bg-green-400 transition duration-200 ease-in-out w-full p-0 flex items-start"
-          >
+          <a href="#" className="side-link">
             <div className="flex-row">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -79,10 +66,7 @@ const SideMenu = ({ menu, selectMenu }: any) => {
           <div className="flex w-full">
             <div className="w-11/12 border-b-2 border-gray-200"></div>
           </div>
-          <a
-            href="#"
-            className="py-2.5 px-10 hover:bg-green-400 transition duration-200 ease-in-out w-full p-0 flex items-start"
-          >
+          <a href="#" className="side-link">
             <div className="flex-row">
               <svg className="inline-block w-10 h-10 pr-4" viewBox="0 0 24 24">
                 <path
@@ -100,10 +84,7 @@ const SideMenu = ({ menu, selectMenu }: any) => {
         </nav>
 
         <div className="py-16">
-          <button
-            className="flex w-full h-max items-center m-0 text-black outline-none py-2.5 px-10 hover:bg-green-400 transition duration-200 ease-in-out border-0 rounded-none"
-            onClick={() => menuClose()}
-          >
+          <button className="side-exit" onClick={() => menuClose()}>
             <span className="inline-block pr-4 ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -131,6 +112,7 @@ const SideMenu = ({ menu, selectMenu }: any) => {
         className={`w-screen h-screen m-0 ${
           menu ? 'block' : 'hidden'
         } menuBackground`}
+        onClick={() => menuClose()}
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
       ></div>
     </div>

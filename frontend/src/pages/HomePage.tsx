@@ -7,6 +7,17 @@ import PageMark from '../components/homepage/PageMark';
 
 const DIVIDER_HEIGHT = 0;
 
+const throttle = (callback: any, waitTime: any) => {
+  let timerId: any = null;
+  return (e: any) => {
+    if (timerId) return;
+    timerId = setTimeout(() => {
+      callback.call(this, e);
+      timerId = null;
+    }, waitTime);
+  };
+};
+
 const HomePage = () => {
   const outerDivRef: any = useRef<HTMLDivElement>(null);
   const [scrollIndex, setScrollIndex] = useState<number>(1);
@@ -111,22 +122,10 @@ const HomePage = () => {
     };
   }, []);
 
-  // window.addEventListener('scroll', this.handleScroll);
-  // handleScroll = e => {
-  // const { innerHeight } = window;
-  // const { scrollHeight } = document.body;
-  // const myScroll = e.srcElement.scrollingElement.scrollTop;
-  // console.log('전체 body 의 높이 : ' + scrollHeight);
-  // console.log('전체 스크롤바 높이 : ' + innerHeight);
-  // console.log('현재 스크롤 위치 : ' + myScroll);
-  // };
-
-  // document.body.style.overflow = 'hidden';
-
   return (
     <div ref={outerDivRef} className="main">
       <div className="navbar">
-        <Header outerDivRef={outerDivRef} />
+        <Header pageNum={scrollIndex} />
       </div>
 
       <div className="container hidden lg:block ">
@@ -149,12 +148,16 @@ const HomePage = () => {
             }}
           >
             <h2 className="text-2xl text-white 2xl:text-6xl">
-              푸르른 나무처럼, 행복한 댕댕이 처럼
+              사람에겐 휴식의 공간을,
+            </h2>
+            <h2 className="text-2xl text-white 2xl:text-6xl">
+              식물에겐 자기만의 공간을.
             </h2>
             <h4 className="mt-20 text-2xl text-white 2xl:text-4xl">
-              대충 푸르댕댕 소개문구
+              서로의 공간이 합쳐져 새로운 공간을 창조하는 일에 도움이 되길
             </h4>
           </div>
+
           <div className="bounce-arrow">
             <svg
               className="w-6 h-6 text-lime-500"
