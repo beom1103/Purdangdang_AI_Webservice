@@ -44,6 +44,11 @@ INSTALLED_APPS = [
     'knox',
 ]
 
+LOCAL_APPS = [
+    'apps.common',
+    'apps.plant',
+]
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
@@ -108,7 +113,7 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'django-app-db',
+#         'NAME': 'django_app_db',
 #         'USER': 'root',
 #         'PASSWORD': '',
 #         'HOST': 'db',

@@ -4,6 +4,11 @@ import { useRecoilValue } from 'recoil';
 import { userAtom } from '../../store/user';
 import review from '../../store/review.json';
 import tw from 'tailwind-styled-components';
+type UserReview = {
+  username: string;
+  rating: number;
+  review: string;
+};
 
 const PlantReview = () => {
   const navigate = useNavigate();
@@ -18,18 +23,23 @@ const PlantReview = () => {
 
   return (
     <div>
-      {review.map(i => {
+      {review.map((user: UserReview): JSX.Element => {
         return (
           <ReviewBox>
-            <User>
-              이름 : <span className="text-green-600">{i.username}</span>
-            </User>
-            <Rating>평점 : {i.rating}</Rating>
-            <Review>review : {i.review}</Review>
+            <div className="flex">
+              <User>
+                이름 : <span className="text-green-600">{user.username}</span>
+              </User>
+              <Rating>평점 :</Rating>
+            </div>
+            <Review>review : {user.review}</Review>
           </ReviewBox>
         );
       })}
-      <Button>더보기</Button>
+      <ButtonBox>
+        <Button>리뷰쓰기</Button>
+        <Button>더보기</Button>
+      </ButtonBox>
     </div>
   );
 };
@@ -37,14 +47,18 @@ const PlantReview = () => {
 export default PlantReview;
 
 const ReviewBox = tw.div`
-  flex
   mb-5 
   border-b 
   border-gray-300
 `;
 
 const Button = tw.button`
-  buy-button
+  px-6 
+  py-2
+  justify-end 
+  mr-4
+  bg-green-500 
+  hover:bg-green-600
 `;
 
 const User = tw.h3`
@@ -56,7 +70,6 @@ const User = tw.h3`
 `;
 
 const Rating = tw.h3`
-  wrap
   flex
   text-yellow-500
   mb-3
@@ -66,5 +79,9 @@ const Review = tw.p`
   text-black
   mb-3
   text-lg
-  flex-none
+  flex
+`;
+
+const ButtonBox = tw.div`
+  flex
 `;
