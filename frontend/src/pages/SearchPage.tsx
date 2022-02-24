@@ -1,12 +1,12 @@
-import React from 'react';
-import SearchInput from '../components/search/SearchInput';
-import PlantCard from '../components/search/PlantCard';
-import FIlterButton from '../components/search/FIlterButton';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
-import { userAtom } from '../store/user';
-import tw from 'tailwind-styled-components';
-import { fetchPlant, searchPlant } from '../api/search';
+import React from "react";
+import SearchInput from "../components/search/SearchInput";
+import PlantCard from "../components/search/PlantCard";
+import FIlterButton from "../components/search/FIlterButton";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValue, useRecoilValueLoadable } from "recoil";
+import { userAtom } from "../store/user";
+import tw from "tailwind-styled-components";
+import { fetchPlant, searchPlant } from "../api/search";
 
 type Plant = {
   kor: string;
