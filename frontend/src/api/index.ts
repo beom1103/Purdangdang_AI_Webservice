@@ -1,5 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
+import { DefaultValue, selector } from 'recoil';
 import { LoginType, RegisterType, User } from '../store/type';
+import { userAtom } from '../store/user';
 
 const token = localStorage.getItem('token');
 
@@ -52,15 +54,15 @@ export const registerAccount = async (
 };
 
 //로그인을 확인하는 API
-export const validLogin = async (): Promise<User | any> => {
-  try {
-    const { data } = await athentication.get('api/auth/user/');
-    console.log(data);
-    return data;
-  } catch (error) {
-    return false;
-  }
-};
+// export const validLogin = async (): Promise<User | any> => {
+//   try {
+//     const { data } = await athentication.get('api/auth/user/');
+//     console.log(data);
+//     return data;
+//   } catch (error) {
+//     return false;
+//   }
+// };
 
 //로그아웃
 export const logout = async (): Promise<boolean> => {
@@ -74,3 +76,15 @@ export const logout = async (): Promise<boolean> => {
     return false;
   }
 };
+
+export const validLogin = selector({
+  key: 'validLogin',
+  get: async () => {
+    try {
+      const { data } = await athentication.get('api/auth/user/');
+      return data;
+    } catch (error) {
+      return false;
+    }
+  },
+});

@@ -23,7 +23,7 @@ export const searchPlant = selector({
   get: async ({ get }) => {
     const plant = get(plantQueryAtom);
     try {
-      const { data } = await api.get(`api/plant/serach?keyword=${plant}`);
+      const { data } = await api.get(`api/plant/search?keyword=${plant}`);
       return data;
     } catch (error) {
       return false;

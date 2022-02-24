@@ -17,22 +17,15 @@ import PlantInfo from '../plant-detail/PlantInfo';
 import Header from '../homepage/Header';
 import PlantDetailPage from '../../pages/PlantDetailPage';
 import PlantReview from '../plant-detail/PlantReview';
-import Footer from '../global/Footer';
 
 import { userAtom } from '../../store/user';
 //lazy
 const SearchPage = React.lazy(() => import('../../pages/SearchPage'));
 
 const Routing = () => {
+  const user = useRecoilValue(validLogin);
   const setUser = useSetRecoilState(userAtom);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const user = await validLogin();
-      setUser(user);
-    };
-    fetchUserData();
-  }, []);
+  setUser(user);
 
   return (
     <div>

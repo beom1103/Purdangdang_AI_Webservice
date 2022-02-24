@@ -62,7 +62,9 @@ const Main = tw.main`
   content-center 
   px-3 
   overflow-hidden 
-  lg:pt-32
+  mt-24
+  lg:mt-32
+
 `;
 
 const Container = tw.div`

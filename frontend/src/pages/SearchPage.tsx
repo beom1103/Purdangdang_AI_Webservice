@@ -1,33 +1,14 @@
 import React from 'react';
-import SearchInput from '../components/search/SearchInput';
-import PlantCard from '../components/search/PlantCard';
-import FIlterButton from '../components/search/FIlterButton';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import { userAtom } from '../store/user';
+import { useRecoilValue } from 'recoil';
 import tw from 'tailwind-styled-components';
-import { fetchPlant, searchPlant } from '../api/search';
-
-type Plant = {
-  kor: string;
-  name: string;
-  rank: number;
-  image_url: string;
-};
+import SearchInput from '../components/search/SearchInput';
+import FIlterButton from '../components/search/FIlterButton';
+import PlantList from '../components/search/PlantList';
 
 const SearchPage = () => {
-  const navigate = useNavigate();
   const userInfo = useRecoilValue(userAtom);
-  const plantData = useRecoilValue(fetchPlant);
-  const searchResult = useRecoilValueLoadable(searchPlant);
 
-  const plantsList = plantData.results;
-
-  const goDetail = (e: any) => {
-    navigate(`/plant/${e.target.id}/info`);
-  };
-
-  console.log(searchResult);
   return (
     <SearchDiv>
       <header>
@@ -42,27 +23,14 @@ const SearchPage = () => {
       </header>
 
       <main>
-        <div className="card">
-          {plantsList &&
-            plantsList.map((data: Plant): JSX.Element => {
-              return (
-                <PlantCard
-                  key={data.rank}
-                  kor={data.kor}
-                  name={data.name}
-                  rank={data.rank - 1}
-                  image={data.image_url}
-                  onClick={goDetail}
-                />
-              );
-            })}
-        </div>
+        <PlantList />
+        <div className="card"></div>
       </main>
     </SearchDiv>
   );
 };
 
-export default SearchPage;
+export default React.memo(SearchPage);
 
 const SearchDiv = tw.div`
   container 
