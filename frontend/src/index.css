@@ -203,7 +203,8 @@ body {
 
 /* PlantDetail Page */
 .plant-info-img {
-  @apply object-cover object-center w-full mx-auto mb-6 rounded lg:w-1/2 lg:px-6 lg:mb-0 lg:max-w-lg lg:max-h-[464px] lg:ml-0;
+  @apply object-cover object-center w-full mx-auto mb-6 rounded
+  max-h-[500px] lg:w-1/2 lg:px-6 lg:mb-0 lg:max-w-lg lg:max-h-[500px] lg:ml-0;
 }
 
 .plant-link {

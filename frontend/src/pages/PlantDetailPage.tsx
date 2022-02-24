@@ -1,13 +1,20 @@
 import React from 'react';
 import { NavLink, Outlet, useParams } from 'react-router-dom';
 import Footer from '../components/global/Footer';
-// 쿼리스트링? 동적라우팅 작업 해야함.
+
 import fake from '../store/fake.json';
 import tw from 'tailwind-styled-components';
+// import { useSetRecoilState } from 'recoil';
+// import { plantAtom } from '../api/shop';
 
 const PlantDetailPage = () => {
   const params = useParams();
   const id = Number(params.name);
+  // const setPlant = useSetRecoilState(plantAtom);
+
+  // useEffect(() => {
+  //   setPlant(fake[id].kor);
+  // }, []);
 
   return (
     <Main>
