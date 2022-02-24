@@ -4,7 +4,7 @@ import { LoginType, RegisterType, User } from '../store/type';
 const token = localStorage.getItem('token');
 
 //기본 api
-const api: AxiosInstance = axios.create({
+export const api: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   headers: { 'Content-Type': `application/json` },
 });
