@@ -18,14 +18,11 @@ import Header from '../homepage/Header';
 import PlantDetailPage from '../../pages/PlantDetailPage';
 import PlantReview from '../plant-detail/PlantReview';
 
-import { userAtom } from '../../store/user';
 //lazy
 const SearchPage = React.lazy(() => import('../../pages/SearchPage'));
 
 const Routing = () => {
   const user = useRecoilValue(validLogin);
-  const setUser = useSetRecoilState(userAtom);
-  setUser(user);
 
   return (
     <div>

@@ -1,13 +1,13 @@
 import React from 'react';
-import { userAtom } from '../store/user';
 import { useRecoilValue } from 'recoil';
 import tw from 'tailwind-styled-components';
 import SearchInput from '../components/search/SearchInput';
 import FIlterButton from '../components/search/FIlterButton';
 import PlantList from '../components/search/PlantList';
+import { validLogin } from '../api';
 
 const SearchPage = () => {
-  const userInfo = useRecoilValue(userAtom);
+  const userInfo = useRecoilValue(validLogin);
 
   return (
     <SearchDiv>

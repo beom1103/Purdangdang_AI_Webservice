@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { userAtom } from '../../store/user';
 import review from '../../store/review.json';
 import tw from 'tailwind-styled-components';
+import { validLogin } from '../../api';
 type UserReview = {
   username: string;
   rating: number;
@@ -12,7 +12,7 @@ type UserReview = {
 
 const PlantReview = () => {
   const navigate = useNavigate();
-  const isLogin = useRecoilValue(userAtom);
+  const isLogin = useRecoilValue(validLogin);
 
   if (!isLogin) {
     alert('로그인 후 이용하실 수 있습니다.');

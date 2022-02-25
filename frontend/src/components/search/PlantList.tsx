@@ -42,9 +42,7 @@ const PlantList = () => {
     navigate(`/plant/${e.target.id}/info`);
   }, []);
 
-  useEffect(() => {
-    setPlantsList(scrollResult.contents.results);
-  });
+  // setPlantsList(scrollResult.contents.results);
 
   // const getMoreItem = async () => {
   //   setIsLoaded(true);
