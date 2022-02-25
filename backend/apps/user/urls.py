@@ -3,6 +3,15 @@ from django.urls import path
 from .views import RegistrationAPI, LoginAPI, UserAPI, ProfileUpdateAPI
 from knox import views as knox_views
 
+
+# EndPoints
+"""
+    POST /api/common/auth/register
+    POST /api/common/auth/login
+    POST /api/common/auth/logout
+    GET /api/common/auth/user
+"""
+
 urlpatterns = [
     path("auth/register/", RegistrationAPI.as_view()),
     path("auth/login/", LoginAPI.as_view()),

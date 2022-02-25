@@ -1,1 +1,2 @@
-data/
+frontend/.env
+frontend/src/.env

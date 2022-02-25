@@ -1,47 +1,79 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import SideMenu from './SideMenu';
+import { Link } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({ pageNum }: any) => {
+  const [menus, setMenus] = useState(false);
+  const [headerColor, setHeaderColor] = useState(false);
+
+  const menuOpen = () => {
+    setMenus(true);
+  };
+
+  // const navbar = document.querySelector('.navbar');
+  // const navbarHeight = navbar?.getBoundingClientRect().height;
+
+  document.addEventListener('scroll', () => {
+    if (window.scrollY > 80 || window.scrollY > 160) {
+      setHeaderColor(true);
+    } else {
+      setHeaderColor(false);
+    }
+  });
+
+  // useEffect(() => {
+  //   console.log(pageNum);
+
+  //   switch (pageNum) {
+  //     case 1:
+  //       setHeaderColor(false);
+  //       break;
+  //     case 2:
+  //       setHeaderColor(true);
+  //       break;
+  //     case 3:
+  //       setHeaderColor(true);
+  //       break;
+  //     default:
+  //       null;
+  //       break;
+  //   }
+  // }, [pageNum]);
+
   return (
-    <div className="">
-      <header className="text-gray-600 body-font">
-        <div className="container flex flex-col flex-wrap items-center p-5 mx-auto md:flex-row">
-          <a className="flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              className="w-10 h-10 p-2 text-white bg-green-500 rounded-full"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-            </svg>
-            <span className="ml-3 text-xl">Tailblocks</span>
+    <div className={`header-div`}>
+      <header className="w-full navbar">
+        <div
+          className={`header-bg transition duration-300 ease-in-out ${
+            headerColor ? `bg-white drop-shadow-md` : `backdrop-blur-md`
+          }`}
+        >
+          <a className="mb-4 wrap md:mb-0">
+            <img className="logo" src="/img/icon.png" alt="로고 이미지" />
+            <span className="logo-span">푸르댕댕</span>
           </a>
-          <nav className="flex flex-wrap items-center justify-center text-base md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400">
-            <a className="mr-5 hover:text-gray-900">First Link</a>
-            <a className="mr-5 hover:text-gray-900">Second Link</a>
-            <a className="mr-5 hover:text-gray-900">Third Link</a>
-            <a className="mr-5 hover:text-gray-900">Fourth Link</a>
+          <nav className="nav">
+            <Link to="/" className="header-link">
+              First Link
+            </Link>
+            <Link to="/" className="header-link">
+              Second Link
+            </Link>
+            <Link to="/account" className="header-link">
+              로그인
+            </Link>
+            <Link to="/account/register" className="header-link">
+              회원가입
+            </Link>
           </nav>
-          <button className="inline-flex items-center px-3 py-1 mt-4 text-base bg-gray-100 border-0 rounded focus:outline-none hover:bg-gray-200 md:mt-0">
-            Button
-            <svg
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              className="w-4 h-4 ml-1"
-              viewBox="0 0 24 24"
-            >
-              <path d="M5 12h14M12 5l7 7-7 7"></path>
-            </svg>
+          <button className="header-btn" onClick={() => menuOpen()}>
+            <i className="text-green-500 fas fa-bars"></i>
           </button>
         </div>
       </header>
+      <div className="absolute right-0">
+        <SideMenu menu={menus} selectMenu={setMenus} />
+      </div>
     </div>
   );
 };

@@ -1,14 +1,19 @@
-import React from 'react';
-import Header from './components/homepage/Header';
-import Intro from './components/homepage/Intro';
-import VideoBackground from './components/homepage/VideoBackground';
+import React, { Suspense } from 'react';
+import { RecoilRoot } from 'recoil';
+import LoadingSpiner from './components/load-page/LoadingSpiner';
+import Routing from './components/routing/Routing';
+import { BrowserRouter } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="relative w-full App">
-      <Header />
-      <VideoBackground />
-      <Intro />
+    <div className="App">
+      <RecoilRoot>
+        <Suspense fallback={<LoadingSpiner />}>
+          <BrowserRouter>
+            <Routing />
+          </BrowserRouter>
+        </Suspense>
+      </RecoilRoot>
     </div>
   );
 }
