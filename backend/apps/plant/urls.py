@@ -1,6 +1,5 @@
 from django.urls import path
-# from account import views
-from .views import PlantListView
+from .views import PlantListView, PlantDetailView, PlantReviewListView
 
 # EndPoints
 """
@@ -9,4 +8,6 @@ from .views import PlantListView
 
 urlpatterns = [
     path("search", view=PlantListView.as_view()),
+    path("<int:plant_id>/info", name="info", view=PlantDetailView.as_view()),
+    path("<int:plant_id>/reviews",name="reviews",view=PlantReviewListView.as_view(),),
 ]
