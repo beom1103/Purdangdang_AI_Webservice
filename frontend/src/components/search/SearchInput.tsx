@@ -15,7 +15,7 @@ const SearchInput = () => {
   );
 
   const debouncedResults = useMemo(() => {
-    return debounce(searchPlant, 500);
+    return debounce(searchPlant, 300);
   }, []);
 
   return (

@@ -1,5 +1,9 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil';
+import {
+  useSetRecoilState,
+  useRecoilValue,
+  useRecoilValueLoadable,
+} from 'recoil';
 import {
   fetchPlant,
   searchPlant,
@@ -22,61 +26,58 @@ const PlantList = () => {
   const navigate = useNavigate();
 
   // const plantsList = plantData.results;
-  const plantData = useRecoilValue(fetchPlant);
-  const [page, setPage] = useState(plantData.next);
-  const [plantsList, setPlantsList] = useState<Plant[]>(plantData.results);
-  const [fetching, setFetching] = useState(false);
+  // const plantData = useRecoilValue(fetchPlant);
+  const setPage = useSetRecoilState(pageAtom);
+  const scrollResult = useRecoilValueLoadable(scrollPage);
+
+  const [plantsList, setPlantsList] = useState<Plant[]>([]);
 
   const searchData = useRecoilValueLoadable(searchPlant);
   const searchResult = searchData.contents;
-  const scrollResult = useRecoilValueLoadable(scrollPage);
+
+  const [target, setTarget] = useState<any>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const goDetail = useCallback((e: any) => {
     navigate(`/plant/${e.target.id}/info`);
   }, []);
 
-  // const fetchMoreInstaFeeds = async () => {
-  //   setFetching(true);
-  //   setPage(plantData.next);
-  //   try {
-  //     const { data } = await api.get(page);
-  //     const mergedData = plantsList.concat(...data.results);
-  //     setPlantsList(mergedData);
-  //     console.log(plantsList);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
+  useEffect(() => {
+    setPlantsList(scrollResult.contents.results);
+  });
 
-  //   // 추가 데이터 로드 끝
-  //   setFetching(false);
+  // const getMoreItem = async () => {
+  //   setIsLoaded(true);
+  //   setPage(scrollResult?.contents.next);
+  //   setPlantsList(plantsList =>
+  //     plantsList.concat(scrollResult?.contents?.results),
+  //   );
+  //   setIsLoaded(false);
   // };
 
-  // // 스크롤 이벤트 핸들러
-  // const handleScroll = () => {
-  //   const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
-
-  //   if (scrollTop + clientHeight >= scrollHeight && fetching === false) {
-  //     fetchMoreInstaFeeds();
+  // const onIntersect = async ([entry]: any, observer: any) => {
+  //   if (entry.isIntersecting && !isLoaded) {
+  //     observer.unobserve(entry.target);
+  //     await getMoreItem();
+  //     observer.observe(entry.target);
   //   }
   // };
 
   // useEffect(() => {
-  //   fetchMoreInstaFeeds();
-  // }, [plantsList]);
-
-  // useEffect(() => {
-  //   // scroll event listener 등록
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => {
-  //     // scroll event listener 해제
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // });
+  //   let observer: any;
+  //   if (target) {
+  //     observer = new IntersectionObserver(onIntersect, {
+  //       threshold: 0.4,
+  //     });
+  //     observer.observe(target);
+  //   }
+  //   return () => observer && observer.disconnect();
+  // }, [target]);
 
   return (
     <div className="card">
       {searchResult.count < 1
-        ? plantsList.map((data: Plant): JSX.Element => {
+        ? plantsList?.map((data: Plant): JSX.Element => {
             return (
               <PlantCard
                 key={data.rank}
@@ -100,6 +101,9 @@ const PlantList = () => {
               />
             );
           })}
+      <div ref={setTarget} className="Target-Element">
+        {isLoaded && <h2>로딩중입니다.</h2>}
+      </div>
     </div>
   );
 };

@@ -8,7 +8,7 @@ export const plantQueryAtom = atom({
 
 export const pageAtom = atom({
   key: 'pageAtom',
-  default: '',
+  default: 'api/plant/search',
 });
 
 export const fetchPlant = selector({
