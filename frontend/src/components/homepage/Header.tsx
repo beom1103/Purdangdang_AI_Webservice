@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
-import SideMenu from "./SideMenu";
-import { Link } from "react-router-dom";
+import React, { useState, useRef, useEffect } from 'react';
+import SideMenu from './SideMenu';
+import { Link } from 'react-router-dom';
 
 const Header = ({ pageNum }: any) => {
   const [menus, setMenus] = useState(false);
@@ -24,10 +24,10 @@ const Header = ({ pageNum }: any) => {
   }, []);
 
   React.useEffect(() => {
-    window.addEventListener("scroll", handleHeaderScroll);
+    window.addEventListener('scroll', handleHeaderScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleHeaderScroll);
+      window.removeEventListener('scroll', handleHeaderScroll);
     };
   }, []);
 

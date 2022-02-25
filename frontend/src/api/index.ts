@@ -1,7 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
-import { DefaultValue, selector } from 'recoil';
+import { selector } from 'recoil';
 import { LoginType, RegisterType, User } from '../store/type';
-import { userAtom } from '../store/user';
 
 const token = localStorage.getItem('token');
 
@@ -11,17 +10,11 @@ export const api: AxiosInstance = axios.create({
   headers: { 'Content-Type': `application/json` },
 });
 
+//헤더에 토큰 있는 api
 const athentication: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   headers: { Authorization: `Token ${token}` },
 });
-
-// api.interceptors.request.use((config: any) => {
-//   const token = localStorage.get('token');
-//   if (token != null) {
-//     config.headers.Authorization = `Token ${token}`;
-//   }
-// });
 
 //로그인 요청
 export const login = async (login: LoginType): Promise<boolean> => {
@@ -29,8 +22,8 @@ export const login = async (login: LoginType): Promise<boolean> => {
     const { data } = await api.post('api/auth/login/', login);
     console.log(data);
     const token = data['token'];
-    localStorage.setItem('token', token);
-    window.location.replace('/');
+    setToken(token);
+    redirect('/');
     return true;
   } catch (error) {
     alert('아이디와 비밀번호를 확인해주세요.');
@@ -45,31 +38,20 @@ export const registerAccount = async (
   try {
     await api.post('api/auth/register/', register);
     alert('회원가입에 성공하였습니다.');
-    window.location.replace('/account');
+    redirect('/account');
     return true;
   } catch (error) {
     console.log(error);
     return false;
   }
 };
-
-//로그인을 확인하는 API
-// export const validLogin = async (): Promise<User | any> => {
-//   try {
-//     const { data } = await athentication.get('api/auth/user/');
-//     console.log(data);
-//     return data;
-//   } catch (error) {
-//     return false;
-//   }
-// };
 
 //로그아웃
 export const logout = async (): Promise<boolean> => {
   try {
-    await athentication.post('api/authlogout/');
-    localStorage.clear();
-    window.location.replace('/');
+    await athentication.post('api/auth/logout/');
+    clearToken();
+    redirect('/');
     return true;
   } catch (error) {
     console.log(error);
@@ -77,9 +59,10 @@ export const logout = async (): Promise<boolean> => {
   }
 };
 
+//토큰검사
 export const validLogin = selector({
   key: 'validLogin',
-  get: async () => {
+  get: async (): Promise<User | any> => {
     try {
       const { data } = await athentication.get('api/auth/user/');
       return data;
@@ -88,3 +71,15 @@ export const validLogin = selector({
     }
   },
 });
+
+const setToken = (token: string): void => {
+  localStorage.setItem('token', token);
+};
+
+const clearToken = (): void => {
+  localStorage.clear();
+};
+
+const redirect = (url: string): void => {
+  window.location.replace(url);
+};

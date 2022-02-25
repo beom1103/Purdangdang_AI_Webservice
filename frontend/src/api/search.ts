@@ -6,6 +6,11 @@ export const plantQueryAtom = atom({
   default: '',
 });
 
+export const pageAtom = atom({
+  key: 'pageAtom',
+  default: '',
+});
+
 export const fetchPlant = selector({
   key: 'fetchPlant',
   get: async () => {
@@ -24,6 +29,19 @@ export const searchPlant = selector({
     const plant = get(plantQueryAtom);
     try {
       const { data } = await api.get(`api/plant/search?keyword=${plant}`);
+      return data;
+    } catch (error) {
+      return false;
+    }
+  },
+});
+
+export const scrollPage = selector({
+  key: 'scrollPage',
+  get: async ({ get }) => {
+    const page = get(pageAtom);
+    try {
+      const { data } = await api.get(page);
       return data;
     } catch (error) {
       return false;
