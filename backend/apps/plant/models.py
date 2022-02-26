@@ -4,7 +4,10 @@ from django.db.models.deletion import CASCADE, DO_NOTHING
 from django.db.models.fields.related import ForeignKey
 
 # Create your models here.
-class Plant(models.Model):    
+class Plant(models.Model):
+    """
+        식물 정보 
+    """    
     kor = models.CharField(max_length=200, verbose_name = '한글 이름')
     name = models.CharField(max_length=200, verbose_name = '영어 이름')
     rank = models.IntegerField(verbose_name = '인기 순위')
@@ -20,6 +23,9 @@ class Plant(models.Model):
         return str(self.id)
 
 class Review(models.Model):
+    """
+        식물에 대한 리뷰  
+    """ 
     user_id = ForeignKey(
         User,
         on_delete=CASCADE,
