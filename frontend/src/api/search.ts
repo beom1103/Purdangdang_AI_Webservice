@@ -1,14 +1,14 @@
 import { atom, selector } from 'recoil';
 import { api } from '.';
 
+export const plantListAtom = atom({
+  key: 'plantListAtom',
+  default: [],
+});
+
 export const plantQueryAtom = atom({
   key: 'plantQueryAtom',
   default: '',
-});
-
-export const pageAtom = atom({
-  key: 'pageAtom',
-  default: 'api/plant/search',
 });
 
 export const fetchPlant = selector({
@@ -36,15 +36,11 @@ export const searchPlant = selector({
   },
 });
 
-export const scrollPage = selector({
-  key: 'scrollPage',
-  get: async ({ get }) => {
-    const page = get(pageAtom);
-    try {
-      const { data } = await api.get(page);
-      return data;
-    } catch (error) {
-      return false;
-    }
-  },
-});
+export const scrollPage = async (page: number) => {
+  try {
+    const { data } = await api.get(`api/plant/search?page=${page}`);
+    return data;
+  } catch (error) {
+    return false;
+  }
+};

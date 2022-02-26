@@ -1,84 +1,66 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
-import {
-  useSetRecoilState,
-  useRecoilValue,
-  useRecoilValueLoadable,
-} from 'recoil';
+import React, { useState, useCallback, useEffect } from 'react';
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import {
   fetchPlant,
   searchPlant,
-  pageAtom,
   scrollPage,
+  plantQueryAtom,
+  plantListAtom,
 } from '../../api/search';
 import PlantCard from './PlantCard';
 import { useNavigate } from 'react-router-dom';
-import { throttle } from 'lodash';
-import { api } from '../../api';
-
-type Plant = {
-  kor: string;
-  name: string;
-  rank: number;
-  image_url: string;
-};
+import { Plant } from '../../store/type';
 
 const PlantList = () => {
   const navigate = useNavigate();
+  const plantQuery = useRecoilValue(plantQueryAtom);
+  const fetchPlantList = useRecoilValue(fetchPlant);
 
-  // const plantsList = plantData.results;
-  // const plantData = useRecoilValue(fetchPlant);
-  const setPage = useSetRecoilState(pageAtom);
-  const scrollResult = useRecoilValueLoadable(scrollPage);
+  const [page, setPage] = useState(2);
 
-  const [plantsList, setPlantsList] = useState<Plant[]>([]);
+  const [plantsList, setPlantsList] = useRecoilState<Plant[] | any>(
+    plantListAtom,
+  );
 
   const searchData = useRecoilValueLoadable(searchPlant);
   const searchResult = searchData.contents;
 
-  const [target, setTarget] = useState<any>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    setPlantsList(fetchPlantList.results);
+  }, []);
+
+  const handleScroll = async () => {
+    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+    if (scrollHeight - scrollTop === clientHeight) {
+      console.log(page);
+      await getMorePlant();
+    }
+  };
+
+  const getMorePlant = useCallback(async () => {
+    setPage(page + 1);
+    const newPlant = await scrollPage(page);
+    setPlantsList((prev: any) => [...prev, ...newPlant.results]);
+  }, [page]);
+
+  useEffect(() => {
+    // scroll event listener 등록
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      // scroll event listener 해제
+      window.removeEventListener('scroll', handleScroll);
+    };
+  });
 
   const goDetail = useCallback((e: any) => {
     navigate(`/plant/${e.target.id}/info`);
   }, []);
-
-  // setPlantsList(scrollResult.contents.results);
-
-  // const getMoreItem = async () => {
-  //   setIsLoaded(true);
-  //   setPage(scrollResult?.contents.next);
-  //   setPlantsList(plantsList =>
-  //     plantsList.concat(scrollResult?.contents?.results),
-  //   );
-  //   setIsLoaded(false);
-  // };
-
-  // const onIntersect = async ([entry]: any, observer: any) => {
-  //   if (entry.isIntersecting && !isLoaded) {
-  //     observer.unobserve(entry.target);
-  //     await getMoreItem();
-  //     observer.observe(entry.target);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   let observer: any;
-  //   if (target) {
-  //     observer = new IntersectionObserver(onIntersect, {
-  //       threshold: 0.4,
-  //     });
-  //     observer.observe(target);
-  //   }
-  //   return () => observer && observer.disconnect();
-  // }, [target]);
-
   return (
     <div className="card">
-      {searchResult.count < 1
+      {!plantQuery
         ? plantsList?.map((data: Plant): JSX.Element => {
             return (
               <PlantCard
-                key={data.rank}
                 kor={data.kor}
                 name={data.name}
                 rank={data.rank - 1}
@@ -90,7 +72,6 @@ const PlantList = () => {
         : searchResult?.results?.map((data: Plant): JSX.Element => {
             return (
               <PlantCard
-                key={data.rank}
                 kor={data.kor}
                 name={data.name}
                 rank={data.rank - 1}
@@ -99,9 +80,6 @@ const PlantList = () => {
               />
             );
           })}
-      <div ref={setTarget} className="Target-Element">
-        {isLoaded && <h2>로딩중입니다.</h2>}
-      </div>
     </div>
   );
 };
