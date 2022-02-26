@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { validLogin } from '../../api';
 import { getDetailInfo } from '../../api/search';
 import { Reviews } from '../../store/type';
 import tw from 'tailwind-styled-components';
+import ReviewModal from '../modal/ReviewModal';
 
 const PlantReview = () => {
   const navigate = useNavigate();
@@ -12,12 +13,19 @@ const PlantReview = () => {
   const { pathname } = useLocation();
   const reviews = useRecoilValue(getDetailInfo(pathname));
 
+  const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     if (!isLogin) {
       alert('로그인 후 이용하실 수 있습니다.');
       navigate('/account');
     }
   }, []);
+
+  const showReviewModal = () => {
+    setShowModal(true);
+  };
+
   return (
     <div>
       {reviews.map((user: Reviews): JSX.Element => {
@@ -34,9 +42,14 @@ const PlantReview = () => {
         );
       })}
       <ButtonBox>
-        <Button>리뷰쓰기</Button>
+        <Button onClick={showReviewModal}>리뷰쓰기</Button>
         <Button>더보기</Button>
       </ButtonBox>
+      {showModal && (
+        <ModalOverlay>
+          <ReviewModal />
+        </ModalOverlay>
+      )}
     </div>
   );
 };
@@ -47,6 +60,16 @@ const ReviewBox = tw.div`
   mb-5 
   border-b 
   border-gray-300
+`;
+const ModalOverlay = tw.div`
+  w-screen
+  h-screen
+  absolute
+  left-0
+  top-0
+  wrap
+  flex-col
+  backdrop-blur-sm
 `;
 
 const Button = tw.button`

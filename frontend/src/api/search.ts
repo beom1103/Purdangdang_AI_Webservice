@@ -16,6 +16,7 @@ export const methodAtom = atom({
   default: '',
 });
 
+// 나중에 검색이랑 합치기
 export const fetchPlant = selector({
   key: 'fetchPlant',
   get: async () => {
