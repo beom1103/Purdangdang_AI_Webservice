@@ -50,6 +50,36 @@ const Header = ({ pageNum }: any) => {
   //   }
   // }, [pageNum]);
 
+  // const navbar = document.querySelector('.navbar');
+  // const navbarHeight = navbar?.getBoundingClientRect().height;
+
+  document.addEventListener('scroll', () => {
+    if (window.scrollY > 80 || window.scrollY > 160) {
+      setHeaderColor(true);
+    } else {
+      setHeaderColor(false);
+    }
+  });
+
+  // useEffect(() => {
+  //   console.log(pageNum);
+
+  //   switch (pageNum) {
+  //     case 1:
+  //       setHeaderColor(false);
+  //       break;
+  //     case 2:
+  //       setHeaderColor(true);
+  //       break;
+  //     case 3:
+  //       setHeaderColor(true);
+  //       break;
+  //     default:
+  //       null;
+  //       break;
+  //   }
+  // }, [pageNum]);
+
   return (
     <div className={`header-div`}>
       <header ref={headerRef} className="w-full navbar">
@@ -81,7 +111,6 @@ const Header = ({ pageNum }: any) => {
           </button>
         </div>
       </header>
-
       <div className="absolute right-0">
         <SideMenu menu={menus} selectMenu={setMenus} />
       </div>
