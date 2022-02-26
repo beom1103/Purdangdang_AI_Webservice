@@ -56,14 +56,14 @@ const Header = () => {
   //   }
   // }, [pageNum]);
 
-  const handleHeaderScroll = useCallback(() => {
-    const headerHeight = headerRef.current?.clientHeight ?? 0;
-    if (window.scrollY > headerHeight) {
-      return setHeaderColor(true);
-    }
+  // const handleHeaderScroll = useCallback(() => {
+  //   const headerHeight = headerRef.current?.clientHeight ?? 0;
+  //   if (window.scrollY > headerHeight) {
+  //     return setHeaderColor(true);
+  //   }
 
-    setHeaderColor(false);
-  }, []);
+  //   setHeaderColor(false);
+  // }, []);
 
   useEffect(() => {
     window.addEventListener('scroll', handleHeaderScroll);

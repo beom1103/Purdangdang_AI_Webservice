@@ -26,7 +26,7 @@ const PlantCard: React.FC<CardProps> = ({
         }}
         onClick={onClick}
       ></div>
-      <div className="px-5 py-3">
+      <div id={`${rank}`} className="px-5 py-3" onClick={onClick}>
         <h3>{kor}</h3>
         <span className="mt-2 text-gray-500">{name}</span>
       </div>

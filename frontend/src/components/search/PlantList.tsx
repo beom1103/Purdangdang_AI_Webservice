@@ -69,9 +69,10 @@ const PlantList = () => {
         ? plantsList?.map((data: Plant): JSX.Element => {
             return (
               <PlantCard
+                key={data.rank}
                 kor={data.kor}
                 name={data.name}
-                rank={data.rank - 1}
+                rank={data.rank}
                 image={data.image_url}
                 onClick={goDetail}
               />
@@ -80,9 +81,10 @@ const PlantList = () => {
         : searchResult?.results?.map((data: Plant): JSX.Element => {
             return (
               <PlantCard
+                key={data.rank}
                 kor={data.kor}
                 name={data.name}
-                rank={data.rank - 1}
+                rank={data.rank}
                 image={data.image_url}
                 onClick={goDetail}
               />

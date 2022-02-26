@@ -1,36 +1,35 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import review from '../../store/review.json';
-import tw from 'tailwind-styled-components';
 import { validLogin } from '../../api';
-type UserReview = {
-  username: string;
-  rating: number;
-  review: string;
-};
+import { getDetailInfo } from '../../api/search';
+import { Reviews } from '../../store/type';
+import tw from 'tailwind-styled-components';
 
 const PlantReview = () => {
   const navigate = useNavigate();
   const isLogin = useRecoilValue(validLogin);
+  const { pathname } = useLocation();
+  const reviews = useRecoilValue(getDetailInfo(pathname));
 
-  if (!isLogin) {
-    alert('로그인 후 이용하실 수 있습니다.');
-    navigate(-1);
-  }
-
+  useEffect(() => {
+    if (!isLogin) {
+      alert('로그인 후 이용하실 수 있습니다.');
+      navigate('/account');
+    }
+  }, []);
   return (
     <div>
-      {review.map((user: UserReview): JSX.Element => {
+      {reviews.map((user: Reviews): JSX.Element => {
         return (
           <ReviewBox>
             <div className="flex">
               <User>
                 이름 : <span className="text-green-600">{user.username}</span>
               </User>
-              <Rating>평점 :</Rating>
+              <Rating>평점 :{user.score}</Rating>
             </div>
-            <Review>review : {user.review}</Review>
+            <Review>review : {user.content}</Review>
           </ReviewBox>
         );
       })}

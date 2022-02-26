@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil';
+import { atom, selector, selectorFamily } from 'recoil';
 import { api } from '.';
 
 export const plantListAtom = atom({
@@ -8,6 +8,11 @@ export const plantListAtom = atom({
 
 export const plantQueryAtom = atom({
   key: 'plantQueryAtom',
+  default: '',
+});
+
+export const methodAtom = atom({
+  key: 'methodAtom',
   default: '',
 });
 
@@ -44,3 +49,39 @@ export const scrollPage = async (page: number) => {
     return false;
   }
 };
+
+export const getDetailInfo = selectorFamily({
+  key: 'getDetailInfo',
+  get: (pathname: string) => async () => {
+    try {
+      const { data } = await api.get(`api${pathname}`);
+      return data;
+    } catch (error) {
+      return false;
+    }
+  },
+});
+
+// export const getReviews = selectorFamily({
+//   key: 'getReviews',
+//   get:
+//     (id: number) =>
+//     async ({ get }) => {
+//       const method = get(methodAtom);
+
+//       switch (method) {
+//         case 'post':
+//           return;
+
+//         case 'delete':
+//           return;
+
+//         case 'put':
+//           return;
+
+//         default:
+//           const { data } = await api.get(`api/plant/${id}/info`);
+//           return data;
+//       }
+//     },
+// });

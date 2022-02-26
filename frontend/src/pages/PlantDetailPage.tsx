@@ -1,15 +1,23 @@
-import React from 'react';
-import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import {
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import Footer from '../components/global/Footer';
 
-import fake from '../store/fake.json';
 import tw from 'tailwind-styled-components';
-// import { useSetRecoilState } from 'recoil';
-// import { plantAtom } from '../api/shop';
+import { useRecoilValue } from 'recoil';
+import { getDetailInfo } from '../api/search';
+import { Info } from '../store/type';
 
 const PlantDetailPage = () => {
-  const params = useParams() as { name: string };
   const navigate = useNavigate();
+  const params = useParams() as { name: string };
+  const [info, setInfo] = useState<Info>();
+  const { pathname } = useLocation();
   const id = React.useMemo(() => {
     if (params.name !== undefined) {
       return Number(params.name);
@@ -22,6 +30,12 @@ const PlantDetailPage = () => {
     return null;
   }
 
+  const plantInfo = useRecoilValue(getDetailInfo(pathname));
+
+  useEffect(() => {
+    setInfo(plantInfo);
+  }, []);
+
   window.onpopstate = () => {
     navigate('/search');
   };
@@ -30,13 +44,13 @@ const PlantDetailPage = () => {
     <Main>
       <Container>
         <Wrap>
-          <img alt="plant" className="plant-info-img" src={fake[id].image} />
+          <img alt="plant" className="plant-info-img" src={info?.image_url} />
           <Div>
             <h4 className="text-sm">이름</h4>
             <h2 className="mb-4 text-green-600 ">
-              {fake[id].kor}
+              {info?.kor}
               <button className="like">
-                <i className="fas fa-heart like" />
+                <i className="fas fa-heart" />
               </button>
             </h2>
             <div className="flex mb-4">
@@ -72,7 +86,7 @@ const Main = tw.main`
   content-center 
   px-3 
   overflow-hidden 
-  mt-24
+  mt-10
   lg:mt-32
 
 `;

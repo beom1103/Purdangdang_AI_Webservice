@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { validLogin } from '../../api';
 
 //페이지
@@ -17,8 +17,8 @@ import PlantInfo from '../plant-detail/PlantInfo';
 import Header from '../homepage/Header';
 import PlantDetailPage from '../../pages/PlantDetailPage';
 import PlantReview from '../plant-detail/PlantReview';
+import LoadingSpiner from '../load-page/LoadingSpiner';
 
-import { userAtom } from '../../store/user';
 //lazy
 const SearchPage = React.lazy(() => import('../../pages/SearchPage'));
 
