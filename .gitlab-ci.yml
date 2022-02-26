@@ -15,6 +15,9 @@ Deploy:
   script:
     - docker stop $(docker ps -aq) || true
     - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
+    - docker-compose down
     - docker-compose build
-    - sudo chmod -R 777 ./data/mysql/db
-    - docker-compose run -d -p server
+    - docker-compose up
+    - netstat -nap | grep 8000
+  variables:
+    GIT_STRATEGY: none
