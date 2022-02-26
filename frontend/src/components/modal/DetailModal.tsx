@@ -1,4 +1,5 @@
 import React from 'react';
+import tw from 'tailwind-styled-components';
 
 const DetailModal = ({ showModal }: any) => {
   const closeModal = () => {
@@ -6,43 +7,23 @@ const DetailModal = ({ showModal }: any) => {
   };
 
   return (
-    <div className="flex flex-col items-center w-full h-full ">
-      <div className="flex justify-between w-full">
+    <Div>
+      <Container>
         <div className="detail_Modal-title">상세 정보</div>
-        <button
-          className="detail_Modal-exit"
-          aria-label="close modal"
-          role="button"
-          onClick={() => closeModal()}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="icon icon-tabler icon-tabler-x"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            stroke-width="2.5"
-            stroke="currentColor"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" />
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
+        <button className="detail_Modal-exit" onClick={() => closeModal()}>
+          X
         </button>
-      </div>
+      </Container>
 
       <div className="w-full lg:h-full lg:flex">
-        <div className="w-full lg:pl-6 lg:h-full lg:w-2/4">
+        <ImgBox>
           <img
             src="https://i.pinimg.com/originals/1c/cc/23/1ccc23d257858830d213aea46bef2c0c.jpg"
             alt=""
             className="w-full h-full lg:rounded-md"
             style={{ objectFit: 'cover' }}
           />
-        </div>
+        </ImgBox>
         <div className="detail_Modal-box">
           <div className="w-full ">
             <p className="detail_Modal-name">식물댕</p>
@@ -53,10 +34,8 @@ const DetailModal = ({ showModal }: any) => {
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Veritatis corporis, dolores, temporibus nihil porro, labore at hic
               reiciendis soluta non quis unde beatae nesciunt. Tenetur
-              temporibus fugit illum aspernatur numquam atque repudiandae,
-              maxime magnam voluptatum error quidem deleniti quo autem
-              perferendis et. Dolores maxime, laborum iusto obcaecati totam
-              expedita deserunt.
+              temporibus fugit illum aspernatur numquam atque repudiandae, Lorem
+              ipsum dolor, sit amet consectetur adipisicing elit. Commodi,
             </p>
           </div>
           <div className="detail_Modal-line"></div>
@@ -67,7 +46,7 @@ const DetailModal = ({ showModal }: any) => {
         <div className="w-full px-8 lg:py-0">
           <li className="detail_Modal-li">
             <div className="flex items-center">
-              <i className="text-blue-500 detail_Modal-i fas fa-water"></i>
+              <I className="text-blue-500 fas fa-water"></I>
               <span className="text-sm">물</span>
             </div>
             <span className="items-center text-sm">
@@ -76,14 +55,14 @@ const DetailModal = ({ showModal }: any) => {
           </li>
           <li className="detail_Modal-li">
             <div className="flex items-center">
-              <i className="text-orange-500 detail_Modal-i fas fa-sun"></i>
+              <I className="text-orange-500 fas fa-sun"></I>
               <span className="text-sm">햇빛</span>
             </div>
             <span className="items-center text-sm">햇빛을 좋아하는 친구</span>
           </li>
           <li className="detail_Modal-li">
             <div className="flex items-center">
-              <i className="text-green-500 detail_Modal-i fas fa-temperature-low"></i>
+              <I className="text-green-500 fas fa-temperature-low"></I>
               <span className="text-sm">온도</span>
             </div>
             <span className="items-center text-sm">더운거 싫어요</span>
@@ -106,8 +85,36 @@ const DetailModal = ({ showModal }: any) => {
           </button>
         </div>
       </div>
-    </div>
+    </Div>
   );
 };
 
 export default DetailModal;
+
+const Div = tw.div`
+  flex
+  flex-col
+  items-center
+  w-full
+  h-full
+`;
+
+const Container = tw.div`
+  flex
+  justify-between
+  w-full
+  mb-0
+  bg-green-50
+  lg:mb-7
+`;
+
+const ImgBox = tw.div`
+  w-full
+  lg:pl-6
+  lg:h-full
+  lg:w-2/4
+`;
+
+const I = tw.i`
+  detail_Modal-i
+`;

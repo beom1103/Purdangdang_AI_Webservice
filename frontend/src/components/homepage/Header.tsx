@@ -1,77 +1,88 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import SideMenu from './SideMenu';
 import { Link } from 'react-router-dom';
+import tw from 'tailwind-styled-components';
+import { useRecoilValue } from 'recoil';
+import { userAtom } from '../../store/user';
 
-const Header = ({ pageNum }: any) => {
+const Header = () => {
   const [menus, setMenus] = useState(false);
   const [headerColor, setHeaderColor] = useState(false);
+  const headerRef = useRef<HTMLHeadElement | null>(null);
+
+  const isLogin = true;
+  // useRecoilValue(userAtom);
 
   const menuOpen = () => {
     setMenus(true);
   };
 
-  // const navbar = document.querySelector('.navbar');
-  // const navbarHeight = navbar?.getBoundingClientRect().height;
-
-  document.addEventListener('scroll', () => {
-    if (window.scrollY > 80 || window.scrollY > 160) {
-      setHeaderColor(true);
-    } else {
-      setHeaderColor(false);
+  const handleHeaderScroll = useCallback(() => {
+    const headerHeight = headerRef.current?.clientHeight ?? 0;
+    if (window.scrollY > headerHeight) {
+      return setHeaderColor(true);
     }
-  });
 
-  // useEffect(() => {
-  //   console.log(pageNum);
+    setHeaderColor(false);
+  }, []);
 
-  //   switch (pageNum) {
-  //     case 1:
-  //       setHeaderColor(false);
-  //       break;
-  //     case 2:
-  //       setHeaderColor(true);
-  //       break;
-  //     case 3:
-  //       setHeaderColor(true);
-  //       break;
-  //     default:
-  //       null;
-  //       break;
-  //   }
-  // }, [pageNum]);
+  useEffect(() => {
+    window.addEventListener('scroll', handleHeaderScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleHeaderScroll);
+    };
+  }, []);
 
   return (
     <div className={`header-div`}>
-      <header className="w-full navbar">
-        <div
-          className={`header-bg transition duration-300 ease-in-out ${
+      <header ref={headerRef} className="w-full">
+        <Div
+          className={` ${
             headerColor ? `bg-white drop-shadow-md` : `backdrop-blur-md`
           }`}
         >
-          <a className="mb-4 wrap md:mb-0">
+          <Link to="/" className=" wrap md:mb-0">
             <img className="logo" src="/img/icon.png" alt="로고 이미지" />
             <span className="logo-span">푸르댕댕</span>
-          </a>
-          <nav className="nav">
-            <Link to="/" className="header-link">
-              First Link
-            </Link>
-            <Link to="/" className="header-link">
-              Second Link
-            </Link>
-            <Link to="/account" className="header-link">
-              로그인
-            </Link>
-            <Link to="/account/register" className="header-link">
-              회원가입
-            </Link>
+          </Link>
+          <nav className="hidden nav lg:block">
+            <div className="flex ">
+              <div>
+                <Link to="/" className="header-link">
+                  홈
+                </Link>
+                <Link to="/search" className="header-link">
+                  검색
+                </Link>
+              </div>
+              {isLogin ? (
+                <div>
+                  <Link to="/" className="header-link">
+                    머 넣지
+                  </Link>
+                  <Link to="/" className="header-link">
+                    아무거나
+                  </Link>
+                </div>
+              ) : (
+                <div>
+                  <Link to="/account" className="header-link">
+                    로그인
+                  </Link>
+                  <Link to="/account/register" className="header-link">
+                    회원가입
+                  </Link>
+                </div>
+              )}
+            </div>
           </nav>
           <button className="header-btn" onClick={() => menuOpen()}>
             <i className="text-green-500 fas fa-bars"></i>
           </button>
-        </div>
+        </Div>
       </header>
-      <div className="absolute right-0">
+      <div className="absolute right-0 z-50">
         <SideMenu menu={menus} selectMenu={setMenus} />
       </div>
     </div>
@@ -79,3 +90,10 @@ const Header = ({ pageNum }: any) => {
 };
 
 export default Header;
+
+const Div = tw.div`
+  header-bg
+  transition
+  duration-300
+  ease-in-out
+`;
