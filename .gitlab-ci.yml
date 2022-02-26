@@ -13,8 +13,8 @@ Deploy:
   tags:
     - team-12-runner
   before_script:
-    - sudo ls -la /var/run/docker.sock
-    - sudo usermod -aG docker ${USER}
+    - sudo -S ls -la /var/run/docker.sock
+    - sudo -S usermod -aG docker ${USER}
   script:
     - docker-compose down
     - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
