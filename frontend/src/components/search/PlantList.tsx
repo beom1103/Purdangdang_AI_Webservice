@@ -1,4 +1,9 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  MouseEventHandler,
+} from 'react';
 import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import {
   fetchPlant,
@@ -13,48 +18,51 @@ import { Plant } from '../../store/type';
 
 const PlantList = () => {
   const navigate = useNavigate();
+
   const plantQuery = useRecoilValue(plantQueryAtom);
   const fetchPlantList = useRecoilValue(fetchPlant);
 
-  const [page, setPage] = useState(2);
+  const searchData = useRecoilValueLoadable(searchPlant);
+  const searchResult = searchData.contents;
 
   const [plantsList, setPlantsList] = useRecoilState<Plant[] | any>(
     plantListAtom,
   );
-
-  const searchData = useRecoilValueLoadable(searchPlant);
-  const searchResult = searchData.contents;
+  const [page, setPage] = useState(2);
 
   useEffect(() => {
     setPlantsList(fetchPlantList.results);
   }, []);
 
-  const handleScroll = async () => {
+  // 스크롤이 맨 밑에 있을때 실행
+  const handleScroll = useCallback(async () => {
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
     if (scrollHeight - scrollTop === clientHeight) {
-      console.log(page);
       await getMorePlant();
     }
-  };
-
-  const getMorePlant = useCallback(async () => {
-    setPage(page + 1);
-    const newPlant = await scrollPage(page);
-    setPlantsList((prev: any) => [...prev, ...newPlant.results]);
   }, [page]);
 
+  //추가 데이터 불러오기
+  const getMorePlant = useCallback(async () => {
+    setPage(page + 1);
+
+    const newPlant = await scrollPage(page);
+    setPlantsList((prev: Plant[]) => [...prev, ...newPlant.results]);
+  }, [page]);
+
+  //이벤트 제어
   useEffect(() => {
-    // scroll event listener 등록
     window.addEventListener('scroll', handleScroll);
     return () => {
-      // scroll event listener 해제
       window.removeEventListener('scroll', handleScroll);
     };
   });
 
-  const goDetail = useCallback((e: any) => {
+  //상세 페이지로 라우팅
+  const goDetail = useCallback((e: MouseEventHandler | any) => {
     navigate(`/plant/${e.target.id}/info`);
   }, []);
+
   return (
     <div className="card">
       {!plantQuery
