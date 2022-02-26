@@ -1,6 +1,10 @@
 import React from 'react';
 import tw from 'tailwind-styled-components';
 
+const img1 = `url('https://images.unsplash.com/photo-1583753075968-1236ccb83c66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=754&q=80')`;
+const img2 = `url('https://images.unsplash.com/photo-1495908333425-29a1e0918c5f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80')`;
+const img3 = `url('https://images.unsplash.com/photo-1566836610593-62a64888a216?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1077&q=80')`;
+
 const Intro = ({ textAnim }: any) => {
   return (
     <div
@@ -16,60 +20,40 @@ const Intro = ({ textAnim }: any) => {
           <Article
             className={` ${textAnim ? `animate-fade-in-up` : null} `}
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1583753075968-1236ccb83c66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=754&q=80')`,
+              backgroundImage: img1,
             }}
           >
             <div className="intro-cardBack"></div>
             <div className="intro-cardCenter">
-              <h3 className="text-center">
-                <a
-                  className="text-sm font-bold text-center text-white md:text-2xl "
-                  href="#"
-                >
-                  <span className="absolute inset-0 "></span>
-                  푸르댕댕 소개문구
-                </a>
-              </h3>
+              <H3>푸르댕댕 소개문구</H3>
             </div>
           </Article>
           <Article
             className={` ${textAnim ? `animate-fade-in-up` : null} `}
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1495908333425-29a1e0918c5f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80')`,
+              backgroundImage: img2,
             }}
           >
             <div className="intro-cardBack"></div>
             <div className="intro-cardCenter">
-              <h3 className="text-center">
-                <a
-                  className="text-sm font-bold text-center text-white md:text-2xl"
-                  href="#"
-                >
-                  <span className="absolute inset-0"></span>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Minus, deserunt ducimus beatae nobis dolores dolorem?
-                </a>
-              </h3>
+              <H3>
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus,
+                deserunt ducimus beatae nobis dolores dolorem?
+              </H3>
             </div>
           </Article>
           <Article
             className={` ${textAnim ? `animate-fade-in-up` : null} `}
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1566836610593-62a64888a216?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1077&q=80')`,
+              backgroundImage: img3,
             }}
           >
             <div className="intro-cardBack"></div>
             <div className="intro-cardCenter">
-              <h3 className="text-center">
-                <a
-                  className="text-sm font-bold text-center text-white md:text-2xl"
-                  href="#"
-                >
-                  <span className="absolute inset-0"></span>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Velit sit possimus quos.
-                </a>
-              </h3>
+              <H3>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit
+                sit possimus quos.
+              </H3>
             </div>
           </Article>
         </section>
@@ -84,4 +68,12 @@ const Article = tw.article`
   intro-article
   lg:h-96
   group
+`;
+
+const H3 = tw.h3`
+  text-sm
+  font-bold
+  text-center
+  text-white
+  md:text-2xl
 `;

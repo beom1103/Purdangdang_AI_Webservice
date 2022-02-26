@@ -7,8 +7,9 @@ import React, {
 } from 'react';
 import UploadModal from './UploadModal';
 import imageResize from './ImageResize';
+import tw from 'tailwind-styled-components';
 
-const UploadContainer = () => {
+const UploadContainer = ({ setIsModal }: any) => {
   //드래그 중일때와 아닐 때의 스타일을 구분하기 위한 state 변수
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [files, setFiles] = useState<any[]>([]);
@@ -27,6 +28,10 @@ const UploadContainer = () => {
       alert('ㅋㅋ 파일 없음');
     }
   };
+
+  useEffect(() => {
+    setIsModal(showModal);
+  }, [showModal]);
 
   const onClickFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | any): void => {
@@ -159,21 +164,22 @@ const UploadContainer = () => {
       <div
         className="upload-container "
         style={{
-          background: `linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url(/img/dog.jpg)`,
+          background: `linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url(/img/10.jpg)`,
           backgroundSize: 'cover',
         }}
       >
         <div
           className="upload-div "
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}
         >
-          <div className="flex flex-col items-center justify-center w-full">
-            <div className="hidden w-3/5 py-2 h-2/5 sm:block md:h-72 lg:h-96">
+          <Div>
+            <Container>
               <input
                 type="file"
                 id="fileUpload"
                 style={{ display: 'none' }}
                 multiple={true}
+                accept="image/*"
                 onChange={onChangeFiles}
               />
               <label htmlFor="fileUpload" ref={dragRef}>
@@ -200,8 +206,8 @@ const UploadContainer = () => {
                   />
                 </div>
               </label>
-            </div>
-            <span className="py-3 text-xs font-bold text-white">
+            </Container>
+            <Span>
               파일명 : &nbsp;
               {files.length > 0 && (
                 <span>
@@ -214,10 +220,8 @@ const UploadContainer = () => {
                   </span>
                 </span>
               )}
-            </span>
-            <p className="upload-text 2xl:text-2xl 2xl:block lg:text-1xl lg:blok">
-              어떤 식물인지 궁금하다면 푸르댕댕에 맡겨주세요!
-            </p>
+            </Span>
+            <P>어떤 식물인지 궁금하다면 푸르댕댕에 맡겨주세요!</P>
 
             <div className="upload-btnContainer md:flex-row">
               <button className="upload-btn">
@@ -226,6 +230,7 @@ const UploadContainer = () => {
                   id="clickUpload"
                   style={{ display: 'none' }}
                   multiple={true}
+                  accept="image/*"
                   onChange={onClickFiles}
                 />
                 <label htmlFor="clickUpload" ref={clickRef}>
@@ -236,17 +241,57 @@ const UploadContainer = () => {
                 식물 검사
               </button>
             </div>
-          </div>
+          </Div>
         </div>
       </div>
 
       {showModal ? (
-        <div className="fixed z-50 w-screen h-screen">
+        <Modal>
           <UploadModal showModal={setShowModal}></UploadModal>
-        </div>
+        </Modal>
       ) : null}
     </div>
   );
 };
 
 export default UploadContainer;
+
+const Div = tw.div`
+  flex
+  flex-col
+  items-center
+  justify-center
+  w-full
+`;
+
+const Container = tw.div`
+  hidden
+  w-3/5
+  py-2
+  h-2/5
+  sm:block
+  md:h-72
+  lg:h-96
+`;
+
+const Span = tw.span`
+  py-3
+  text-xs
+  font-bold
+  text-white
+`;
+
+const P = tw.p`
+  upload-text
+  2xl:text-2xl
+  2xl:block
+  lg:text-1xl
+  lg:blok
+`;
+
+const Modal = tw.div`
+  fixed
+  z-50
+  w-screen
+  h-screen
+`;

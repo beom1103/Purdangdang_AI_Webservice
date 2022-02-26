@@ -84,15 +84,15 @@ body {
 }
 
 .header-div {
-  @apply fixed top-0 right-0 z-20 flex w-full text-center;
+  @apply fixed top-0 right-0 z-20 flex flex-row w-full text-center;
 }
 
 .header-bg {
-  @apply flex-col flex-wrap justify-between w-full p-5 mx-0 center md:flex-row;
+  @apply flex-row flex-wrap items-center justify-between w-full p-5 mx-0 center;
 }
 
 .header-btn {
-  @apply inline-flex items-center px-3 py-1 mt-4 text-base border-0 outline-none md:mt-0;
+  @apply inline-flex items-center px-3 py-1 text-base border-0 outline-none md:mt-0;
 }
 
 /* SideMenu */
@@ -170,7 +170,7 @@ body {
 
 /* UploadContainer */
 .upload-container {
-  @apply flex items-end justify-center w-screen h-screen bg-black bg-no-repeat lg:items-center;
+  @apply flex items-end justify-center w-screen h-screen bg-black bg-no-repeat md:items-center;
 }
 
 .upload-div {
@@ -250,15 +250,15 @@ body {
 }
 
 .modal-container {
-  @apply flex items-end justify-center w-screen h-screen animate-fade-in-up-two lg:items-center;
+  @apply flex items-end justify-center w-screen h-screen animate-fade-in-up-two md:items-center;
 }
 
 .modal-background {
-  @apply relative flex flex-col items-center justify-center w-full overflow-auto transition duration-300 ease-in-out bg-white rounded-t-lg scroll-style h-5/6 lg:rounded-lg lg:w-4/12 lg:h-4/6;
+  @apply relative flex flex-col items-center justify-center w-full transition duration-300 ease-in-out bg-white rounded-t-lg h-5/6 md:rounded-none md:w-8/12 md:h-3/5 lg:w-4/12 lg:h-4/6;
 }
 
 .modal-box {
-  @apply relative flex flex-col items-center justify-center w-full px-4 py-6;
+  @apply relative flex flex-col items-center justify-center w-full h-full px-4 py-6;
 }
 
 .modal-btn {
@@ -274,7 +274,7 @@ body {
 }
 
 .modal-img {
-  @apply w-full my-3 overflow-hidden border-0 rounded-md h-3/5 drop-shadow-2xl md:w-60;
+  @apply w-full my-3 overflow-hidden text-center border-0 rounded-md h-2/5 drop-shadow-2xl md:w-60;
 }
 
 .modal-next {
@@ -282,11 +282,11 @@ body {
 }
 
 .detail_Modal-title {
-  @apply flex items-center h-10 pl-6 my-3 text-base font-bold text-gray-600;
+  @apply flex items-center h-5 pl-6 my-3 text-sm font-bold text-gray-800;
 }
 
 .detail_Modal-exit {
-  @apply top-0 right-0 pr-6 text-gray-400 transition duration-150 ease-in-out rounded outline-none cursor-pointer hover:text-gray-600;
+  @apply top-0 right-0 mr-6 font-bold text-gray-800 transition duration-150 ease-in-out rounded outline-none cursor-pointer hover:text-red-600;
 }
 
 .detail_Modal-box {

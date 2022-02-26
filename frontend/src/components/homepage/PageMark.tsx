@@ -1,4 +1,5 @@
 import React from 'react';
+import tw from 'tailwind-styled-components';
 
 const Marker = ({ num, scrollIndex, setPageNum, title }: any) => {
   return (
@@ -17,10 +18,10 @@ const Marker = ({ num, scrollIndex, setPageNum, title }: any) => {
   );
 };
 
-const PageMark = ({ scrollIndex, setPageNum, pageHeight }: any) => {
+const PageMark = ({ scrollIndex, setPageNum }: any) => {
   return (
-    <div className="fixed z-30 text-center top-2/4 left-16">
-      <div className="flex flex-col items-center justify-between w-12 h-36">
+    <Div>
+      <Container>
         <Marker
           num={1}
           scrollIndex={scrollIndex}
@@ -39,9 +40,26 @@ const PageMark = ({ scrollIndex, setPageNum, pageHeight }: any) => {
           setPageNum={setPageNum}
           title={'-식물찾기-'}
         />
-      </div>
-    </div>
+      </Container>
+    </Div>
   );
 };
 
 export default PageMark;
+
+const Div = tw.div`
+  fixed
+  z-30
+  text-center
+  top-2/4
+  left-16
+`;
+
+const Container = tw.div`
+  flex
+  flex-col
+  items-center
+  justify-between
+  w-12
+  h-36
+`;

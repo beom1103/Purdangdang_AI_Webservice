@@ -7,7 +7,7 @@ import PageMark from '../components/homepage/PageMark';
 
 const DIVIDER_HEIGHT = 0;
 
-const throttle = (callback: any, waitTime: any) => {
+const throttle = (callback: any, waitTime: number) => {
   let timerId: any = null;
   return (e: any) => {
     if (timerId) return;
@@ -24,6 +24,8 @@ const HomePage = () => {
   const [pageNum, setPageNum] = useState<number>(1);
   const pageHeight = window.innerHeight;
   const [textAnim, setTextAnim] = useState<boolean>(false);
+  const [isModal, setIsModal] = useState<boolean>(false);
+  const [isLogin, setIsLogin] = useState<boolean | null>(false);
 
   useEffect(() => {
     switch (
@@ -64,76 +66,74 @@ const HomePage = () => {
       const { deltaY } = e;
       const { scrollTop } = outerDivRef.current;
 
-      if (deltaY > 0) {
-        if (scrollTop >= 0 && scrollTop < pageHeight) {
-          outerDivRef.current.scrollTo({
-            top: pageHeight + DIVIDER_HEIGHT,
-            left: 0,
-            behavior: 'smooth',
-          });
-          setTextAnim(true);
-          setScrollIndex(2);
-        } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
-          outerDivRef.current.scrollTo({
-            top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
-            left: 0,
-            behavior: 'smooth',
-          });
-          setTextAnim(true);
-          setScrollIndex(3);
-        } else {
-          outerDivRef.current.scrollTo({
-            top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
-            left: 0,
-            behavior: 'smooth',
-          });
-          setScrollIndex(3);
-        }
+      if (isModal) {
+        outerDivRef.current.scrollTo = outerDivRef.current.scrollTo;
       } else {
-        if (scrollTop >= 0 && scrollTop < pageHeight) {
-          outerDivRef.current.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'smooth',
-          });
-          setScrollIndex(1);
-        } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
-          outerDivRef.current.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'smooth',
-          });
-          setScrollIndex(1);
+        if (deltaY > 0) {
+          if (scrollTop >= 0 && scrollTop < pageHeight) {
+            outerDivRef.current.scrollTo({
+              top: pageHeight + DIVIDER_HEIGHT,
+              left: 0,
+              behavior: 'smooth',
+            });
+            setTextAnim(true);
+            setScrollIndex(2);
+          } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
+            outerDivRef.current.scrollTo({
+              top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
+              left: 0,
+              behavior: 'smooth',
+            });
+            setTextAnim(true);
+            setScrollIndex(3);
+          } else {
+            outerDivRef.current.scrollTo({
+              top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
+              left: 0,
+              behavior: 'smooth',
+            });
+            setScrollIndex(3);
+          }
         } else {
-          outerDivRef.current.scrollTo({
-            top: pageHeight + DIVIDER_HEIGHT,
-            left: 0,
-            behavior: 'smooth',
-          });
-          setScrollIndex(2);
+          if (scrollTop >= 0 && scrollTop < pageHeight) {
+            outerDivRef.current.scrollTo({
+              top: 0,
+              left: 0,
+              behavior: 'smooth',
+            });
+            setScrollIndex(1);
+          } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
+            outerDivRef.current.scrollTo({
+              top: 0,
+              left: 0,
+              behavior: 'smooth',
+            });
+            setScrollIndex(1);
+          } else {
+            outerDivRef.current.scrollTo({
+              top: pageHeight + DIVIDER_HEIGHT,
+              left: 0,
+              behavior: 'smooth',
+            });
+            setScrollIndex(2);
+          }
         }
       }
     };
 
+    const throttleScroll = throttle(wheelHandler, 25);
+
     const outerDivRefCurrent = outerDivRef.current;
-    outerDivRefCurrent.addEventListener('wheel', wheelHandler);
+    outerDivRefCurrent.addEventListener('wheel', throttleScroll);
     return () => {
-      outerDivRefCurrent.removeEventListener('wheel', wheelHandler);
+      outerDivRefCurrent.removeEventListener('wheel', throttleScroll);
     };
-  }, []);
+  }, [isModal]);
 
   return (
     <div ref={outerDivRef} className="main">
-      <div className="navbar">
-        <Header pageNum={scrollIndex} />
-      </div>
-
       <div className="container hidden lg:block ">
-        <PageMark
-          scrollIndex={scrollIndex}
-          setPageNum={setPageNum}
-          pageHeight={pageHeight}
-        />
+        <PageMark scrollIndex={scrollIndex} setPageNum={setPageNum} />
       </div>
 
       <div className="relative ">
@@ -153,7 +153,7 @@ const HomePage = () => {
             <h2 className="text-2xl text-white 2xl:text-6xl">
               식물에겐 자기만의 공간을.
             </h2>
-            <h4 className="mt-20 text-2xl text-white 2xl:text-4xl">
+            <h4 className="hidden mt-20 text-2xl text-white lg:block 2xl:text-4xl">
               서로의 공간이 합쳐져 새로운 공간을 창조하는 일에 도움이 되길
             </h4>
           </div>
@@ -192,7 +192,7 @@ const HomePage = () => {
         </div>
       </div>
       <div>
-        <UploadContainer />
+        <UploadContainer setIsModal={setIsModal} />
       </div>
     </div>
   );
