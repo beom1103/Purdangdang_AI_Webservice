@@ -15,9 +15,9 @@ services:
     volumes:
       - ./backend:/apps
     ports:
-      - 8000:8000
+      - 5000:8000
     image: server:apps
     container_name: django_container
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:5000
     depends_on:
       - db
