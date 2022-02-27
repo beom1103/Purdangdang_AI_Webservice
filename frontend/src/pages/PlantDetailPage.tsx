@@ -82,7 +82,7 @@ const PlantDetailPage = () => {
   );
 };
 
-export default PlantDetailPage;
+export default React.memo(PlantDetailPage);
 
 const Main = tw.main`
   content-center 

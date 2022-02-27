@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { validLogin } from '../../api';
 import { getDetailInfo } from '../../api/search';
@@ -13,6 +13,7 @@ const PlantReview = () => {
   const { pathname } = useLocation();
   const [reviews, setReviews] = useState<Reviews[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const params = useParams() as { name: string };
 
   useEffect(() => {
     if (!isLogin) {
@@ -21,11 +22,12 @@ const PlantReview = () => {
     }
   }, []);
 
+  const fetchReviews = async () => {
+    const newReviews = await getDetailInfo(pathname);
+    setReviews(newReviews);
+  };
+
   useEffect(() => {
-    const fetchReviews = async () => {
-      const newReviews = await getDetailInfo(pathname);
-      setReviews(newReviews);
-    };
     fetchReviews();
   }, []);
 
@@ -55,17 +57,14 @@ const PlantReview = () => {
       </ButtonBox>
       {showModal && (
         <ModalOverlay>
-          <ReviewModal
-            showReviewModal={showReviewModal}
-            id={reviews[0]?.plant_id}
-          />
+          <ReviewModal showReviewModal={showReviewModal} id={params.name} />
         </ModalOverlay>
       )}
     </div>
   );
 };
 
-export default PlantReview;
+export default React.memo(PlantReview);
 
 const ReviewBox = tw.div`
   mb-5 

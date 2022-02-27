@@ -1,13 +1,9 @@
 import React from 'react';
 import tw from 'tailwind-styled-components';
-import { useLocation, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { getDetailInfo, infoAtom } from '../../api/search';
+import { infoAtom } from '../../api/search';
 
 const PlantInfo = () => {
-  const params = useParams() as { name: string };
-  const { pathname } = useLocation();
-  // const plantInfo = useRecoilValue(getDetailInfo(pathname));
   const info = useRecoilValue(infoAtom);
 
   return (
@@ -32,7 +28,7 @@ const PlantInfo = () => {
   );
 };
 
-export default PlantInfo;
+export default React.memo(PlantInfo);
 
 const InfoDiv = tw.div`
   plant-info-div

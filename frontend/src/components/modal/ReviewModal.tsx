@@ -1,30 +1,37 @@
-import React, {
-  MouseEventHandler,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
-import { useSetRecoilState } from 'recoil';
+import React, { MouseEventHandler, useCallback, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import tw from 'tailwind-styled-components';
-import { methodAtom } from '../../api/search';
-import { Reviews } from '../../store/type';
+import { methodAtom, reviewPostAtom, reviewsAtom } from '../../api/search';
+import Star from './Star';
 
 type ModalProps = {
-  id: number;
+  id: string;
   showReviewModal: MouseEventHandler<HTMLButtonElement>;
 };
 
 const ReviewModal: React.FC<ModalProps | any> = ({ id, showReviewModal }) => {
   const setMethod = useSetRecoilState(methodAtom);
-  const [reviewState, setReviewState] = useState<Reviews | any>({});
+  const [reviewState, setReviewState] = useRecoilState(reviewPostAtom);
+  const { pathname } = useLocation();
+  const post = useRecoilValue(reviewsAtom(pathname));
+  const { score, content } = reviewState;
+  const disabledButton = score > 0 && content.length > 0;
 
   useEffect(() => {
     setReviewState({ ...reviewState, ['plant_id']: id });
   }, []);
 
-  const onSubmit = () => {
-    setMethod('post');
-  };
+  const onSubmit = useCallback(() => {
+    if (!disabledButton) {
+      alert('리뷰를 작성 후 제출해주세요!');
+    } else {
+      setMethod('post');
+      showReviewModal();
+      alert('등록 되었습니다.');
+      window.location.reload();
+    }
+  }, [reviewState]);
 
   const onChangeInput = useCallback(
     e => {
@@ -35,10 +42,6 @@ const ReviewModal: React.FC<ModalProps | any> = ({ id, showReviewModal }) => {
     [reviewState],
   );
 
-  const drawStar = (e: any) => {
-    e.target.style.width = `${e.target.value * 10}%`;
-  };
-
   return (
     <Modal>
       <CloseButton onClick={showReviewModal}>
@@ -46,10 +49,7 @@ const ReviewModal: React.FC<ModalProps | any> = ({ id, showReviewModal }) => {
       </CloseButton>
       <h3>별점</h3>
       <div className="wrap">
-        {/* <Star>
-          ★ ★ ★ ★ ★<FillStar onClick={drawStar}>★ ★ ★ ★ ★</FillStar>
-          <Range type="range" value="1" step="1" min="0" max="5" />
-        </Star> */}
+        <Star />
       </div>
       <h3 className="mt-8">리뷰</h3>
       <TextArea name="content" onChange={onChangeInput} />
@@ -95,26 +95,21 @@ const CloseButton = tw.i`
   fas 
   fa-door-open
   hover:scale-105
-`;
+// `;
 
-const Star = tw.span`
-  relative
-  text-gray500
-`;
+// const FillStar = tw.span`
+//   w-0
+//   absolute
+//   left-0
+//   text-yellow-500
+//   overflow-hidden
+// `;
 
-const FillStar = tw.span`
-  w-0
-  absolute
-  left-0
-  text-yellow-500
-  overflow-hidden
-`;
-
-const Range = tw.input`
-  w-full
-  h-full
-  absolute
-  left-0
-  opacity-0
-  cursor-pointer
-`;
+// const Range = tw.input`
+//   w-full
+//   h-full
+//   absolute
+//   left-0
+//   opacity-0
+//   cursor-pointer
+// `;

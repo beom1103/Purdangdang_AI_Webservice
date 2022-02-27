@@ -11,7 +11,7 @@ export const api: AxiosInstance = axios.create({
 });
 
 //헤더에 토큰 있는 api
-const athentication: AxiosInstance = axios.create({
+export const athentication: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   headers: { Authorization: `Token ${token}` },
 });

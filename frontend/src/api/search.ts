@@ -1,5 +1,5 @@
 import { atom, atomFamily, selector, selectorFamily } from 'recoil';
-import { api } from '.';
+import { api, athentication } from '.';
 import { Info } from '../store/type';
 
 export const plantListAtom = atom({
@@ -22,14 +22,14 @@ export const infoAtom = atom<Info>({
   default: {},
 });
 
-// export const reviewInputAtom = atom({
-//   key: 'reviewInputAtom',
-//   default: {
-//     plant_id: 0,
-//     content: '',
-//     score: 0,
-//   },
-// });
+export const reviewPostAtom = atom({
+  key: 'reviewInputAtom',
+  default: {
+    plant_id: 0,
+    content: '',
+    score: 0,
+  },
+});
 
 // 나중에 검색이랑 합치기
 export const fetchPlant = selector({
@@ -80,12 +80,18 @@ export const reviewsAtom = atomFamily({
   default: selectorFamily({
     key: 'reviewSelector',
     get:
-      (id: string) =>
+      (pathname: string) =>
       async ({ get }) => {
+        const post = get(reviewPostAtom);
         const method = get(methodAtom);
 
         switch (method) {
           case 'post':
+            try {
+              athentication.post(`api${pathname}`, post);
+            } catch (error) {
+              console.log(error);
+            }
             return;
 
           case 'delete':
@@ -95,8 +101,7 @@ export const reviewsAtom = atomFamily({
             return;
 
           default:
-            const { data } = await api.get(`api/plant/${id}/reviews`);
-            return data;
+            return;
         }
       },
   }),
