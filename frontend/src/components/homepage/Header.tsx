@@ -4,14 +4,15 @@ import { Link } from 'react-router-dom';
 import tw from 'tailwind-styled-components';
 import { useRecoilValue } from 'recoil';
 import { userAtom } from '../../store/user';
+import { validLogin } from '../../api';
+import { logout } from '../../api';
 
 const Header = () => {
   const [menus, setMenus] = useState(false);
   const [headerColor, setHeaderColor] = useState(false);
   const headerRef = useRef<HTMLHeadElement | null>(null);
 
-  const isLogin = true;
-  // useRecoilValue(userAtom);
+  const isLogin = useRecoilValue(userAtom);
 
   const menuOpen = React.useCallback(() => {
     setMenus(true);
@@ -97,11 +98,11 @@ const Header = () => {
               </div>
               {isLogin ? (
                 <div>
+                  <button className="header-link" onClick={() => logout()}>
+                    로그아웃
+                  </button>
                   <Link to="/" className="header-link">
-                    머 넣지
-                  </Link>
-                  <Link to="/" className="header-link">
-                    아무거나
+                    마이페이지
                   </Link>
                 </div>
               ) : (
