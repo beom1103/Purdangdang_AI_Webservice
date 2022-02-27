@@ -3,14 +3,17 @@ import { Link } from 'react-router-dom';
 import tw from 'tailwind-styled-components';
 import { useRecoilValue } from 'recoil';
 import { userAtom } from '../../store/user';
+import { validLogin } from '../../api';
+import { logout } from '../../api';
 
 const SideMenu = ({ menu, selectMenu }: any) => {
   const menuClose = useCallback((): void => {
     selectMenu(false);
   }, [menu]);
 
-  const isLogin = true;
-  // useRecoilValue(userAtom);
+  const isLogin = useRecoilValue(userAtom);
+
+  // const isLogin = useRecoilValue(validLogin);
 
   return (
     <div className="">
@@ -85,6 +88,14 @@ const SideMenu = ({ menu, selectMenu }: any) => {
         </nav>
 
         <div className="py-16">
+          {isLogin ? (
+            <button className="side-exit" onClick={() => logout()}>
+              <span className="inline-block pr-4 ">
+                <i className="w-8 h-8 leading-8 fas fa-lock-open"></i>
+              </span>
+              로그아웃
+            </button>
+          ) : null}
           <button className="side-exit" onClick={() => menuClose()}>
             <span className="inline-block pr-4 ">
               <i className="w-8 h-8 leading-8 fas fa-door-open"></i>
