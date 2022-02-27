@@ -3,7 +3,6 @@ import SideMenu from './SideMenu';
 import { Link } from 'react-router-dom';
 import tw from 'tailwind-styled-components';
 import { useRecoilValue } from 'recoil';
-import { userAtom } from '../../store/user';
 import { validLogin } from '../../api';
 import { logout } from '../../api';
 
@@ -12,7 +11,7 @@ const Header = () => {
   const [headerColor, setHeaderColor] = useState(false);
   const headerRef = useRef<HTMLHeadElement | null>(null);
 
-  const isLogin = useRecoilValue(userAtom);
+  const isLogin = useRecoilValue(validLogin);
 
   const menuOpen = React.useCallback(() => {
     setMenus(true);

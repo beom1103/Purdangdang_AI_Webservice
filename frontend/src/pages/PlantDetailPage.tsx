@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   NavLink,
   Outlet,
@@ -9,7 +9,7 @@ import {
 import Footer from '../components/global/Footer';
 
 import tw from 'tailwind-styled-components';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { infoAtom, getDetailInfo } from '../api/search';
 
 const PlantDetailPage = () => {
@@ -29,8 +29,6 @@ const PlantDetailPage = () => {
   if (id === null) {
     return null;
   }
-
-  // const plantInfo = useRecoilValue();
 
   useEffect(() => {
     const fetchInfo = async () => {
