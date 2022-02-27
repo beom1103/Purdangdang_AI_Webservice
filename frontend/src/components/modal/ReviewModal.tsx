@@ -27,7 +27,6 @@ const ReviewModal: React.FC<ModalProps | any> = ({ id, showReviewModal }) => {
       alert('리뷰를 작성 후 제출해주세요!');
     } else {
       setMethod('post');
-      showReviewModal();
       alert('등록 되었습니다.');
       window.location.reload();
     }

@@ -32,7 +32,7 @@ const PlantDetailPage = () => {
 
   useEffect(() => {
     const fetchInfo = async () => {
-      const newInfo = await getDetailInfo(pathname);
+      const newInfo = await getDetailInfo(`/plant/${id}/info`);
       setInfo(newInfo);
     };
     fetchInfo();

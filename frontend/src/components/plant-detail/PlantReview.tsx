@@ -51,10 +51,12 @@ const PlantReview = () => {
             </ReviewBox>
           );
         })}
-      <ButtonBox>
-        <Button onClick={showReviewModal}>리뷰쓰기</Button>
-        <Button>더보기</Button>
-      </ButtonBox>
+      {reviews && (
+        <ButtonBox>
+          <Button onClick={showReviewModal}>리뷰쓰기</Button>
+          <Button>더보기</Button>
+        </ButtonBox>
+      )}
       {showModal && (
         <ModalOverlay>
           <ReviewModal showReviewModal={showReviewModal} id={params.name} />
