@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom';
+import {
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import Footer from '../components/global/Footer';
 
 import tw from 'tailwind-styled-components';
-import { useRecoilValue } from 'recoil';
-import { Info } from '../store/type';
-import { getReviews } from '../api/search';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { infoAtom, getDetailInfo } from '../api/search';
+
 const PlantDetailPage = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const params = useParams() as { name: string };
-  const [info, setInfo] = useState<Info>();
+  const [info, setInfo] = useRecoilState(infoAtom);
 
   const id = React.useMemo(() => {
     if (params.name !== undefined) {
@@ -23,10 +30,14 @@ const PlantDetailPage = () => {
     return null;
   }
 
-  const plantInfo = useRecoilValue(getReviews(id));
+  // const plantInfo = useRecoilValue();
 
   useEffect(() => {
-    setInfo(plantInfo);
+    const fetchInfo = async () => {
+      const newInfo = await getDetailInfo(pathname);
+      setInfo(newInfo);
+    };
+    fetchInfo();
   }, []);
 
   window.onpopstate = () => {

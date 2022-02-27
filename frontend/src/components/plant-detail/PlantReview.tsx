@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { validLogin } from '../../api';
-import { getDetailInfo, methodAtom } from '../../api/search';
+import { getDetailInfo } from '../../api/search';
 import { Reviews } from '../../store/type';
 import tw from 'tailwind-styled-components';
 import ReviewModal from '../modal/ReviewModal';
 
 const PlantReview = () => {
   const isLogin = useRecoilValue(validLogin);
-
   const navigate = useNavigate();
-  const params = useParams() as { name: string };
   const { pathname } = useLocation();
-
-  const reviews = useRecoilValue(getDetailInfo(pathname));
+  const [reviews, setReviews] = useState<Reviews[]>([]);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -24,25 +21,34 @@ const PlantReview = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const newReviews = await getDetailInfo(pathname);
+      setReviews(newReviews);
+    };
+    fetchReviews();
+  }, []);
+
   const showReviewModal = () => {
     setShowModal(!showModal);
   };
 
   return (
     <div>
-      {reviews.map((data: Reviews): JSX.Element => {
-        return (
-          <ReviewBox>
-            <div className="flex">
-              <User>
-                이름 : <span className="text-green-600">{data.username}</span>
-              </User>
-              <Rating>평점 :{data.score}</Rating>
-            </div>
-            <Review>review : {data.content}</Review>
-          </ReviewBox>
-        );
-      })}
+      {reviews &&
+        reviews.map((data: Reviews): JSX.Element => {
+          return (
+            <ReviewBox>
+              <div className="flex">
+                <User>
+                  이름 : <span className="text-green-600">{data.username}</span>
+                </User>
+                <Rating>평점 :{data.score}</Rating>
+              </div>
+              <Review>review : {data.content}</Review>
+            </ReviewBox>
+          );
+        })}
       <ButtonBox>
         <Button onClick={showReviewModal}>리뷰쓰기</Button>
         <Button>더보기</Button>

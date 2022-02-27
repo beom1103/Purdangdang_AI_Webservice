@@ -1,5 +1,6 @@
-import { atom, selector, selectorFamily } from 'recoil';
+import { atom, atomFamily, selector, selectorFamily } from 'recoil';
 import { api } from '.';
+import { Info } from '../store/type';
 
 export const plantListAtom = atom({
   key: 'plantListAtom',
@@ -14,6 +15,11 @@ export const plantQueryAtom = atom({
 export const methodAtom = atom({
   key: 'methodAtom',
   default: '',
+});
+
+export const infoAtom = atom<Info>({
+  key: 'infoAtom',
+  default: {},
 });
 
 // export const reviewInputAtom = atom({
@@ -33,7 +39,7 @@ export const fetchPlant = selector({
       const { data } = await api.get('api/plant/search');
       return data;
     } catch (error) {
-      return false;
+      return;
     }
   },
 });
@@ -60,38 +66,38 @@ export const scrollPage = async (page: number) => {
   }
 };
 
-export const getDetailInfo = selectorFamily({
-  key: 'getDetailInfo',
-  get: (pathname: string) => async () => {
-    try {
-      const { data } = await api.get(`api${pathname}`);
-      return data;
-    } catch (error) {
-      return false;
-    }
-  },
-});
+export const getDetailInfo = async (pathname: string): Promise<Info | any> => {
+  try {
+    const { data } = await api.get(`api${pathname}`);
+    return data;
+  } catch (error) {
+    return;
+  }
+};
 
-export const getReviews = selectorFamily({
-  key: 'getReviews',
-  get:
-    (id: number) =>
-    async ({ get }) => {
-      const method = get(methodAtom);
+export const reviewsAtom = atomFamily({
+  key: 'reviewsAtom',
+  default: selectorFamily({
+    key: 'reviewSelector',
+    get:
+      (id: string) =>
+      async ({ get }) => {
+        const method = get(methodAtom);
 
-      switch (method) {
-        case 'post':
-          return;
+        switch (method) {
+          case 'post':
+            return;
 
-        case 'delete':
-          return;
+          case 'delete':
+            return;
 
-        case 'put':
-          return;
+          case 'put':
+            return;
 
-        default:
-          const { data } = await api.get(`api/plant/${id}/info`);
-          return data;
-      }
-    },
+          default:
+            const { data } = await api.get(`api/plant/${id}/reviews`);
+            return data;
+        }
+      },
+  }),
 });

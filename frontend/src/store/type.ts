@@ -23,16 +23,16 @@ export type Plant = {
 };
 
 export type Info = {
-  description: string;
-  id: number;
-  image_url: string;
-  kor: string;
-  name: string;
-  rank: number;
-  shopping_url: null;
-  sunlight: string;
-  temperature: string;
-  water_cycle: string;
+  description?: string;
+  id?: number;
+  image_url?: string;
+  kor?: string;
+  name?: string;
+  rank?: number;
+  shopping_url?: null;
+  sunlight?: string;
+  temperature?: string;
+  water_cycle?: string;
 };
 
 export type Reviews = {
