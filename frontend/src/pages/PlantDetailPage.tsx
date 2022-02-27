@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import {
-  NavLink,
-  Outlet,
-  useLocation,
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom';
 import Footer from '../components/global/Footer';
 
 import tw from 'tailwind-styled-components';
 import { useRecoilValue } from 'recoil';
-import { getDetailInfo } from '../api/search';
 import { Info } from '../store/type';
-
+import { getReviews } from '../api/search';
 const PlantDetailPage = () => {
   const navigate = useNavigate();
   const params = useParams() as { name: string };
   const [info, setInfo] = useState<Info>();
-  const { pathname } = useLocation();
+
   const id = React.useMemo(() => {
     if (params.name !== undefined) {
       return Number(params.name);
@@ -30,7 +23,7 @@ const PlantDetailPage = () => {
     return null;
   }
 
-  const plantInfo = useRecoilValue(getDetailInfo(pathname));
+  const plantInfo = useRecoilValue(getReviews(id));
 
   useEffect(() => {
     setInfo(plantInfo);

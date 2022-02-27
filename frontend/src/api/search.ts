@@ -16,6 +16,15 @@ export const methodAtom = atom({
   default: '',
 });
 
+// export const reviewInputAtom = atom({
+//   key: 'reviewInputAtom',
+//   default: {
+//     plant_id: 0,
+//     content: '',
+//     score: 0,
+//   },
+// });
+
 // 나중에 검색이랑 합치기
 export const fetchPlant = selector({
   key: 'fetchPlant',
@@ -63,26 +72,26 @@ export const getDetailInfo = selectorFamily({
   },
 });
 
-// export const getReviews = selectorFamily({
-//   key: 'getReviews',
-//   get:
-//     (id: number) =>
-//     async ({ get }) => {
-//       const method = get(methodAtom);
+export const getReviews = selectorFamily({
+  key: 'getReviews',
+  get:
+    (id: number) =>
+    async ({ get }) => {
+      const method = get(methodAtom);
 
-//       switch (method) {
-//         case 'post':
-//           return;
+      switch (method) {
+        case 'post':
+          return;
 
-//         case 'delete':
-//           return;
+        case 'delete':
+          return;
 
-//         case 'put':
-//           return;
+        case 'put':
+          return;
 
-//         default:
-//           const { data } = await api.get(`api/plant/${id}/info`);
-//           return data;
-//       }
-//     },
-// });
+        default:
+          const { data } = await api.get(`api/plant/${id}/info`);
+          return data;
+      }
+    },
+});

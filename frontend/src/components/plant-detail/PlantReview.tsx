@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { validLogin } from '../../api';
-import { getDetailInfo } from '../../api/search';
+import { getDetailInfo, methodAtom } from '../../api/search';
 import { Reviews } from '../../store/type';
 import tw from 'tailwind-styled-components';
 import ReviewModal from '../modal/ReviewModal';
 
 const PlantReview = () => {
-  const navigate = useNavigate();
   const isLogin = useRecoilValue(validLogin);
-  const { pathname } = useLocation();
-  const reviews = useRecoilValue(getDetailInfo(pathname));
 
+  const navigate = useNavigate();
+  const params = useParams() as { name: string };
+  const { pathname } = useLocation();
+
+  const reviews = useRecoilValue(getDetailInfo(pathname));
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -23,21 +25,21 @@ const PlantReview = () => {
   }, []);
 
   const showReviewModal = () => {
-    setShowModal(true);
+    setShowModal(!showModal);
   };
 
   return (
     <div>
-      {reviews.map((user: Reviews): JSX.Element => {
+      {reviews.map((data: Reviews): JSX.Element => {
         return (
           <ReviewBox>
             <div className="flex">
               <User>
-                이름 : <span className="text-green-600">{user.username}</span>
+                이름 : <span className="text-green-600">{data.username}</span>
               </User>
-              <Rating>평점 :{user.score}</Rating>
+              <Rating>평점 :{data.score}</Rating>
             </div>
-            <Review>review : {user.content}</Review>
+            <Review>review : {data.content}</Review>
           </ReviewBox>
         );
       })}
@@ -47,7 +49,10 @@ const PlantReview = () => {
       </ButtonBox>
       {showModal && (
         <ModalOverlay>
-          <ReviewModal />
+          <ReviewModal
+            showReviewModal={showReviewModal}
+            id={reviews[0]?.plant_id}
+          />
         </ModalOverlay>
       )}
     </div>
@@ -68,8 +73,9 @@ const ModalOverlay = tw.div`
   left-0
   top-0
   wrap
-  flex-col
+  flex-col 
   backdrop-blur-sm
+  overflow-hidden
 `;
 
 const Button = tw.button`

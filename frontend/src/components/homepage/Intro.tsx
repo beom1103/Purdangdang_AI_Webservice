@@ -25,7 +25,7 @@ const Intro = ({ textAnim }: any) => {
           >
             <div className="intro-cardBack"></div>
             <div className="intro-cardCenter">
-              <H3>푸르댕댕 소개문구</H3>
+              <H3>푸르댕댕은...</H3>
             </div>
           </Article>
           <Article
@@ -37,8 +37,8 @@ const Intro = ({ textAnim }: any) => {
             <div className="intro-cardBack"></div>
             <div className="intro-cardCenter">
               <H3>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus,
-                deserunt ducimus beatae nobis dolores dolorem?
+                사용자가 궁금한 식물을 업로드 시 CNN 모델을 토대로 식물 이미지를
+                식별하여 결과를 알려줍니다.
               </H3>
             </div>
           </Article>
@@ -51,8 +51,8 @@ const Intro = ({ textAnim }: any) => {
             <div className="intro-cardBack"></div>
             <div className="intro-cardCenter">
               <H3>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit
-                sit possimus quos.
+                반려동물 유무, 채광, 습도 등의 사용자의 환경을 입력받아 적합한
+                식물을 추천해줍니다. 
               </H3>
             </div>
           </Article>

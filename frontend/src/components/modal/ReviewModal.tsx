@@ -1,25 +1,64 @@
-import React from 'react';
+import React, {
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import { useSetRecoilState } from 'recoil';
 import tw from 'tailwind-styled-components';
+import { methodAtom } from '../../api/search';
+import { Reviews } from '../../store/type';
 
-const ReviewModal = () => {
+type ModalProps = {
+  id: number;
+  showReviewModal: MouseEventHandler<HTMLButtonElement>;
+};
+
+const ReviewModal: React.FC<ModalProps | any> = ({ id, showReviewModal }) => {
+  const setMethod = useSetRecoilState(methodAtom);
+  const [reviewState, setReviewState] = useState<Reviews | any>({});
+
+  useEffect(() => {
+    setReviewState({ ...reviewState, ['plant_id']: id });
+  }, []);
+
+  const onSubmit = () => {
+    setMethod('post');
+  };
+
+  const onChangeInput = useCallback(
+    e => {
+      const { name, value } = e.target;
+      setReviewState({ ...reviewState, [name]: value });
+      console.log(reviewState);
+    },
+    [reviewState],
+  );
+
+  const drawStar = (e: any) => {
+    e.target.style.width = `${e.target.value * 10}%`;
+  };
+
   return (
     <Modal>
+      <CloseButton onClick={showReviewModal}>
+        <span className="pl-2">닫기</span>
+      </CloseButton>
       <h3>별점</h3>
       <div className="wrap">
-        <Star />
-        <Star />
-        <Star />
-        <Star />
-        <Star />
+        {/* <Star>
+          ★ ★ ★ ★ ★<FillStar onClick={drawStar}>★ ★ ★ ★ ★</FillStar>
+          <Range type="range" value="1" step="1" min="0" max="5" />
+        </Star> */}
       </div>
       <h3 className="mt-8">리뷰</h3>
-      <TextArea></TextArea>
-      <Button>제출</Button>
+      <TextArea name="content" onChange={onChangeInput} />
+      <Button onClick={onSubmit}>제출</Button>
     </Modal>
   );
 };
 
-export default ReviewModal;
+export default React.memo(ReviewModal);
 
 const Modal = tw.div`
   bg-white
@@ -48,10 +87,34 @@ const Button = tw.button`
   buy-button
   `;
 
-const Star = tw.i`
-  ml-3
-  text-2xl 
-  text-gray-300 
+const CloseButton = tw.i` 
+  flex
+  mr-3 
+  justify-end
+  cursor-pointer 
   fas 
-  fa-star
+  fa-door-open
+  hover:scale-105
+`;
+
+const Star = tw.span`
+  relative
+  text-gray500
+`;
+
+const FillStar = tw.span`
+  w-0
+  absolute
+  left-0
+  text-yellow-500
+  overflow-hidden
+`;
+
+const Range = tw.input`
+  w-full
+  h-full
+  absolute
+  left-0
+  opacity-0
+  cursor-pointer
 `;
