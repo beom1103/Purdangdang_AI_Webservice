@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-j#nqqtp=63zxzdf)m85-8nsh+$(tv#4!^ol8r2gn4d)fo1qt5u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','localhost']
+ALLOWED_HOSTS = ['0.0.0.0','localhost','elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com']
 
 
 # Application definition
