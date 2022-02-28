@@ -25,15 +25,6 @@ const Star = () => {
     setStarState(newStarState);
   };
 
-  //   const onChangeInput = useCallback(
-  //     e => {
-  //       const { name, value } = e.target;
-  //       setReviewState({ ...reviewState, [name]: value });
-  //       console.log(reviewState);
-  //     },
-  //     [reviewState],
-  //   );
-
   useEffect(() => {
     starAraay.forEach(i => defaultState.push('text-gray-500'));
   });
@@ -60,5 +51,6 @@ const RatingStar = tw.i`
   fas
   fa-star
   mr-5
+  text-3xl
   cursor-pointer
 `;
