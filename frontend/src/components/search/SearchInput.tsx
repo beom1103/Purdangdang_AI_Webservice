@@ -1,11 +1,11 @@
 import React, { useMemo, useCallback } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import tw from 'tailwind-styled-components';
 import { plantQueryAtom } from '../../api/search';
 import { debounce } from 'lodash';
 
 const SearchInput = () => {
-  const setQuery = useSetRecoilState(plantQueryAtom);
+  const [query, setQuery] = useRecoilState(plantQueryAtom);
 
   const searchPlant = useCallback(
     e => {
@@ -16,7 +16,7 @@ const SearchInput = () => {
 
   const debouncedResults = useMemo(() => {
     return debounce(searchPlant, 300);
-  }, []);
+  }, [query]);
 
   return (
     <Div>
@@ -29,6 +29,7 @@ const SearchInput = () => {
         type="text"
         placeholder="Search"
         onChange={debouncedResults}
+        defaultValue={query}
       />
     </Div>
   );
