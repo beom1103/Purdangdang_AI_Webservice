@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import {
   NavLink,
   Outlet,
   useLocation,
   useNavigate,
   useParams,
-} from 'react-router-dom';
-import Footer from '../components/global/Footer';
+} from "react-router-dom";
+import Footer from "../components/global/Footer";
 
-import tw from 'tailwind-styled-components';
-import { useRecoilState } from 'recoil';
-import { infoAtom, getDetailInfo } from '../api/search';
+import tw from "tailwind-styled-components";
+import { useRecoilState } from "recoil";
+import { infoAtom, getDetailInfo } from "../api/search";
 
 const PlantDetailPage = () => {
   const navigate = useNavigate();
@@ -25,22 +25,27 @@ const PlantDetailPage = () => {
     return null;
   }, [params]);
 
-  //
-  if (id === null) {
-    return null;
-  }
-
   useEffect(() => {
+    const handlePopState = () => {
+      navigate("/search");
+    };
+
     const fetchInfo = async () => {
       const newInfo = await getDetailInfo(`/plant/${id}/info`);
       setInfo(newInfo);
     };
     fetchInfo();
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
   }, []);
 
-  window.onpopstate = () => {
-    navigate('/search');
-  };
+  if (id === null) {
+    return null;
+  }
 
   return (
     <Main>
@@ -59,7 +64,7 @@ const PlantDetailPage = () => {
               <NavLink
                 to="info"
                 className={({ isActive }) =>
-                  isActive ? 'active-link' : 'plant-link'
+                  isActive ? "active-link" : "plant-link"
                 }
               >
                 Info
@@ -67,7 +72,7 @@ const PlantDetailPage = () => {
               <NavLink
                 to="reviews"
                 className={({ isActive }) =>
-                  isActive ? 'active-link' : 'plant-link'
+                  isActive ? "active-link" : "plant-link"
                 }
               >
                 Reviews
