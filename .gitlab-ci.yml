@@ -13,6 +13,7 @@ Deploy:
   tags:
     - team-12-runner
   script:
+    - sudo service docker start
     - docker-compose stop server 
     - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
     - docker-compose build
