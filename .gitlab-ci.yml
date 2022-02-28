@@ -13,8 +13,9 @@ Deploy:
   tags:
     - team-12-runner
   script:
-    - docker stop $(docker ps -aq) || true
-    - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
-    - docker-compose build
-    - sudo chmod -R 777 ./data/mysql/db
-    - docker-compose run -d -p server
+    - sudo docker-compose stop server 
+    - sudo docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
+    - sudo docker-compose build
+    - sudo docker-compose run -d -p 5000:5000 server
+  variables:
+    GIT_STRATEGY: none

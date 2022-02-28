@@ -4,6 +4,11 @@ from .views import PlantListView, PlantDetailView, PlantReviewListView
 # EndPoints
 """
     GET /api/plant/search
+    GET /api/plant/<int:plant_id>/info
+    GET /api/plant/<int:plant_id>/reviews
+    POST /api/plant/<int:plant_id>/reviews
+    PUT /api/plant/<int:plant_id>/reviews
+    DELETE /api/plant/<int:plant_id>/reviews
 """
 
 urlpatterns = [

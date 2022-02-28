@@ -1,14 +1,14 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.db.models import Q
 from rest_framework import filters, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from knox.auth import TokenAuthentication
+
 from .pagination import PlantListPagination
 from .models import Plant, Review
 from .serializers import PlantSerializer, PlantDetailSerializer, PlantReviewSerializer
 
-# Create your views here.
 class PlantListView(APIView, PlantListPagination):
     """
     식물 검색
@@ -17,7 +17,7 @@ class PlantListView(APIView, PlantListPagination):
     """
     def get(self, request, format=None):
         keyword = request.GET.get("keyword", None)
-        # # todo) 공기정화 반려동물 꽃이피는 
+        # todo) 공기정화 반려동물 꽃이피는 
         def key_filter():
             plants = Plant.objects.filter(
                 Q(kor__icontains=keyword) | Q(name__icontains=keyword)
@@ -33,7 +33,7 @@ class PlantListView(APIView, PlantListPagination):
         # filter_backends = (filters.SearchFilter,)
         # search_fields = ['kor', 'name']
         return self.get_paginated_response(serializer_class.data)
-    
+
 class PlantDetailView(APIView):
     """
     식물 상세 정보 
@@ -58,18 +58,15 @@ class PlantReviewListView(APIView):
 
         식물(id)에 대한 리뷰 요청 - 삭제된 리뷰 제외
         """
-        # review = Review.objects.filter(Q(plant_id=plant_id) &
-        # Q(is_deleted=False)).order_by('-created_at')
-        # deletedmanager 가 filter 해준결과를 보여줌
-        review = Review.objects.filter(plant_id=plant_id).order_by("-created_at")
+        review = Review.objects.filter(plant_id=plant_id).order_by("-updated_at")[:3]
         serializer = PlantReviewSerializer(review, many=True)
         return Response(serializer.data)
 
-    def post(self, request, plant_id, format=None):
+    def post(self, request, plant_id: int, format=None):
         """
-        공원 리뷰 등록
+        식물 리뷰 등록
 
-        공원(id) 리뷰 등록
+        식물(id) 리뷰 등록
         """
         user = self.get_user()
         plant = get_object_or_404(Plant, pk=plant_id)
@@ -78,6 +75,7 @@ class PlantReviewListView(APIView):
         serializer.is_valid(raise_exception=True)
 
         validated_data = serializer.validated_data
+        
 
         review = Review()
         review.user_id = user
@@ -87,7 +85,39 @@ class PlantReviewListView(APIView):
 
         review.save()
 
-        return Response({"detail": "리뷰가 생성되었습니다."}, status=status.HTTP_201_CREATED)
+        return redirect(f'/api/plant/{plant_id}/reviews') 
 
+    def put(self, request, plant_id: int, format=None):
+        """
+        식물 리뷰 수정
+
+        식물(id) 리뷰 수정
+        """
+        user = self.get_user()
+        review = get_object_or_404(Review, user_id=user, plant_id=plant_id)
+        
+        serializer = PlantReviewSerializer(data=request.data, instance=review)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return redirect(f'/api/plant/{plant_id}/reviews') 
+        
+    def delete(self, request, plant_id: int, format=None):
+        """
+        식물 리뷰 삭제
+
+        식물(id) 리뷰 삭제
+        """
+        user = self.get_user()
+        # TODO: 특정 식물에 대한 특정 유저의 모든 댓글이 사라지는 문제 
+        review = get_object_or_404(Review, user_id=user, plant_id=plant_id)
+        review.delete()
+        
+        # TODO: redirect가 delete안에서만 도는 문제 
+        # 일단 get method code 가져와서 임시 해결 
+        review = Review.objects.filter(plant_id=plant_id).order_by("-updated_at")[:3]
+        serializer = PlantReviewSerializer(review, many=True)
+        return Response(serializer.data)
+
+        # return redirect(f'/api/plant/{plant_id}/reviews') 
 
 

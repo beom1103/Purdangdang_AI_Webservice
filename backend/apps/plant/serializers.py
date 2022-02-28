@@ -9,7 +9,13 @@ class PlantSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Plant
-        fields = ["id","kor","name","rank","image_url"]
+        fields = [
+            "id",
+            "kor",
+            "name",
+            "rank",
+            "image_url"
+        ]
         
 class PlantDetailSerializer(serializers.ModelSerializer):
     """
@@ -22,7 +28,7 @@ class PlantDetailSerializer(serializers.ModelSerializer):
 class PlantReviewSerializer(serializers.ModelSerializer):
     
     """
-    식물 리뷰 조회, 생성, 수정
+    식물 리뷰 조회, 생성, 수정, 삭제 
     """
 
     username = serializers.CharField(source="user_id.username", read_only=True)
@@ -38,7 +44,7 @@ class PlantReviewSerializer(serializers.ModelSerializer):
             "score",
             "content",
             "created_at",
-            # "updated_at"
+            "updated_at"
         ]
         read_only_fields = ("id",)
 
