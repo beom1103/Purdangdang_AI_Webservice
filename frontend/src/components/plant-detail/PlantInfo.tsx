@@ -6,6 +6,11 @@ import { infoAtom } from '../../api/search';
 const PlantInfo = () => {
   const info = useRecoilValue(infoAtom);
 
+  const buyPlant = () => {
+    const url = 'https://search.shopping.naver.com/search/all?query=';
+    window.open(url + info.kor);
+  };
+
   return (
     <div>
       <p className="mb-4 leading-relaxed">{info?.description}</p>
@@ -23,7 +28,9 @@ const PlantInfo = () => {
         <span className="ml-auto">잘 자라는 온도 : {info?.temperature}</span>
       </InfoDiv>
 
-      <button className="buy-button">구매하러 가기</button>
+      <button className="buy-button" onClick={buyPlant}>
+        구매하러 가기
+      </button>
     </div>
   );
 };
