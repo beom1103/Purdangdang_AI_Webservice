@@ -13,9 +13,9 @@ Deploy:
   tags:
     - team-12-runner
   script:
-    - docker-compose down
+    - docker-compose stop server 
     - docker system prune -af --volumes #필요 없는 이미지, 컨테이너 제거
     - docker-compose build
-    - docker-compose up
+    - docker-compose run -d -p 5000:5000 server
   variables:
     GIT_STRATEGY: none
