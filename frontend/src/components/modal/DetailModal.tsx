@@ -1,9 +1,9 @@
 import React from 'react';
 import tw from 'tailwind-styled-components';
 
-const DetailModal = ({ showModal }: any) => {
+const DetailModal = ({ isModal }: any) => {
   const closeModal = () => {
-    showModal(false);
+    isModal(false);
   };
 
   return (

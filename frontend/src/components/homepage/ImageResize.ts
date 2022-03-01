@@ -72,8 +72,6 @@ const imageResize = (settings: IResizeImageOptions) => {
       image.src = readerEvent.target.result;
     };
 
-    console.log(file);
-
     reader.readAsDataURL(file);
   });
 };

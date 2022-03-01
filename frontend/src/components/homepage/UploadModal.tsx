@@ -2,16 +2,12 @@ import React, { useEffect, useState } from 'react';
 import DetailModal from '../modal/DetailModal';
 import tw from 'tailwind-styled-components';
 
-const UploadModal = ({ showModal }: any) => {
+const UploadModal = ({ isModal }: any) => {
   const [detail, setDetail] = useState(false);
 
   const closeModal = () => {
-    showModal(false);
+    isModal(false);
   };
-
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-  }, []);
 
   return (
     <div className="modal-div sticky-0 modal" onClick={() => closeModal()}>
@@ -25,7 +21,7 @@ const UploadModal = ({ showModal }: any) => {
           onClick={e => e.stopPropagation()}
         >
           {detail ? (
-            <DetailModal showModal={showModal}></DetailModal>
+            <DetailModal isModal={isModal}></DetailModal>
           ) : (
             <div className="modal-box">
               <div className="flex justify-end w-full mb-8"></div>

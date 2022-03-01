@@ -72,6 +72,7 @@ module.exports = {
           /* Safari and Chrome */
           '&::-webkit-scrollbar': {
             display: 'none',
+            width: 0,
           },
         },
         '.scroll-style': {

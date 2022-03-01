@@ -31,6 +31,12 @@ const UploadContainer = ({ setIsModal }: any) => {
 
   useEffect(() => {
     setIsModal(showModal);
+
+    if (showModal) {
+      document.body.style.overflow = 'hidden';
+    } else if (!showModal) {
+      document.body.style.overflow = `visible `;
+    }
   }, [showModal]);
 
   const onClickFiles = useCallback(
@@ -38,6 +44,7 @@ const UploadContainer = ({ setIsModal }: any) => {
       let selectFiles: File[] = [];
 
       selectFiles = e.target?.files;
+      console.log(selectFiles[0]);
 
       setFiles(selectFiles);
 
@@ -247,7 +254,7 @@ const UploadContainer = ({ setIsModal }: any) => {
 
       {showModal ? (
         <Modal>
-          <UploadModal showModal={setShowModal}></UploadModal>
+          <UploadModal isModal={setShowModal}></UploadModal>
         </Modal>
       ) : null}
     </div>
