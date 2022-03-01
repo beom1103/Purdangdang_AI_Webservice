@@ -1,6 +1,6 @@
 import { atom, atomFamily, selector, selectorFamily } from 'recoil';
 import { api, athentication } from '.';
-import { Info } from '../store/type';
+import { Info, Reviews } from '../store/type';
 
 export const plantListAtom = atom({
   key: 'plantListAtom',
@@ -22,7 +22,7 @@ export const infoAtom = atom<Info>({
   default: {},
 });
 
-export const reviewPostAtom = atom({
+export const reviewPostAtom = atom<Reviews>({
   key: 'reviewInputAtom',
   default: {
     plant_id: 0,
@@ -75,34 +75,27 @@ export const getDetailInfo = async (pathname: string): Promise<Info | any> => {
   }
 };
 
-export const reviewsAtom = atomFamily({
-  key: 'reviewsAtom',
-  default: selectorFamily({
-    key: 'reviewSelector',
-    get:
-      (pathname: string) =>
-      async ({ get }) => {
-        const post = get(reviewPostAtom);
-        const method = get(methodAtom);
+export const postReview = async (
+  pathname: string,
+  review: Reviews,
+  method: string,
+): Promise<void> => {
+  switch (method) {
+    case 'post':
+      try {
+        athentication.post(`api${pathname}`, review);
+      } catch (error) {
+        console.log(error);
+      }
+      return;
 
-        switch (method) {
-          case 'post':
-            try {
-              athentication.post(`api${pathname}`, post);
-            } catch (error) {
-              console.log(error);
-            }
-            return;
+    case 'delete':
+      return;
 
-          case 'delete':
-            return;
+    case 'put':
+      return;
 
-          case 'put':
-            return;
-
-          default:
-            return;
-        }
-      },
-  }),
-});
+    default:
+      return;
+  }
+};

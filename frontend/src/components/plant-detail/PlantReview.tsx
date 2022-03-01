@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { validLogin } from '../../api';
-import { getDetailInfo } from '../../api/search';
+import { getDetailInfo, methodAtom } from '../../api/search';
 import { Reviews } from '../../store/type';
 import tw from 'tailwind-styled-components';
 import ReviewModal from '../modal/ReviewModal';
@@ -11,9 +11,21 @@ const PlantReview = () => {
   const isLogin = useRecoilValue(validLogin);
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const params = useParams() as { name: string };
+
   const [reviews, setReviews] = useState<Reviews[]>([]);
   const [showModal, setShowModal] = useState(false);
-  const params = useParams() as { name: string };
+  const setMethod = useSetRecoilState(methodAtom);
+
+  const fetchReviews = async () => {
+    const newReviews = await getDetailInfo(pathname);
+    setReviews(newReviews);
+  };
+
+  const showReviewModal = () => {
+    setMethod('post');
+    setShowModal(!showModal);
+  };
 
   useEffect(() => {
     if (!isLogin) {
@@ -22,18 +34,9 @@ const PlantReview = () => {
     }
   }, []);
 
-  const fetchReviews = async () => {
-    const newReviews = await getDetailInfo(pathname);
-    setReviews(newReviews);
-  };
-
   useEffect(() => {
     fetchReviews();
   }, []);
-
-  const showReviewModal = () => {
-    setShowModal(!showModal);
-  };
 
   return (
     <div>

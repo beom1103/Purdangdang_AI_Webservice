@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 import {
   NavLink,
   Outlet,
   useLocation,
   useNavigate,
   useParams,
-} from "react-router-dom";
-import Footer from "../components/global/Footer";
+} from 'react-router-dom';
+import Footer from '../components/global/Footer';
 
-import tw from "tailwind-styled-components";
-import { useRecoilState } from "recoil";
-import { infoAtom, getDetailInfo } from "../api/search";
+import tw from 'tailwind-styled-components';
+import { useRecoilState } from 'recoil';
+import { infoAtom, getDetailInfo } from '../api/search';
 
 const PlantDetailPage = () => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const PlantDetailPage = () => {
 
   useEffect(() => {
     const handlePopState = () => {
-      navigate("/search");
+      navigate('/search');
     };
 
     const fetchInfo = async () => {
@@ -36,10 +36,10 @@ const PlantDetailPage = () => {
     };
     fetchInfo();
 
-    window.addEventListener("popstate", handlePopState);
+    window.addEventListener('popstate', handlePopState);
 
     return () => {
-      window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener('popstate', handlePopState);
     };
   }, []);
 
@@ -64,7 +64,7 @@ const PlantDetailPage = () => {
               <NavLink
                 to="info"
                 className={({ isActive }) =>
-                  isActive ? "active-link" : "plant-link"
+                  isActive ? 'active-link' : 'plant-link'
                 }
               >
                 Info
@@ -72,7 +72,7 @@ const PlantDetailPage = () => {
               <NavLink
                 to="reviews"
                 className={({ isActive }) =>
-                  isActive ? "active-link" : "plant-link"
+                  isActive ? 'active-link' : 'plant-link'
                 }
               >
                 Reviews

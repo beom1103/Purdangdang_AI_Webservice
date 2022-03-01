@@ -37,11 +37,11 @@ export type Info = {
 
 export type Reviews = {
   content: string;
-  created_at: string;
-  id: number;
+  created_at?: string;
+  id?: number;
   plant_id: number;
-  plantname: string;
+  plantname?: string;
   score: number;
-  updated_at: string;
-  username: string;
+  updated_at?: string;
+  username?: string;
 };

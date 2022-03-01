@@ -18,6 +18,7 @@ import Header from '../homepage/Header';
 import PlantDetailPage from '../../pages/PlantDetailPage';
 import PlantReview from '../plant-detail/PlantReview';
 import LoadingSpiner from '../load-page/LoadingSpiner';
+import SurveyPage from '../../pages/SurveyPage';
 
 //lazy
 const SearchPage = React.lazy(() => import('../../pages/SearchPage'));
@@ -46,6 +47,7 @@ const Routing = () => {
           <Route path="info" element={<PlantInfo />} />
           <Route path="reviews" element={<PlantReview />} />
         </Route>
+        <Route element={<SurveyPage />} path="/survey" />
         <Route element={<ErrorPage />} path="*" />
       </Routes>
     </div>

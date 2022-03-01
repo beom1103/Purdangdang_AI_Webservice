@@ -1,9 +1,15 @@
-import React, { MouseEventHandler, useCallback, useEffect } from 'react';
+import React, {
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useMemo,
+} from 'react';
 import { useLocation } from 'react-router-dom';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import tw from 'tailwind-styled-components';
-import { methodAtom, reviewPostAtom, reviewsAtom } from '../../api/search';
+import { methodAtom, reviewPostAtom, postReview } from '../../api/search';
 import Star from './Star';
+import { debounce } from 'lodash';
 
 type ModalProps = {
   id: string;
@@ -11,22 +17,18 @@ type ModalProps = {
 };
 
 const ReviewModal: React.FC<ModalProps | any> = ({ id, showReviewModal }) => {
-  const setMethod = useSetRecoilState(methodAtom);
+  const method = useRecoilValue(methodAtom);
   const [reviewState, setReviewState] = useRecoilState(reviewPostAtom);
   const { pathname } = useLocation();
-  const post = useRecoilValue(reviewsAtom(pathname));
+  // const post = useRecoilValue(reviewsAtom(pathname));
   const { score, content } = reviewState;
   const disabledButton = score > 0 && content.length > 0;
 
-  useEffect(() => {
-    setReviewState({ ...reviewState, ['plant_id']: id });
-  }, []);
-
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     if (!disabledButton) {
       alert('리뷰를 작성 후 제출해주세요!');
     } else {
-      setMethod('post');
+      await postReview(pathname, reviewState, method);
       alert('등록 되었습니다.');
       window.location.reload();
     }
@@ -36,10 +38,17 @@ const ReviewModal: React.FC<ModalProps | any> = ({ id, showReviewModal }) => {
     e => {
       const { name, value } = e.target;
       setReviewState({ ...reviewState, [name]: value });
-      console.log(reviewState);
     },
     [reviewState],
   );
+
+  const debounced = useMemo(() => {
+    return debounce(onChangeInput, 300);
+  }, [reviewState]);
+
+  useEffect(() => {
+    setReviewState({ ...reviewState, ['plant_id']: id });
+  }, []);
 
   return (
     <Modal>
