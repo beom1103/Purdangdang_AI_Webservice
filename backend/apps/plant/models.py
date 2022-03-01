@@ -22,8 +22,7 @@ class Plant(models.Model):
     water_cycle = models.CharField(max_length=200, verbose_name = '물 주기', blank=True, null=True)
     sunlight = models.CharField(max_length=200, verbose_name = '햇볕', blank=True, null=True)
     temperature = models.CharField(max_length=200, verbose_name = '온도', blank=True, null=True)
-    shopping_url = models.URLField(blank=True, verbose_name = '쇼핑 링크', null=True)
-    catogory = models.ManyToManyField(Category)
+    category = models.ManyToManyField(Category)
     
     def __str__(self):
         return str(self.id)
