@@ -1,7 +1,10 @@
 """config URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
+
     https://docs.djangoproject.com/en/4.0/topics/http/urls/
+
+
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -13,6 +16,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.urls import path, include, re_path
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -37,14 +41,21 @@ schema_view = get_schema_view(
 )
 
 app_urls = [
+    #path('admin/', admin.site.urls),
     path("", include("apps.user.urls")),
     path("plant/",include("apps.plant.urls")),
     path("auth/", include("knox.urls")),
+    path('accounts/', include('dj_rest_auth.urls')),
+    path('accounts/', include('dj_rest_auth.registration.urls')),
+    path('google/', include('allauth.urls')),
+    path('google/', include('apps.social_login.urls')),
+    
 ]
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(app_urls)),
+    path('accounts/', include('allauth.urls')),
 ]
 
 if settings.DEBUG:
