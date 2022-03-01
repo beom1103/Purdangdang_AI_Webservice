@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from knox.auth import TokenAuthentication
 
 from .pagination import PlantListPagination
-from .models import Plant, Review
+from .models import Plant, Review, Category
 from .serializers import PlantSerializer, PlantDetailSerializer, PlantReviewSerializer
 
 class PlantListView(APIView, PlantListPagination):
@@ -16,22 +16,25 @@ class PlantListView(APIView, PlantListPagination):
     조건에 따른 식물 목록 검색 결과를 반환
     """
     def get(self, request, format=None):
-        keyword = request.GET.get("keyword", None)
-        # todo) 공기정화 반려동물 꽃이피는 
-        def key_filter():
+        kw = request.GET.get("kw", None) # 검색어 
+        f = request.GET.get("f",None) # 필터 
+
+        def search():
             plants = Plant.objects.filter(
-                Q(kor__icontains=keyword) | Q(name__icontains=keyword)
+                Q(kor__icontains=kw) | Q(name__icontains=kw)
             )
             return plants
+        
+        if f: category = Category.objects.get(name=f).plant_set.all()
+    
+        if kw: queryset = search()
+        else : queryset = Plant.objects.all()
 
-        if keyword: queryset = key_filter()
-        else: queryset = Plant.objects.all()
-
-        # plants = self.paginate_queryset(plant, request, view=self)
-        results = self.paginate_queryset(queryset, request, view=self)
+        if f: results = self.paginate_queryset(queryset.intersection(category), request, view=self)
+        else : results = self.paginate_queryset(queryset, request, view=self)
+        
         serializer_class = PlantSerializer(results, many=True)
-        # filter_backends = (filters.SearchFilter,)
-        # search_fields = ['kor', 'name']
+        
         return self.get_paginated_response(serializer_class.data)
 
 class PlantDetailView(APIView):
