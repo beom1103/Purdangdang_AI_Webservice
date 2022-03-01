@@ -3,7 +3,7 @@ import tw from 'tailwind-styled-components';
 
 const Marker = ({ num, scrollIndex, setPageNum, title }: any) => {
   return (
-    <div
+    <button
       className={`w-24 h-8 cursor-pointer`}
       style={{
         color: scrollIndex === num ? '#64dd17' : '#bdbdbd',
@@ -14,7 +14,7 @@ const Marker = ({ num, scrollIndex, setPageNum, title }: any) => {
       }}
     >
       <span className="text-lg">{title}</span>
-    </div>
+    </button>
   );
 };
 
