@@ -241,7 +241,7 @@ body {
 }
 
 .like {
-  @apply inline-flex ml-4 text-gray-600 outline-none;
+  @apply inline-flex ml-4 text-gray-600 outline-none bg-white;
 }
 
 /* modal */

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   NavLink,
   Outlet,
@@ -17,6 +17,7 @@ const PlantDetailPage = () => {
   const { pathname } = useLocation();
   const params = useParams() as { name: string };
   const [info, setInfo] = useRecoilState(infoAtom);
+  const [fill, setFill] = useState(false);
 
   const id = React.useMemo(() => {
     if (params.name !== undefined) {
@@ -24,6 +25,10 @@ const PlantDetailPage = () => {
     }
     return null;
   }, [params]);
+
+  const fillHeart = (): void => {
+    setFill(!fill);
+  };
 
   useEffect(() => {
     const handlePopState = () => {
@@ -56,8 +61,10 @@ const PlantDetailPage = () => {
             <h4 className="text-sm">이름</h4>
             <h2 className="mb-4 text-green-600 ">
               {info?.kor}
-              <button className="like">
-                <i className="fas fa-heart" />
+              <button className="like" onClick={fillHeart}>
+                <Heart
+                  className={fill ? 'text-red-500 text-xl' : 'text-gray-500'}
+                />
               </button>
             </h2>
             <div className="flex mb-4">
@@ -115,4 +122,9 @@ const Div = tw.div`
   w-full 
   my-auto 
   lg:w-1/2
+`;
+
+const Heart = tw.i`
+  fas
+  fa-heart
 `;

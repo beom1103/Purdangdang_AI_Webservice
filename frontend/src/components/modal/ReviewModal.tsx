@@ -20,7 +20,6 @@ const ReviewModal: React.FC<ModalProps | any> = ({ id, showReviewModal }) => {
   const method = useRecoilValue(methodAtom);
   const [reviewState, setReviewState] = useRecoilState(reviewPostAtom);
   const { pathname } = useLocation();
-  // const post = useRecoilValue(reviewsAtom(pathname));
   const { score, content } = reviewState;
   const disabledButton = score > 0 && content.length > 0;
 
@@ -102,22 +101,5 @@ const CloseButton = tw.i`
   cursor-pointer 
   fas 
   fa-door-open
-  hover:scale-105
-// `;
-
-// const FillStar = tw.span`
-//   w-0
-//   absolute
-//   left-0
-//   text-yellow-500
-//   overflow-hidden
-// `;
-
-// const Range = tw.input`
-//   w-full
-//   h-full
-//   absolute
-//   left-0
-//   opacity-0
-//   cursor-pointer
-// `;
+  
+ `;

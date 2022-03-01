@@ -43,11 +43,12 @@ const PlantReview = () => {
       {reviews &&
         reviews.map((data: Reviews): JSX.Element => {
           return (
-            <ReviewBox>
+            <ReviewBox key={data.id}>
               <div className="flex">
                 <User>
                   이름 : <span className="text-green-600">{data.username}</span>
                 </User>
+
                 <Rating>평점 :{data.score}</Rating>
               </div>
               <Review>review : {data.content}</Review>
