@@ -16,21 +16,23 @@ class PlantListView(APIView, PlantListPagination):
     조건에 따른 식물 목록 검색 결과를 반환
     """
     def get(self, request, format=None):
-        keyword = request.GET.get("keyword", None) # 검색어 
+        kw = request.GET.get("kw", None) # 검색어 
         f = request.GET.get("f",None) # 필터 
 
         def search():
             plants = Plant.objects.filter(
-                Q(kor__icontains=keyword) | Q(name__icontains=keyword)
+                Q(kor__icontains=kw) | Q(name__icontains=kw)
             )
             return plants
         
-        category = Category.objects.get(name=f).plant_set.all()
+        if f: category = Category.objects.get(name=f).plant_set.all()
     
-        if keyword: queryset = search()
-        else: queryset = Plant.objects.all()
+        if kw: queryset = search()
+        else : queryset = Plant.objects.all()
 
-        results = self.paginate_queryset(queryset.intersection(category), request, view=self)
+        if f: results = self.paginate_queryset(queryset.intersection(category), request, view=self)
+        else : results = self.paginate_queryset(queryset, request, view=self)
+        
         serializer_class = PlantSerializer(results, many=True)
         
         return self.get_paginated_response(serializer_class.data)
