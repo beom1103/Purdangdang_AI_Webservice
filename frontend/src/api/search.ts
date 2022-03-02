@@ -1,4 +1,10 @@
-import { atom, atomFamily, selector, selectorFamily } from 'recoil';
+import {
+  atom,
+  atomFamily,
+  selector,
+  selectorFamily,
+  useRecoilValue,
+} from 'recoil';
 import { api, athentication } from '.';
 import { Info, Reviews } from '../store/type';
 
@@ -31,15 +37,28 @@ export const reviewPostAtom = atom<Reviews>({
   },
 });
 
+export const filterAtom = atom({
+  key: 'filterAtom',
+  default: '전체',
+});
+
 // 나중에 검색이랑 합치기
 export const fetchPlant = selector({
   key: 'fetchPlant',
-  get: async () => {
-    try {
-      const { data } = await api.get('api/plant/search');
+  get: async ({ get }) => {
+    const filter = get(filterAtom);
+    const query = get(plantQueryAtom);
+    let requestUrl = null;
+
+    if (filter === '전체') {
+      requestUrl = 'api/plant/search';
+    } else {
+      requestUrl = `api/plant/search?f=${filter}`;
+    }
+
+    if (requestUrl !== null) {
+      const { data } = await api.get(requestUrl);
       return data;
-    } catch (error) {
-      return;
     }
   },
 });
@@ -49,7 +68,7 @@ export const searchPlant = selector({
   get: async ({ get }) => {
     const plant = get(plantQueryAtom);
     try {
-      const { data } = await api.get(`api/plant/search?keyword=${plant}`);
+      const { data } = await api.get(`api/plant/search?kw=${plant}`);
       return data;
     } catch (error) {
       return false;
@@ -57,12 +76,18 @@ export const searchPlant = selector({
   },
 });
 
-export const scrollPage = async (page: number) => {
-  try {
-    const { data } = await api.get(`api/plant/search?page=${page}`);
+export const scrollPage = async (page: number, filter: string) => {
+  let requestUrl = null;
+
+  if (filter === '전체') {
+    requestUrl = `api/plant/search?page=${page}`;
+  } else {
+    requestUrl = `api/plant/search?f=${filter}&page=${page}`;
+  }
+
+  if (requestUrl !== null) {
+    const { data } = await api.get(requestUrl);
     return data;
-  } catch (error) {
-    return false;
   }
 };
 
