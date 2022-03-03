@@ -1,12 +1,12 @@
 version: "3"
 services:
-  db:
-    image: mysql:5.7
-    environment:
-      MYSQL_DATABASE: "django_app_db"
-      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
-    volumes:
-      - ./data/mysql/db:/var/lib/mysql
+  # db:
+  #   image: mysql:5.7
+  #   environment:
+  #     MYSQL_DATABASE: "django_app_db"
+  #     MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+  #   volumes:
+  #     - ./data/mysql/db:/var/lib/mysql
 
   server:
     build:
@@ -19,5 +19,5 @@ services:
     image: server:apps
     container_name: django_container
     command: python manage.py runserver 0.0.0.0:5000
-    depends_on:
-      - db
+    # depends_on:
+    #   - db
