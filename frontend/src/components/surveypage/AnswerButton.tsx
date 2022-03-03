@@ -27,7 +27,7 @@ const AnswerButton: React.FC<answerProps> = ({ question, next }) => {
 
 export default AnswerButton;
 
-const CheckButton = tw.button`
+export const CheckButton = tw.button`
   p-5
   w-52
   bg-gray-500
@@ -35,7 +35,7 @@ const CheckButton = tw.button`
   hover:bg-green-600
 `;
 
-const CheckBox = tw.div`
+export const CheckBox = tw.div`
   grid
   mt-12
   md:px-20

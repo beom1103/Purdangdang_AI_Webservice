@@ -6,13 +6,16 @@ import questionList from '../store/questionList.json';
 import tw from 'tailwind-styled-components';
 import AnswerButton from '../components/surveypage/AnswerButton';
 import Complete from '../components/surveypage/Complete';
+import SurveyIntro from '../components/surveypage/SurveyIntro';
+import ProgressBar from '../components/surveypage/ProgressBar';
 
 const SurveyPage = () => {
   const navigate = useNavigate();
   const isLogin = useRecoilValue(validLogin);
   const [questionNo, setQuestionNo] = useState<number>(0);
-  const [checkList, setCheckList] = useState<string[]>([]);
+  const [isConfirm, setIsConFirm] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const [checkList, setCheckList] = useState<string[]>([]);
   const question = questionList[questionNo];
 
   const next = useCallback(
@@ -23,9 +26,9 @@ const SurveyPage = () => {
         newList.push(value);
         setCheckList(newList);
         setQuestionNo(questionNo + 1);
-        console.log(checkList);
       } else {
         setIsComplete(true);
+        onSubmit();
       }
     },
     [questionNo],
@@ -36,7 +39,6 @@ const SurveyPage = () => {
       .map((check, idx) => `${idx + 1}=${check}`)
       .join(' ');
     const post = { answers: answers };
-    console.log(post);
   };
 
   useEffect(() => {
@@ -48,21 +50,18 @@ const SurveyPage = () => {
 
   return (
     <Container>
-      {!isComplete ? (
+      {!isConfirm && <SurveyIntro setIsConFirm={setIsConFirm} />}
+      {isConfirm && !isComplete ? (
         <QuestionBox>
           <div className="h-64 overflow-hidden rounded-lg">
             <IMG src={question.image} alt="questionImage" />
           </div>
           <Title>{question.question}</Title>
+          <ProgressBar checkList={checkList} />
           <AnswerButton question={question} next={next} />
         </QuestionBox>
       ) : (
-        <div>
-          <Complete />
-          <button className="buy-button" onClick={onSubmit}>
-            제출
-          </button>
-        </div>
+        isConfirm && <Complete />
       )}
     </Container>
   );
@@ -77,22 +76,23 @@ const Container = tw.div`
   py-12
   mx-auto
   flex
-  flex-col  
+  flex-col
 `;
 
-const QuestionBox = tw.div` 
+export const QuestionBox = tw.div` 
   lg:w-4/6
   mx-auto
 `;
 
-const IMG = tw.img` 
+export const IMG = tw.img` 
   object-cover
   object-center 
   h-full 
   w-full
+  sm:min-w-[600px]
 `;
 
-const Title = tw.h1` 
+export const Title = tw.h1` 
   text-center
   text-2xl
 `;
