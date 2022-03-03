@@ -4,12 +4,7 @@ import React, {
   useEffect,
   MouseEventHandler,
 } from 'react';
-import {
-  useRecoilState,
-  useRecoilValue,
-  useRecoilValueLoadable,
-  useResetRecoilState,
-} from 'recoil';
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import {
   fetchPlant,
   searchPlant,
@@ -34,14 +29,16 @@ const PlantList = () => {
   const [plantsList, setPlantsList] = useRecoilState<Plant[] | any>(
     plantListAtom,
   );
-  const [page, setPage] = useState(2);
+  // const [page, setPage] = useState(1);
   const filter = useRecoilValue(filterAtom);
+
+  let page = 1;
 
   // 스크롤이 맨 밑에 있을때 실행
   const handleScroll = useCallback(async () => {
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
     if (scrollHeight - scrollTop === clientHeight) {
-      setPage(page + 1);
+      page++;
       await getMorePlant();
     }
   }, [page]);
@@ -70,7 +67,7 @@ const PlantList = () => {
   }, []);
 
   useEffect(() => {
-    setPage(1);
+    page = 1;
     setPlantsList(fetchPlantList.results);
   }, [filter]);
 

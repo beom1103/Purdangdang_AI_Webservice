@@ -1,15 +1,9 @@
-import React, {
-  MouseEventHandler,
-  useCallback,
-  useEffect,
-  useMemo,
-} from 'react';
+import React, { MouseEventHandler, useCallback, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import tw from 'tailwind-styled-components';
 import { methodAtom, reviewPostAtom, postReview } from '../../api/search';
 import Star from './Star';
-import { debounce } from 'lodash';
 
 type ModalProps = {
   id: string;
@@ -41,9 +35,11 @@ const ReviewModal: React.FC<ModalProps | any> = ({ id, showReviewModal }) => {
     [reviewState],
   );
 
-  const debounced = useMemo(() => {
-    return debounce(onChangeInput, 300);
-  }, [reviewState]);
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      onSubmit();
+    }
+  };
 
   useEffect(() => {
     setReviewState({ ...reviewState, ['plant_id']: id });
@@ -59,7 +55,11 @@ const ReviewModal: React.FC<ModalProps | any> = ({ id, showReviewModal }) => {
         <Star />
       </div>
       <h3 className="mt-8">리뷰</h3>
-      <TextArea name="content" onChange={onChangeInput} />
+      <TextArea
+        name="content"
+        onChange={onChangeInput}
+        onKeyPress={handleKeyPress}
+      />
       <Button onClick={onSubmit}>제출</Button>
     </Modal>
   );

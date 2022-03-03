@@ -81,9 +81,7 @@ export const scrollPage = async (page: number, filter: string) => {
 
   if (filter === '전체') {
     requestUrl = `api/plant/search?page=${page}`;
-  }
-
-  if (filter !== '전체') {
+  } else {
     requestUrl = `api/plant/search?f=${filter}&page=${page}`;
   }
 

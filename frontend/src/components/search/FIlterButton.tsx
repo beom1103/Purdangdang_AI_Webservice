@@ -12,8 +12,8 @@ const FilterButton = () => {
 
   const changeFilter = useCallback((e: any): void => {
     const { textContent } = e.currentTarget;
+    reset;
     setFilter(textContent);
-    reset();
   }, []);
 
   return (
