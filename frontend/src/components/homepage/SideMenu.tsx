@@ -73,12 +73,12 @@ const SideMenu = ({ menu, selectMenu }: any) => {
           <div className="flex w-full">
             <Line></Line>
           </div>
-          <a href="#" className="side-link">
+          <Link to="/survey" className="side-link">
             <div className="flex-row">
               <I className="fas fa-filter"></I>
               <span>나와 어울리는 푸르댕댕은?</span>
             </div>
-          </a>
+          </Link>
           <div className="flex w-full">
             <Line></Line>
           </div>
