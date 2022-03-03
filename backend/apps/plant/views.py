@@ -1,14 +1,22 @@
 from django.shortcuts import redirect, get_object_or_404
 from django.db.models import Q
 from rest_framework import filters, permissions, status
+from rest_framework.exceptions import ParseError
 from rest_framework.response import Response
+from rest_framework.parsers import FileUploadParser
 from rest_framework.views import APIView
 from knox.auth import TokenAuthentication
 
-from .pagination import PlantListPagination
-from .models import Plant, Review, Category
-from .serializers import PlantSerializer, PlantDetailSerializer, PlantReviewSerializer
+from pathlib import Path
+import os 
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+from .pagination import PlantListPagination
+from .models import Plant, Review, Category, UploadImage
+from .serializers import PlantSerializer, PlantDetailSerializer, PlantReviewSerializer, UploadSerializer
+from ..ai import resnet_model
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 class PlantListView(APIView, PlantListPagination):
     """
     식물 검색
@@ -32,7 +40,7 @@ class PlantListView(APIView, PlantListPagination):
 
         if f: results = self.paginate_queryset(queryset.intersection(category), request, view=self)
         else : results = self.paginate_queryset(queryset, request, view=self)
-        
+
         serializer_class = PlantSerializer(results, many=True)
         
         return self.get_paginated_response(serializer_class.data)
@@ -79,7 +87,6 @@ class PlantReviewListView(APIView):
 
         validated_data = serializer.validated_data
         
-
         review = Review()
         review.user_id = user
         review.plant_id = plant
@@ -121,6 +128,42 @@ class PlantReviewListView(APIView):
         serializer = PlantReviewSerializer(review, many=True)
         return Response(serializer.data)
 
-        # return redirect(f'/api/plant/{plant_id}/reviews') 
+        # return redirect(f'/api/plant/{plant_id}/reviews')
+        
+THIS_FOLDER = os.path.dirname(Path(__file__).resolve().parent.parent)
+FORMAT = [".jpg"] # 지원하는 포맷확장자 나열
+class PlantUploadView(APIView):
+    """
+    식물 이미지 업로드 
 
+    요청한 식물의 상세 정보를 반환
+    """
+    # parser_classes = (FileUploadParser,)
+    
+    # def get(self, request, format=None):
+    #     """해당 식물 분석 결과의 고유한 DB id값의 상세 정보를 가져옵니다."""
 
+    def post(self, request, format=None):
+        """식물 사진을 올리면 예측한 식물의 상세 정보값을 가져옵니다."""
+        try:
+            file = request.data['file']
+        except KeyError:
+            raise ParseError('Request has no resource file attached')
+        
+        print(file)
+        # 파일 확장자 검사 
+        if str(file).endswith(tuple(FORMAT)) : pass 
+        else : return Response("Invalid format")
+        
+        uploadFile = UploadImage.objects.create(image=file)
+        uploadFile.save()
+        
+        model = resnet_model.Resnet()
+        my_file = os.path.join(THIS_FOLDER + "/media/", str(uploadFile.image).replace('/','\\'))
+        
+        pred = model.predict(my_file)
+        
+        results = get_object_or_404(Plant, kor=pred)
+        serializer = PlantDetailSerializer(results)
+             
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
