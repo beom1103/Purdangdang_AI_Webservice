@@ -1,10 +1,4 @@
-import {
-  atom,
-  atomFamily,
-  selector,
-  selectorFamily,
-  useRecoilValue,
-} from 'recoil';
+import { atom, selector } from 'recoil';
 import { api, athentication } from '.';
 import { Info, Reviews } from '../store/type';
 
@@ -39,7 +33,7 @@ export const reviewPostAtom = atom<Reviews>({
 
 export const filterAtom = atom({
   key: 'filterAtom',
-  default: '전체',
+  default: '',
 });
 
 // 나중에 검색이랑 합치기
@@ -47,7 +41,6 @@ export const fetchPlant = selector({
   key: 'fetchPlant',
   get: async ({ get }) => {
     const filter = get(filterAtom);
-    const query = get(plantQueryAtom);
     let requestUrl = null;
 
     if (filter === '전체') {

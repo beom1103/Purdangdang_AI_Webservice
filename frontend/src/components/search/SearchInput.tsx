@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import tw from 'tailwind-styled-components';
 import { plantQueryAtom } from '../../api/search';
 import { debounce } from 'lodash';
@@ -15,7 +15,7 @@ const SearchInput = () => {
   );
 
   const debouncedResults = useMemo(() => {
-    return debounce(searchPlant, 300);
+    return debounce(searchPlant, 500);
   }, [query]);
 
   return (

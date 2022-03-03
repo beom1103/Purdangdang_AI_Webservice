@@ -1,13 +1,12 @@
 import React, {
-  useState,
   useCallback,
   useEffect,
   MouseEventHandler,
+  useState,
 } from 'react';
-import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   fetchPlant,
-  searchPlant,
   scrollPage,
   plantQueryAtom,
   plantListAtom,
@@ -16,29 +15,23 @@ import {
 import PlantCard from './PlantCard';
 import { useNavigate } from 'react-router-dom';
 import { Plant } from '../../store/type';
+import SearchList from './SearchList';
 
 const PlantList = () => {
   const navigate = useNavigate();
-
   const plantQuery = useRecoilValue(plantQueryAtom);
   const fetchPlantList = useRecoilValue(fetchPlant);
-
-  const searchData = useRecoilValueLoadable(searchPlant);
-  const searchResult = searchData.contents;
-
   const [plantsList, setPlantsList] = useRecoilState<Plant[] | any>(
     plantListAtom,
   );
-  // const [page, setPage] = useState(1);
   const filter = useRecoilValue(filterAtom);
-
-  let page = 1;
+  const [page, setPage] = useState<number>(1);
 
   // 스크롤이 맨 밑에 있을때 실행
   const handleScroll = useCallback(async () => {
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
     if (scrollHeight - scrollTop === clientHeight) {
-      page++;
+      setPage(page => page + 1);
       await getMorePlant();
     }
   }, [page]);
@@ -47,7 +40,7 @@ const PlantList = () => {
   const getMorePlant = useCallback(async () => {
     const newPlant = await scrollPage(page, filter);
     setPlantsList((prev: Plant[]) => [...prev, ...newPlant.results]);
-  }, [page]);
+  }, [page, filter]);
 
   //상세 페이지로 라우팅
   const goDetail = useCallback((e: MouseEventHandler | any) => {
@@ -64,38 +57,27 @@ const PlantList = () => {
 
   useEffect(() => {
     setPlantsList(fetchPlantList.results);
-  }, []);
-
-  useEffect(() => {
-    page = 1;
-    setPlantsList(fetchPlantList.results);
+    setPage(1);
+    console.log(filter);
   }, [filter]);
 
   return (
     <div className="card">
-      {!plantQuery
-        ? plantsList?.map((data: Plant): JSX.Element => {
-            return (
-              <PlantCard
-                kor={data.kor}
-                name={data.name}
-                rank={data.rank}
-                image={data.image_url}
-                onClick={goDetail}
-              />
-            );
-          })
-        : searchResult?.results?.map((data: Plant): JSX.Element => {
-            return (
-              <PlantCard
-                kor={data.kor}
-                name={data.name}
-                rank={data.rank}
-                image={data.image_url}
-                onClick={goDetail}
-              />
-            );
-          })}
+      {!plantQuery ? (
+        plantsList?.map((data: Plant): JSX.Element => {
+          return (
+            <PlantCard
+              kor={data.kor}
+              name={data.name}
+              rank={data.rank}
+              image={data.image_url}
+              onClick={goDetail}
+            />
+          );
+        })
+      ) : (
+        <SearchList />
+      )}
     </div>
   );
 };
