@@ -45,3 +45,11 @@ export type Reviews = {
   updated_at?: string;
   username?: string;
 };
+
+export type Question = {
+  id?: number;
+  question: string;
+  answer1: string;
+  answer2: string;
+  image: string;
+};

@@ -1,18 +1,20 @@
 import React, { useCallback } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import tw from 'tailwind-styled-components';
-import { filterAtom } from '../../api/search';
+import { filterAtom, plantListAtom } from '../../api/search';
+import PlantInfo from '../plant-detail/PlantInfo';
 
 // 그냥 예시 버튼 나중에 다 지우고 다시 구현해야 함.
 
 const FilterButton = () => {
   const setFilter = useSetRecoilState(filterAtom);
+  const reset = useResetRecoilState(plantListAtom);
 
-  const changeFilter = (e: any): void => {
+  const changeFilter = useCallback((e: any): void => {
     const { textContent } = e.currentTarget;
     setFilter(textContent);
-    console.log(textContent);
-  };
+    reset();
+  }, []);
 
   return (
     <div className="mt-5">

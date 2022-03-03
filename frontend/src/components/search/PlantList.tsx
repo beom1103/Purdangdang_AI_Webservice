@@ -4,7 +4,12 @@ import React, {
   useEffect,
   MouseEventHandler,
 } from 'react';
-import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil';
+import {
+  useRecoilState,
+  useRecoilValue,
+  useRecoilValueLoadable,
+  useResetRecoilState,
+} from 'recoil';
 import {
   fetchPlant,
   searchPlant,
@@ -62,6 +67,11 @@ const PlantList = () => {
 
   useEffect(() => {
     setPlantsList(fetchPlantList.results);
+  }, []);
+
+  useEffect(() => {
+    setPage(1);
+    setPlantsList(fetchPlantList.results);
   }, [filter]);
 
   return (
@@ -70,7 +80,6 @@ const PlantList = () => {
         ? plantsList?.map((data: Plant): JSX.Element => {
             return (
               <PlantCard
-                key={data.rank}
                 kor={data.kor}
                 name={data.name}
                 rank={data.rank}
@@ -82,7 +91,6 @@ const PlantList = () => {
         : searchResult?.results?.map((data: Plant): JSX.Element => {
             return (
               <PlantCard
-                key={data.rank}
                 kor={data.kor}
                 name={data.name}
                 rank={data.rank}
