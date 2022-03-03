@@ -55,3 +55,13 @@ class Review(models.Model):
         return str(self.id)
 
 
+class UploadImage(models.Model):
+    """
+        식물 이미지 업로드 
+    """ 
+    image = models.ImageField(upload_to="images", verbose_name="식물 이미지", null=True)
+    upload_at = models.DateTimeField(auto_now=True, verbose_name="파일 작성일시")
+
+    def __str__(self):
+        return str(self.image)
+
