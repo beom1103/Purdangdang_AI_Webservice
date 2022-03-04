@@ -4,11 +4,13 @@ import tw from 'tailwind-styled-components';
 import { validLogin } from '../api';
 import ImagePreview from '../components/mypageform/MyImageUpload';
 import UploadList from '../components/mypageform/UploadList';
+import Noti from '../components/mypageform/Noti';
 
 const MyPage = () => {
   const userInfo = useRecoilValue(validLogin);
   const [files, setFiles] = useState<any[]>([]);
   const [imgUrl, setImgUrl] = useState<any[]>([]);
+  const [plantName, setPlantName] = useState<any[]>([]);
   const [selected, setSelected] = useState<any[]>([]);
   const [checked, setChecked] = useState(1);
   const [mainImg, setMainImg] = useState('/img/tree.png');
@@ -17,48 +19,52 @@ const MyPage = () => {
     setFiles(files.concat(imgUrl));
   }, [imgUrl]);
 
+  const handleNamimg = (number: any, name: any) => {
+    const setName = plantName;
+    setName.splice(number, 1, name);
+    setPlantName(setName);
+  };
+
   return (
-    <div className="flex items-center justify-center h-screen mt-24 md:mt-0">
+    <div className="mypage_div">
       <div
-        className="flex flex-col items-center p-0 mt-0 rounded-lg lg:mt-48 lg:p-10 drop-shadow-lg"
+        className="mypage_Container"
         style={{
           background: `rgba(243,255,244,0.1)
                         linear-gradient(180deg, rgba(243,255,244,0.1) 0%, rgba(255,249,246,0.7) 50%, rgba(255,238,246,1) 100%)`,
         }}
       >
         {userInfo ? (
-          <span className="flex flex-col items-center justify-center sm:flex-row sm:items-end sm:justify-start sm:flex">
+          <span className="mypage_user">
             <i className="ml-2 text-4xl text-green-600 fas fa-leaf"></i>
             <H2>{userInfo.email}님</H2>
             <H3>&nbsp;&nbsp;안녕하세요!</H3>
           </span>
         ) : (
           //   <H3>? 님 누구임?</H3>
-          <span className="flex flex-col items-center justify-center mt-48 md:mt-24 sm:flex-row sm:items-end lg:mt-0 sm:justify-start sm:flex">
+          <span className="mypage_user">
             <i className="ml-2 text-4xl text-green-600 fas fa-leaf"></i>
             <H2>&nbsp; dangedaeng.com님</H2>
             <H3>&nbsp;&nbsp;안녕하세요!</H3>
           </span>
         )}
-        <div className="flex-col items-center justify-between w-3/4 p-3 mt-10 border-2 border-gray-400 border-dotted rounded-xl">
+        <div className="mypage_ImgBox">
           <h4 className="flex justify-center mb-3 md:justify-start">
             나의 반려식물
           </h4>
           <div className="detail_Modal-line"></div>
-          <div className="relative flex flex-col items-center justify-around w-full px-10 mt-3 sm:flex-row h-2/4 rounded-xl sm:px-0">
-            <div className="flex flex-col w-full md:flex-row md:justify-between md:items-start">
+          <div className="mypage_ImgContainer">
+            <div className="mypage_ImgSet">
               <div className="w-full lg:w-2/4 ">
                 <img
-                  className="object-fill w-full border-2 border-green-800 border-dashed md:w-96 md:h-96"
+                  className="mypage_Img"
                   src={mainImg !== undefined ? mainImg : './img/tree.png'}
                   alt="선택된 이미지"
                 />
               </div>
-              <div className="flex flex-col items-end w-full md:pl-5 h-2/4 lg:pl-0 lg:w-2/4">
-                <span className="flex justify-center w-full mt-10 mb-2 text-lg font-medium md:justify-end md:mt-1">
-                  나만의 식물들
-                </span>
-                <ul className="flex items-center justify-center w-full lg:w-3/4">
+              <div className="mypage_TitleBox">
+                <span className="mypage_Title">나만의 식물들</span>
+                <ul className="mypage_Ul">
                   <ImagePreview
                     files={files}
                     id={0}
@@ -84,7 +90,7 @@ const MyPage = () => {
                     setMainImg={setMainImg}
                   />
                 </ul>
-                <div className="w-full mt-10 lg:w-2/4">
+                <div className="w-full mt-10 lg:w-3/4">
                   <div>
                     <ul>
                       <UploadList
@@ -93,6 +99,7 @@ const MyPage = () => {
                         checked={checked}
                         setFiles={setFiles}
                         setImgUrl={setImgUrl}
+                        handleNamimg={handleNamimg}
                       />
                       <UploadList
                         id={2}
@@ -100,6 +107,7 @@ const MyPage = () => {
                         checked={checked}
                         setFiles={setFiles}
                         setImgUrl={setImgUrl}
+                        handleNamimg={handleNamimg}
                       />
                       <UploadList
                         id={3}
@@ -107,17 +115,19 @@ const MyPage = () => {
                         checked={checked}
                         setFiles={setFiles}
                         setImgUrl={setImgUrl}
+                        handleNamimg={handleNamimg}
                       />
                     </ul>
                   </div>
                 </div>
+                <Noti />
               </div>
             </div>
           </div>
         </div>
-        <div className="flex-col items-center justify-between w-3/4 mt-10 h-2/4 sm:h-2/5 ">
+        <div className="mypage_SelectedDiv">
           <h4>찜 목록</h4>
-          <div className="flex justify-around w-full mt-3 border-2 border-gray-400 h-36 sm:h-3/4 rounded-xl">
+          <div className="mypage_SelectedBox">
             {selected.length !== 0 ? (
               <div>asds</div>
             ) : (

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import tw from 'tailwind-styled-components';
 
 const MyImageUpload = ({ files, id, checked, setChecked, setMainImg }: any) => {
   const imgRef: any = useRef([]);
@@ -28,17 +29,28 @@ const MyImageUpload = ({ files, id, checked, setChecked, setMainImg }: any) => {
           alt="나만의 식물"
           ref={elem => (imgRef.current[id] = elem)}
         />
-        <div
-          className={`absolute top-0 w-full h-full flex items-center justify-center  text-white rounded-lg m-0 ${
-            checked === id + 1 ? `visible` : `invisible`
-          }`}
+        <Div
+          className={` ${checked === id + 1 ? `visible` : `invisible`}`}
           style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
         >
           {id + 1}
-        </div>
+        </Div>
       </li>
     </>
   );
 };
 
 export default MyImageUpload;
+
+const Div = tw.div`
+  absolute
+  top-0
+  w-full
+  h-full
+  flex
+  items-center
+  justify-center
+  text-white
+  rounded-lg
+  m-0
+`;
