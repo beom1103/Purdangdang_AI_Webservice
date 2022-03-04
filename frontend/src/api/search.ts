@@ -84,16 +84,6 @@ export const scrollPage = async (page: number, filter: string) => {
   }
 };
 
-// export const getMorePlant = selector({
-//   key: 'getMorePlant',
-//   get: async ({ get }) => {
-//     const page = get(pageAtom);
-//     const filter = get(filterAtom);
-//     const response = await scrollPage(page, filter);
-//     return response;
-//   },
-// });
-
 export const getDetailInfo = async (pathname: string): Promise<Info | any> => {
   try {
     const { data } = await api.get(`api${pathname}`);
@@ -126,6 +116,11 @@ export const postReview = async (
       return;
 
     case 'put':
+      try {
+        athentication.put(`api${pathname}`, review);
+      } catch (error) {
+        console.log(error);
+      }
       return;
 
     default:

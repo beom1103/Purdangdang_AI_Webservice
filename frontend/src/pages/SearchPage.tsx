@@ -17,7 +17,7 @@ const SearchPage = () => {
         </div>
         <SearchInput />
 
-        {userInfo && <H3>{userInfo.username}님께 추천하는 식물!</H3>}
+        {/* {userInfo && <H3>{userInfo.username}님께 추천하는 식물!</H3>} */}
         <H3>이런 식물을 찾으시나요?</H3>
       </header>
 

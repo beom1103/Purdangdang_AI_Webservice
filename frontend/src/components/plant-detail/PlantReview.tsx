@@ -33,6 +33,11 @@ const PlantReview = () => {
     window.location.reload();
   }, [method]);
 
+  const updateReview = useCallback((): void => {
+    setMethod('put');
+    setShowModal(!showModal);
+  }, [method]);
+
   useEffect(() => {
     if (!user) {
       alert('로그인 후 이용하실 수 있습니다.');
@@ -55,7 +60,7 @@ const PlantReview = () => {
                   이름 : <span className="text-green-600">{data.username}</span>
                   {user.username === data.username && (
                     <div className="relative inline-flex justify-between ml-5">
-                      <SmallBtn>수정</SmallBtn>
+                      <SmallBtn onClick={updateReview}>수정</SmallBtn>
                       <SmallBtn onClick={deleteReview}>삭제</SmallBtn>
                     </div>
                   )}
