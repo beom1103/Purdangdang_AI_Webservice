@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { validLogin } from '../api';
@@ -41,12 +41,12 @@ const SurveyPage = () => {
     const post = { answers: answers };
   };
 
-  // useEffect(() => {
-  //   if (!isLogin) {
-  //     alert('로그인 후 이용하실 수 있습니다.');
-  //     navigate('/account');
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!isLogin) {
+      alert('로그인 후 이용하실 수 있습니다.');
+      navigate('/account');
+    }
+  }, []);
 
   return (
     <Container>

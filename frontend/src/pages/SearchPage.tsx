@@ -14,7 +14,10 @@ const SearchPage = () => {
     <SearchDiv>
       <header>
         <div className="wrap">
-          <H2>푸르댕댕</H2>
+          <H2>
+            푸르댕댕
+            <Leaf />
+          </H2>
         </div>
         <SearchInput />
 
@@ -49,4 +52,10 @@ const H3 = tw.h3`
   mt-6 
   text-black 
   md:text-xl
+`;
+
+const Leaf = tw.i` 
+  fas
+  fa-leaf
+  ml-1
 `;

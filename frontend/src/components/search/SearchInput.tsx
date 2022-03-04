@@ -27,7 +27,7 @@ const SearchInput = () => {
       <input
         className="search-input focus:outline-none"
         type="text"
-        placeholder="Search"
+        placeholder="한글 및 영문명으로 검색해주세요."
         onChange={debouncedResults}
         defaultValue={query}
       />

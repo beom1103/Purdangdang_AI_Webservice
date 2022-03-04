@@ -16,7 +16,7 @@ const PlantReview = () => {
   const [reviews, setReviews] = useState<Reviews[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [method, setMethod] = useRecoilState(methodAtom);
-  const [prevReview, setPrevReview] = useState({});
+  const [prevReview, setPrevReview] = useState([]);
 
   const fetchReviews = async () => {
     const newReviews = await getDetailInfo(pathname);
@@ -46,8 +46,8 @@ const PlantReview = () => {
   }, [method]);
 
   const updateReview = useCallback((): void => {
+    showReviewModal();
     setMethod('put');
-    setShowModal(!showModal);
   }, [method]);
 
   useEffect(() => {
@@ -86,7 +86,7 @@ const PlantReview = () => {
         })}
       {reviews && (
         <ButtonBox>
-          <Button hidden={prevReview !== null} onClick={showReviewModal}>
+          <Button hidden={prevReview.length !== 0} onClick={showReviewModal}>
             리뷰쓰기
           </Button>
           <Button>더보기</Button>
