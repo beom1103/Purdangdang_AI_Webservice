@@ -12,25 +12,10 @@ const imageResize = (settings: IResizeImageOptions) => {
   const canvas = document.createElement('canvas');
   // 이미지 uri를 반환 주석 처리는 본래 blob타입 객체를 반환하도록 하지만 지금은 필요없음
   const dataURItoBlob = (dataURI: string) => {
-    // console.log(dataURI);
-
     return dataURI;
-
-    // const bytes =
-    //   dataURI.split(',')[0].indexOf('base64') >= 0
-    //     ? atob(dataURI.split(',')[1])
-    //     : unescape(dataURI.split(',')[1]);
-    // const mime = dataURI.split(',')[0].split(':')[1].split(';')[0];
-    // const max = bytes.length;
-    // const ia = new Uint8Array(max);
-    // for (let i = 0; i < max; i++) ia[i] = bytes.charCodeAt(i);
-    // return new Blob([ia], { type: mime });
   };
 
   const resize = () => {
-    console.log('본 넓이', image.width);
-    console.log('본 높이', image.height);
-
     let width = image.width;
     let height = image.height;
 
@@ -53,8 +38,6 @@ const imageResize = (settings: IResizeImageOptions) => {
     canvas.width = width;
     canvas.height = height;
     canvas.getContext('2d')?.drawImage(image, 0, 0, width, height);
-
-    console.log('리사이징', canvas);
 
     // 리사이징 된 (이미지)데이터를 이미지/jpeg 형식의 사진url로 변환
     const dataUrl = canvas.toDataURL('image/jpeg');

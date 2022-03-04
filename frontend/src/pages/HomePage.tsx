@@ -72,7 +72,6 @@ const HomePage = () => {
   useEffect(() => {
     window.scroll(0, 30);
     const scrollHandler = () => {
-      console.log('실행');
       if (num === 0) {
         num = 1;
       } else {
