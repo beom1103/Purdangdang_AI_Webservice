@@ -20,7 +20,7 @@ const SurveyPage = () => {
 
   const next = useCallback(
     e => {
-      if (questionNo < 8) {
+      if (questionNo < 5) {
         const { value } = e.target;
         const newList = checkList;
         newList.push(value);

@@ -10,7 +10,9 @@ const FilterButton = () => {
   const changeFilter = useCallback(
     (e: React.MouseEvent<any>): void => {
       const { textContent } = e.currentTarget;
-      reset();
+      if (filter !== textContent) {
+        reset();
+      }
       setFilter(textContent);
     },
     [filter],

@@ -36,6 +36,11 @@ export const filterAtom = atom({
   default: '',
 });
 
+export const pageAtom = atom({
+  key: 'pageAtom',
+  default: 1,
+});
+
 // 나중에 검색이랑 합치기
 export const fetchPlant = selector({
   key: 'fetchPlant',
@@ -83,6 +88,16 @@ export const scrollPage = async (page: number, filter: string) => {
     return data;
   }
 };
+
+export const getMorePlant = selector({
+  key: 'getMorePlant',
+  get: async ({ get }) => {
+    const page = get(pageAtom);
+    const filter = get(filterAtom);
+    const response = await scrollPage(page, filter);
+    return response;
+  },
+});
 
 export const getDetailInfo = async (pathname: string): Promise<Info | any> => {
   try {
