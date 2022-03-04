@@ -1,10 +1,10 @@
-import React from 'react';
-import { useRecoilValue } from 'recoil';
-import tw from 'tailwind-styled-components';
-import SearchInput from '../components/search/SearchInput';
-import FilterButton from '../components/search/FilterButton';
-import PlantList from '../components/search/PlantList';
-import { validLogin } from '../api';
+import React from "react";
+import { useRecoilValue } from "recoil";
+import tw from "tailwind-styled-components";
+import SearchInput from "../components/search/SearchInput";
+import FilterButton from "../components/search/FilterButton";
+import PlantList from "../components/search/PlantList";
+import { validLogin } from "../api";
 
 const SearchPage = () => {
   const userInfo = useRecoilValue(validLogin);
