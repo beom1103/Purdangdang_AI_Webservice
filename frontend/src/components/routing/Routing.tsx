@@ -18,7 +18,6 @@ import PlantInfo from '../plant-detail/PlantInfo';
 import Header from '../homepage/Header';
 import PlantDetailPage from '../../pages/PlantDetailPage';
 import PlantReview from '../plant-detail/PlantReview';
-import LoadingSpiner from '../load-page/LoadingSpiner';
 import SurveyPage from '../../pages/SurveyPage';
 
 //lazy
