@@ -1,10 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Header from '../components/homepage/Header';
-import VideoBackground from '../components/homepage/VideoBackground';
-import Intro from '../components/homepage/Intro';
-import UploadContainer from '../components/homepage/UploadContainer';
-import PageMark from '../components/homepage/PageMark';
-import tw from 'tailwind-styled-components';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+import React, { useEffect, useRef, useState } from "react";
+import Header from "../components/homepage/Header";
+import VideoBackground from "../components/homepage/VideoBackground";
+import Intro from "../components/homepage/Intro";
+import UploadContainer from "../components/homepage/UploadContainer";
+import PageMark from "../components/homepage/PageMark";
+import tw from "tailwind-styled-components";
 
 const DIVIDER_HEIGHT = 0;
 
@@ -45,7 +47,7 @@ const HomePage = () => {
           //화면의 속성 중 scrollTo 함수를 사용해서 (화면에 표시되는)위치 변경
           top: 0,
           left: 0,
-          behavior: 'smooth',
+          behavior: "smooth",
         });
         setPageNum(1);
         break;
@@ -53,7 +55,7 @@ const HomePage = () => {
         outerDivRef.current.scrollTo({
           top: pageHeight + DIVIDER_HEIGHT,
           left: 0,
-          behavior: 'smooth',
+          behavior: "smooth",
         });
         setPageNum(2);
         setTextAnim(true);
@@ -62,7 +64,7 @@ const HomePage = () => {
         outerDivRef.current.scrollTo({
           top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
           left: 0,
-          behavior: 'smooth',
+          behavior: "smooth",
         });
         setPageNum(3);
         break;
@@ -76,7 +78,7 @@ const HomePage = () => {
         num = 1;
       } else {
         if (startFlag) {
-          const scrollDown = scrollY >= initialScroll;
+          const scrollDown = window.scrollY >= initialScroll;
 
           const scrollLimit = num >= 1 && num <= 3;
           if (scrollLimit) {
@@ -84,19 +86,19 @@ const HomePage = () => {
             if (scrollDown && num < 3) {
               main = contentsRef.current[num];
               next = contentsRef.current[num + 1];
-              main ? (main.style.transform = 'translateY(-100vh)') : null;
-              next ? (next.style.transform = 'translateY(0)') : null;
+              main ? (main.style.transform = "translateY(-100vh)") : null;
+              next ? (next.style.transform = "translateY(0)") : null;
               num++;
             } else if (!scrollDown && num > 1) {
               main = contentsRef.current[num - 1];
               next = contentsRef.current[num];
-              main ? (main.style.transform = 'translateY(0vh)') : null;
-              next ? (next.style.transform = 'translateY(100vh)') : null;
+              main ? (main.style.transform = "translateY(0vh)") : null;
+              next ? (next.style.transform = "translateY(100vh)") : null;
               num--;
             }
           }
           setTimeout(() => {
-            initialScroll = scrollY;
+            initialScroll = window.scrollY;
             startFlag = true;
             // document.body.style.overflowY = 'scroll';
           }, TIME_OUT);
@@ -108,9 +110,9 @@ const HomePage = () => {
     };
     const throttleScroll = throttle(scrollHandler, 25);
 
-    window.addEventListener('scroll', throttleScroll);
+    window.addEventListener("scroll", throttleScroll);
     return () => {
-      window.removeEventListener('scroll', throttleScroll);
+      window.removeEventListener("scroll", throttleScroll);
     };
   }, []);
 
@@ -131,7 +133,7 @@ const HomePage = () => {
         <div
           className="fixed w-full h-screen transition duration-700 ease-in-out box1"
           style={{ zIndex: 3 }}
-          ref={elem => (contentsRef.current[1] = elem)}
+          ref={(elem) => (contentsRef.current[1] = elem)}
         >
           <div className="relative ">
             <VideoBackground />
@@ -139,9 +141,9 @@ const HomePage = () => {
               <div
                 className="absolute flex-col w-full h-screen wrap"
                 style={{
-                  left: '50%',
-                  top: '50%',
-                  transform: 'translate(-50%,-50%)',
+                  left: "50%",
+                  top: "50%",
+                  transform: "translate(-50%,-50%)",
                 }}
               >
                 <h2 className="text-2xl text-white 2xl:text-6xl">
@@ -174,7 +176,7 @@ const HomePage = () => {
         <div
           className="fixed w-full h-screen transition duration-700 ease-in-out box2"
           style={{ zIndex: 2, transform: `translateY(100vh)` }}
-          ref={elem => (contentsRef.current[2] = elem)}
+          ref={(elem) => (contentsRef.current[2] = elem)}
         >
           <div className="relative ">
             <Intro textAnim={textAnim} />
@@ -196,7 +198,7 @@ const HomePage = () => {
         <div
           className="fixed w-full h-screen transition duration-700 ease-in-out box3"
           style={{ zIndex: 1, transform: `translateY(100vh)` }}
-          ref={elem => (contentsRef.current[3] = elem)}
+          ref={(elem) => (contentsRef.current[3] = elem)}
         >
           <UploadContainer setIsModal={setIsModal} />
         </div>
