@@ -16,10 +16,16 @@ const PlantReview = () => {
   const [reviews, setReviews] = useState<Reviews[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [method, setMethod] = useRecoilState(methodAtom);
+  const [prevReview, setPrevReview] = useState({});
 
   const fetchReviews = async () => {
     const newReviews = await getDetailInfo(pathname);
     setReviews(newReviews);
+    newReviews.some((data: any) => {
+      if (data.username === user.username) {
+        setPrevReview(data);
+      }
+    });
   };
 
   const showReviewModal = useCallback(() => {
@@ -80,13 +86,19 @@ const PlantReview = () => {
         })}
       {reviews && (
         <ButtonBox>
-          <Button onClick={showReviewModal}>리뷰쓰기</Button>
+          <Button hidden={prevReview !== null} onClick={showReviewModal}>
+            리뷰쓰기
+          </Button>
           <Button>더보기</Button>
         </ButtonBox>
       )}
       {showModal && (
         <ModalOverlay>
-          <ReviewModal showReviewModal={showReviewModal} id={params.name} />
+          <ReviewModal
+            showReviewModal={showReviewModal}
+            id={params.name}
+            prevReview={prevReview}
+          />
         </ModalOverlay>
       )}
     </div>
