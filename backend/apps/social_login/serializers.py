@@ -1,7 +1,6 @@
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.serializers import TokenRefreshSerializer, TokenObtainPairSerializer
 from rest_framework_simplejwt.settings import api_settings
-from rest_framework_simplejwt.views import TokenRefreshView
+
 from rest_framework import serializers
 
 #customize TokenRefreshSerializer

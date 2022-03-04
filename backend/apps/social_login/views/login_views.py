@@ -34,7 +34,6 @@ class google_login(APIView):
     """
     
     def get(self, request):
-        print('google_login 들어옴')
         scope = "https://www.googleapis.com/auth/userinfo.email"
         client_id = getattr(settings, "SOCIAL_AUTH_GOOGLE_CLIENT_ID")
         return redirect(f"https://accounts.google.com/o/oauth2/v2/auth?client_id={client_id}&response_type=code&redirect_uri={GOOGLE_CALLBACK_URI}&scope={scope}")
@@ -42,7 +41,6 @@ class google_login(APIView):
 
 class google_callback(APIView):
     def get(self, request):
-        print('google_callback 들어옴')
         client_id = getattr(settings, "SOCIAL_AUTH_GOOGLE_CLIENT_ID")
         client_secret = getattr(settings, "SOCIAL_AUTH_GOOGLE_SECRET")
         code = request.GET.get('code')
@@ -127,18 +125,14 @@ class GoogleLogin(SocialLoginView):
 
 class google_logout(APIView):
     permission_classes = [IsAuthenticated]
-    
 
     def post(self, request, *args, **kwargs):
-        print('@@request.user는 ', request.user)
-        print('@@request.user.is_staff는 ', request.user.is_staff)
         if self.request.data.get('all'):
             token: OutstandingToken
             for token in OutstandingToken.objects.filter(user=request.user):
                 _, _ = BlacklistedToken.objects.get_or_create(token=token)
             return Response({"status": "OK, goodbye, all refresh tokens blacklisted"})
         refresh_token = self.request.data.get('refresh_token')
-        print('refresh_token은 ', refresh_token)
         token = RefreshToken(token=refresh_token)
         token.blacklist()
         return Response({"status": "success!"}, status=status.HTTP_204_NO_CONTENT)

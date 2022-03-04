@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import login_views, token_views,test_views
+from .views import login_views, token_views
 
 
 urlpatterns = [
@@ -9,6 +9,5 @@ urlpatterns = [
          name='google_login_todjango'),
     path('google/social_logout/', login_views.google_logout.as_view()),
     path('google/token/refresh/', token_views.MyTokenRefreshView.as_view()),
-    path('google/test/', test_views.test.as_view()),
 
 ]
