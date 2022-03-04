@@ -6,7 +6,8 @@ type BarProps = {
 };
 
 const ProgressBar: React.FC<BarProps> = ({ checkList }) => {
-  const percent = Math.ceil((checkList.length / 6) * 100);
+  const questionNumber = 6;
+  const percent = Math.ceil((checkList.length / questionNumber) * 100);
   return (
     <div className="relative pt-1">
       <div className="justify-between mb-2 center">

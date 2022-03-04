@@ -28,7 +28,7 @@ const SearchList = () => {
           />
         );
       })}
-      ;
+      {searchResult.count === 0 && <h3>검색결과가 없습니다.</h3>}
     </>
   );
 };

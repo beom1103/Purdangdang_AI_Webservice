@@ -25,6 +25,12 @@ const PlantReview = () => {
   const showReviewModal = useCallback(() => {
     setMethod('post');
     setShowModal(!showModal);
+    if (showModal) {
+      document.body.style.overflow = 'unset';
+    } else {
+      window.scrollTo(0, 0);
+      document.body.style.overflow = 'hidden';
+    }
   }, [method, showModal]);
 
   const deleteReview = useCallback((): void => {

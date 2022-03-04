@@ -80,6 +80,7 @@ export const scrollPage = async (page: number, filter: string) => {
 
   if (requestUrl !== null) {
     const { data } = await api.get(requestUrl);
+
     return data;
   }
 };

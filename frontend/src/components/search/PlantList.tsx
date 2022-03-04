@@ -3,27 +3,26 @@ import React, {
   useEffect,
   MouseEventHandler,
   useState,
-} from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+} from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   fetchPlant,
   scrollPage,
   plantQueryAtom,
   plantListAtom,
   filterAtom,
-} from "../../api/search";
-import PlantCard from "./PlantCard";
-import { useNavigate } from "react-router-dom";
-import { Plant } from "../../store/type";
-import SearchList from "./SearchList";
-import { render } from "@testing-library/react";
+} from '../../api/search';
+import PlantCard from './PlantCard';
+import { useNavigate } from 'react-router-dom';
+import { Plant } from '../../store/type';
+import SearchList from './SearchList';
 
 const PlantList = () => {
   const navigate = useNavigate();
   const plantQuery = useRecoilValue(plantQueryAtom);
   const fetchPlantList = useRecoilValue(fetchPlant);
   const [plantsList, setPlantsList] = useRecoilState<Plant[] | any>(
-    plantListAtom
+    plantListAtom,
   );
   const filter = useRecoilValue(filterAtom);
   const [page, setPage] = useState<number>(1);
@@ -44,7 +43,7 @@ const PlantList = () => {
       const newPlant = await scrollPage(page, filter);
       setPlantsList((prev: Plant[]) => [...prev, ...newPlant.results]);
     },
-    [fetchPlantList]
+    [fetchPlantList],
   );
 
   //상세 페이지로 라우팅
@@ -54,15 +53,15 @@ const PlantList = () => {
 
   //이벤트 제어
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   });
 
   useEffect(() => {
     setPlantsList(fetchPlantList.results);
-    // setPage(2);
+    setPage(1);
   }, [filter]);
 
   return (
