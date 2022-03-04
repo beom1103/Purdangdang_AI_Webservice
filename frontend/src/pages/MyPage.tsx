@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { userAtom } from '../store/user';
 import tw from 'tailwind-styled-components';
+import { validLogin } from '../api';
 import ImagePreview from '../components/mypageform/MyImageUpload';
 import UploadList from '../components/mypageform/UploadList';
 
 const MyPage = () => {
-  const userInfo = useRecoilValue(userAtom);
+  const userInfo = useRecoilValue(validLogin);
   const [files, setFiles] = useState<any[]>([]);
   const [imgUrl, setImgUrl] = useState<any[]>([]);
   const [selected, setSelected] = useState<any[]>([]);
