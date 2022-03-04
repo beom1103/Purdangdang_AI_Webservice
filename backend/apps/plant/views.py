@@ -138,15 +138,12 @@ class PlantReviewListView(APIView):
         return Response(serializer.data)
 
         # return redirect(f'/api/plant/{plant_id}/reviews')
-        
+# THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+# my_file = os.path.join(THIS_FOLDER, '48_class_model_3.h5')
+       
 THIS_FOLDER = os.path.dirname(Path(__file__).resolve().parent.parent)
 FORMAT = [".jpg"] # 지원하는 포맷확장자 나열
 class PlantUploadView(APIView):
-    """
-    식물 이미지 업로드 
-
-    요청한 식물의 상세 정보를 반환
-    """
     # parser_classes = (FileUploadParser,)
     
     # def get(self, request, format=None):
@@ -163,15 +160,14 @@ class PlantUploadView(APIView):
         except KeyError:
             raise ParseError('Request has no resource file attached')
         
-        print(file)
         # 파일 확장자 검사 
         if str(file).endswith(tuple(FORMAT)) : pass 
         else : raise ValidationError("Invalid format")
         
         uploadFile = UploadImage.objects.create(image=file)
         uploadFile.save()
-        
-        model = resnet_model.Resnet()
+        print(THIS_FOLDER)
+        model = resnet_model.Resnet(THIS_FOLDER + "/apps/ai/48_class_model_3.h5")
         my_file = os.path.join(THIS_FOLDER + "/media/", str(uploadFile.image).replace('/','\\'))
         
         pred = model.predict(my_file)
