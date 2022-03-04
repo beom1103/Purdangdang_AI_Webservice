@@ -105,8 +105,8 @@ export const getDetailInfo = async (pathname: string): Promise<Info | any> => {
 
 export const postReview = async (
   pathname: string,
-  review: Reviews,
   method: string,
+  review?: Reviews,
 ): Promise<void> => {
   switch (method) {
     case 'post':
@@ -118,6 +118,11 @@ export const postReview = async (
       return;
 
     case 'delete':
+      try {
+        athentication.delete(`api${pathname}`);
+      } catch (error) {
+        console.log(error);
+      }
       return;
 
     case 'put':

@@ -35,7 +35,7 @@ const PlantList = () => {
       console.log(page, filter);
       await getMorePlant(page, filter);
     }
-  }, [fetchPlantList, page, plantsList]);
+  }, [fetchPlantList, page]);
 
   //추가 데이터 불러오기
   const getMorePlant = useCallback(

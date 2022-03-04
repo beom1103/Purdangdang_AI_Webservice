@@ -1,34 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { validLogin } from '../../api';
-import { getDetailInfo, methodAtom } from '../../api/search';
+import { getDetailInfo, methodAtom, postReview } from '../../api/search';
 import { Reviews } from '../../store/type';
 import tw from 'tailwind-styled-components';
 import ReviewModal from '../modal/ReviewModal';
 
 const PlantReview = () => {
-  const isLogin = useRecoilValue(validLogin);
+  const user = useRecoilValue(validLogin);
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const params = useParams() as { name: string };
 
   const [reviews, setReviews] = useState<Reviews[]>([]);
   const [showModal, setShowModal] = useState(false);
-  const setMethod = useSetRecoilState(methodAtom);
+  const [method, setMethod] = useRecoilState(methodAtom);
 
   const fetchReviews = async () => {
     const newReviews = await getDetailInfo(pathname);
     setReviews(newReviews);
   };
 
-  const showReviewModal = () => {
+  const showReviewModal = useCallback(() => {
     setMethod('post');
     setShowModal(!showModal);
-  };
+  }, [method, showModal]);
+
+  const deleteReview = useCallback((): void => {
+    postReview(pathname, 'delete');
+    alert('삭제 되었습니다.');
+    window.location.reload();
+  }, [method]);
 
   useEffect(() => {
-    if (!isLogin) {
+    if (!user) {
       alert('로그인 후 이용하실 수 있습니다.');
       navigate('/account');
     }
@@ -47,6 +53,12 @@ const PlantReview = () => {
               <div className="flex">
                 <User>
                   이름 : <span className="text-green-600">{data.username}</span>
+                  {user.username === data.username && (
+                    <div className="relative inline-flex justify-between ml-5">
+                      <SmallBtn>수정</SmallBtn>
+                      <SmallBtn onClick={deleteReview}>삭제</SmallBtn>
+                    </div>
+                  )}
                 </User>
 
                 <Rating>평점 :{data.score}</Rating>
@@ -87,6 +99,15 @@ const ModalOverlay = tw.div`
   flex-col 
   backdrop-blur-sm
   overflow-hidden
+`;
+
+const SmallBtn = tw.button` 
+  text-gray-500
+  text-xs
+  mr-3
+  p-1
+  bg-green-100
+  border-none
 `;
 
 const Button = tw.button`

@@ -21,7 +21,7 @@ const ReviewModal: React.FC<ModalProps | any> = ({ id, showReviewModal }) => {
     if (!disabledButton) {
       alert('리뷰를 작성 후 제출해주세요!');
     } else {
-      await postReview(pathname, reviewState, method);
+      await postReview(pathname, method, reviewState);
       alert('등록 되었습니다.');
       window.location.reload();
     }
@@ -54,7 +54,9 @@ const ReviewModal: React.FC<ModalProps | any> = ({ id, showReviewModal }) => {
       <div className="wrap">
         <Star />
       </div>
-      <h3 className="mt-8">리뷰</h3>
+      <h3 className="mt-8">
+        리뷰 <small>{content.length}/255자</small>
+      </h3>
       <TextArea
         name="content"
         onChange={onChangeInput}
