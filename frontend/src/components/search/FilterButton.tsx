@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react';
-import { useRecoilState, useResetRecoilState } from 'recoil';
-import tw from 'tailwind-styled-components';
-import { filterAtom, plantListAtom } from '../../api/search';
+import React, { useCallback } from "react";
+import { useRecoilState, useResetRecoilState } from "recoil";
+import tw from "tailwind-styled-components";
+import { filterAtom, plantListAtom } from "../../api/search";
 
 const FilterButton = () => {
   const [filter, setFilter] = useRecoilState(filterAtom);
@@ -15,7 +15,7 @@ const FilterButton = () => {
       }
       setFilter(textContent);
     },
-    [filter],
+    [filter]
   );
 
   return (

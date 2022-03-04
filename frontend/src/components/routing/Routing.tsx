@@ -1,7 +1,5 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { validLogin } from "../../api";
 
 //페이지
 import AccountPage from "../../pages/AccountPage";

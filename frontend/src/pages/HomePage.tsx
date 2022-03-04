@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import React, { useEffect, useRef, useState } from "react";
-import Header from "../components/homepage/Header";
 import VideoBackground from "../components/homepage/VideoBackground";
 import Intro from "../components/homepage/Intro";
 import UploadContainer from "../components/homepage/UploadContainer";
