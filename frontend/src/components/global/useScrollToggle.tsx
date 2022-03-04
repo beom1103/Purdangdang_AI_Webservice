@@ -6,7 +6,7 @@ const useScrollToggle = (initState = false) => {
 
   const upateScroll = useCallback(() => {
     const { scrollY } = window;
-    const flagHeight = 20;
+    const flagHeight = 500;
     scrollY > flagHeight ? setScrollFlag(true) : setScrollFlag(false);
   }, [scrollFlag]);
 
