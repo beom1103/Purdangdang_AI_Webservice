@@ -25,7 +25,7 @@ const SurveyPage = () => {
         const newList = checkList;
         newList.push(value);
         setCheckList(newList);
-        setQuestionNo(questionNo + 1);
+        setQuestionNo(questionNo => questionNo + 1);
       } else {
         setIsComplete(true);
         onSubmit();
@@ -41,12 +41,12 @@ const SurveyPage = () => {
     const post = { answers: answers };
   };
 
-  useEffect(() => {
-    if (!isLogin) {
-      alert('로그인 후 이용하실 수 있습니다.');
-      navigate('/account');
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!isLogin) {
+  //     alert('로그인 후 이용하실 수 있습니다.');
+  //     navigate('/account');
+  //   }
+  // }, []);
 
   return (
     <Container>
@@ -90,6 +90,8 @@ export const IMG = tw.img`
   h-full 
   w-full
   sm:min-w-[600px]
+  
+ 
 `;
 
 export const Title = tw.h1` 

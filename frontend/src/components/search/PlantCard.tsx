@@ -16,7 +16,7 @@ const PlantCard: React.FC<CardProps> = ({
   onClick,
 }) => {
   return (
-    <div className="card-div">
+    <div className="card-div animate-fade-in-up">
       <div
         id={`${rank}`}
         className="card-img"

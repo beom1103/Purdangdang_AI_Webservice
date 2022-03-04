@@ -33,12 +33,7 @@ export const reviewPostAtom = atom<Reviews>({
 
 export const filterAtom = atom({
   key: 'filterAtom',
-  default: '',
-});
-
-export const pageAtom = atom({
-  key: 'pageAtom',
-  default: 1,
+  default: '전체',
 });
 
 // 나중에 검색이랑 합치기
@@ -89,15 +84,15 @@ export const scrollPage = async (page: number, filter: string) => {
   }
 };
 
-export const getMorePlant = selector({
-  key: 'getMorePlant',
-  get: async ({ get }) => {
-    const page = get(pageAtom);
-    const filter = get(filterAtom);
-    const response = await scrollPage(page, filter);
-    return response;
-  },
-});
+// export const getMorePlant = selector({
+//   key: 'getMorePlant',
+//   get: async ({ get }) => {
+//     const page = get(pageAtom);
+//     const filter = get(filterAtom);
+//     const response = await scrollPage(page, filter);
+//     return response;
+//   },
+// });
 
 export const getDetailInfo = async (pathname: string): Promise<Info | any> => {
   try {

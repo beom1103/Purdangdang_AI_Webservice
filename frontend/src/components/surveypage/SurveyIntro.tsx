@@ -11,7 +11,7 @@ const SurveyIntro: React.FC<IntroProps> = ({ setIsConFirm }) => {
     'https://images.unsplash.com/photo-1509744645300-a2098b11871a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80';
 
   return (
-    <QuestionBox>
+    <QuestionBox className="animate-fade-in-down">
       <div className="h-64 overflow-hidden rounded-lg">
         <IMG src={image} alt="survey-ex" />
       </div>

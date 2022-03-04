@@ -25,22 +25,26 @@ const PlantList = () => {
     plantListAtom,
   );
   const filter = useRecoilValue(filterAtom);
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(2);
 
   // 스크롤이 맨 밑에 있을때 실행
   const handleScroll = useCallback(async () => {
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
     if (scrollHeight - scrollTop === clientHeight) {
       setPage(page => page + 1);
-      await getMorePlant();
+      console.log(page, filter);
+      await getMorePlant(page, filter);
     }
-  }, [page]);
+  }, [fetchPlantList, page, plantsList]);
 
   //추가 데이터 불러오기
-  const getMorePlant = useCallback(async () => {
-    const newPlant = await scrollPage(page, filter);
-    setPlantsList((prev: Plant[]) => [...prev, ...newPlant.results]);
-  }, [page, filter]);
+  const getMorePlant = useCallback(
+    async (page: number, filter: string) => {
+      const newPlant = await scrollPage(page, filter);
+      setPlantsList((prev: Plant[]) => [...prev, ...newPlant.results]);
+    },
+    [fetchPlantList, page],
+  );
 
   //상세 페이지로 라우팅
   const goDetail = useCallback((e: MouseEventHandler | any) => {
@@ -57,8 +61,7 @@ const PlantList = () => {
 
   useEffect(() => {
     setPlantsList(fetchPlantList.results);
-    setPage(1);
-    console.log(filter);
+    setPage(2);
   }, [filter]);
 
   return (
