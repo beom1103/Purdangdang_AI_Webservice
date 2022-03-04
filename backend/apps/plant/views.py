@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, get_object_or_404
 from django.db.models import Q
 from rest_framework import filters, permissions, status
-from rest_framework.exceptions import ParseError
+from rest_framework.exceptions import ValidationError, ParseError
 from rest_framework.response import Response
 from rest_framework.parsers import FileUploadParser
 from rest_framework.views import APIView
@@ -87,6 +87,15 @@ class PlantReviewListView(APIView):
 
         validated_data = serializer.validated_data
         
+        # 내용이 공백일 때 
+        if not len(validated_data["content"]) : 
+            raise ValidationError("Please enter the comments!")
+
+        # 한 유저가 두 건 이상 리뷰를 작성하지 못하게 조건 
+        review_queryset = Review.objects.filter(plant_id=plant_id, user_id=user)
+        if review_queryset.exists():
+            raise ValidationError("You've already reviewed this plant!")
+        
         review = Review()
         review.user_id = user
         review.plant_id = plant
@@ -129,36 +138,36 @@ class PlantReviewListView(APIView):
         return Response(serializer.data)
 
         # return redirect(f'/api/plant/{plant_id}/reviews')
-        
+# THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+# my_file = os.path.join(THIS_FOLDER, '48_class_model_3.h5')
+       
 THIS_FOLDER = os.path.dirname(Path(__file__).resolve().parent.parent)
 FORMAT = [".jpg"] # 지원하는 포맷확장자 나열
 class PlantUploadView(APIView):
-    """
-    식물 이미지 업로드 
-
-    요청한 식물의 상세 정보를 반환
-    """
     # parser_classes = (FileUploadParser,)
     
     # def get(self, request, format=None):
     #     """해당 식물 분석 결과의 고유한 DB id값의 상세 정보를 가져옵니다."""
 
     def post(self, request, format=None):
-        """식물 사진을 올리면 예측한 식물의 상세 정보값을 가져옵니다."""
+        """
+        식물 이미지 업로드 
+        
+        식물 사진을 올리면 예측한 식물의 상세 정보값을 가져옵니다.       
+        """
         try:
             file = request.data['file']
         except KeyError:
             raise ParseError('Request has no resource file attached')
         
-        print(file)
         # 파일 확장자 검사 
         if str(file).endswith(tuple(FORMAT)) : pass 
-        else : return Response("Invalid format")
+        else : raise ValidationError("Invalid format")
         
         uploadFile = UploadImage.objects.create(image=file)
         uploadFile.save()
-        
-        model = resnet_model.Resnet()
+        print(THIS_FOLDER)
+        model = resnet_model.Resnet(THIS_FOLDER + "/apps/ai/48_class_model_3.h5")
         my_file = os.path.join(THIS_FOLDER + "/media/", str(uploadFile.image).replace('/','\\'))
         
         pred = model.predict(my_file)
