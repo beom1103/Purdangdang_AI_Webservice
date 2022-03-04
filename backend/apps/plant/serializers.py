@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Plant, Review
+from .models import Plant, Review, UploadImage
 
 
 class PlantSerializer(serializers.ModelSerializer):
@@ -48,3 +48,10 @@ class PlantReviewSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ("id",)
 
+class UploadSerializer(serializers.ModelSerializer):
+    """
+    식물 이미지 업로드
+    """
+    class Meta:
+        model = UploadImage
+        fields = "__all__"
