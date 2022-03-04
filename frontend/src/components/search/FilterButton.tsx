@@ -25,12 +25,13 @@ const FilterButton = () => {
       <div className="flex rounded-xl">
         {filterList.map((fil, idx) => {
           return (
-            <div>
+            <div key={`fil${idx}`}>
               <Input
                 type="radio"
                 name="option"
                 id={`${idx}`}
                 hidden
+                readOnly
                 checked={filter === fil}
               />
               <Label htmlFor={`${idx}`} onClick={changeFilter}>

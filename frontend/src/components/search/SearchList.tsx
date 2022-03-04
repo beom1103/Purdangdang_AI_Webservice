@@ -17,9 +17,10 @@ const SearchList = () => {
   }, []);
   return (
     <>
-      {searchResult?.results?.map((data: Plant): JSX.Element => {
+      {searchResult?.results?.map((data: Plant, idx: number): JSX.Element => {
         return (
           <PlantCard
+            key={`plant-${idx}`}
             kor={data.kor}
             name={data.name}
             rank={data.rank}

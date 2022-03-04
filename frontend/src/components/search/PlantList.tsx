@@ -48,7 +48,10 @@ const PlantList = () => {
 
   //상세 페이지로 라우팅
   const goDetail = useCallback((e: MouseEventHandler | any) => {
-    navigate(`/plant/${e.target.id}/info`);
+    const plantId = e.target.id;
+    if (plantId) {
+      navigate(`/plant/${plantId}/info`);
+    }
   }, []);
 
   //이벤트 제어

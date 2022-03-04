@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import { useMemo, useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 import tw from 'tailwind-styled-components';
 import { plantQueryAtom } from '../../api/search';
