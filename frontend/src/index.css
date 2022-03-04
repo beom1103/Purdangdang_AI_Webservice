@@ -67,7 +67,7 @@ body {
 }
 
 .main {
-  @apply h-screen overflow-y-auto scrollbar-hide;
+  @apply h-screen overflow-y-hidden scrollbar-hide;
 }
 
 .logo {

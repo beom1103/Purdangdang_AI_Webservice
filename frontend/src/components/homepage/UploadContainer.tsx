@@ -31,13 +31,34 @@ const UploadContainer = ({ setIsModal }: any) => {
 
   useEffect(() => {
     setIsModal(showModal);
+
+    if (showModal) {
+      document.body.style.overflow = 'hidden';
+    } else if (!showModal) {
+      document.body.style.overflow = `visible `;
+    }
   }, [showModal]);
 
   const onClickFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | any): void => {
       let selectFiles: File[] = [];
 
+      console.log(files);
+
       selectFiles = e.target?.files;
+      // checkFile(selectFiles[0].name);
+
+      const target = selectFiles[0].name;
+      const file_kind = target.lastIndexOf('.');
+      const file_name = target.substring(file_kind + 1, target.length);
+      const file_type = file_name.toLowerCase();
+
+      const check_file_type = ['jpg', 'gif', 'png', 'jpeg', 'bmp'];
+
+      if (check_file_type.indexOf(file_type) === -1) {
+        alert('님 이거 사진 아니자늠');
+        return;
+      }
 
       setFiles(selectFiles);
 
@@ -59,10 +80,24 @@ const UploadContainer = ({ setIsModal }: any) => {
     (e: ChangeEvent<HTMLInputElement> | any): void => {
       let selectFiles: File[] = [];
 
+      console.log(files);
+
       if (e.type === 'drop') {
         selectFiles = e.dataTransfer.files;
       } else {
         selectFiles = e.target.files;
+      }
+
+      const target = selectFiles[0].name;
+      const file_kind = target.lastIndexOf('.');
+      const file_name = target.substring(file_kind + 1, target.length);
+      const file_type = file_name.toLowerCase();
+
+      const check_file_type = ['jpg', 'gif', 'png', 'jpeg', 'bmp'];
+
+      if (check_file_type.indexOf(file_type) === -1) {
+        alert('님 이거 사진 아니자늠');
+        return;
       }
 
       setFiles(selectFiles);
@@ -247,7 +282,7 @@ const UploadContainer = ({ setIsModal }: any) => {
 
       {showModal ? (
         <Modal>
-          <UploadModal showModal={setShowModal}></UploadModal>
+          <UploadModal isModal={setShowModal}></UploadModal>
         </Modal>
       ) : null}
     </div>

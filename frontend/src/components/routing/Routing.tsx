@@ -9,6 +9,7 @@ import HomePage from '../../pages/HomePage';
 import Login from '../account/Login';
 import Register from '../account/Register';
 import ErrorPage from '../load-page/ErrorPage';
+import MyPage from '../../pages/MyPage';
 
 //접근제한
 import PrivateRoute from './PrivateRoute';
@@ -49,6 +50,7 @@ const Routing = () => {
         </Route>
         <Route element={<SurveyPage />} path="/survey" />
         <Route element={<ErrorPage />} path="*" />
+        <Route element={<MyPage />} path="/mypage" />
       </Routes>
     </div>
   );
