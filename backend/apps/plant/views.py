@@ -142,41 +142,42 @@ class PlantReviewListView(APIView):
 # THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 # my_file = os.path.join(THIS_FOLDER, '48_class_model_3.h5')
        
-# THIS_FOLDER = os.path.dirname(Path(__file__).resolve().parent.parent)
-# FORMAT = [".jpg"] # 지원하는 포맷확장자 나열
-# class PlantUploadView(APIView):
-#     # parser_classes = (FileUploadParser,)
+THIS_FOLDER = os.path.dirname(Path(__file__).resolve().parent.parent)
+FORMAT = [".jpg"] # 지원하는 포맷확장자 나열
+class PlantUploadView(APIView):
+    # parser_classes = (FileUploadParser,)
     
-#     # def get(self, request, format=None):
-#     #     """해당 식물 분석 결과의 고유한 DB id값의 상세 정보를 가져옵니다."""
+    # def get(self, request, format=None):
+    #     """해당 식물 분석 결과의 고유한 DB id값의 상세 정보를 가져옵니다."""
 
-#     def post(self, request, format=None):
-#         """
-#         식물 이미지 업로드 
+    def post(self, request, format=None):
+        """
+        식물 이미지 업로드 
         
-#         식물 사진을 올리면 예측한 식물의 상세 정보값을 가져옵니다.       
-#         """
-#         try:
-#             file = request.data['file']
-#         except KeyError:
-#             raise ParseError('Request has no resource file attached')
+        식물 사진을 올리면 예측한 식물의 상세 정보값을 가져옵니다.       
+        """
+        try:
+            file = request.data['file']
+        except KeyError:
+            raise ParseError('Request has no resource file attached')
         
-#         # 파일 확장자 검사 
-#         if str(file).endswith(tuple(FORMAT)) : pass 
-#         else : raise ValidationError("Invalid format")
+        # 파일 확장자 검사 
+        if str(file).endswith(tuple(FORMAT)) : pass 
+        else : raise ValidationError("Invalid format")
         
-#         uploadFile = UploadImage.objects.create(image=file)
-#         uploadFile.save()
-#         print(THIS_FOLDER)
-#         model = resnet_model.Resnet(THIS_FOLDER + "/apps/ai/48_class_model_3.h5")
-#         my_file = os.path.join(THIS_FOLDER + "/media/", str(uploadFile.image).replace('/','\\'))
+        uploadFile = UploadImage.objects.create(image=file)
+        uploadFile.save()
+        print(THIS_FOLDER)
+        model = resnet_model.Resnet(THIS_FOLDER + "/apps/ai/48_class_model_3.h5")
+        my_file = os.path.join(THIS_FOLDER + "/media/", str(uploadFile.image).replace('/','\\'))
         
-#         pred = model.predict(my_file)
+        pred = model.predict(my_file)
         
-#         results = get_object_or_404(Plant, kor=pred)
-#         serializer = PlantDetailSerializer(results)
+        results = get_object_or_404(Plant, kor=pred)
+        serializer = PlantDetailSerializer(results)
              
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 class PlantLikeView(APIView):
     authentication_classes = [TokenAuthentication]
