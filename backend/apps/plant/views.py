@@ -13,8 +13,9 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from .pagination import PlantListPagination
 from .models import Plant, Review, Category, UploadImage
+from apps.plant.models import Wishlist
 from .serializers import PlantSerializer, PlantDetailSerializer, PlantReviewSerializer, UploadSerializer
-from ..ai import resnet_model
+from apps.ai import resnet_model
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 class PlantListView(APIView, PlantListPagination):
@@ -175,4 +176,24 @@ class PlantReviewListView(APIView):
 #         results = get_object_or_404(Plant, kor=pred)
 #         serializer = PlantDetailSerializer(results)
              
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class PlantLikeView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    
+    def get_user(self):
+        return self.request.user
+
+    def post(self, request, plant_id: int, format=None):
+        """
+        찜 기능
+        
+        최대 3개까지 찜이 가능합니다.       
+        """
+        user = self.get_user()
+        plant = get_object_or_404(Plant, pk=plant_id)
+        wishlist = get_object_or_404(Wishlist, user_id=user)
+        print(wishlist)
+        return 
+

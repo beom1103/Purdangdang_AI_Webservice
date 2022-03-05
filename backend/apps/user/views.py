@@ -3,8 +3,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from knox.models import AuthToken
-from .serializers import CreateUserSerializer, UserSerializer, LoginUserSerializer, ProfileSerializer
-from .models import Profile
+
+from .serializers import CreateUserSerializer, UserSerializer, LoginUserSerializer
+# from .models import Profile
 import re
  
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
@@ -15,10 +16,10 @@ def check(email):
     return True;
         
 # Create your views here.
-class ProfileUpdateAPI(generics.UpdateAPIView):
-    lookup_field = "user_pk"
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+# class ProfileUpdateAPI(generics.UpdateAPIView):
+#     lookup_field = "user_pk"
+#     queryset = Profile.objects.all()
+#     serializer_class = ProfileSerializer
 
 class RegistrationAPI(generics.GenericAPIView):
     """
@@ -41,9 +42,7 @@ class RegistrationAPI(generics.GenericAPIView):
                 "token": AuthToken.objects.create(user)[1],
             }
         )
-
-
-
+        
 class LoginAPI(generics.GenericAPIView):
     """
     로그인
@@ -63,7 +62,6 @@ class LoginAPI(generics.GenericAPIView):
             }
         )
 
-
 class UserAPI(generics.RetrieveAPIView):
     """
     접속 유지 확인 
@@ -74,3 +72,11 @@ class UserAPI(generics.RetrieveAPIView):
     def get_object(self):
         return self.request.user
     
+# class UserInfoView(APIView):
+#     """
+#     마이 페이지 
+#     """
+#     def get(self, request, plant_id, format=None):
+#         results = get_object_or_404(Plant, pk=plant_id)
+#         serializer = PlantDetailSerializer(results)
+#         return Response(serializer.data)
