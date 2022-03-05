@@ -12,23 +12,16 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os 
-import json	
-import sys
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
+
 # SECURITY WARNING: keep the secret key used in production secret!
-
 SECRET_KEY = 'django-insecure-j#nqqtp=63zxzdf)m85-8nsh+$(tv#4!^ol8r2gn4d)fo1qt5u'
-SECRET_BASE_FILE = os.path.join(BASE_DIR, 'secrets.json')	
-secrets = json.loads(open(SECRET_BASE_FILE).read())	
 
-for key, value in secrets.items():	
-    setattr(sys.modules[__name__], key, value)
-    
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -39,11 +32,6 @@ ALLOWED_HOSTS = ['*']
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Application definition		MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'		
-#user모델 커스터마이징		
-AUTH_USER_MODEL = 'social_login.User'  
 # Application definition
 DJANGO_APPS = [    
     'django.contrib.admin',
@@ -51,8 +39,7 @@ DJANGO_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles'
-    # 'django.contrib.sites',
+    'django.contrib.staticfiles',
 ]
 
 THIRD_PARTY_APPS = [
@@ -60,30 +47,18 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'drf_yasg', 
     'knox',
-    'rest_framework_simplejwt.token_blacklist',	
-    'dj_rest_auth',	
-    'dj_rest_auth.registration',	
-    'rest_framework.authtoken',	
-    #allauth	
-    'allauth',	
-    'allauth.account',	
-    'allauth.socialaccount',	
-    #provider 구글 페이스북 카톡 깃허브 등 소셜로그인 제공업체	
-    'allauth.socialaccount.providers.google',
 ]
 
 LOCAL_APPS = [
     'apps.user',
     'apps.plant',
-    'apps.social_login'
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
-     "DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",
-     'rest_framework_simplejwt.authentication.JWTAuthentication',),
+     "DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",),
 }
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -183,12 +158,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Seoul'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
-USE_L10N = True	
-USE_TZ = False
 
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -200,32 +174,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-AUTHENTICATION_BACKENDS = (
-    #Needed to login by username in Django admin, regardless of 'allauth'
-    'django.contrib.auth.backends.ModelBackend',
-
-    # 'allauth' specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
-
-
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-
-
-#JWT 환경
-REST_USE_JWT = True
-from datetime import timedelta
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=2),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': True,
-}
-
-SITE_ID = 3
-LOGIN_REDIRECT_URL = '/'
-ACCOUNT_LOGOUT_REDIRECT_URL = "/"	
