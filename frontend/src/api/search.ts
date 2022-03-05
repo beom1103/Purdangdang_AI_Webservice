@@ -1,4 +1,10 @@
-import { atom, selector } from 'recoil';
+import {
+  atom,
+  Loadable,
+  RecoilValue,
+  selector,
+  UnwrapRecoilValueLoadables,
+} from 'recoil';
 import { api, athentication } from '.';
 import { Info, Plant, Reviews } from '../store/type';
 
@@ -37,7 +43,7 @@ export const filterAtom = atom<string>({
 });
 
 // 나중에 검색이랑 합치기
-export const fetchPlant = selector<Promise<Plant[] | undefined>>({
+export const fetchPlant = selector<Plant[] | any>({
   key: 'fetchPlant',
   get: async ({ get }) => {
     const filter = get(filterAtom);

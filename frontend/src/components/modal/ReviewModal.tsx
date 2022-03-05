@@ -92,18 +92,18 @@ const Modal = tw.div`
   `;
 
 const TextArea = tw.textarea` 
-  mt-8  
+  mt-5  
   w-full
   border-2
   border-gray-500
   p-3
-  h-1/2
+  h-1/3
 `;
 
 const Button = tw.button`
-  mt-8
+  mt-5
   buy-button
-  `;
+`;
 
 const CloseButton = tw.i` 
   flex
@@ -112,5 +112,4 @@ const CloseButton = tw.i`
   cursor-pointer 
   fas 
   fa-door-open
-  
  `;

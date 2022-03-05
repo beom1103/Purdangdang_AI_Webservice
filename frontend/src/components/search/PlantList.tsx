@@ -27,6 +27,27 @@ const PlantList = () => {
   const filter = useRecoilValue(filterAtom);
   const [page, setPage] = useState<number>(1);
 
+  const requestFetchPlant = useCallback((): void => {
+    if (fetchPlantList === null || fetchPlantList === undefined) {
+      return;
+    }
+
+    switch (fetchPlantList.state) {
+      case 'loading':
+        break;
+
+      case 'hasValue':
+        setPlantsList(fetchPlantList.contents.results);
+        break;
+
+      case 'hasError':
+        break;
+
+      default:
+        return;
+    }
+  }, [fetchPlantList, plantsList]);
+
   // 스크롤이 맨 밑에 있을때 실행
   const handleScroll = useCallback(async () => {
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
@@ -67,16 +88,17 @@ const PlantList = () => {
   });
 
   useEffect(() => {
-    const fetchPlant = () => {
-      setPlantsList(fetchPlantList?.contents.results);
-      setPage(1);
-    };
-    fetchPlant();
+    requestFetchPlant();
+    setPage(1);
   }, [filter]);
+
+  useEffect(() => {
+    requestFetchPlant();
+  }, [requestFetchPlant]);
 
   return (
     <div className="card">
-      {!plantQuery ? (
+      {fetchPlantList?.state === 'hasValue' && !plantQuery ? (
         plantsList?.map((data: Plant, index: number): JSX.Element => {
           return (
             <PlantCard
