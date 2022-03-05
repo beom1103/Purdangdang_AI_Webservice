@@ -132,3 +132,17 @@ export const postReview = async (
       return;
   }
 };
+
+export const preview = async (select: any) => {
+  console.log(select);
+  const imageFile = select;
+  const image = new FormData();
+  image.append('file', imageFile);
+
+  try {
+    const { data } = await api.post('api/plant/upload', image);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

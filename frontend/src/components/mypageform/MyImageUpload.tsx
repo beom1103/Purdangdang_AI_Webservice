@@ -1,7 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
 import tw from 'tailwind-styled-components';
 
-const MyImageUpload = ({ files, id, checked, setChecked, setMainImg }: any) => {
+type MyImageProps = {
+  files: string[];
+  id: number;
+  checked: number;
+  setChecked: any;
+  setMainImg: any;
+};
+
+const MyImageUpload = ({
+  files,
+  id,
+  checked,
+  setChecked,
+  setMainImg,
+}: MyImageProps) => {
   const imgRef: any = useRef([]);
   let main;
 

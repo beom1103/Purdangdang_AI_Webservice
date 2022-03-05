@@ -5,7 +5,11 @@ const img1 = `url('https://images.unsplash.com/photo-1583753075968-1236ccb83c66?
 const img2 = `url('https://images.unsplash.com/photo-1495908333425-29a1e0918c5f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80')`;
 const img3 = `url('https://images.unsplash.com/photo-1566836610593-62a64888a216?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1077&q=80')`;
 
-const Intro = ({ textAnim }: any) => {
+type AnimProps = {
+  textAnim: boolean;
+};
+
+const Intro = ({ textAnim }: AnimProps) => {
   return (
     <div
       className="intro-div"

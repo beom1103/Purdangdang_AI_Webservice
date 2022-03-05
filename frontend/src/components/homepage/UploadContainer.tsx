@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import React, {
   ChangeEvent,
   useCallback,
@@ -8,6 +9,10 @@ import React, {
 import UploadModal from './UploadModal';
 import imageResize from './ImageResize';
 import tw from 'tailwind-styled-components';
+import axios, { AxiosInstance } from 'axios';
+import { preview } from '../../api/search';
+
+const baseURL = process.env.REACT_APP_BASE_URL;
 
 const UploadContainer = ({ setIsModal }: any) => {
   //드래그 중일때와 아닐 때의 스타일을 구분하기 위한 state 변수
@@ -67,7 +72,7 @@ const UploadContainer = ({ setIsModal }: any) => {
         maxSize: 500,
       })
         .then(res => {
-          preview(res);
+          preview(selectFiles[0]).then(sor => console.log(sor));
         })
         .catch(function (err) {
           console.error(err);
@@ -104,10 +109,13 @@ const UploadContainer = ({ setIsModal }: any) => {
 
       imageResize({
         file: selectFiles[0],
-        maxSize: 500,
+        maxSize: 250,
       })
         .then(res => {
-          preview(res);
+          console.log(res);
+          console.log(selectFiles[0]);
+          // saveImg(res);
+          preview(selectFiles[0]);
         })
         .catch(function (err) {
           console.error(err);
@@ -116,11 +124,19 @@ const UploadContainer = ({ setIsModal }: any) => {
     [files],
   );
 
-  const preview = (select: any) => {
-    const imgEl: any = document.querySelector('.dragContainer');
-
-    imgEl.style.backgroundImage = `url(${select})`;
-  };
+  // const preview = async (select: any) => {
+  //   const formdata = new FormData();
+  //   formdata.append('file', select);
+  //   const requestOptions: any = {
+  //     method: 'POST',
+  //     body: formdata,
+  //     redirect: 'follow',
+  //   };
+  //   fetch(`${baseURL}api/plant/upload`, requestOptions)
+  //     .then(response => response.json())
+  //     .then(result => console.log(result))
+  //     .catch(error => console.log('error', error));
+  // };
 
   const handleFilterFile = useCallback((): void => {
     setFiles([]);
