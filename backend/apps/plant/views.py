@@ -167,16 +167,31 @@ class PlantUploadView(APIView):
         
         uploadFile = UploadImage.objects.create(image=file)
         uploadFile.save()
-        print(THIS_FOLDER)
+        
         model = resnet_model.Resnet(THIS_FOLDER + "/apps/ai/48_class_model_3.h5")
-        my_file = os.path.join(THIS_FOLDER + "/media/", str(uploadFile.image).replace('/','\\'))
+        my_file = os.path.join(THIS_FOLDER + "/media/", str(uploadFile.image))
         
         pred = model.predict(my_file)
         
-        results = get_object_or_404(Plant, kor=pred)
-        serializer = PlantDetailSerializer(results)
-             
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        top1 = get_object_or_404(Plant, kor=pred['top1']['name'])
+        top2 = get_object_or_404(Plant, kor=pred['top2']['name'])
+        top3 = get_object_or_404(Plant, kor=pred['top3']['name'])
+
+        serializer1 = PlantDetailSerializer(top1)
+        serializer2 = PlantDetailSerializer(top2)
+        serializer3 = PlantDetailSerializer(top3)
+
+        print(serializer1.data)
+        print(serializer2.data)
+        print(serializer3.data)
+
+        result = {
+            'top1' : serializer1.data,
+            'top2' : serializer2.data,
+            'top3' : serializer3.data,
+        }
+        
+        return Response(result, status=status.HTTP_201_CREATED)
 
 class PlantLikeView(APIView):
     authentication_classes = [TokenAuthentication]
