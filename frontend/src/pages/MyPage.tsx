@@ -16,7 +16,9 @@ const MyPage = () => {
   const [mainImg, setMainImg] = useState('/img/tree.png');
 
   useEffect(() => {
+    console.log(files);
     setFiles(files.concat(imgUrl));
+    console.log(files);
   }, [imgUrl]);
 
   const handleNamimg = (number: number, name: string) => {

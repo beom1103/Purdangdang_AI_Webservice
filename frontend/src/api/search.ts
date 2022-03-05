@@ -141,8 +141,7 @@ export const postReview = async (
 };
 
 export const preview = async (select: any) => {
-  console.log(select);
-  const imageFile = select;
+  const imageFile = select[0];
   const image = new FormData();
   image.append('file', imageFile);
 

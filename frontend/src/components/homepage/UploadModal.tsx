@@ -2,8 +2,13 @@ import React, { useEffect, useState } from 'react';
 import DetailModal from '../modal/DetailModal';
 import tw from 'tailwind-styled-components';
 
-const UploadModal = ({ isModal }: any) => {
+const UploadModal = ({ isModal, plantData }: any) => {
   const [detail, setDetail] = useState(false);
+
+  console.log(plantData);
+
+  const plantName = plantData ? plantData.top1.detail.kor : null;
+  const plantPer = plantData ? plantData.top1.percent : null;
 
   const closeModal = () => {
     isModal(false);
@@ -21,12 +26,14 @@ const UploadModal = ({ isModal }: any) => {
           onClick={e => e.stopPropagation()}
         >
           {detail ? (
-            <DetailModal isModal={isModal}></DetailModal>
+            <DetailModal isModal={isModal} plantData={plantData}></DetailModal>
           ) : (
             <div className="modal-box">
               <div className="flex justify-end w-full mb-8"></div>
               <p className="modal-title">이 댕댕이는?</p>
-              <p className="modal-text">식물댕댕이일 확률이 높습니다.</p>
+              <p className="modal-text">
+                {plantName}일 확률 {plantPer}.
+              </p>
 
               <div className="modal-img">
                 <img
@@ -39,7 +46,7 @@ const UploadModal = ({ isModal }: any) => {
               <div className="modal-next">이 댕댕이가 더 궁금하다면?</div>
               <div>
                 <button
-                  className="upload-btn"
+                  className="upload-btn main-color"
                   onClick={() => setDetail(!detail)}
                 >
                   상세 정보

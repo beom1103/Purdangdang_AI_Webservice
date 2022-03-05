@@ -190,7 +190,7 @@ body {
 }
 
 .upload-btn {
-  @apply items-center w-32 m-2 border-2 wrap main-color hover:bg-green-700 h-9;
+  @apply items-center w-32 m-2 border-2 wrap hover:bg-green-700 h-9;
 }
 
 /* Accout Page */

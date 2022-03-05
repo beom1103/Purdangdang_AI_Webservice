@@ -1,5 +1,11 @@
-import React, { useCallback, ChangeEvent, useState } from 'react';
-import imageResize from '../homepage/ImageResize';
+import React, {
+  useCallback,
+  ChangeEvent,
+  useState,
+  useRef,
+  useEffect,
+} from 'react';
+import MyImageSize from '../homepage/MyImageSize';
 
 type ListProps = {
   id: number;
@@ -26,6 +32,7 @@ const UploadList = ({
 }: ListProps) => {
   const [planttitle, setPlantTitle] = useState('');
   const [edit, setEdit] = useState(false);
+  const inputRef: any = useRef<HTMLInputElement | null>(null);
   const onClickFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | any): void => {
       let selectFiles: File[] = [];
@@ -44,9 +51,9 @@ const UploadList = ({
         return;
       }
 
-      imageResize({
+      MyImageSize({
         file: selectFiles[0],
-        maxSize: 250,
+        maxSize: 800,
       })
         .then(res => {
           setImgUrl(res);
@@ -57,6 +64,10 @@ const UploadList = ({
     },
     [],
   );
+
+  useEffect(() => {
+    if (inputRef.current !== null) inputRef.current.focus();
+  });
 
   const handleDelete = (number: number) => {
     //   파일 삭제 api 호출 예정
@@ -81,10 +92,16 @@ const UploadList = ({
     setEdit(true);
   };
 
-  // const editName = () => {
-  //   console.log('클릭', id, edit !== true);
-  //   setEdit(false);
-  // };
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      checkName();
+    }
+  };
+
+  const editName = () => {
+    console.log('클릭', id, edit !== true);
+    // setEdit(false);
+  };
 
   return (
     <>
@@ -92,26 +109,36 @@ const UploadList = ({
         <li className="mb-2">
           {files[id - 1] !== undefined ? (
             <div className="flex justify-between md:justify-between">
-              <div>
-                <span>{id}.이름 : </span>
+              <div className="flex flex-row items-end w-40 h-6 lg:w-48">
+                <span className="w-14">{id}.이름 : </span>
                 {plantName[id - 1] !== undefined ? (
                   <span
-                    className={`${checked === id ? `text-green-500` : null}`}
+                    className={`ml-3 w-20 lg:w-28 h-6 overflow-hidden text-ellipsis whitespace-nowrap  ${
+                      checked === id ? `text-green-500` : null
+                    }`}
                   >
                     {plantName[id - 1]}
                   </span>
                 ) : (
                   <input
-                    type="text"
+                    // type="text"
                     onChange={handleInput}
-                    placeholder="이름 입력해줘"
+                    onKeyPress={handleKeyPress}
+                    placeholder=" 이름 입력"
+                    className="w-20 h-6 ml-3 border border-gray-200 resize-none lg:w-28 rounded-xl"
+                    ref={inputRef}
                   ></input>
                 )}
               </div>
               <div>
                 {plantName[id - 1] !== undefined ? (
                   <div>
-                    <button className="bg-green-400 ">수정</button>
+                    <button
+                      className="bg-green-400 "
+                      onClick={() => editName()}
+                    >
+                      수정
+                    </button>
                     <button
                       className="bg-red-400 "
                       onClick={() => handleDelete(id - 1)}
