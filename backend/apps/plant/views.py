@@ -180,15 +180,20 @@ class PlantUploadView(APIView):
         serializer1 = PlantDetailSerializer(top1)
         serializer2 = PlantDetailSerializer(top2)
         serializer3 = PlantDetailSerializer(top3)
-
-        print(serializer1.data)
-        print(serializer2.data)
-        print(serializer3.data)
-
+        
         result = {
-            'top1' : serializer1.data,
-            'top2' : serializer2.data,
-            'top3' : serializer3.data,
+            'top1' : {
+                'detail' : serializer1.data,
+                'percent' : str(pred['top1']['percent']) + '%'
+            },
+            'top2' : {
+                'detail' : serializer2.data,
+                'percent' : str(pred['top2']['percent']) + '%'
+            },
+            'top3' : {
+                'detail' : serializer3.data,
+                'percent' : str(pred['top3']['percent']) + '%'
+            },
         }
         
         return Response(result, status=status.HTTP_201_CREATED)
