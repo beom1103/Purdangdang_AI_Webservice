@@ -2,7 +2,6 @@ from apps.user.models import User
 from django.db import models
 from django.db.models.deletion import CASCADE, DO_NOTHING
 from django.db.models.fields.related import ForeignKey
-
 class Category(models.Model):
     """
         식물 특성 분류  
@@ -65,3 +64,26 @@ class UploadImage(models.Model):
     def __str__(self):
         return str(self.image)
 
+class Wishlist(models.Model):
+    """
+        찜 리스트 
+    """ 
+    user_id = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE,
+        related_name="user",
+        db_column="user_id",
+        verbose_name="유저 ID",
+        null=True, 
+        blank=True
+    )
+    plant_id = models.ForeignKey(
+        Plant, 
+        on_delete=models.CASCADE,
+        related_name="plant",
+        db_column="plant_id",
+        verbose_name="식물 ID",
+    )
+
+    def __str__(self):
+        return str(self.id)

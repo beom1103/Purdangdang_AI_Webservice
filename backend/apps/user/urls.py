@@ -1,6 +1,6 @@
 from django.urls import path
 # from account import views
-from .views import RegistrationAPI, LoginAPI, UserAPI, ProfileUpdateAPI
+from .views import RegistrationAPI, LoginAPI, UserAPI
 from knox import views as knox_views
 
 
@@ -13,9 +13,10 @@ from knox import views as knox_views
 """
 
 urlpatterns = [
-    path("auth/register", RegistrationAPI.as_view()),
-    path("auth/login", LoginAPI.as_view()),
-    path('auth/logout',knox_views.LogoutView.as_view(), name="knox-logout"),
-    path("auth/user", UserAPI.as_view()),
-    path("auth/profile/<int:user_pk>/update", ProfileUpdateAPI.as_view()),
+    path("auth/register", name="register", view = RegistrationAPI.as_view()),
+    path("auth/login", name="login", view = LoginAPI.as_view()),
+    path('auth/logout', name="knox-logout", view = knox_views.LogoutView.as_view(), ),
+    path("auth/user", name="user", view = UserAPI.as_view()),   
+    # path("<str: username>", name="userinfo", view = UserInfoView.as_view),
+    # path("auth/profile/<int:user_pk>/update", view = ProfileUpdateAPI.as_view()),
 ]

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework import serializers
-from .models import Profile
+# from .models import Wishlist
 
 # 회원가입
 class CreateUserSerializer(serializers.ModelSerializer):
@@ -25,7 +25,6 @@ class CreateUserSerializer(serializers.ModelSerializer):
         )
         return user
 
-
 # 접속 유지중인지 확인
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -35,7 +34,6 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "email"
         ]
-
 
 # 로그인
 class LoginUserSerializer(serializers.Serializer):
@@ -51,12 +49,17 @@ class LoginUserSerializer(serializers.Serializer):
             return user
         raise serializers.ValidationError("Unable to log in with provided credentials.")
 
-class ProfileSerializer():
-    class Meta:
-        model = Profile
-        fields = [
-            "id", 
-            "username", 
-            "email"
-        ]
+# class ProfileSerializer():
+#     class Meta:
+#         model = Profile
+#         fields = [
+#             "id", 
+#             "username", 
+#             "email"
+#         ]
 
+# 찜 목록 
+# class WishlistSerializer():
+#     class Meta:
+#         model = Wishlist
+#         fields = "__all__"

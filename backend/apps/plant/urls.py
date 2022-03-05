@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from .views import PlantListView, PlantDetailView, PlantReviewListView, PlantUploadView
+from .views import PlantListView, PlantDetailView, PlantReviewListView, PlantUploadView, PlantLikeView
 
 # EndPoints
 """
@@ -16,4 +16,5 @@ urlpatterns = [
     path("upload", name="upload", view=PlantUploadView.as_view()),
     path("<int:plant_id>/info", name="info", view=PlantDetailView.as_view()),
     path("<int:plant_id>/reviews", name="reviews", view=PlantReviewListView.as_view()),
+    path("<int:plant_id>/like", name="like", view=PlantLikeView.as_view()),
 ]
