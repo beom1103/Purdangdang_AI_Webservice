@@ -169,7 +169,7 @@ class PlantUploadView(APIView):
         uploadFile.save()
         print(THIS_FOLDER)
         model = resnet_model.Resnet(THIS_FOLDER + "/apps/ai/48_class_model_3.h5")
-        my_file = os.path.join(THIS_FOLDER + "/media/", str(uploadFile.image).replace('/','\\'))
+        my_file = os.path.join(THIS_FOLDER + "/media/", str(uploadFile.image))
         
         pred = model.predict(my_file)
         
