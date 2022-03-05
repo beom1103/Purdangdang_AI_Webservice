@@ -20,12 +20,10 @@ CATEGORIES = [
               ]
 
 class Resnet:
+    
     def __init__(self, path):
         self.resnet_model = load_model(path)
     
-    # def __init__(self):
-    #     self.resnet_model = load_model(my_file)
-
     def dataization(self,img_path):
         image_w = 224
         image_h = 224
@@ -34,7 +32,6 @@ class Resnet:
         img = cv2.resize(img, None, fx=image_w/img.shape[1], fy=image_h/img.shape[0])
         return (img/224)
 
-    
     def predict(self, img_path):
         test = []
         test.append(self.dataization(img_path))
@@ -42,4 +39,63 @@ class Resnet:
         y_prob= self.resnet_model.predict(test, verbose=0)
         predicted= y_prob.argmax(axis=-1)
         
-        return CATEGORIES[predicted[0]]
+        print(predicted)
+        
+        y_sort = np.sort(y_prob, axis = 1)
+
+        top_1 = []
+        top_1_percent = []
+        top_2 = []
+        top_2_percent = []
+        top_3 = []
+        top_3_percent = []
+
+        #top_1
+        for i in range(len(test)):
+            top_1.append(CATEGORIES[predicted[i]])
+        
+        # top_1_percent
+        for i in range(48):
+            if y_prob[0][i] == y_sort[0][-1]:
+                index_num = i
+        percent = round((y_prob[0][index_num]*100), 2)
+        top_1_percent.append(percent)
+
+        # top_2
+        for i in range(48):
+            if y_prob[0][i] == y_sort[0][-2]:
+                index_num = i
+        top_2.append(CATEGORIES[index_num])
+        percent = round((y_prob[0][index_num]*100), 2)
+        top_2_percent.append(percent)
+
+        # top_3
+        for i in range(48):
+            if y_prob[0][i] == y_sort[0][-3]:
+                index_num = i
+        top_3.append(CATEGORIES[index_num])
+        percent = round((y_prob[0][index_num]*100), 2)
+        top_3_percent.append(percent)
+
+        
+        for i in range(len(test)):
+            print(f"top_1 : {top_1[i]} {top_1_percent[i]}%,  top_2 : {top_2[i]} {top_2_percent[i]} %, top_3 : {top_3[i]} {top_3_percent[i]} %")
+        
+        # return CATEGORIES[predicted[0]]
+        return {
+            "top1" : {
+                "name" : top_1[i],
+                "percent" : top_1_percent[i],
+            },
+            "top2" : {
+                "name" : top_2[i],
+                "percent" : top_2_percent[i],
+            },
+            "top3" : {
+                "name" : top_3[i],
+                "percent" : top_3_percent[i],
+            }
+        }
+
+# model = Resnet('48_class_model_3.h5')
+# print(model.predict('test.jpeg'))
