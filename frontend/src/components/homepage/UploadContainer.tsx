@@ -11,13 +11,14 @@ import imageResize from './ImageResize';
 import tw from 'tailwind-styled-components';
 import axios, { AxiosInstance } from 'axios';
 import { preview } from '../../api/search';
-
-const baseURL = process.env.REACT_APP_BASE_URL;
+import { boolean } from 'yup';
 
 const UploadContainer = ({ setIsModal }: any) => {
   //드래그 중일때와 아닐 때의 스타일을 구분하기 위한 state 변수
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [files, setFiles] = useState<any[]>([]);
+  const [plantData, setPlantData] = useState<any>({});
+  const [isLoading, setIsLoading] = useState(false);
 
   // Modal 띄우기 여부
   const [showModal, setShowModal] = useState(false);
@@ -25,6 +26,8 @@ const UploadContainer = ({ setIsModal }: any) => {
   // 드래그 이벤트를 감지한 ref 참조변수 (label 태그에 들어갈 예정)
   const dragRef = useRef<HTMLLabelElement | null>(null);
   const clickRef = useRef<HTMLLabelElement | null>(null);
+
+  const [imgBox, setImgBox] = useState<any[]>([]);
 
   const openModal = () => {
     if (files.length !== 0) {
@@ -65,14 +68,12 @@ const UploadContainer = ({ setIsModal }: any) => {
         return;
       }
 
-      setFiles(selectFiles);
-
       imageResize({
         file: selectFiles[0],
-        maxSize: 500,
+        maxSize: 400,
       })
         .then(res => {
-          preview(selectFiles[0]).then(sor => console.log(sor));
+          imageCheck(selectFiles[0], res);
         })
         .catch(function (err) {
           console.error(err);
@@ -109,13 +110,10 @@ const UploadContainer = ({ setIsModal }: any) => {
 
       imageResize({
         file: selectFiles[0],
-        maxSize: 250,
+        maxSize: 400,
       })
         .then(res => {
-          console.log(res);
-          console.log(selectFiles[0]);
-          // saveImg(res);
-          preview(selectFiles[0]);
+          imageCheck(selectFiles[0], res);
         })
         .catch(function (err) {
           console.error(err);
@@ -124,19 +122,17 @@ const UploadContainer = ({ setIsModal }: any) => {
     [files],
   );
 
-  // const preview = async (select: any) => {
-  //   const formdata = new FormData();
-  //   formdata.append('file', select);
-  //   const requestOptions: any = {
-  //     method: 'POST',
-  //     body: formdata,
-  //     redirect: 'follow',
-  //   };
-  //   fetch(`${baseURL}api/plant/upload`, requestOptions)
-  //     .then(response => response.json())
-  //     .then(result => console.log(result))
-  //     .catch(error => console.log('error', error));
-  // };
+  const imageCheck = (file: any, res: any) => {
+    // console.log('파일', file, res[0]);
+    setFiles(res);
+    preview(res)
+      .then(data => setPlantData(data))
+      .then(check => setIsLoading(true));
+
+    const imgEl: any = document.querySelector('.dragContainer');
+
+    imgEl.style.backgroundImage = `url(${res[1]})`;
+  };
 
   const handleFilterFile = useCallback((): void => {
     setFiles([]);
@@ -275,7 +271,7 @@ const UploadContainer = ({ setIsModal }: any) => {
             <P>어떤 식물인지 궁금하다면 푸르댕댕에 맡겨주세요!</P>
 
             <div className="upload-btnContainer md:flex-row">
-              <button className="upload-btn">
+              <button className="upload-btn main-color">
                 <input
                   type="file"
                   id="clickUpload"
@@ -284,11 +280,18 @@ const UploadContainer = ({ setIsModal }: any) => {
                   accept="image/*"
                   onChange={onClickFiles}
                 />
-                <label htmlFor="clickUpload" ref={clickRef}>
+                <label htmlFor="clickUpload " ref={clickRef}>
                   이미지 등록
                 </label>
               </button>
-              <button className="upload-btn " onClick={() => openModal()}>
+              <button
+                className={`upload-btn  ${
+                  isLoading
+                    ? `pointer-events-auto main-color`
+                    : `pointer-events-none bg-gray-300`
+                }`}
+                onClick={() => openModal()}
+              >
                 식물 검사
               </button>
             </div>
@@ -298,7 +301,10 @@ const UploadContainer = ({ setIsModal }: any) => {
 
       {showModal ? (
         <Modal>
-          <UploadModal isModal={setShowModal}></UploadModal>
+          <UploadModal
+            isModal={setShowModal}
+            plantData={plantData}
+          ></UploadModal>
         </Modal>
       ) : null}
     </div>
