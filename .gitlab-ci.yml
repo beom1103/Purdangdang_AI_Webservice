@@ -15,7 +15,7 @@ Deploy:
   script:
     - docker stop server
     - docker rm server  
-    - docker-compose build
+    - docker system prune -af --volumes
     - docker-compose run -d --name server -p 5000:5000 server
   variables:
     GIT_STRATEGY: none
