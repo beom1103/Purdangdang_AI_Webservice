@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useRecoilValue } from 'recoil';
 import tw from 'tailwind-styled-components';
 import { validLogin } from '../api';
@@ -8,10 +8,10 @@ import Noti from '../components/mypageform/Noti';
 
 const MyPage = () => {
   const userInfo = useRecoilValue(validLogin);
-  const [files, setFiles] = useState<any[]>([]);
-  const [imgUrl, setImgUrl] = useState<any[]>([]);
-  const [plantName, setPlantName] = useState<any[]>([]);
-  const [selected, setSelected] = useState<any[]>([]);
+  const [files, setFiles] = useState<string[]>([]);
+  const [imgUrl, setImgUrl] = useState<string[]>([]);
+  const [plantName, setPlantName] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string[]>([]);
   const [checked, setChecked] = useState(1);
   const [mainImg, setMainImg] = useState('/img/tree.png');
 
@@ -19,10 +19,16 @@ const MyPage = () => {
     setFiles(files.concat(imgUrl));
   }, [imgUrl]);
 
-  const handleNamimg = (number: any, name: any) => {
+  const handleNamimg = (number: number, name: string) => {
     const setName = plantName;
     setName.splice(number, 1, name);
-    setPlantName(setName);
+    setPlantName([...setName]);
+  };
+
+  const deleteName = (number: number) => {
+    const delName = plantName;
+    delName.splice(number, 1);
+    setPlantName([...delName]);
   };
 
   return (
@@ -37,7 +43,7 @@ const MyPage = () => {
         {userInfo ? (
           <span className="mypage_user">
             <i className="ml-2 text-4xl text-green-600 fas fa-leaf"></i>
-            <H2>{userInfo.email}님</H2>
+            <H2>&nbsp; {userInfo.email}님</H2>
             <H3>&nbsp;&nbsp;안녕하세요!</H3>
           </span>
         ) : (
@@ -100,6 +106,9 @@ const MyPage = () => {
                         setFiles={setFiles}
                         setImgUrl={setImgUrl}
                         handleNamimg={handleNamimg}
+                        plantName={plantName}
+                        setPlantName={setPlantName}
+                        deleteName={deleteName}
                       />
                       <UploadList
                         id={2}
@@ -108,6 +117,9 @@ const MyPage = () => {
                         setFiles={setFiles}
                         setImgUrl={setImgUrl}
                         handleNamimg={handleNamimg}
+                        plantName={plantName}
+                        setPlantName={setPlantName}
+                        deleteName={deleteName}
                       />
                       <UploadList
                         id={3}
@@ -116,6 +128,9 @@ const MyPage = () => {
                         setFiles={setFiles}
                         setImgUrl={setImgUrl}
                         handleNamimg={handleNamimg}
+                        plantName={plantName}
+                        setPlantName={setPlantName}
+                        deleteName={deleteName}
                       />
                     </ul>
                   </div>

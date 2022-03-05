@@ -100,7 +100,7 @@ const Header = () => {
                   <button className="header-link" onClick={() => logout()}>
                     로그아웃
                   </button>
-                  <Link to="/" className="header-link">
+                  <Link to="/mypage" className="header-link">
                     마이페이지
                   </Link>
                 </div>

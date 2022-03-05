@@ -84,14 +84,14 @@ const HomePage = () => {
             if (scrollDown && num < 3) {
               main = contentsRef.current[num];
               next = contentsRef.current[num + 1];
-              main ? (main.style.transform = 'translateY(-100vh)') : null;
-              next ? (next.style.transform = 'translateY(0)') : null;
+              main.style.transform = 'translateY(-100vh)';
+              next.style.transform = 'translateY(0)';
               num++;
             } else if (!scrollDown && num > 1) {
               main = contentsRef.current[num - 1];
               next = contentsRef.current[num];
-              main ? (main.style.transform = 'translateY(0vh)') : null;
-              next ? (next.style.transform = 'translateY(100vh)') : null;
+              main.style.transform = 'translateY(0vh)';
+              next.style.transform = 'translateY(100vh)';
               num--;
             }
           }

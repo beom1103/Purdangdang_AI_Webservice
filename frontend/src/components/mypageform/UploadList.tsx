@@ -1,10 +1,17 @@
 import React, { useCallback, ChangeEvent, useState } from 'react';
 import imageResize from '../homepage/ImageResize';
-// const pant_name: any = {
-//   1: `메인 댕댕`,
-//   2: `사슴 댕댕`,
-//   3: `모르는 댕댕`,
-// };
+
+type ListProps = {
+  id: number;
+  checked: number;
+  files: string[];
+  setFiles: any;
+  setImgUrl: any;
+  handleNamimg: any;
+  plantName: string[];
+  setPlantName: any;
+  deleteName: any;
+};
 
 const UploadList = ({
   id,
@@ -14,10 +21,11 @@ const UploadList = ({
   setImgUrl,
   handleNamimg,
   plantName,
-}: any) => {
-  const [form, setForm] = useState({
-    plantTitle: '',
-  });
+  setPlantName,
+  deleteName,
+}: ListProps) => {
+  const [planttitle, setPlantTitle] = useState('');
+  const [edit, setEdit] = useState(false);
   const onClickFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | any): void => {
       let selectFiles: File[] = [];
@@ -38,7 +46,7 @@ const UploadList = ({
 
       imageResize({
         file: selectFiles[0],
-        maxSize: 500,
+        maxSize: 250,
       })
         .then(res => {
           setImgUrl(res);
@@ -50,19 +58,32 @@ const UploadList = ({
     [],
   );
 
-  const handleDelete = (number: any) => {
+  const handleDelete = (number: number) => {
     //   파일 삭제 api 호출 예정
     const delList = files;
     delList.splice(number, 1);
     setFiles([...delList]);
+
+    deleteName(number);
+
+    console.log([...plantName]);
   };
 
-  // const handleInput = e => {
-  //   const { name, value } = e.target;
-  //   setForm(prev => ({
-  //     ...prev,
-  //     [name]: value,
-  //   }));
+  const handleInput = (e: any) => {
+    const name = e.target.value;
+    setPlantTitle(name);
+    console.log(planttitle);
+  };
+
+  const checkName = () => {
+    const currentId = id - 1;
+    handleNamimg(currentId, planttitle);
+    setEdit(true);
+  };
+
+  // const editName = () => {
+  //   console.log('클릭', id, edit !== true);
+  //   setEdit(false);
   // };
 
   return (
@@ -73,23 +94,22 @@ const UploadList = ({
             <div className="flex justify-between md:justify-between">
               <div>
                 <span>{id}.이름 : </span>
-                {plantName[id] !== undefined ? (
+                {plantName[id - 1] !== undefined ? (
                   <span
                     className={`${checked === id ? `text-green-500` : null}`}
                   >
-                    {plantName[id]}
+                    {plantName[id - 1]}
                   </span>
                 ) : (
                   <input
                     type="text"
-                    value={form.plantTitle}
-                    // onChange={handleInput}
+                    onChange={handleInput}
                     placeholder="이름 입력해줘"
                   ></input>
                 )}
               </div>
               <div>
-                {plantName[id] !== undefined ? (
+                {plantName[id - 1] !== undefined ? (
                   <div>
                     <button className="bg-green-400 ">수정</button>
                     <button
@@ -101,7 +121,9 @@ const UploadList = ({
                   </div>
                 ) : (
                   <div>
-                    <button className="bg-sky-400 ">확인</button>
+                    <button className="bg-sky-400 " onClick={() => checkName()}>
+                      확인
+                    </button>
                   </div>
                 )}
               </div>
@@ -111,7 +133,7 @@ const UploadList = ({
               <span>{id}. 파일없음</span>
               <input
                 type="file"
-                id={id}
+                id={String(id)}
                 style={{ display: 'none' }}
                 multiple={true}
                 accept="image/*"
@@ -119,7 +141,7 @@ const UploadList = ({
               />
               <label
                 className="text-white bg-green-400 rounded-md"
-                htmlFor={id}
+                htmlFor={String(id)}
               >
                 파일 선택
               </label>
