@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  NavLink,
-  Outlet,
-  useLocation,
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom';
 import Footer from '../components/global/Footer';
 
 import tw from 'tailwind-styled-components';
@@ -14,7 +8,6 @@ import { infoAtom, getDetailInfo } from '../api/search';
 
 const PlantDetailPage = () => {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
   const params = useParams() as { name: string };
   const [info, setInfo] = useRecoilState(infoAtom);
   const [fill, setFill] = useState(false);

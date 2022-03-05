@@ -3,11 +3,12 @@ import { useLocation } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import tw from 'tailwind-styled-components';
 import { methodAtom, reviewPostAtom, postReview } from '../../api/search';
+import { Reviews } from '../../store/type';
 import Star from './Star';
 
 type ModalProps = {
   id: string;
-  prevReview: any;
+  prevReview: Reviews;
   showReviewModal: MouseEventHandler<HTMLButtonElement>;
 };
 

@@ -21,8 +21,8 @@ const PlantReview = () => {
   const fetchReviews = async () => {
     const newReviews = await getDetailInfo(pathname);
     setReviews(newReviews);
-    newReviews.some((data: any) => {
-      if (data.username === user.username) {
+    newReviews.some((data: any): void => {
+      if (data.username === user?.username) {
         setPrevReview(data);
       }
     });
@@ -70,7 +70,7 @@ const PlantReview = () => {
               <div className="flex">
                 <User>
                   이름 : <span className="text-green-600">{data.username}</span>
-                  {user.username === data.username && (
+                  {user?.username === data.username && (
                     <div className="relative inline-flex justify-between ml-5">
                       <SmallBtn onClick={updateReview}>수정</SmallBtn>
                       <SmallBtn onClick={deleteReview}>삭제</SmallBtn>

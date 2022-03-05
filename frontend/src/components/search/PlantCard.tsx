@@ -5,7 +5,7 @@ type CardProps = {
   name: string;
   image: string;
   rank: number;
-  onClick: React.MouseEventHandler<any>;
+  onClick: React.MouseEventHandler<HTMLDivElement>;
 };
 
 const PlantCard: React.FC<CardProps> = ({

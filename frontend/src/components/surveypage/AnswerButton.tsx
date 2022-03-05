@@ -4,7 +4,7 @@ import { Question } from '../../store/type';
 
 type answerProps = {
   question: Question;
-  next: (e: any) => void;
+  next: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 const AnswerButton: React.FC<answerProps> = ({ question, next }) => {

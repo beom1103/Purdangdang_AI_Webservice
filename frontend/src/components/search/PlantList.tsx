@@ -4,7 +4,7 @@ import React, {
   MouseEventHandler,
   useState,
 } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import {
   fetchPlant,
   scrollPage,
@@ -20,7 +20,7 @@ import SearchList from './SearchList';
 const PlantList = () => {
   const navigate = useNavigate();
   const plantQuery = useRecoilValue(plantQueryAtom);
-  const fetchPlantList = useRecoilValue(fetchPlant);
+  const fetchPlantList = useRecoilValueLoadable(fetchPlant);
   const [plantsList, setPlantsList] = useRecoilState<Plant[] | any>(
     plantListAtom,
   );
@@ -41,9 +41,13 @@ const PlantList = () => {
   const getMorePlant = useCallback(
     async (page: number, filter: string) => {
       const newPlant = await scrollPage(page, filter);
-      setPlantsList((prev: Plant[]) => [...prev, ...newPlant.results]);
+      if (newPlant !== false) {
+        setPlantsList((prev: Plant[]) => [...prev, ...newPlant.results]);
+      } else {
+        alert('마지막 스크롤 입니다.');
+      }
     },
-    [fetchPlantList],
+    [fetchPlantList, page],
   );
 
   //상세 페이지로 라우팅
@@ -63,8 +67,11 @@ const PlantList = () => {
   });
 
   useEffect(() => {
-    setPlantsList(fetchPlantList.results);
-    setPage(1);
+    const fetchPlant = () => {
+      setPlantsList(fetchPlantList?.contents.results);
+      setPage(1);
+    };
+    fetchPlant();
   }, [filter]);
 
   return (

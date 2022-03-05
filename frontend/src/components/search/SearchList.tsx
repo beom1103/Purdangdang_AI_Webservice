@@ -12,9 +12,12 @@ const SearchList = () => {
   const navigate = useNavigate();
 
   //상세 페이지로 라우팅
-  const goDetail = useCallback((e: React.MouseEventHandler | any) => {
-    navigate(`/plant/${e.target.id}/info`);
-  }, []);
+  const goDetail = useCallback(
+    (e: React.MouseEventHandler<HTMLDivElement> | any): void => {
+      navigate(`/plant/${e.target.id}/info`);
+    },
+    [],
+  );
   return (
     <>
       {searchResult?.results?.map((data: Plant, idx: number): JSX.Element => {

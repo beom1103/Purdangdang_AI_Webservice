@@ -66,12 +66,13 @@ export const logout = async (): Promise<boolean> => {
 //토큰검사
 export const validLogin = selector({
   key: 'validLogin',
-  get: async (): Promise<User | any> => {
+  get: async (): Promise<User | undefined> => {
     try {
       const { data } = await athentication.get('api/auth/user');
       return data;
     } catch (error) {
-      return false;
+      console.log(error);
+      return;
     }
   },
 });

@@ -8,7 +8,7 @@ const FilterButton = () => {
   const reset = useResetRecoilState(plantListAtom);
 
   const changeFilter = useCallback(
-    (e: React.MouseEvent<any>): void => {
+    (e: any): void => {
       const { textContent } = e.currentTarget;
       if (filter !== textContent) {
         reset();

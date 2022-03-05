@@ -1,18 +1,18 @@
 import { atom, selector } from 'recoil';
 import { api, athentication } from '.';
-import { Info, Reviews } from '../store/type';
+import { Info, Plant, Reviews } from '../store/type';
 
-export const plantListAtom = atom({
+export const plantListAtom = atom<Plant[]>({
   key: 'plantListAtom',
   default: [],
 });
 
-export const plantQueryAtom = atom({
+export const plantQueryAtom = atom<string>({
   key: 'plantQueryAtom',
   default: '',
 });
 
-export const methodAtom = atom({
+export const methodAtom = atom<string>({
   key: 'methodAtom',
   default: '',
 });
@@ -31,13 +31,13 @@ export const reviewPostAtom = atom<Reviews>({
   },
 });
 
-export const filterAtom = atom({
+export const filterAtom = atom<string>({
   key: 'filterAtom',
   default: '전체',
 });
 
 // 나중에 검색이랑 합치기
-export const fetchPlant = selector({
+export const fetchPlant = selector<Promise<Plant[] | undefined>>({
   key: 'fetchPlant',
   get: async ({ get }) => {
     const filter = get(filterAtom);
@@ -56,7 +56,7 @@ export const fetchPlant = selector({
   },
 });
 
-export const searchPlant = selector({
+export const searchPlant = selector<Promise<Plant[]>>({
   key: 'searchPlant',
   get: async ({ get }) => {
     const plant = get(plantQueryAtom);
@@ -64,7 +64,8 @@ export const searchPlant = selector({
       const { data } = await api.get(`api/plant/search?kw=${plant}`);
       return data;
     } catch (error) {
-      return false;
+      console.log(error);
+      return;
     }
   },
 });
@@ -77,19 +78,23 @@ export const scrollPage = async (page: number, filter: string) => {
   } else {
     requestUrl = `api/plant/search?f=${filter}&page=${page}`;
   }
-
   if (requestUrl !== null) {
-    const { data } = await api.get(requestUrl);
-
-    return data;
+    try {
+      const { data } = await api.get(requestUrl);
+      return data;
+    } catch (error) {
+      return false;
+    }
   }
 };
-
-export const getDetailInfo = async (pathname: string): Promise<Info | any> => {
+export const getDetailInfo = async (
+  pathname: string,
+): Promise<Info | Reviews[] | any> => {
   try {
     const { data } = await api.get(`api${pathname}`);
     return data;
   } catch (error) {
+    console.log(error);
     return;
   }
 };
@@ -126,5 +131,19 @@ export const postReview = async (
 
     default:
       return;
+  }
+};
+
+export const preview = async (select: any) => {
+  console.log(select);
+  const imageFile = select;
+  const image = new FormData();
+  image.append('file', imageFile);
+
+  try {
+    const { data } = await api.post('api/plant/upload', image);
+    return data;
+  } catch (error) {
+    console.log(error);
   }
 };

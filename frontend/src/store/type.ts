@@ -13,6 +13,7 @@ export type RegisterType = {
 export type User = {
   id: number;
   email: string;
+  username: string;
 };
 
 export type Plant = {
@@ -39,7 +40,7 @@ export type Reviews = {
   content: string;
   created_at?: string;
   id?: number;
-  plant_id: number;
+  plant_id?: number;
   plantname?: string;
   score: number;
   updated_at?: string;

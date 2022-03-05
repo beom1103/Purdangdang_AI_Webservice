@@ -8,6 +8,7 @@ import React, {
 import UploadModal from './UploadModal';
 import imageResize from './ImageResize';
 import tw from 'tailwind-styled-components';
+import { preview } from '../../api/search';
 
 const UploadContainer = ({ setIsModal }: any) => {
   //드래그 중일때와 아닐 때의 스타일을 구분하기 위한 state 변수
@@ -67,7 +68,7 @@ const UploadContainer = ({ setIsModal }: any) => {
         maxSize: 500,
       })
         .then(res => {
-          preview(res);
+          preview(selectFiles[0]);
         })
         .catch(function (err) {
           console.error(err);
@@ -116,11 +117,11 @@ const UploadContainer = ({ setIsModal }: any) => {
     [files],
   );
 
-  const preview = (select: any) => {
-    const imgEl: any = document.querySelector('.dragContainer');
+  // const preview = (select: any) => {
+  //   const imgEl: any = document.querySelector('.dragContainer');
 
-    imgEl.style.backgroundImage = `url(${select})`;
-  };
+  //   imgEl.style.backgroundImage = `url(${select})`;
+  // };
 
   const handleFilterFile = useCallback((): void => {
     setFiles([]);

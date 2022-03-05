@@ -6,10 +6,11 @@ import FilterButton from '../components/search/FilterButton';
 import PlantList from '../components/search/PlantList';
 import { validLogin } from '../api';
 import TopButton from '../components/global/TopButton';
+import { fetchPlant } from '../api/search';
 
 const SearchPage = () => {
   const userInfo = useRecoilValue(validLogin);
-
+  useRecoilValue(fetchPlant);
   return (
     <SearchDiv>
       <header>
