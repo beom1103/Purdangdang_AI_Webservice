@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-j#nqqtp=63zxzdf)m85-8nsh+$(tv#4!^ol8r2gn4d)fo1qt5u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','localhost','elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com']
+ALLOWED_HOSTS = ['*']
+
+# ALLOWED_HOSTS = ['0.0.0.0','localhost','elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -63,23 +65,24 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# CORS_ORIGIN_WHITELIST = [
-#     'http://0.0.0.0:8000',
-#     'http://0.0.0.0:3000',
-#     'http://127.0.0.1:8000',
-#     'http://127.0.0.1:3000',
-#     'http://localhost:8000',
-#     'http://localhost:3000',   
-# ] # Scripts 안에서 리소스 요청을 허용할 도메인 추가
+CORS_ORIGIN_WHITELIST = [
+    'http://0.0.0.0:8000',
+    'http://0.0.0.0:3000',
+    'http://127.0.0.1:8000',
+    'http://127.0.0.1:3000',
+    'http://localhost:8000',
+    'http://localhost:3000',
+    # 'http://elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com:3000/'   
+] # Scripts 안에서 리소스 요청을 허용할 도메인 추가
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
