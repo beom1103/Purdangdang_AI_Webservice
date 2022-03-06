@@ -11,7 +11,7 @@ from pathlib import Path
 import os 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-from .pagination import PlantListPagination
+from .pagination import PlantListPagination, ReviewListPagination
 from .models import Plant, Review, Category, UploadImage
 from apps.user.models import User
 from apps.plant.models import Wishlist
@@ -43,9 +43,9 @@ class PlantListView(APIView, PlantListPagination):
         if f: results = self.paginate_queryset(queryset.intersection(category), request, view=self)
         else : results = self.paginate_queryset(queryset, request, view=self)
 
-        serializer_class = PlantSerializer(results, many=True)
+        serializer = PlantSerializer(results, many=True)
         
-        return self.get_paginated_response(serializer_class.data)
+        return self.get_paginated_response(serializer.data)
 
 class PlantDetailView(APIView):
     """
@@ -58,7 +58,7 @@ class PlantDetailView(APIView):
         serializer = PlantDetailSerializer(results)
         return Response(serializer.data)
     
-class PlantReviewListView(APIView):
+class PlantReviewListView(APIView, ReviewListPagination):
     authentication_classes = [TokenAuthentication]
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -71,9 +71,12 @@ class PlantReviewListView(APIView):
 
         식물(id)에 대한 리뷰 요청 - 삭제된 리뷰 제외
         """
-        review = Review.objects.filter(plant_id=plant_id).order_by("-updated_at")[:3]
-        serializer = PlantReviewSerializer(review, many=True)
-        return Response(serializer.data)
+        review = Review.objects.filter(plant_id=plant_id).order_by("-updated_at")
+        results = self.paginate_queryset(review, request, view=self)
+        serializer = PlantReviewSerializer(results, many=True)
+        
+        return self.get_paginated_response(serializer.data)
+
 
     def post(self, request, plant_id: int, format=None):
         """
@@ -234,7 +237,6 @@ class PlantLikeView(APIView):
         plant = get_object_or_404(Plant, pk=plant_id)
 
         wishlist = Wishlist.objects.get_or_create(user_id=self.get_user(), plant_id=plant)
-        # wishlist.save()
         
         print(plant)
         print(wishlist)

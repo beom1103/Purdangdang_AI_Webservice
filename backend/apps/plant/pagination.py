@@ -9,3 +9,9 @@ class PlantListPagination(PageNumberPagination):
     max_page_size = 20
     # 페이지 query 매개변수 이름
     page_query_param = "page"
+
+class ReviewListPagination(PageNumberPagination):
+    page_size = 3
+    page_size_query_param = "size"
+    max_page_size = 3
+    page_query_param = "page"
