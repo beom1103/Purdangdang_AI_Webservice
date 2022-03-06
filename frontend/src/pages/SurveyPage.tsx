@@ -25,7 +25,8 @@ const SurveyPage = () => {
         const newList = checkList;
         newList.push(value);
         setCheckList(newList);
-        setQuestionNo(questionNo => questionNo + 1);
+        const upQuestionNo = questionNo + 1;
+        setQuestionNo(upQuestionNo);
       } else {
         setIsComplete(true);
         onSubmit();

@@ -38,7 +38,7 @@ const PlantInfo = () => {
           구매하러 가기
         </button>
         <button className="buy-button" onClick={openYoutubePage}>
-          영상보러 가기
+          <Youtube /> 영상보기
         </button>
       </div>
     </div>
@@ -49,4 +49,12 @@ export default React.memo(PlantInfo);
 
 const InfoDiv = tw.div`
   plant-info-div
+`;
+
+const Youtube = tw.i` 
+  fa
+  fa-youtube
+  text-red-600
+  text-xl
+  mr-1
 `;
