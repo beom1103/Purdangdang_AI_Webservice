@@ -81,7 +81,7 @@ module.exports = {
           },
           '&::-webkit-scrollbar-thumb': {
             height: `5%`,
-            background: `#1faa00`,
+            background: `#003300`,
             borderRadius: '30px',
           },
           '&::-webkit-scrollbar-track': {

@@ -69,12 +69,12 @@ const Header = () => {
               </div>
               {isLogin ? (
                 <div>
-                  <button className="header-link" onClick={() => logout()}>
-                    로그아웃
-                  </button>
                   <Link to="/mypage" className="header-link">
                     마이페이지
                   </Link>
+                  <button className="header-link" onClick={() => logout()}>
+                    로그아웃
+                  </button>
                 </div>
               ) : (
                 <div>

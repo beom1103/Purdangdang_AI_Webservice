@@ -1,6 +1,11 @@
 html,
 body {
   margin: 0;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
 }
 
 @tailwind base;
@@ -33,7 +38,7 @@ body {
   }
 
   button {
-    @apply text-base font-medium text-white border border-transparent rounded-md shadow-sm focus:outline-none;
+    @apply text-base font-medium text-white border border-transparent rounded-md outline-none;
   }
 
   input {

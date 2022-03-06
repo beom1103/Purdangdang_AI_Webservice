@@ -80,7 +80,7 @@ const HomePage = () => {
 
           const scrollLimit = num >= 1 && num <= 3;
           if (scrollLimit) {
-            // document.body.style.overflowY = 'hidden';
+            document.body.style.overflowY = 'hidden';
             if (scrollDown && num < 3) {
               main = contentsRef.current[num];
               next = contentsRef.current[num + 1];
@@ -98,7 +98,7 @@ const HomePage = () => {
           setTimeout(() => {
             initialScroll = window.scrollY;
             startFlag = true;
-            // document.body.style.overflowY = 'scroll';
+            document.body.style.overflowY = 'scroll';
           }, TIME_OUT);
           startFlag = false;
         }
