@@ -53,7 +53,6 @@ class Review(models.Model):
     def __str__(self):
         return str(self.id)
 
-
 class UploadImage(models.Model):
     """
         식물 이미지 업로드 
@@ -71,16 +70,12 @@ class Wishlist(models.Model):
     user_id = models.ForeignKey(
         User, 
         on_delete=models.CASCADE,
-        related_name="user",
         db_column="user_id",
         verbose_name="유저 ID",
-        null=True, 
-        blank=True
     )
     plant_id = models.ForeignKey(
         Plant, 
         on_delete=models.CASCADE,
-        related_name="plant",
         db_column="plant_id",
         verbose_name="식물 ID",
     )

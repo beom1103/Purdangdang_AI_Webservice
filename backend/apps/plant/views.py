@@ -11,10 +11,10 @@ from pathlib import Path
 import os 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-from .pagination import PlantListPagination
-from .models import Plant, Review, Category, UploadImage
-from apps.plant.models import Wishlist
-from .serializers import PlantSerializer, PlantDetailSerializer, PlantReviewSerializer, UploadSerializer
+from .pagination import PlantListPagination, ReviewListPagination
+from .models import Plant, Review, Category, UploadImage, Wishlist
+from apps.user.models import User
+from .serializers import PlantSerializer, PlantDetailSerializer, PlantReviewSerializer, UploadSerializer, WishlistSerializer
 from apps.ai import resnet_model
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,22 +42,23 @@ class PlantListView(APIView, PlantListPagination):
         if f: results = self.paginate_queryset(queryset.intersection(category), request, view=self)
         else : results = self.paginate_queryset(queryset, request, view=self)
 
-        serializer_class = PlantSerializer(results, many=True)
+        serializer = PlantSerializer(results, many=True)
         
-        return self.get_paginated_response(serializer_class.data)
+        return self.get_paginated_response(serializer.data)
 
 class PlantDetailView(APIView):
-    """
-    식물 상세 정보 
-
-    요청한 식물의 상세 정보를 반환
-    """
+    
     def get(self, request, plant_id, format=None):
+        """
+        식물 상세 정보 
+
+        요청한 식물의 상세 정보를 반환
+        """
         results = get_object_or_404(Plant, pk=plant_id)
         serializer = PlantDetailSerializer(results)
         return Response(serializer.data)
     
-class PlantReviewListView(APIView):
+class PlantReviewListView(APIView, ReviewListPagination):
     authentication_classes = [TokenAuthentication]
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -70,9 +71,12 @@ class PlantReviewListView(APIView):
 
         식물(id)에 대한 리뷰 요청 - 삭제된 리뷰 제외
         """
-        review = Review.objects.filter(plant_id=plant_id).order_by("-updated_at")[:3]
-        serializer = PlantReviewSerializer(review, many=True)
-        return Response(serializer.data)
+        review = Review.objects.filter(plant_id=plant_id).order_by("-updated_at")
+        results = self.paginate_queryset(review, request, view=self)
+        serializer = PlantReviewSerializer(results, many=True)
+        
+        return self.get_paginated_response(serializer.data)
+
 
     def post(self, request, plant_id: int, format=None):
         """
@@ -115,7 +119,6 @@ class PlantReviewListView(APIView):
         """
         user = self.get_user()
         review = get_object_or_404(Review, user_id=user, plant_id=plant_id)
-        
         serializer = PlantReviewSerializer(data=request.data, instance=review)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -205,16 +208,50 @@ class PlantLikeView(APIView):
     
     def get_user(self):
         return self.request.user
+    
+    def get(self, request, plant_id: int, format=None):
+        """
+        찜 되어있는지 확인
+        
+        user의 찜 리스트에 해당 식물이 있는지 조회합니다.    
+        """
+        plant = get_object_or_404(Plant, pk=plant_id)
+        wishlist = Wishlist.objects.filter(user_id=self.get_user(), plant_id=plant)
+ 
+        return Response(wishlist.exists(), status=status.HTTP_201_CREATED)
+
+
 
     def post(self, request, plant_id: int, format=None):
         """
-        찜 기능
+        찜 리스트에 추가
         
-        최대 3개까지 찜이 가능합니다.       
+        user의 찜 리스트에 해당 식물이 추가됩니다.      
         """
-        user = self.get_user()
+        user = User.objects.get(username=self.get_user()).id
         plant = get_object_or_404(Plant, pk=plant_id)
-        wishlist = get_object_or_404(Wishlist, user_id=user)
+
+        wishlist = Wishlist.objects.get_or_create(user_id=self.get_user(), plant_id=plant)
+        
+        print(plant)
         print(wishlist)
-        return 
+        
+        return Response("Successfully created.", status=status.HTTP_201_CREATED)
+    
+    def delete(self, request, plant_id: int, format=None):
+        """
+        찜 리스트에서 삭제
+        
+        user의 찜 리스트에 해당 식물이 삭제됩니다.        
+        """
+        user = User.objects.get(username=self.get_user()).id
+        plant = get_object_or_404(Plant, pk=plant_id)
+        
+        wishlist = get_object_or_404(Wishlist, user_id=user, plant_id=plant_id)
+        wishlist.delete()
+        
+        print(plant)
+        
+        return Response("Successfully deleted.", status=status.HTTP_201_CREATED)
+
 

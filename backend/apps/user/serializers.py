@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework import serializers
-# from .models import Wishlist
+from .models import UserPlant
 
 # 회원가입
 class CreateUserSerializer(serializers.ModelSerializer):
@@ -58,8 +58,8 @@ class LoginUserSerializer(serializers.Serializer):
 #             "email"
 #         ]
 
-# 찜 목록 
-# class WishlistSerializer():
-#     class Meta:
-#         model = Wishlist
-#         fields = "__all__"
+class UserPlantSerializer(serializers.Serializer):
+     class Meta:
+        model = UserPlant
+        fields = "__all__"
+

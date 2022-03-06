@@ -7,9 +7,7 @@ from keras.models import load_model
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, '48_class_model_3.h5')
-# my_file = h5py.File('48_class_model_3.h5', 'r')
 
-# print(my_file)
 CATEGORIES = [
               "개운죽", "관음죽", "괴마옥", "극락조화", "금전수", "녹태고", "다바나 고사리", "더피 고사리", "둥근 잎 아카시아",
               "드라세나 드라코", "드라세나 마지나타", "디지고테카 아랄리아", "떡갈잎 고무나무", "라벤더", "로즈마리", "립살리스 트리고나",

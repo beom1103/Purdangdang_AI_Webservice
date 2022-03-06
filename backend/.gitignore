@@ -4,6 +4,7 @@
 
 ### Custom ### 
 media/
+secrets.json
 
 ### Django ###
 *.log
