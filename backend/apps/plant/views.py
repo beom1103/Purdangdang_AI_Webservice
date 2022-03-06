@@ -12,9 +12,8 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from .pagination import PlantListPagination, ReviewListPagination
-from .models import Plant, Review, Category, UploadImage
+from .models import Plant, Review, Category, UploadImage, Wishlist
 from apps.user.models import User
-from apps.plant.models import Wishlist
 from .serializers import PlantSerializer, PlantDetailSerializer, PlantReviewSerializer, UploadSerializer, WishlistSerializer
 from apps.ai import resnet_model
 
@@ -48,12 +47,13 @@ class PlantListView(APIView, PlantListPagination):
         return self.get_paginated_response(serializer.data)
 
 class PlantDetailView(APIView):
-    """
-    식물 상세 정보 
-
-    요청한 식물의 상세 정보를 반환
-    """
+    
     def get(self, request, plant_id, format=None):
+        """
+        식물 상세 정보 
+
+        요청한 식물의 상세 정보를 반환
+        """
         results = get_object_or_404(Plant, pk=plant_id)
         serializer = PlantDetailSerializer(results)
         return Response(serializer.data)
@@ -208,30 +208,24 @@ class PlantLikeView(APIView):
     def get_user(self):
         return self.request.user
     
-    # TODO : 마이페이지 api로 옮기기 
-    # def get(self, request, plant_id: int, format=None):
-    #     """
-    #     찜 리스트 조회     
-    #     """
-    #     review = Review.objects.filter(plant_id=plant_id).order_by("-updated_at")[:3]
-    #     serializer = PlantReviewSerializer(review, many=True)
+    def get(self, request, plant_id: int, format=None):
+        """
+        찜 되어있는지 확인
+        
+        user의 찜 리스트에 해당 식물이 있는지 조회합니다.    
+        """
+        plant = get_object_or_404(Plant, pk=plant_id)
+        wishlist = Wishlist.objects.filter(user_id=self.get_user(), plant_id=plant)
+ 
+        return Response(wishlist.exists(), status=status.HTTP_201_CREATED)
 
-        
-    #     user = User.objects.get(username=self.get_user()).id
-    #     plant = get_object_or_404(Plant, pk=plant_id)
-        
-    #     wishlist = Wishlist.objects.filter(user_id=user)
-    #     serializer = WishlistSerializer(wishlist, many=True)
-        
-    #     print(plant)
-    #     print(wishlist)
-        
-    #     return Response(serializer.data)
 
 
     def post(self, request, plant_id: int, format=None):
         """
-        찜 리스트에 추가      
+        찜 리스트에 추가
+        
+        user의 찜 리스트에 해당 식물이 추가됩니다.      
         """
         user = User.objects.get(username=self.get_user()).id
         plant = get_object_or_404(Plant, pk=plant_id)
@@ -241,11 +235,13 @@ class PlantLikeView(APIView):
         print(plant)
         print(wishlist)
         
-        return Response(status=status.HTTP_201_CREATED)
+        return Response("Successfully created.", status=status.HTTP_201_CREATED)
     
     def delete(self, request, plant_id: int, format=None):
         """
-        찜 리스트에서 삭제    
+        찜 리스트에서 삭제
+        
+        user의 찜 리스트에 해당 식물이 삭제됩니다.        
         """
         user = User.objects.get(username=self.get_user()).id
         plant = get_object_or_404(Plant, pk=plant_id)
@@ -255,6 +251,6 @@ class PlantLikeView(APIView):
         
         print(plant)
         
-        return Response(status=status.HTTP_201_CREATED)
+        return Response("Successfully deleted.", status=status.HTTP_201_CREATED)
 
 

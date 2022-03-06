@@ -1,6 +1,9 @@
 from rest_framework.pagination import PageNumberPagination
 
 class PlantListPagination(PageNumberPagination):
+    """
+    검색페이지     
+    """
     # 페이지당 보여줄 갯수 기본값
     page_size = 20
     # 페이지당 보여줄 갯수 query 매개변수 이름
@@ -11,7 +14,12 @@ class PlantListPagination(PageNumberPagination):
     page_query_param = "page"
 
 class ReviewListPagination(PageNumberPagination):
+    """
+    식물 리뷰       
+    """
     page_size = 3
     page_size_query_param = "size"
     max_page_size = 3
     page_query_param = "page"
+
+
