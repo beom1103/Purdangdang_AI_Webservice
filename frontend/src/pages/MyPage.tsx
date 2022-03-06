@@ -33,6 +33,10 @@ const MyPage = () => {
     setPlantName([...delName]);
   };
 
+  const onSubmit = () => {
+    console.log('서버 전달', files, plantName);
+  };
+
   return (
     <div className="mypage_div">
       <div
@@ -137,7 +141,13 @@ const MyPage = () => {
                     </ul>
                   </div>
                 </div>
-                <Noti />
+                {/* <Noti /> */}
+                <button
+                  className="w-full mt-10 bg-blue-500 md:w-1/6 hover:bg-blue-300 hover:text-black"
+                  onClick={() => onSubmit()}
+                >
+                  저장
+                </button>
               </div>
             </div>
           </div>

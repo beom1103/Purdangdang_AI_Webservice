@@ -99,19 +99,29 @@ const UploadList = ({
   };
 
   const editName = () => {
-    console.log('클릭', id, edit !== true);
-    // setEdit(false);
+    console.log('클릭', id, edit === true);
+    setEdit(false);
   };
 
   return (
     <>
-      {files[id - 2] !== undefined || id === 1 ? (
+      {plantName[id - 2] !== undefined || id === 1 ? (
         <li className="mb-2">
           {files[id - 1] !== undefined ? (
             <div className="flex justify-between md:justify-between">
               <div className="flex flex-row items-end w-40 h-6 lg:w-48">
                 <span className="w-14">{id}.이름 : </span>
-                {plantName[id - 1] !== undefined ? (
+                {edit === false || plantName[id - 1] === undefined ? (
+                  <input
+                    // type="text"
+                    onChange={handleInput}
+                    value={planttitle}
+                    onKeyPress={handleKeyPress}
+                    placeholder=" 이름 입력"
+                    className="w-20 h-6 pl-2 ml-3 border border-gray-200 resize-none lg:w-28 rounded-xl"
+                    ref={inputRef}
+                  ></input>
+                ) : (
                   <span
                     className={`ml-3 w-20 lg:w-28 h-6 overflow-hidden text-ellipsis whitespace-nowrap  ${
                       checked === id ? `text-green-500` : null
@@ -119,19 +129,16 @@ const UploadList = ({
                   >
                     {plantName[id - 1]}
                   </span>
-                ) : (
-                  <input
-                    // type="text"
-                    onChange={handleInput}
-                    onKeyPress={handleKeyPress}
-                    placeholder=" 이름 입력"
-                    className="w-20 h-6 ml-3 border border-gray-200 resize-none lg:w-28 rounded-xl"
-                    ref={inputRef}
-                  ></input>
                 )}
               </div>
               <div>
-                {plantName[id - 1] !== undefined ? (
+                {edit === false || plantName[id - 1] === undefined ? (
+                  <div>
+                    <button className="bg-sky-400 " onClick={() => checkName()}>
+                      확인
+                    </button>
+                  </div>
+                ) : (
                   <div>
                     <button
                       className="bg-green-400 "
@@ -144,12 +151,6 @@ const UploadList = ({
                       onClick={() => handleDelete(id - 1)}
                     >
                       삭제
-                    </button>
-                  </div>
-                ) : (
-                  <div>
-                    <button className="bg-sky-400 " onClick={() => checkName()}>
-                      확인
                     </button>
                   </div>
                 )}
