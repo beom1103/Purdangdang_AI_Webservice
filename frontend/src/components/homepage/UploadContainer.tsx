@@ -12,13 +12,14 @@ import tw from 'tailwind-styled-components';
 import axios, { AxiosInstance } from 'axios';
 import { preview } from '../../api/search';
 import { boolean } from 'yup';
+import UploadLading from '../load-page/UploadLoading';
 
 const UploadContainer = ({ setIsModal }: any) => {
   //드래그 중일때와 아닐 때의 스타일을 구분하기 위한 state 변수
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [files, setFiles] = useState<any[]>([]);
   const [plantData, setPlantData] = useState<any>({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Modal 띄우기 여부
   const [showModal, setShowModal] = useState(false);
@@ -67,7 +68,7 @@ const UploadContainer = ({ setIsModal }: any) => {
         alert('님 이거 사진 아니자늠');
         return;
       }
-
+      setIsLoading(false);
       imageResize({
         file: selectFiles[0],
         maxSize: 400,
@@ -107,7 +108,7 @@ const UploadContainer = ({ setIsModal }: any) => {
       }
 
       setFiles(selectFiles);
-
+      setIsLoading(false);
       imageResize({
         file: selectFiles[0],
         maxSize: 400,
@@ -124,8 +125,9 @@ const UploadContainer = ({ setIsModal }: any) => {
 
   const imageCheck = (res: any) => {
     // console.log('파일', file, res[0]);
-    setFiles(res);
-    preview(res)
+    const file = res;
+    setFiles(file);
+    preview(file)
       .then(data => setPlantData(data))
       .then(check => setIsLoading(true));
 
@@ -136,7 +138,10 @@ const UploadContainer = ({ setIsModal }: any) => {
 
   const handleFilterFile = useCallback((): void => {
     setFiles([]);
-    preview(null);
+    setIsLoading(true);
+
+    const imgEl: any = document.querySelector('.dragContainer');
+    imgEl.style.backgroundImage = `url(${null})`;
   }, [files]);
 
   const handleDragIn = useCallback((e: DragEvent): void => {
@@ -207,7 +212,8 @@ const UploadContainer = ({ setIsModal }: any) => {
   }, [initDragEvents, resetDragEvents]);
 
   return (
-    <div className="flex ">
+    <div className="relative flex">
+      {isLoading ? null : <UploadLading />}
       <div
         className="upload-container "
         style={{
@@ -255,15 +261,15 @@ const UploadContainer = ({ setIsModal }: any) => {
               </label>
             </Container>
             <Span>
-              파일명 : &nbsp;
+              {/* 파일명 : &nbsp; */}
               {files.length > 0 && (
                 <span>
-                  <span>{files[0]?.name}</span>
+                  <span>업로드 이미지</span>
                   <span
                     className="cursor-pointer drags hover:text-rose-500"
                     onClick={() => handleFilterFile()}
                   >
-                    &nbsp; X
+                    &nbsp; 삭제 X
                   </span>
                 </span>
               )}

@@ -107,6 +107,8 @@ const Container = tw.div`
   mb-0
   bg-green-50
   lg:mb-7
+  border-b-2
+  border-gary-500
 `;
 
 const ImgBox = tw.div`
