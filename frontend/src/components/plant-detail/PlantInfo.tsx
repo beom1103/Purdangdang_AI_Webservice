@@ -6,9 +6,14 @@ import { infoAtom } from '../../api/search';
 const PlantInfo = () => {
   const info = useRecoilValue(infoAtom);
 
-  const buyPlant = () => {
+  const openShoppingPage = () => {
     const url = 'https://search.shopping.naver.com/search/all?query=';
     window.open(url + info.kor);
+  };
+
+  const openYoutubePage = () => {
+    const url = 'https://www.youtube.com/results?search_query=';
+    window.open(url + info.kor + ' 키우기');
   };
 
   return (
@@ -28,9 +33,14 @@ const PlantInfo = () => {
         <span className="ml-auto">잘 자라는 온도 : {info?.temperature}</span>
       </InfoDiv>
 
-      <button className="buy-button" onClick={buyPlant}>
-        구매하러 가기
-      </button>
+      <div className="flex">
+        <button className="buy-button" onClick={openShoppingPage}>
+          구매하러 가기
+        </button>
+        <button className="buy-button" onClick={openYoutubePage}>
+          영상보러 가기
+        </button>
+      </div>
     </div>
   );
 };

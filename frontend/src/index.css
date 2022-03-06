@@ -242,7 +242,7 @@ body::-webkit-scrollbar {
 }
 
 .buy-button {
-  @apply flex px-6 py-2 ml-auto bg-green-500 hover:bg-green-600;
+  @apply flex px-6 py-2 mr-3 bg-green-500 hover:bg-green-600;
 }
 
 .like {
