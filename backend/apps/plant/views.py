@@ -13,8 +13,9 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from .pagination import PlantListPagination
 from .models import Plant, Review, Category, UploadImage
+from apps.user.models import User
 from apps.plant.models import Wishlist
-from .serializers import PlantSerializer, PlantDetailSerializer, PlantReviewSerializer, UploadSerializer
+from .serializers import PlantSerializer, PlantDetailSerializer, PlantReviewSerializer, UploadSerializer, WishlistSerializer
 from apps.ai import resnet_model
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -115,7 +116,6 @@ class PlantReviewListView(APIView):
         """
         user = self.get_user()
         review = get_object_or_404(Review, user_id=user, plant_id=plant_id)
-        
         serializer = PlantReviewSerializer(data=request.data, instance=review)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -204,16 +204,55 @@ class PlantLikeView(APIView):
     
     def get_user(self):
         return self.request.user
+    
+    # TODO : 마이페이지 api로 옮기기 
+    # def get(self, request, plant_id: int, format=None):
+    #     """
+    #     찜 리스트 조회     
+    #     """
+    #     review = Review.objects.filter(plant_id=plant_id).order_by("-updated_at")[:3]
+    #     serializer = PlantReviewSerializer(review, many=True)
+
+        
+    #     user = User.objects.get(username=self.get_user()).id
+    #     plant = get_object_or_404(Plant, pk=plant_id)
+        
+    #     wishlist = Wishlist.objects.filter(user_id=user)
+    #     serializer = WishlistSerializer(wishlist, many=True)
+        
+    #     print(plant)
+    #     print(wishlist)
+        
+    #     return Response(serializer.data)
+
 
     def post(self, request, plant_id: int, format=None):
         """
-        찜 기능
-        
-        최대 3개까지 찜이 가능합니다.       
+        찜 리스트에 추가      
         """
-        user = self.get_user()
+        user = User.objects.get(username=self.get_user()).id
         plant = get_object_or_404(Plant, pk=plant_id)
-        wishlist = get_object_or_404(Wishlist, user_id=user)
+
+        wishlist = Wishlist.objects.get_or_create(user_id=self.get_user(), plant_id=plant)
+        # wishlist.save()
+        
+        print(plant)
         print(wishlist)
-        return 
+        
+        return Response(status=status.HTTP_201_CREATED)
+    
+    def delete(self, request, plant_id: int, format=None):
+        """
+        찜 리스트에서 삭제    
+        """
+        user = User.objects.get(username=self.get_user()).id
+        plant = get_object_or_404(Plant, pk=plant_id)
+        
+        wishlist = get_object_or_404(Wishlist, user_id=user, plant_id=plant_id)
+        wishlist.delete()
+        
+        print(plant)
+        
+        return Response(status=status.HTTP_201_CREATED)
+
 

@@ -6,26 +6,6 @@ from django.db import models
 from apps.plant.models import Plant
 
 User._meta.get_field('email')._unique = True
-
-class Wishlist(models.Model):
-    """
-        찜 리스트 
-    """ 
-    user_id = models.ForeignKey(
-        User, 
-        on_delete=models.CASCADE,
-        verbose_name="유저 ID",
-        null=True, 
-        blank=True
-    )
-    plant_id = models.ForeignKey(
-        Plant, 
-        on_delete=models.CASCADE,
-        verbose_name="식물 ID",
-    )
-
-    def __str__(self):
-        return str(self.id)
     
 # class Profile(models.Model):
 #     user = models.OneToOneField(User, on_delete=models.CASCADE)
