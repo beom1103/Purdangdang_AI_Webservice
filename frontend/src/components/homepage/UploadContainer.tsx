@@ -51,7 +51,7 @@ const UploadContainer = ({ setIsModal }: any) => {
     (e: ChangeEvent<HTMLInputElement> | any): void => {
       let selectFiles: File[] = [];
 
-      console.log(files);
+      console.log('클릭?');
 
       selectFiles = e.target?.files;
       // checkFile(selectFiles[0].name);
@@ -73,7 +73,7 @@ const UploadContainer = ({ setIsModal }: any) => {
         maxSize: 400,
       })
         .then(res => {
-          imageCheck(selectFiles[0], res);
+          imageCheck(res);
         })
         .catch(function (err) {
           console.error(err);
@@ -113,7 +113,7 @@ const UploadContainer = ({ setIsModal }: any) => {
         maxSize: 400,
       })
         .then(res => {
-          imageCheck(selectFiles[0], res);
+          imageCheck(res);
         })
         .catch(function (err) {
           console.error(err);
@@ -122,7 +122,7 @@ const UploadContainer = ({ setIsModal }: any) => {
     [files],
   );
 
-  const imageCheck = (file: any, res: any) => {
+  const imageCheck = (res: any) => {
     // console.log('파일', file, res[0]);
     setFiles(res);
     preview(res)
@@ -280,7 +280,7 @@ const UploadContainer = ({ setIsModal }: any) => {
                   accept="image/*"
                   onChange={onClickFiles}
                 />
-                <label htmlFor="clickUpload " ref={clickRef}>
+                <label htmlFor="clickUpload" ref={clickRef}>
                   이미지 등록
                 </label>
               </button>
