@@ -46,7 +46,7 @@ const PlantList = () => {
       default:
         return;
     }
-  }, [fetchPlantList, plantsList]);
+  }, [fetchPlantList]);
 
   // 스크롤이 맨 밑에 있을때 실행
   const handleScroll = useCallback(async () => {
@@ -62,13 +62,9 @@ const PlantList = () => {
   const getMorePlant = useCallback(
     async (page: number, filter: string) => {
       const newPlant = await scrollPage(page, filter);
-      if (newPlant !== false) {
-        setPlantsList((prev: Plant[]) => [...prev, ...newPlant.results]);
-      } else {
-        alert('마지막 스크롤 입니다.');
-      }
+      setPlantsList((prev: Plant[]) => [...prev, ...newPlant.results]);
     },
-    [fetchPlantList, page],
+    [fetchPlantList],
   );
 
   //상세 페이지로 라우팅
