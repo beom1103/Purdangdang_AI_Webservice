@@ -8,13 +8,13 @@ import Star from './Star';
 
 type ModalProps = {
   id: string;
-  prevReview: Reviews;
+  modifyReview: Reviews;
   showReviewModal: MouseEventHandler<HTMLButtonElement>;
 };
 
 const ReviewModal: React.FC<ModalProps | any> = ({
   id,
-  prevReview,
+  modifyReview,
   showReviewModal,
 }) => {
   const method = useRecoilValue(methodAtom);
@@ -48,8 +48,6 @@ const ReviewModal: React.FC<ModalProps | any> = ({
   };
 
   useEffect(() => {
-    console.log(prevReview);
-
     setReviewState({ ...reviewState, ['plant_id']: id });
   }, []);
 
@@ -60,7 +58,7 @@ const ReviewModal: React.FC<ModalProps | any> = ({
       </CloseButton>
       <h3>별점</h3>
       <div className="wrap">
-        <Star score={prevReview.score} />
+        <Star score={modifyReview.score} />
       </div>
       <h3 className="mt-8">
         리뷰 <small>{content.length}/255자</small>
@@ -69,7 +67,7 @@ const ReviewModal: React.FC<ModalProps | any> = ({
         name="content"
         onChange={onChangeInput}
         onKeyPress={handleKeyPress}
-        defaultValue={prevReview.content}
+        defaultValue={modifyReview.content}
       />
       <Button onClick={onSubmit}>제출</Button>
     </Modal>

@@ -2,7 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { validLogin } from '../../api';
-import { getDetailInfo, methodAtom, postReview } from '../../api/search';
+import {
+  getDetailInfo,
+  getMoreReview,
+  methodAtom,
+  postReview,
+} from '../../api/search';
 import { Reviews } from '../../store/type';
 import tw from 'tailwind-styled-components';
 import ReviewModal from '../modal/ReviewModal';
@@ -14,18 +19,38 @@ const PlantReview = () => {
   const params = useParams() as { name: string };
 
   const [reviews, setReviews] = useState<Reviews[]>([]);
-  const [showModal, setShowModal] = useState(false);
   const [method, setMethod] = useRecoilState(methodAtom);
-  const [prevReview, setPrevReview] = useState([]);
+
+  const [nextReview, setNextReview] = useState('');
+  const [prevReview, setPrevReview] = useState('');
+
+  const [modifyReview, setModifyReview] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const fetchReviews = async () => {
     const newReviews = await getDetailInfo(pathname);
-    setReviews(newReviews);
+    setReviews(newReviews.results);
+    setNextReview(newReviews.next);
+    setPrevReview(newReviews.previous);
     newReviews.some((data: any): void => {
       if (data.username === user?.username) {
-        setPrevReview(data);
+        setModifyReview(data);
       }
     });
+  };
+
+  const getNextReviews = async () => {
+    const newReviews = await getMoreReview(nextReview);
+    setReviews(newReviews.results);
+    setNextReview(newReviews.next);
+    setPrevReview(newReviews.previous);
+  };
+
+  const getPrevReviews = async () => {
+    const newReviews = await getMoreReview(prevReview);
+    setReviews(newReviews.results);
+    setNextReview(newReviews.next);
+    setPrevReview(newReviews.previous);
   };
 
   const showReviewModal = useCallback(() => {
@@ -55,9 +80,6 @@ const PlantReview = () => {
       alert('로그인 후 이용하실 수 있습니다.');
       navigate('/account');
     }
-  }, []);
-
-  useEffect(() => {
     fetchReviews();
   }, []);
 
@@ -86,10 +108,22 @@ const PlantReview = () => {
         })}
       {reviews && (
         <ButtonBox>
-          <Button hidden={prevReview.length !== 0} onClick={showReviewModal}>
+          <div className="flex-1">
+            <PageBtn
+              onClick={getPrevReviews}
+              className="fa-arrow-left"
+              hidden={!prevReview}
+            />
+
+            <PageBtn
+              onClick={getNextReviews}
+              className="fa-arrow-right"
+              hidden={!nextReview}
+            />
+          </div>
+          <Button hidden={modifyReview.length !== 0} onClick={showReviewModal}>
             리뷰쓰기
           </Button>
-          <Button>더보기</Button>
         </ButtonBox>
       )}
       {showModal && (
@@ -97,7 +131,7 @@ const PlantReview = () => {
           <ReviewModal
             showReviewModal={showReviewModal}
             id={params.name}
-            prevReview={prevReview}
+            modifyReview={modifyReview}
           />
         </ModalOverlay>
       )}
@@ -136,6 +170,7 @@ const SmallBtn = tw.button`
 const Button = tw.button`
   px-6 
   py-2
+  flex
   justify-end 
   mr-4
   bg-green-500 
@@ -165,4 +200,12 @@ const Review = tw.p`
 
 const ButtonBox = tw.div`
   flex
+`;
+
+const PageBtn = tw.i` 
+  fas
+  cursor-pointer
+  text-green-500
+  ml-5
+  my-auto
 `;

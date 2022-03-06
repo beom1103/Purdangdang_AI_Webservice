@@ -105,6 +105,16 @@ export const getDetailInfo = async (
   }
 };
 
+export const getMoreReview = async (url: string) => {
+  try {
+    const { data } = await api.get(`${url}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+};
+
 export const postReview = async (
   pathname: string,
   method: string,
