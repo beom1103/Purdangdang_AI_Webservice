@@ -50,8 +50,9 @@ const PlantList = () => {
 
   // 스크롤이 맨 밑에 있을때 실행
   const handleScroll = useCallback(async () => {
-    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-    if (scrollHeight - scrollTop === clientHeight) {
+    const { scrollY, innerHeight } = window;
+    const { scrollHeight } = document.documentElement;
+    if (innerHeight + scrollY > scrollHeight - 10) {
       const pageUp = page + 1;
       setPage(pageUp);
       await getMorePlant(pageUp, filter);
@@ -78,10 +79,12 @@ const PlantList = () => {
   //이벤트 제어
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('touchend', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('touchend', handleScroll);
     };
-  });
+  }, [handleScroll]);
 
   useEffect(() => {
     requestFetchPlant();
