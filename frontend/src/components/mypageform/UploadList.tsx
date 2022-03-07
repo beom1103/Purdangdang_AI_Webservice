@@ -76,6 +76,14 @@ const UploadList = ({
     [],
   );
 
+  useEffect(() => {
+    if (plantName[id - 1] !== undefined) {
+      setEdit(true);
+    } else {
+      setEdit(false);
+    }
+  }, [plantName]);
+
   const setImage = (res: any) => {
     const imageFile = res;
     // console.log(imageFile[1]);
@@ -120,7 +128,6 @@ const UploadList = ({
   };
 
   const editName = () => {
-    // console.log('클릭', id, edit === true);
     setEdit(false);
   };
 
@@ -129,18 +136,12 @@ const UploadList = ({
     const currentId = id - 1;
     handleNamimg(currentId, planttitle);
 
-    // preview(imgFile).then(data => console.log(data));
-    // pushPlantInfo(imgFile, planttitle, currentId, method);
-
-    setMyPlant(user, imgFile, planttitle, currentId).then(data =>
-      console.log(data),
-    );
+    setMyPlant(user, imgFile, planttitle, id).then(data => console.log(data));
     setEdit(true);
   };
 
   useEffect(() => {
     if (inputRef.current !== null) inputRef.current.focus();
-    // console.log('내부', planttitle, '외부', plantName);
     return;
   });
 
@@ -151,6 +152,11 @@ const UploadList = ({
       navigate('/account');
     }
   }, []);
+
+  useEffect(() => {
+    // console.log(id, files[id - 1]);
+    // console.log(plantName[id - 1] !== undefined);
+  });
 
   return (
     <>

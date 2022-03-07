@@ -46,3 +46,12 @@ export const setMyPlant = async (
     console.log(error);
   }
 };
+
+export const loadMyPlant = async (user: string | undefined) => {
+  try {
+    const { data } = await athentication.get(`api/user/${user}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
