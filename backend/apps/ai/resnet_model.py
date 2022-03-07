@@ -28,8 +28,7 @@ class Resnet:
         img = cv2.imdecode(ff, cv2.IMREAD_UNCHANGED)
         img = cv2.resize(img, None, fx=image_w/img.shape[1], fy=image_h/img.shape[0])
         return (img/224)
-
-        
+  
     def calc_percent(self, y_prob, y_sort):
         result = []
         result_percent = []
@@ -38,7 +37,6 @@ class Resnet:
             for j in range(48):
                 if y_prob[0][j] == y_sort[0][i]:
                     index_num = j
-                    print(f'index_num : {index_num}')
                     temp=CATEGORIES[index_num]
                     temp_percent=round((y_prob[0][index_num]*100), 2)
                     break

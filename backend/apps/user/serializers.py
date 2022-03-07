@@ -58,7 +58,7 @@ class LoginUserSerializer(serializers.Serializer):
 #             "email"
 #         ]
 
-class UserPlantSerializer(serializers.Serializer):
+class UserPlantSerializer(serializers.ModelSerializer):
      class Meta:
         model = UserPlant
         fields = "__all__"
