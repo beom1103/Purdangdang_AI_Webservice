@@ -6,17 +6,13 @@ const token = localStorage.getItem('token');
 
 //기본 api
 export const api: AxiosInstance = axios.create({
-  // baseURL: process.env.REACT_APP_BASE_URL,
-  baseURL:
-    'http://elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com:5000/',
+  baseURL: process.env.REACT_APP_BASE_URL,
   headers: { 'Content-Type': `application/json` },
 });
 
 //헤더에 토큰 있는 api
 export const athentication: AxiosInstance = axios.create({
-  // baseURL: process.env.REACT_APP_BASE_URL,
-  baseURL:
-    'http://elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com:5000/',
+  baseURL: process.env.REACT_APP_BASE_URL,
   headers: { Authorization: `Token ${token}` },
 });
 
@@ -45,7 +41,7 @@ export const registerAccount = async (
     redirect('/account');
     return true;
   } catch (error) {
-    console.log(error);
+    alert("이미 존재하는 아이디 or 이메일입니다.")
     return false;
   }
 };

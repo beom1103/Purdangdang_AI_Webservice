@@ -1,9 +1,7 @@
 import {
   atom,
-  Loadable,
-  RecoilValue,
   selector,
-  UnwrapRecoilValueLoadables,
+  
 } from 'recoil';
 import { api, athentication } from '.';
 import { Info, Plant, Reviews } from '../store/type';
@@ -93,6 +91,7 @@ export const scrollPage = async (page: number, filter: string) => {
     }
   }
 };
+
 export const getDetailInfo = async (
   pathname: string,
 ): Promise<Info | Reviews[] | any> => {
