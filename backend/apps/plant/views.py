@@ -108,7 +108,7 @@ class PlantReviewListView(APIView, ReviewListPagination):
 
         review.save()
 
-        return redirect(f'/api/plant/{plant_id}/reviews') 
+        return Response("Successfully created.", status=status.HTTP_201_CREATED)
 
     def put(self, request, plant_id: int, format=None):
         """
@@ -121,7 +121,7 @@ class PlantReviewListView(APIView, ReviewListPagination):
         serializer = PlantReviewSerializer(data=request.data, instance=review)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return redirect(f'/api/plant/{plant_id}/reviews') 
+            return Response("Successfully updated.", status=status.HTTP_201_CREATED) 
         
     def delete(self, request, plant_id: int, format=None):
         """
@@ -137,7 +137,7 @@ class PlantReviewListView(APIView, ReviewListPagination):
         # 일단 get method code 가져와서 임시 해결 
         review = Review.objects.filter(plant_id=plant_id).order_by("-updated_at")[:3]
         serializer = PlantReviewSerializer(review, many=True)
-        return Response(serializer.data)
+        return Response("Successfully deleted.", status=status.HTTP_201_CREATED) 
 
         # return redirect(f'/api/plant/{plant_id}/reviews')
        
@@ -217,7 +217,7 @@ class PlantLikeView(APIView):
         else:
             content = "Already existed"
             
-        return Response(content, status=status.HTTP_201_CREATED)
+        return Response("Successfully updated.", status=status.HTTP_201_CREATED)
     
     def delete(self, request, plant_id: int, format=None):
         """
@@ -234,6 +234,6 @@ class PlantLikeView(APIView):
         else: 
             content = "There are no item"
 
-        return Response(content, status=status.HTTP_201_CREATED)
+        return Response("Successfully deleted.", status=status.HTTP_201_CREATED)
 
 
