@@ -5,19 +5,56 @@ import { validLogin } from '../api';
 import ImagePreview from '../components/mypageform/MyImageUpload';
 import UploadList from '../components/mypageform/UploadList';
 import Noti from '../components/mypageform/Noti';
-import { setMyPlant } from '../api/myplant';
-import { preview } from '../api/search';
+import { loadMyPlant } from '../api/myPage';
 
 const MyPage = () => {
+  // const isLogin = useRecoilValue(validLogin);
   const userInfo = useRecoilValue(validLogin);
   const [files, setFiles] = useState<string[]>([]);
   const [imgagefiles, setImgageFiles] = useState<string[]>([]);
   const [imgUrl, setImgUrl] = useState<string[]>([]);
   const [imgFile, setImgFile] = useState<any[]>([]);
-  const [plantName, setPlantName] = useState<string[]>([]);
+  const [plantName, setPlantName] = useState<any[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [checked, setChecked] = useState(1);
   const [mainImg, setMainImg] = useState('/img/tree.png');
+
+  const [loadData, setLoadData] = useState({});
+
+  useEffect(() => {
+    const user = userInfo?.username;
+    loadMyPlant(user).then(res => setData(res));
+
+    // console.log(loadData);
+  }, []);
+
+  let myImgUrl: any[] = [];
+  let imgName: any[] = [];
+
+  const setData = (res: any) => {
+    const plantList = res.userplant;
+    for (const i of plantList) {
+      if (i.order === 1) {
+        myImgUrl = [...myImgUrl, `/backend` + i.image];
+        imgName = [...imgName, i.name];
+      } else if (i.order === 2) {
+        myImgUrl = [...myImgUrl, `/backend` + i.image];
+        imgName = [...imgName, i.name];
+      } else if (i.order === 3) {
+        myImgUrl = [...myImgUrl, `/backend` + i.image];
+        imgName = [...imgName, i.name];
+      }
+      setFiles(myImgUrl);
+      setPlantName(imgName);
+      setImgFile(imgUrl);
+    }
+  };
+
+  // useEffect(() => {
+  //   console.log('파일', files);
+  //   console.log('이름', plantName);
+  //   console.log('이미지 파일', imgFile);
+  // }, [files, plantName]);
 
   useEffect(() => {
     setFiles(files.concat(imgUrl));
@@ -172,9 +209,6 @@ const MyPage = () => {
                   </div>
                 </div>
                 {/* <Noti /> */}
-                <button className="w-full mt-10 bg-blue-500 md:w-1/6 hover:bg-blue-300 hover:text-black">
-                  저장
-                </button>
               </div>
             </div>
           </div>
