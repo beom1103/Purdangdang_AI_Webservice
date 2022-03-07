@@ -5,7 +5,7 @@ import { validLogin } from '../api';
 import ImagePreview from '../components/mypageform/MyImageUpload';
 import UploadList from '../components/mypageform/UploadList';
 import Noti from '../components/mypageform/Noti';
-import { setMyPlant } from '../api/myplant';
+
 import { preview } from '../api/search';
 
 const MyPage = () => {

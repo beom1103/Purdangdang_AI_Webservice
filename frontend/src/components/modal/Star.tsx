@@ -15,7 +15,7 @@ const Star: React.FC<StarProps> = ({ score }) => {
   const starAraay = [1, 2, 3, 4, 5];
 
   const fillStar = useCallback(
-    (e: any) => {
+    (e): void => {
       const { id } = e.target;
       const newStarState: string[] = [];
       starAraay.forEach(i => {

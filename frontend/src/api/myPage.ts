@@ -10,7 +10,10 @@ export const isLikePlant = async (plantId: string): Promise<boolean> => {
   }
 };
 
-export const addPlant = async (fill: boolean, plantId: string) => {
+export const addPlant = async (
+  fill: boolean,
+  plantId: string,
+): Promise<void> => {
   switch (fill) {
     case false:
       await athentication.post(`api/plant/${plantId}/like`);
