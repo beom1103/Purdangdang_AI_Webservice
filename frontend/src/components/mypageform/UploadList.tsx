@@ -5,7 +5,9 @@ import React, {
   useRef,
   useEffect,
 } from 'react';
-import MyImageSize from '../homepage/MyImageSize';
+import imageResize from '../homepage/ImageResize';
+import { setMyPlant } from '../../api/myplant';
+import { preview } from '../../api/search';
 
 type ListProps = {
   id: number;
@@ -13,6 +15,10 @@ type ListProps = {
   files: string[];
   setFiles: any;
   setImgUrl: any;
+  setImgFile: any;
+  imgFile: any;
+  pushPlantInfo: any;
+  imgagefiles: any;
   handleNamimg: any;
   plantName: string[];
   setPlantName: any;
@@ -25,12 +31,16 @@ const UploadList = ({
   files,
   setFiles,
   setImgUrl,
+  setImgFile,
+  imgFile,
+  pushPlantInfo,
+  imgagefiles,
   handleNamimg,
   plantName,
   setPlantName,
   deleteName,
 }: ListProps) => {
-  const [planttitle, setPlantTitle] = useState('');
+  const [planttitle, setPlantTitle] = useState<string>('');
   const [edit, setEdit] = useState(false);
   const inputRef: any = useRef<HTMLInputElement | null>(null);
   const onClickFiles = useCallback(
@@ -51,12 +61,12 @@ const UploadList = ({
         return;
       }
 
-      MyImageSize({
+      imageResize({
         file: selectFiles[0],
-        maxSize: 800,
+        maxSize: 400,
       })
         .then(res => {
-          setImgUrl(res);
+          setImage(res);
         })
         .catch(function (err) {
           console.error(err);
@@ -65,32 +75,42 @@ const UploadList = ({
     [],
   );
 
-  useEffect(() => {
-    if (inputRef.current !== null) inputRef.current.focus();
-  });
+  const setImage = (res: any) => {
+    const imageFile = res;
+    // console.log(imageFile[1]);
+    setImgFile(imageFile);
+    setImgUrl(imageFile[1]);
+  };
 
   const handleDelete = (number: number) => {
-    //   파일 삭제 api 호출 예정
     const delList = files;
     delList.splice(number, 1);
     setFiles([...delList]);
+    setPlantTitle('');
 
     deleteName(number);
 
-    console.log([...plantName]);
+    // console.log([...plantName]);
   };
 
   const handleInput = (e: any) => {
     const name = e.target.value;
     setPlantTitle(name);
-    console.log(planttitle);
+    // console.log(planttitle);
   };
 
-  const checkName = () => {
-    const currentId = id - 1;
-    handleNamimg(currentId, planttitle);
-    setEdit(true);
-  };
+  // const onSubmit = (
+  //   imgFile: any,
+  //   planttitle: any,
+  //   currentId: any,
+  //   method: any,
+  // ) => {
+  //   console.log(imgFile, planttitle, currentId, method);
+  //   // preview(imgFile).then(data => console.log(data));
+  //   setMyPlant(imgFile, planttitle, currentId, method).then(data =>
+  //     console.log(data),
+  //   );
+  // };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -99,9 +119,27 @@ const UploadList = ({
   };
 
   const editName = () => {
-    console.log('클릭', id, edit === true);
+    // console.log('클릭', id, edit === true);
     setEdit(false);
   };
+
+  const checkName = () => {
+    const currentId = id - 1;
+    const method = 'post';
+    handleNamimg(currentId, planttitle);
+
+    // preview(imgFile).then(data => console.log(data));
+    // pushPlantInfo(imgFile, planttitle, currentId, method);
+
+    setMyPlant(imgFile, planttitle, currentId).then(data => console.log(data));
+    setEdit(true);
+  };
+
+  useEffect(() => {
+    if (inputRef.current !== null) inputRef.current.focus();
+    // console.log('내부', planttitle, '외부', plantName);
+    return;
+  });
 
   return (
     <>
@@ -118,12 +156,12 @@ const UploadList = ({
                     value={planttitle}
                     onKeyPress={handleKeyPress}
                     placeholder=" 이름 입력"
-                    className="w-20 h-6 pl-2 ml-3 border border-gray-200 resize-none lg:w-28 rounded-xl"
+                    className="w-20 h-6 pl-2 border border-gray-200 resize-none lg:w-28 rounded-xl"
                     ref={inputRef}
                   ></input>
                 ) : (
                   <span
-                    className={`ml-3 w-20 lg:w-28 h-6 overflow-hidden text-ellipsis whitespace-nowrap  ${
+                    className={` w-20 lg:w-28 h-6 overflow-hidden text-ellipsis whitespace-nowrap  ${
                       checked === id ? `text-green-500` : null
                     }`}
                   >

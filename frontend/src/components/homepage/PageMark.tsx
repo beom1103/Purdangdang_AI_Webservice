@@ -15,8 +15,8 @@ type BoxProps = {
 
 const Marker = ({ num, scrollIndex, setPageNum, title }: MarkProps) => {
   return (
-    <button
-      className={`w-24 h-8 cursor-pointer`}
+    <div
+      className={`w-24 h-8 cursor-default`}
       style={{
         color: scrollIndex === num ? '#64dd17' : '#bdbdbd',
         transition: 'color 0.5s',
@@ -26,7 +26,7 @@ const Marker = ({ num, scrollIndex, setPageNum, title }: MarkProps) => {
       }}
     >
       <span className="text-lg">{title}</span>
-    </button>
+    </div>
   );
 };
 

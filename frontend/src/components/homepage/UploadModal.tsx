@@ -7,16 +7,9 @@ const UploadModal = ({ isModal, plantData }: any) => {
   const [plantName, setPlantName] = useState('');
   const [plantImage, setPlantImage] = useState('');
   const [plantPer, setPlantPer] = useState('');
-  const [selectPlant, setSelectPlant] = useState({});
+  const [selectPlant, setSelectPlant] = useState(plantData.top1);
 
   const [selectBox, setSelectBox] = useState(1);
-
-  useEffect(() => {
-    setPlantName(plantData.top1.detail.kor);
-    setPlantImage(plantData.top1.detail.image_url);
-    setPlantPer(plantData.top1.percent);
-    setSelectPlant(plantData.top1);
-  }, []);
 
   const closeModal = () => {
     isModal(false);
@@ -25,28 +18,26 @@ const UploadModal = ({ isModal, plantData }: any) => {
   const selectRank = (rank: number) => {
     switch (rank) {
       case 1:
-        setPlantName(plantData.top1.detail.kor);
-        setPlantImage(plantData.top1.detail.image_url);
-        setPlantPer(plantData.top1.percent);
         setSelectPlant(plantData.top1);
         setSelectBox(1);
         break;
       case 2:
-        setPlantName(plantData.top2.detail.kor);
-        setPlantImage(plantData.top2.detail.image_url);
-        setPlantPer(plantData.top2.percent);
         setSelectPlant(plantData.top2);
         setSelectBox(2);
         break;
       case 3:
-        setPlantName(plantData.top3.detail.kor);
-        setPlantImage(plantData.top3.detail.image_url);
-        setPlantPer(plantData.top3.percent);
         setSelectPlant(plantData.top3);
         setSelectBox(3);
         break;
     }
   };
+
+  useEffect(() => {
+    setPlantName(selectPlant.detail.kor);
+    setPlantImage(selectPlant.detail.image_url);
+    setPlantPer(selectPlant.percent);
+    setSelectPlant(selectPlant);
+  }, [selectPlant]);
 
   return (
     <div className="modal-div sticky-0 modal" onClick={() => closeModal()}>
@@ -77,7 +68,7 @@ const UploadModal = ({ isModal, plantData }: any) => {
                   <img
                     src={plantImage}
                     alt="결과 이미지"
-                    className="w-full h-full lg:h-64"
+                    className="w-full h-64"
                     style={{ objectFit: 'cover' }}
                   />
                 </div>

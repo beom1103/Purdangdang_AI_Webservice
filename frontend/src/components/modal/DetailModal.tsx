@@ -29,7 +29,7 @@ const DetailModal = ({ isModal, plantData }: any) => {
           <img
             src={plantImage}
             alt=""
-            className="w-full h-full lg:rounded-md"
+            className="w-full h-full border-2 border-gray-500 lg:rounded-md"
             style={{ objectFit: 'cover' }}
           />
         </ImgBox>

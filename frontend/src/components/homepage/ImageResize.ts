@@ -35,8 +35,18 @@ const imageResize = (settings: IResizeImageOptions) => {
     let width = image.width;
     let height = image.height;
 
-    width = maxSize;
-    height = maxSize;
+    // 가로 세로 중 더 큰 길이를 판단해 사이즈 변경 + 본래 사진 비율은 유지
+    if (width > height) {
+      if (width > maxSize) {
+        height *= maxSize / width;
+        width = maxSize;
+      }
+    } else {
+      if (height > maxSize) {
+        width *= maxSize / height;
+        height = maxSize;
+      }
+    }
 
     canvas.width = width;
     canvas.height = height;
