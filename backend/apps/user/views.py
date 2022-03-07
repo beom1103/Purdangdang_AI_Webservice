@@ -17,10 +17,6 @@ import re
  
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
-def check(email):
-    if(re.fullmatch(regex, email)):
-        return False;
-    return True;
         
 # Create your views here.
 # class ProfileUpdateAPI(generics.UpdateAPIView):
@@ -31,6 +27,11 @@ def check(email):
 class RegistrationAPI(generics.GenericAPIView):
     
     serializer_class = CreateUserSerializer
+
+    def check(email):
+        if(re.fullmatch(regex, email)):
+            return False;
+        return True;
 
     def post(self, request, *args, **kwargs):
         """
@@ -85,8 +86,31 @@ class UserAPI(generics.RetrieveAPIView):
         접속 유지 확인 
         """
         return self.request.user
+    
+class UserLikeListView(APIView, LikeListPagination):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-class UserProfileView(APIView, LikeListPagination):
+    def get_user(self):
+        return self.request.user
+    
+    def get(self, request, username: str, format=None):
+        """
+        찜 목록 조회
+        
+        마이 페이지에서 찜 목록 조회
+        """
+        user = User.objects.get(username=self.get_user()).id
+        wishlist = Wishlist.objects.filter(user_id=user)
+        plants = []
+        for w in wishlist.values():
+            results = get_object_or_404(Plant, pk=w['plant_id_id'])
+            serializer = PlantDetailSerializer(results)
+            plants.append(serializer.data)
+            
+        return Response(self.get_paginated_response(plants), status=status.HTTP_201_CREATED)
+    
+class UserProfileView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -95,7 +119,7 @@ class UserProfileView(APIView, LikeListPagination):
     
     def image_exception(self):
         FORMAT = [".jpg"] # 지원하는 포맷확장자 나열
-
+        
         try:
             file = self.request.data['file']
         except KeyError:
@@ -107,9 +131,9 @@ class UserProfileView(APIView, LikeListPagination):
 
     def get(self, request, username: str, format=None):
         """
-        유저 정보 조회
+        반려 식물 조회
         
-        찜 목록과 반려 식물 조회
+        마이 페이지에서 반려 식물 3개를 조회
         """
         user = User.objects.get(username=self.get_user()).id
         wishlist = Wishlist.objects.filter(user_id=user)
@@ -127,25 +151,32 @@ class UserProfileView(APIView, LikeListPagination):
     
     def post(self, request, username: str, format=None):
         """
-        반려 식물 등록 (최대 3개)
+        반려 식물 등록 
         
         반려 식물의 이미지와 이름을 생성  
         """
-        user = User.objects.get(username=self.get_user()).id
-        self.image_exception()
-        serializer = UserPlantSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        act = request.GET.get("act", None) # img : 이미지 업로드, name : 이름 수정
+        order = request.GET.get("order", None) 
+        user = self.get_user()
+        if act == 'img':
+            self.image_exception()
+            UserPlant.objects.update_or_create(image=request.data['file'],order=order,user_id=user)
+            return 
+        if act == 'name':
+            UserPlant.objects.update_or_create(name=request.data['name'],order=order,user_id=user)
 
-        validated_data = serializer.validated_data
+        # user = User.objects.get(username=self.get_user()).id
+        # serializer = UserPlantSerializer(data=request.data)
+        # serializer.is_valid(raise_exception=True)
 
-        userplant = UserPlant()
-        userplant.user_id = user
-        userplant.name = validated_data["name"]
-        userplant.image = validated_data["file"]
+        # validated_data = serializer.validated_data
 
-        userplant.save()
-
-        # userplant = UserPlant.objects.update_or_create(user_id=user)
+        # userplant = UserPlant()
+        # userplant.user_id = self.get_user()
+        # userplant.name = validated_data["name"]
+        # userplant.image = validated_data["file"]
+        # userplant.order = validated_data["order"]
+        # userplant.save()
 
         return Response("Successfully created.", status=status.HTTP_201_CREATED)
     
@@ -155,17 +186,13 @@ class UserProfileView(APIView, LikeListPagination):
         
         반려 식물의 이미지와 이름을 수정  
         """
-        file = self.image_exception()
+        self.image_exception()
+        serializer = UserPlantSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
 
         return Response("Successfully updated.", status=status.HTTP_201_CREATED)
 
-    def delete(self, request, username: str, format=None):
-        """
-        반려 식물 삭제
-        
-        반려 식물의 이미지와 이름을 삭제 
-        """
-        return Response("Successfully deleted.", status=status.HTTP_201_CREATED)
 
     
 

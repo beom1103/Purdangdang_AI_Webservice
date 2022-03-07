@@ -10,11 +10,10 @@ from knox.auth import TokenAuthentication
 from pathlib import Path
 import os 
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+from .serializers import PlantSerializer, PlantDetailSerializer, PlantReviewSerializer, UploadSerializer, WishlistSerializer
 from .pagination import PlantListPagination, ReviewListPagination
 from .models import Plant, Review, Category, UploadImage, Wishlist
 from apps.user.models import User
-from .serializers import PlantSerializer, PlantDetailSerializer, PlantReviewSerializer, UploadSerializer, WishlistSerializer
 from apps.ai import resnet_model
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -67,9 +66,9 @@ class PlantReviewListView(APIView, ReviewListPagination):
 
     def get(self, request, plant_id: int, format=None):
         """
-        식물별 리뷰 요청
+        식물 리뷰 조회
 
-        식물(id)에 대한 리뷰 요청 - 삭제된 리뷰 제외
+        식물(id) 리뷰 조회 (최근순)
         """
         review = Review.objects.filter(plant_id=plant_id).order_by("-updated_at")
         results = self.paginate_queryset(review, request, view=self)
@@ -131,7 +130,6 @@ class PlantReviewListView(APIView, ReviewListPagination):
         식물(id) 리뷰 삭제
         """
         user = self.get_user()
-        # TODO: 특정 식물에 대한 특정 유저의 모든 댓글이 사라지는 문제 
         review = get_object_or_404(Review, user_id=user, plant_id=plant_id)
         review.delete()
         
@@ -142,16 +140,10 @@ class PlantReviewListView(APIView, ReviewListPagination):
         return Response(serializer.data)
 
         # return redirect(f'/api/plant/{plant_id}/reviews')
-# THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-# my_file = os.path.join(THIS_FOLDER, '48_class_model_3.h5')
        
 THIS_FOLDER = os.path.dirname(Path(__file__).resolve().parent.parent)
 FORMAT = [".jpg"] # 지원하는 포맷확장자 나열
 class PlantUploadView(APIView):
-    # parser_classes = (FileUploadParser,)
-    
-    # def get(self, request, format=None):
-    #     """해당 식물 분석 결과의 고유한 DB id값의 상세 정보를 가져옵니다."""
 
     def post(self, request, format=None):
         """
@@ -165,9 +157,9 @@ class PlantUploadView(APIView):
             raise ParseError('Request has no resource file attached')
         
         # 파일 확장자 검사 
-        if str(file).endswith(tuple(FORMAT)) : pass 
-        else : raise ValidationError("Invalid format")
-        
+        if not str(file).endswith(tuple(FORMAT)) : 
+            raise ValidationError("Invalid format")
+
         uploadFile = UploadImage.objects.create(image=file)
         uploadFile.save()
         
@@ -175,26 +167,18 @@ class PlantUploadView(APIView):
         my_file = os.path.join(THIS_FOLDER + "/media/", str(uploadFile.image))
         
         pred = model.predict(my_file)
-        
-        top1 = get_object_or_404(Plant, kor=pred['top1']['name'])
-        top2 = get_object_or_404(Plant, kor=pred['top2']['name'])
-        top3 = get_object_or_404(Plant, kor=pred['top3']['name'])
-
-        serializer1 = PlantDetailSerializer(top1)
-        serializer2 = PlantDetailSerializer(top2)
-        serializer3 = PlantDetailSerializer(top3)
-        
+  
         result = {
             'top1' : {
-                'detail' : serializer1.data,
+                'detail' : PlantDetailSerializer(get_object_or_404(Plant, kor=pred['top1']['name'])).data,
                 'percent' : str(pred['top1']['percent']) + '%'
             },
             'top2' : {
-                'detail' : serializer2.data,
+                'detail' : PlantDetailSerializer(get_object_or_404(Plant, kor=pred['top2']['name'])).data,
                 'percent' : str(pred['top2']['percent']) + '%'
             },
             'top3' : {
-                'detail' : serializer3.data,
+                'detail' : PlantDetailSerializer(get_object_or_404(Plant, kor=pred['top3']['name'])).data,
                 'percent' : str(pred['top3']['percent']) + '%'
             },
         }
@@ -210,7 +194,7 @@ class PlantLikeView(APIView):
     
     def get(self, request, plant_id: int, format=None):
         """
-        찜 되어있는지 확인
+        찜 유무 조회 
         
         user의 찜 리스트에 해당 식물이 있는지 조회합니다.    
         """
@@ -219,23 +203,20 @@ class PlantLikeView(APIView):
  
         return Response(wishlist.exists(), status=status.HTTP_201_CREATED)
 
-
-
     def post(self, request, plant_id: int, format=None):
         """
         찜 리스트에 추가
         
         user의 찜 리스트에 해당 식물이 추가됩니다.      
         """
-        user = User.objects.get(username=self.get_user()).id
         plant = get_object_or_404(Plant, pk=plant_id)
 
-        wishlist = Wishlist.objects.get_or_create(user_id=self.get_user(), plant_id=plant)
-        
-        print(plant)
-        print(wishlist)
-        
-        return Response("Successfully created.", status=status.HTTP_201_CREATED)
+        if Wishlist.objects.get_or_create(user_id=self.get_user(), plant_id=plant)[1]: 
+            content = "Successfully created."
+        else:
+            content = "Already existed"
+            
+        return Response(content, status=status.HTTP_201_CREATED)
     
     def delete(self, request, plant_id: int, format=None):
         """
@@ -243,14 +224,15 @@ class PlantLikeView(APIView):
         
         user의 찜 리스트에 해당 식물이 삭제됩니다.        
         """
-        user = User.objects.get(username=self.get_user()).id
         plant = get_object_or_404(Plant, pk=plant_id)
+        wishlist = Wishlist.objects.filter(user_id=self.get_user(), plant_id=plant)
         
-        wishlist = get_object_or_404(Wishlist, user_id=user, plant_id=plant_id)
-        wishlist.delete()
-        
-        print(plant)
-        
-        return Response("Successfully deleted.", status=status.HTTP_201_CREATED)
+        if wishlist.exists():
+            wishlist.delete()
+            content = "Successfully deleteed." 
+        else: 
+            content = "There are no item"
+
+        return Response(content, status=status.HTTP_201_CREATED)
 
 
