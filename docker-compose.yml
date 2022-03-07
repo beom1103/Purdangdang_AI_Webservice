@@ -1,14 +1,26 @@
 version: "3"
 services:
-  db:
-    image: mysql:5.7
-    environment:
-      MYSQL_DATABASE: "django_app_db"
-      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+  client:
+    container_name: client
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     volumes:
-      - ./data/mysql/db:/var/lib/mysql
+      - ".:/apps"
+      - "/apps/node_modules"
+    ports:
+      - "3000:3000"
+    restart: always
+    command: npm start
+    depends_on:
+      - client
+    # environment:
+    #   - NODE_ENV=development
+    # stdin_open: true
+    # tty: true
 
   server:
+    container_name: server
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -17,7 +29,5 @@ services:
     ports:
       - "5000:5000"
     image: server:apps
-    container_name: django_container
     command: python manage.py runserver 0.0.0.0:5000
-    depends_on:
-      - db
+    restart: always
