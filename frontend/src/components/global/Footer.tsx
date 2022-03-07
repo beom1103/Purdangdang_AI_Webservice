@@ -1,11 +1,10 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { userAtom } from '../../store/user';
-import { logout } from '../../api';
+import { logout, validLogin } from '../../api';
 
 const Footer = () => {
-  const isLogin = useRecoilValue(userAtom);
+  const isLogin = useRecoilValue(validLogin);
   const onClick = () => {
     logout();
   };

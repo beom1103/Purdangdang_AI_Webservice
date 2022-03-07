@@ -21,6 +21,9 @@ class ProfileUpdateAPI(generics.UpdateAPIView):
     serializer_class = ProfileSerializer
 
 class RegistrationAPI(generics.GenericAPIView):
+    """
+    회원가입
+    """
     serializer_class = CreateUserSerializer
 
     def post(self, request, *args, **kwargs):
@@ -42,6 +45,9 @@ class RegistrationAPI(generics.GenericAPIView):
 
 
 class LoginAPI(generics.GenericAPIView):
+    """
+    로그인
+    """
     serializer_class = LoginUserSerializer
 
     def post(self, request, *args, **kwargs):
@@ -59,6 +65,9 @@ class LoginAPI(generics.GenericAPIView):
 
 
 class UserAPI(generics.RetrieveAPIView):
+    """
+    접속 유지 확인 
+    """
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserSerializer
 

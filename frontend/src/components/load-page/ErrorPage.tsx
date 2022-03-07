@@ -1,4 +1,3 @@
-import React from 'react';
 import { useLottie } from 'lottie-react';
 import error from './error.json';
 import tw from 'tailwind-styled-components';

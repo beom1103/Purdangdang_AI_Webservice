@@ -1,76 +1,126 @@
 import React, { useEffect, useState } from 'react';
 import DetailModal from '../modal/DetailModal';
+import tw from 'tailwind-styled-components';
 
-const UploadModal = ({ showModal }: any) => {
+const UploadModal = ({ isModal, plantData }: any) => {
   const [detail, setDetail] = useState(false);
+  const [plantName, setPlantName] = useState('');
+  const [plantImage, setPlantImage] = useState('');
+  const [plantPer, setPlantPer] = useState('');
+  const [selectPlant, setSelectPlant] = useState(plantData.top1);
+
+  const [selectBox, setSelectBox] = useState(1);
 
   const closeModal = () => {
-    showModal(false);
+    isModal(false);
+  };
+
+  const selectRank = (rank: number) => {
+    switch (rank) {
+      case 1:
+        setSelectPlant(plantData.top1);
+        setSelectBox(1);
+        break;
+      case 2:
+        setSelectPlant(plantData.top2);
+        setSelectBox(2);
+        break;
+      case 3:
+        setSelectPlant(plantData.top3);
+        setSelectBox(3);
+        break;
+    }
   };
 
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
-  }, []);
+    setPlantName(selectPlant.detail.kor);
+    setPlantImage(selectPlant.detail.image_url);
+    setPlantPer(selectPlant.percent);
+    setSelectPlant(selectPlant);
+  }, [selectPlant]);
 
   return (
     <div className="modal-div sticky-0 modal" onClick={() => closeModal()}>
-      <div className="modal-container">
+      <div className="mt-10 modal-container ">
         <div
-          className={`modal-background ${
+          className={`modal-background overflow-auto scroll ${
             detail
-              ? `lg:scale-x-150 lg:scale-y-125 overflow-auto scroll-style`
+              ? `lg:scale-x-150 lg:scale-y-118 overflow-auto scroll-style`
               : null
           }`}
           onClick={e => e.stopPropagation()}
         >
           {detail ? (
-            <DetailModal showModal={showModal}></DetailModal>
+            <DetailModal
+              isModal={isModal}
+              plantData={selectPlant}
+            ></DetailModal>
           ) : (
-            <div className="modal-box">
-              <div className="flex justify-end w-full mb-8">
-                <button
-                  className="modal-btn"
-                  aria-label="close modal"
-                  role="button"
-                  onClick={() => closeModal()}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="icon icon-tabler icon-tabler-x"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    stroke-width="2.5"
-                    stroke="currentColor"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" />
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
-                </button>
-              </div>
-              <p className="modal-title">이 댕댕이는?</p>
-              <p className="modal-text">식물댕댕이일 확률이 높습니다.</p>
+            <div className="">
+              <div className="modal-box ">
+                <div className="flex justify-end w-full mb-8"></div>
+                <p className="modal-title">이 댕댕이는?</p>
+                <p className="modal-text">
+                  {plantName}일 확률 {plantPer}.
+                </p>
 
-              <div className="modal-img">
-                <img
-                  src="https://i.pinimg.com/originals/1c/cc/23/1ccc23d257858830d213aea46bef2c0c.jpg"
-                  alt=""
-                  className="w-full h-full"
-                  style={{ objectFit: 'cover' }}
-                />
-              </div>
-              <div className="modal-next">이 댕댕이가 더 궁금하다면?</div>
-              <div>
-                <button
-                  className=" upload-btn"
-                  onClick={() => setDetail(!detail)}
-                >
-                  상세 정보
-                </button>
+                <div className="modal-img">
+                  <img
+                    src={plantImage}
+                    alt="결과 이미지"
+                    className="w-full h-64"
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                <div className="flex mb-3">
+                  <div className="ml-5 w-14" onClick={() => selectRank(1)}>
+                    <div
+                      className={`w-10 h-10 ${
+                        selectBox === 1 ? `border-2 border-green-500` : null
+                      }`}
+                    >
+                      <img
+                        className="object-fill w-full h-full"
+                        src={plantData.top1.detail.image_url}
+                      ></img>
+                    </div>
+                  </div>
+                  <div className="ml-5 w-14" onClick={() => selectRank(2)}>
+                    <div
+                      className={`w-10 h-10 ${
+                        selectBox === 2 ? `border-2 border-green-500` : null
+                      }`}
+                    >
+                      <img
+                        className="object-fill w-full h-full"
+                        src={plantData.top2.detail.image_url}
+                      ></img>
+                    </div>
+                  </div>
+                  <div className="ml-5 w-14" onClick={() => selectRank(3)}>
+                    <div
+                      className={`w-10 h-10 ${
+                        selectBox === 3 ? `border-2 border-green-500` : null
+                      }`}
+                    >
+                      <img
+                        className="object-fill w-full h-full"
+                        src={plantData.top3.detail.image_url}
+                      ></img>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="modal-next">이 댕댕이가 더 궁금하다면?</div>
+                <div>
+                  <button
+                    className="upload-btn main-color"
+                    onClick={() => setDetail(!detail)}
+                  >
+                    상세 정보
+                  </button>
+                  <Close onClick={() => closeModal()}>닫기</Close>
+                </div>
               </div>
             </div>
           )}
@@ -81,3 +131,15 @@ const UploadModal = ({ showModal }: any) => {
 };
 
 export default UploadModal;
+
+const Close = tw.button`
+  bg-transparent
+  items-center
+  w-32
+  m-2
+  border-2
+  wrap
+  hover:bg-gray-100
+  h-9
+  text-gray-600
+`;

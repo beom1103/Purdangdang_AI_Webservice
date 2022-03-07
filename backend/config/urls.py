@@ -37,7 +37,7 @@ schema_view = get_schema_view(
 )
 
 app_urls = [
-    path("", include("apps.common.urls")),
+    path("", include("apps.user.urls")),
     path("plant/",include("apps.plant.urls")),
     path("auth/", include("knox.urls")),
 ]

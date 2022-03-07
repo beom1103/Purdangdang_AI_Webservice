@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-
+import os 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,8 +25,10 @@ SECRET_KEY = 'django-insecure-j#nqqtp=63zxzdf)m85-8nsh+$(tv#4!^ol8r2gn4d)fo1qt5u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','localhost']
+ALLOWED_HOSTS = ['0.0.0.0','localhost','elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com']
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Application definition
 DJANGO_APPS = [    
@@ -46,7 +48,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    'apps.common',
+    'apps.user',
     'apps.plant',
 ]
 
@@ -70,15 +72,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_WHITELIST = [
-    'http://0.0.0.0:8000',
-    'http://0.0.0.0:3000',
-    'http://127.0.0.1:8000',
-    'http://127.0.0.1:3000',
-    'http://localhost:8000',
-    'http://localhost:3000',   
-] # Scripts 안에서 리소스 요청을 허용할 도메인 추가
+# CORS_ORIGIN_WHITELIST = [
+#     'http://0.0.0.0:8000',
+#     'http://0.0.0.0:3000',
+#     'http://127.0.0.1:8000',
+#     'http://127.0.0.1:3000',
+#     'http://localhost:8000',
+#     'http://localhost:3000',   
+# ] # Scripts 안에서 리소스 요청을 허용할 도메인 추가
 
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'config.urls'

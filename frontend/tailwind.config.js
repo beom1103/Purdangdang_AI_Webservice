@@ -7,6 +7,9 @@ module.exports = {
       fontFamily: {
         un: ['MapoFlowerIsland'],
       },
+      scale: {
+        118: '1.18',
+      },
       keyframes: {
         'fade-in-down': {
           '0%': {
@@ -52,7 +55,7 @@ module.exports = {
       animation: {
         'fade-in-down': 'fade-in-down 0.5s ease-out',
         'fade-out-down': 'fade-out-down 0.5s ease-out',
-        'fade-in-up': 'fade-in-up 1.3s ease-out',
+        'fade-in-up': 'fade-in-up 1s ease-out',
         'fade-in-up-two': 'fade-in-up 0.5s  ease-out',
         'fade-in-up-three': 'fade-in-up 1.3s ease-out',
         'fade-out-up': 'fade-out-up 0.5s ease-out',
@@ -72,6 +75,7 @@ module.exports = {
           /* Safari and Chrome */
           '&::-webkit-scrollbar': {
             display: 'none',
+            width: 0,
           },
         },
         '.scroll-style': {
@@ -80,7 +84,7 @@ module.exports = {
           },
           '&::-webkit-scrollbar-thumb': {
             height: `5%`,
-            background: `#1faa00`,
+            background: `#003300`,
             borderRadius: '30px',
           },
           '&::-webkit-scrollbar-track': {
