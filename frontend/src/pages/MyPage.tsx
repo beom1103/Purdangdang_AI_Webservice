@@ -7,10 +7,10 @@ import ImagePreview from '../components/mypageform/MyImageUpload';
 import UploadList from '../components/mypageform/UploadList';
 import MyImageList from '../components/mypageform/MyImageList';
 import Noti from '../components/mypageform/Noti';
+import { preview } from '../api/search';
 import { loadMyPlant } from '../api/myPage';
 import WishiCard from '../components/mypageform/WishiCard';
 import { setMyPlant } from '../api/myPage';
-
 const MyPage = () => {
   // const isLogin = useRecoilValue(validLogin);
   const userInfo = useRecoilValue(validLogin);
