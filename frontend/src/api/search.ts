@@ -1,8 +1,4 @@
-import {
-  atom,
-  selector,
-  
-} from 'recoil';
+import { atom, selector } from 'recoil';
 import { api, athentication } from '.';
 import { Info, Plant, Reviews } from '../store/type';
 
