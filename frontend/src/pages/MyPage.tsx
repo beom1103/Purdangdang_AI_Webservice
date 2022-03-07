@@ -5,21 +5,29 @@ import { validLogin } from '../api';
 import ImagePreview from '../components/mypageform/MyImageUpload';
 import UploadList from '../components/mypageform/UploadList';
 import Noti from '../components/mypageform/Noti';
+import { setMyPlant } from '../api/myplant';
+import { preview } from '../api/search';
 
 const MyPage = () => {
   const userInfo = useRecoilValue(validLogin);
   const [files, setFiles] = useState<string[]>([]);
+  const [imgagefiles, setImgageFiles] = useState<string[]>([]);
   const [imgUrl, setImgUrl] = useState<string[]>([]);
+  const [imgFile, setImgFile] = useState<any[]>([]);
   const [plantName, setPlantName] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [checked, setChecked] = useState(1);
   const [mainImg, setMainImg] = useState('/img/tree.png');
 
   useEffect(() => {
-    console.log(files);
     setFiles(files.concat(imgUrl));
-    console.log(files);
+
+    // console.log(files);
   }, [imgUrl]);
+
+  useEffect(() => {
+    setImgageFiles(imgagefiles.concat(imgFile));
+  }, [imgFile]);
 
   const handleNamimg = (number: number, name: string) => {
     const setName = plantName;
@@ -33,8 +41,18 @@ const MyPage = () => {
     setPlantName([...delName]);
   };
 
-  const onSubmit = () => {
-    console.log('서버 전달', files, plantName);
+  const pushPlantInfo = (
+    imgFile: any,
+    planttitle: any,
+    currentId: any,
+    method: any,
+  ) => {
+    // preview(imgFile);
+    // preview(imgFile).then(data => console.log(data));
+    console.log(imgFile, planttitle, currentId, method);
+    // setMyPlant(imgFile, planttitle, currentId, method).then(data =>
+    //   console.log(data),
+    // );
   };
 
   return (
@@ -69,7 +87,7 @@ const MyPage = () => {
             <div className="mypage_ImgSet">
               <div className="w-full lg:w-2/4 ">
                 <img
-                  className="mypage_Img"
+                  className="mypage_Img "
                   src={mainImg !== undefined ? mainImg : './img/tree.png'}
                   alt="선택된 이미지"
                 />
@@ -111,6 +129,10 @@ const MyPage = () => {
                         checked={checked}
                         setFiles={setFiles}
                         setImgUrl={setImgUrl}
+                        setImgFile={setImgFile}
+                        imgFile={imgFile}
+                        imgagefiles={imgagefiles}
+                        pushPlantInfo={pushPlantInfo}
                         handleNamimg={handleNamimg}
                         plantName={plantName}
                         setPlantName={setPlantName}
@@ -122,6 +144,10 @@ const MyPage = () => {
                         checked={checked}
                         setFiles={setFiles}
                         setImgUrl={setImgUrl}
+                        setImgFile={setImgFile}
+                        imgFile={imgFile}
+                        imgagefiles={imgagefiles}
+                        pushPlantInfo={pushPlantInfo}
                         handleNamimg={handleNamimg}
                         plantName={plantName}
                         setPlantName={setPlantName}
@@ -133,6 +159,10 @@ const MyPage = () => {
                         checked={checked}
                         setFiles={setFiles}
                         setImgUrl={setImgUrl}
+                        setImgFile={setImgFile}
+                        imgFile={imgFile}
+                        imgagefiles={imgagefiles}
+                        pushPlantInfo={pushPlantInfo}
                         handleNamimg={handleNamimg}
                         plantName={plantName}
                         setPlantName={setPlantName}
@@ -142,10 +172,7 @@ const MyPage = () => {
                   </div>
                 </div>
                 {/* <Noti /> */}
-                <button
-                  className="w-full mt-10 bg-blue-500 md:w-1/6 hover:bg-blue-300 hover:text-black"
-                  onClick={() => onSubmit()}
-                >
+                <button className="w-full mt-10 bg-blue-500 md:w-1/6 hover:bg-blue-300 hover:text-black">
                   저장
                 </button>
               </div>

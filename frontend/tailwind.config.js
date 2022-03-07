@@ -7,6 +7,9 @@ module.exports = {
       fontFamily: {
         un: ['MapoFlowerIsland'],
       },
+      scale: {
+        118: '1.18',
+      },
       keyframes: {
         'fade-in-down': {
           '0%': {

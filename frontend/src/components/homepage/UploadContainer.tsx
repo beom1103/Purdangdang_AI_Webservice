@@ -85,8 +85,6 @@ const UploadContainer = ({ setIsModal }: any) => {
     (e: ChangeEvent<HTMLInputElement> | any): void => {
       let selectFiles: File[] = [];
 
-      console.log(files);
-
       if (e.type === 'drop') {
         selectFiles = e.dataTransfer.files;
       } else {

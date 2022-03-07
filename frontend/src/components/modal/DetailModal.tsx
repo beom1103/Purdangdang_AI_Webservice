@@ -2,14 +2,14 @@ import React from 'react';
 import tw from 'tailwind-styled-components';
 
 const DetailModal = ({ isModal, plantData }: any) => {
-  const plantName = plantData && plantData.top1.detail.kor;
-  const plantImage = plantData && plantData.top1.detail.image_url;
-  const plantScript = plantData && plantData.top1.detail.description;
-  const plantWater = plantData && plantData.top1.detail.water_cycle;
-  const plantSun = plantData && plantData.top1.detail.sunlight;
-  const plantTempe = plantData && plantData.top1.detail.temperature;
+  const plantName = plantData && plantData.detail.kor;
+  const plantImage = plantData && plantData.detail.image_url;
+  const plantScript = plantData && plantData.detail.description;
+  const plantWater = plantData && plantData.detail.water_cycle;
+  const plantSun = plantData && plantData.detail.sunlight;
+  const plantTempe = plantData && plantData.detail.temperature;
 
-  const plantPer = plantData && plantData.top1.percent;
+  // const plantPer = plantData && plantData.percent;
 
   const closeModal = () => {
     isModal(false);
@@ -29,7 +29,7 @@ const DetailModal = ({ isModal, plantData }: any) => {
           <img
             src={plantImage}
             alt=""
-            className="w-full h-full lg:rounded-md"
+            className="w-full h-full border-2 border-gray-500 lg:rounded-md"
             style={{ objectFit: 'cover' }}
           />
         </ImgBox>

@@ -35,40 +35,6 @@ const HomePage = () => {
   let main = null;
   let next = null;
 
-  // pageMark(책갈피가 안 되는 현상)
-  useEffect(() => {
-    switch (
-      pageNum //총 3개의 파트로 나눠진 페이지의 번호를 매개변수로 사용
-    ) {
-      case 1: // 1번 페이지(최상단)
-        outerDivRef.current.scrollTo({
-          //화면의 속성 중 scrollTo 함수를 사용해서 (화면에 표시되는)위치 변경
-          top: 0,
-          left: 0,
-          behavior: 'smooth',
-        });
-        setPageNum(1);
-        break;
-      case 2: // 2번 페이지 (중간)
-        outerDivRef.current.scrollTo({
-          top: pageHeight + DIVIDER_HEIGHT,
-          left: 0,
-          behavior: 'smooth',
-        });
-        setPageNum(2);
-        setTextAnim(true);
-        break;
-      case 3: // 3번 페이지 (하단)
-        outerDivRef.current.scrollTo({
-          top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
-          left: 0,
-          behavior: 'smooth',
-        });
-        setPageNum(3);
-        break;
-    }
-  }, [pageNum]);
-
   useEffect(() => {
     window.scroll(0, 30);
     const scrollHandler = () => {
@@ -103,6 +69,9 @@ const HomePage = () => {
           startFlag = false;
         }
         window.scroll(0, 30);
+      }
+      if (num === 2) {
+        setTextAnim(true);
       }
       setScrollIndex(num);
     };
