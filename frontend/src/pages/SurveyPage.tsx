@@ -91,8 +91,6 @@ export const IMG = tw.img`
   h-full 
   w-full
   sm:min-w-[600px]
-  
- 
 `;
 
 export const Title = tw.h1` 

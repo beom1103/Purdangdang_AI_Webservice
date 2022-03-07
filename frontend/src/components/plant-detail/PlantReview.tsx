@@ -34,7 +34,7 @@ const PlantReview = () => {
     setNextReview(newReviews.next);
     setPrevReview(newReviews.previous);
     console.log(reviews);
-    newReviews.some((data: any): void => {
+    newReviews.results.some((data: any): void => {
       if (data.username === user?.username) {
         console.log(data);
         setModifyReview(data);
