@@ -29,11 +29,10 @@ const PlantReview = () => {
 
   const fetchReviews = async () => {
     const newReviews = await getDetailInfo(pathname);
-    console.log(newReviews);
     setReviews(newReviews.results);
     setNextReview(newReviews.next);
     setPrevReview(newReviews.previous);
-    console.log(reviews);
+
     newReviews.results.some((data: any): void => {
       if (data.username === user?.username) {
         console.log(data);
