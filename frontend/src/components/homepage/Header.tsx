@@ -37,34 +37,6 @@ const Header = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   console.log(pageNum);
-
-  //   switch (pageNum) {
-  //     case 1:
-  //       setHeaderColor(false);
-  //       break;
-  //     case 2:
-  //       setHeaderColor(true);
-  //       break;
-  //     case 3:
-  //       setHeaderColor(true);
-  //       break;
-  //     default:
-  //       null;
-  //       break;
-  //   }
-  // }, [pageNum]);
-
-  // const handleHeaderScroll = useCallback(() => {
-  //   const headerHeight = headerRef.current?.clientHeight ?? 0;
-  //   if (window.scrollY > headerHeight) {
-  //     return setHeaderColor(true);
-  //   }
-
-  //   setHeaderColor(false);
-  // }, []);
-
   useEffect(() => {
     window.addEventListener('scroll', handleHeaderScroll);
 
@@ -81,7 +53,7 @@ const Header = () => {
             headerColor ? `bg-white drop-shadow-md` : `backdrop-blur-md`
           }`}
         >
-          <Link to="/" className=" wrap md:mb-0">
+          <Link to="/" className="w-32 wrap md:mb-0">
             <img className="logo" src="/img/icon.png" alt="로고 이미지" />
             <span className="logo-span">푸르댕댕</span>
           </Link>
@@ -97,12 +69,12 @@ const Header = () => {
               </div>
               {isLogin ? (
                 <div>
+                  <Link to="/mypage" className="header-link">
+                    마이페이지
+                  </Link>
                   <button className="header-link" onClick={() => logout()}>
                     로그아웃
                   </button>
-                  <Link to="/" className="header-link">
-                    마이페이지
-                  </Link>
                 </div>
               ) : (
                 <div>
@@ -116,12 +88,14 @@ const Header = () => {
               )}
             </div>
           </nav>
-          <button className="header-btn" onClick={() => menuOpen()}>
-            <i className="text-green-500 fas fa-bars"></i>
-          </button>
+          <div className="flex justify-end w-32">
+            <button className=" header-btn" onClick={() => menuOpen()}>
+              <i className="text-green-500 fas fa-bars"></i>
+            </button>
+          </div>
         </Div>
       </header>
-      <div className="absolute right-0 z-50">
+      <div className="absolute right-0 z-50 ">
         <SideMenu menu={menus} selectMenu={setMenus} />
       </div>
     </div>

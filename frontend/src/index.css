@@ -1,6 +1,11 @@
 html,
 body {
   margin: 0;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
 }
 
 @tailwind base;
@@ -33,7 +38,7 @@ body {
   }
 
   button {
-    @apply text-base font-medium text-white border border-transparent rounded-md shadow-sm focus:outline-none;
+    @apply text-base font-medium text-white border border-transparent rounded-md outline-none;
   }
 
   input {
@@ -190,7 +195,7 @@ body {
 }
 
 .upload-btn {
-  @apply items-center w-32 m-2 border-2 wrap main-color hover:bg-green-700 h-9;
+  @apply items-center w-32 m-2 border-2 wrap hover:bg-green-700 h-9;
 }
 
 /* Accout Page */
@@ -237,11 +242,11 @@ body {
 }
 
 .buy-button {
-  @apply flex px-6 py-2 ml-auto bg-green-500 hover:bg-green-600;
+  @apply flex px-6 py-2 mr-3 bg-green-500 hover:bg-green-600;
 }
 
 .like {
-  @apply inline-flex ml-4 text-gray-600 outline-none;
+  @apply inline-flex ml-4 text-gray-600 bg-white outline-none;
 }
 
 /* modal */
@@ -315,4 +320,53 @@ body {
 
 .detail_Modal-btn {
   @apply px-8 py-2 mb-4 ml-3 text-sm text-gray-600 transition duration-150 ease-in-out bg-gray-100 border rounded focus:ring-gray-400 hover:bg-gray-400;
+}
+
+/* My page */
+.mypage_div {
+  @apply flex items-center justify-center h-screen mt-24 md:mt-0;
+}
+
+.mypage_Container {
+  @apply flex flex-col items-center p-0 mt-0 rounded-lg lg:mt-48 lg:p-10 drop-shadow-lg;
+}
+
+.mypage_user {
+  @apply flex flex-col items-center justify-center mt-48 md:mt-24 sm:flex-row sm:items-end lg:mt-0 sm:justify-start sm:flex;
+}
+
+.mypage_ImgBox {
+  @apply flex-col items-center justify-between w-3/4 p-3 mt-10 border-2 border-gray-400 border-dotted rounded-xl;
+}
+
+.mypage_ImgContainer {
+  @apply relative flex flex-col items-center justify-around w-full px-10 mt-3 sm:flex-row h-2/4 rounded-xl sm:px-0;
+}
+
+.mypage_ImgSet {
+  @apply flex flex-col w-full md:flex-row md:justify-between md:items-start;
+}
+
+.mypage_Img {
+  @apply object-fill w-full border-2 border-green-800 border-dashed md:w-96 md:h-96;
+}
+
+.mypage_TitleBox {
+  @apply flex flex-col items-end w-full md:pl-5 h-2/4 lg:pl-0 lg:w-2/4;
+}
+
+.mypage_Title {
+  @apply flex justify-center w-full mt-10 mb-2 text-lg font-medium md:justify-end md:mt-1;
+}
+
+.mypage_Ul {
+  @apply flex items-center justify-center w-full lg:w-3/4;
+}
+
+.mypage_SelectedDiv {
+  @apply flex-col items-center justify-between w-3/4 mt-10 h-2/4 sm:h-2/5;
+}
+
+.mypage_SelectedBox {
+  @apply flex justify-around w-full mt-3 border-2 border-gray-400 h-36 sm:h-3/4 rounded-xl;
 }

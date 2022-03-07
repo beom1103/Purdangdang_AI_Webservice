@@ -5,7 +5,12 @@ import { useRecoilValue } from 'recoil';
 import { validLogin } from '../../api';
 import { logout } from '../../api';
 
-const SideMenu = ({ menu, selectMenu }: any) => {
+type MenuProps = {
+  menu: boolean;
+  selectMenu: any;
+};
+
+const SideMenu = ({ menu, selectMenu }: MenuProps) => {
   const menuClose = useCallback((): void => {
     selectMenu(false);
   }, [menu]);
@@ -37,12 +42,16 @@ const SideMenu = ({ menu, selectMenu }: any) => {
 
           {isLogin ? (
             <div className="w-full">
-              <a href="#" className="side-link">
+              <Link
+                to="/mypage"
+                className="side-link"
+                onClick={() => menuClose()}
+              >
                 <div className="flex-row">
                   <I className="fas fa-user"></I>
                   <span>마이 페이지</span>
                 </div>
-              </a>
+              </Link>
               <div className="flex w-full">
                 <Line></Line>
               </div>
@@ -73,12 +82,12 @@ const SideMenu = ({ menu, selectMenu }: any) => {
           <div className="flex w-full">
             <Line></Line>
           </div>
-          <a href="#" className="side-link">
+          <Link to="/survey" className="side-link" onClick={() => menuClose()}>
             <div className="flex-row">
               <I className="fas fa-filter"></I>
               <span>나와 어울리는 푸르댕댕은?</span>
             </div>
-          </a>
+          </Link>
           <div className="flex w-full">
             <Line></Line>
           </div>

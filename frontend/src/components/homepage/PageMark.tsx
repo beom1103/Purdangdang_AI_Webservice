@@ -1,7 +1,19 @@
 import React from 'react';
 import tw from 'tailwind-styled-components';
 
-const Marker = ({ num, scrollIndex, setPageNum, title }: any) => {
+type MarkProps = {
+  num: number;
+  scrollIndex: number;
+  setPageNum: any;
+  title: string;
+};
+
+type BoxProps = {
+  scrollIndex: number;
+  setPageNum: any;
+};
+
+const Marker = ({ num, scrollIndex, setPageNum, title }: MarkProps) => {
   return (
     <button
       className={`w-24 h-8 cursor-pointer`}
@@ -18,7 +30,7 @@ const Marker = ({ num, scrollIndex, setPageNum, title }: any) => {
   );
 };
 
-const PageMark = ({ scrollIndex, setPageNum }: any) => {
+const PageMark = ({ scrollIndex, setPageNum }: BoxProps) => {
   return (
     <Div>
       <Container>

@@ -1,32 +1,33 @@
 import React, { MouseEventHandler, useCallback, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import tw from 'tailwind-styled-components';
-import { methodAtom, reviewPostAtom, reviewsAtom } from '../../api/search';
+import { methodAtom, reviewPostAtom, postReview } from '../../api/search';
+import { Reviews } from '../../store/type';
 import Star from './Star';
 
 type ModalProps = {
   id: string;
+  modifyReview: Reviews;
   showReviewModal: MouseEventHandler<HTMLButtonElement>;
 };
 
-const ReviewModal: React.FC<ModalProps | any> = ({ id, showReviewModal }) => {
-  const setMethod = useSetRecoilState(methodAtom);
+const ReviewModal: React.FC<ModalProps | any> = ({
+  id,
+  modifyReview,
+  showReviewModal,
+}) => {
+  const method = useRecoilValue(methodAtom);
   const [reviewState, setReviewState] = useRecoilState(reviewPostAtom);
   const { pathname } = useLocation();
-  const post = useRecoilValue(reviewsAtom(pathname));
   const { score, content } = reviewState;
   const disabledButton = score > 0 && content.length > 0;
 
-  useEffect(() => {
-    setReviewState({ ...reviewState, ['plant_id']: id });
-  }, []);
-
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     if (!disabledButton) {
       alert('리뷰를 작성 후 제출해주세요!');
     } else {
-      setMethod('post');
+      await postReview(pathname, method, reviewState);
       alert('등록 되었습니다.');
       window.location.reload();
     }
@@ -36,10 +37,19 @@ const ReviewModal: React.FC<ModalProps | any> = ({ id, showReviewModal }) => {
     e => {
       const { name, value } = e.target;
       setReviewState({ ...reviewState, [name]: value });
-      console.log(reviewState);
     },
     [reviewState],
   );
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      onSubmit();
+    }
+  };
+
+  useEffect(() => {
+    setReviewState({ ...reviewState, ['plant_id']: id });
+  }, []);
 
   return (
     <Modal>
@@ -48,10 +58,17 @@ const ReviewModal: React.FC<ModalProps | any> = ({ id, showReviewModal }) => {
       </CloseButton>
       <h3>별점</h3>
       <div className="wrap">
-        <Star />
+        <Star score={modifyReview.score} />
       </div>
-      <h3 className="mt-8">리뷰</h3>
-      <TextArea name="content" onChange={onChangeInput} />
+      <h3 className="mt-8">
+        리뷰 <small>{content.length}/255자</small>
+      </h3>
+      <TextArea
+        name="content"
+        onChange={onChangeInput}
+        onKeyPress={handleKeyPress}
+        defaultValue={modifyReview.content}
+      />
       <Button onClick={onSubmit}>제출</Button>
     </Modal>
   );
@@ -73,18 +90,18 @@ const Modal = tw.div`
   `;
 
 const TextArea = tw.textarea` 
-  mt-8  
+  mt-5  
   w-full
   border-2
   border-gray-500
   p-3
-  h-1/2
+  h-1/3
 `;
 
 const Button = tw.button`
-  mt-8
+  mt-5
   buy-button
-  `;
+`;
 
 const CloseButton = tw.i` 
   flex
@@ -93,22 +110,4 @@ const CloseButton = tw.i`
   cursor-pointer 
   fas 
   fa-door-open
-  hover:scale-105
-// `;
-
-// const FillStar = tw.span`
-//   w-0
-//   absolute
-//   left-0
-//   text-yellow-500
-//   overflow-hidden
-// `;
-
-// const Range = tw.input`
-//   w-full
-//   h-full
-//   absolute
-//   left-0
-//   opacity-0
-//   cursor-pointer
-// `;
+ `;

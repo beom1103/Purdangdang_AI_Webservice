@@ -1,22 +1,22 @@
-import React, { useEffect } from "react";
-import {
-  NavLink,
-  Outlet,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
-import Footer from "../components/global/Footer";
+import React, { useCallback, useEffect, useState } from 'react';
+import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom';
+import Footer from '../components/global/Footer';
 
-import tw from "tailwind-styled-components";
-import { useRecoilState } from "recoil";
-import { infoAtom, getDetailInfo } from "../api/search";
+import tw from 'tailwind-styled-components';
+import { useRecoilState } from 'recoil';
+import { infoAtom, getDetailInfo } from '../api/search';
+import { addPlant, isLikePlant } from '../api/myPage';
 
 const PlantDetailPage = () => {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
   const params = useParams() as { name: string };
   const [info, setInfo] = useRecoilState(infoAtom);
+  const [fill, setFill] = useState(false);
+
+  const likePlant = useCallback((): void => {
+    fillHeart();
+    addPlant(fill, params.name);
+  }, [fill]);
 
   const id = React.useMemo(() => {
     if (params.name !== undefined) {
@@ -25,21 +25,28 @@ const PlantDetailPage = () => {
     return null;
   }, [params]);
 
+  const fillHeart = (): void => {
+    setFill(!fill);
+  };
+
   useEffect(() => {
     const handlePopState = () => {
-      navigate("/search");
+      navigate('/search');
     };
 
     const fetchInfo = async () => {
       const newInfo = await getDetailInfo(`/plant/${id}/info`);
+      const like = await isLikePlant(params.name);
+      setFill(like);
       setInfo(newInfo);
     };
+
     fetchInfo();
 
-    window.addEventListener("popstate", handlePopState);
+    window.addEventListener('popstate', handlePopState);
 
     return () => {
-      window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener('popstate', handlePopState);
     };
   }, []);
 
@@ -56,15 +63,18 @@ const PlantDetailPage = () => {
             <h4 className="text-sm">이름</h4>
             <h2 className="mb-4 text-green-600 ">
               {info?.kor}
-              <button className="like">
-                <i className="fas fa-heart" />
+              <button className="like" onClick={fillHeart}>
+                <Heart
+                  className={fill ? 'text-red-500 text-xl' : 'text-gray-500'}
+                  onClick={likePlant}
+                />
               </button>
             </h2>
             <div className="flex mb-4">
               <NavLink
                 to="info"
                 className={({ isActive }) =>
-                  isActive ? "active-link" : "plant-link"
+                  isActive ? 'active-link' : 'plant-link'
                 }
               >
                 Info
@@ -72,7 +82,7 @@ const PlantDetailPage = () => {
               <NavLink
                 to="reviews"
                 className={({ isActive }) =>
-                  isActive ? "active-link" : "plant-link"
+                  isActive ? 'active-link' : 'plant-link'
                 }
               >
                 Reviews
@@ -115,4 +125,11 @@ const Div = tw.div`
   w-full 
   my-auto 
   lg:w-1/2
+`;
+
+const Heart = tw.i`
+  fas
+  fa-heart
+  bg-none
+  border-none
 `;

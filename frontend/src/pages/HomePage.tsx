@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import React, { useEffect, useRef, useState } from 'react';
-import Header from '../components/homepage/Header';
 import VideoBackground from '../components/homepage/VideoBackground';
 import Intro from '../components/homepage/Intro';
 import UploadContainer from '../components/homepage/UploadContainer';
@@ -72,34 +72,33 @@ const HomePage = () => {
   useEffect(() => {
     window.scroll(0, 30);
     const scrollHandler = () => {
-      console.log('실행');
       if (num === 0) {
         num = 1;
       } else {
         if (startFlag) {
-          const scrollDown = scrollY >= initialScroll;
+          const scrollDown = window.scrollY >= initialScroll;
 
           const scrollLimit = num >= 1 && num <= 3;
           if (scrollLimit) {
-            // document.body.style.overflowY = 'hidden';
+            document.body.style.overflowY = 'hidden';
             if (scrollDown && num < 3) {
               main = contentsRef.current[num];
               next = contentsRef.current[num + 1];
-              main ? (main.style.transform = 'translateY(-100vh)') : null;
-              next ? (next.style.transform = 'translateY(0)') : null;
+              main.style.transform = 'translateY(-100vh)';
+              next.style.transform = 'translateY(0)';
               num++;
             } else if (!scrollDown && num > 1) {
               main = contentsRef.current[num - 1];
               next = contentsRef.current[num];
-              main ? (main.style.transform = 'translateY(0vh)') : null;
-              next ? (next.style.transform = 'translateY(100vh)') : null;
+              main.style.transform = 'translateY(0vh)';
+              next.style.transform = 'translateY(100vh)';
               num--;
             }
           }
           setTimeout(() => {
-            initialScroll = scrollY;
+            initialScroll = window.scrollY;
             startFlag = true;
-            // document.body.style.overflowY = 'scroll';
+            document.body.style.overflowY = 'scroll';
           }, TIME_OUT);
           startFlag = false;
         }

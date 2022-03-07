@@ -6,13 +6,17 @@ const token = localStorage.getItem('token');
 
 //기본 api
 export const api: AxiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  // baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL:
+    'http://elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com:5000/',
   headers: { 'Content-Type': `application/json` },
 });
 
 //헤더에 토큰 있는 api
 export const athentication: AxiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  // baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL:
+    'http://elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com:5000/',
   headers: { Authorization: `Token ${token}` },
 });
 
@@ -62,12 +66,13 @@ export const logout = async (): Promise<boolean> => {
 //토큰검사
 export const validLogin = selector({
   key: 'validLogin',
-  get: async (): Promise<User | any> => {
+  get: async (): Promise<User | undefined> => {
     try {
       const { data } = await athentication.get('api/auth/user');
       return data;
     } catch (error) {
-      return false;
+      console.log(error);
+      return;
     }
   },
 });

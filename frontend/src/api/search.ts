@@ -1,18 +1,24 @@
-import { atom, atomFamily, selector, selectorFamily } from 'recoil';
+import {
+  atom,
+  Loadable,
+  RecoilValue,
+  selector,
+  UnwrapRecoilValueLoadables,
+} from 'recoil';
 import { api, athentication } from '.';
-import { Info } from '../store/type';
+import { Info, Plant, Reviews } from '../store/type';
 
-export const plantListAtom = atom({
+export const plantListAtom = atom<Plant[]>({
   key: 'plantListAtom',
   default: [],
 });
 
-export const plantQueryAtom = atom({
+export const plantQueryAtom = atom<string>({
   key: 'plantQueryAtom',
   default: '',
 });
 
-export const methodAtom = atom({
+export const methodAtom = atom<string>({
   key: 'methodAtom',
   default: '',
 });
@@ -22,7 +28,7 @@ export const infoAtom = atom<Info>({
   default: {},
 });
 
-export const reviewPostAtom = atom({
+export const reviewPostAtom = atom<Reviews>({
   key: 'reviewInputAtom',
   default: {
     plant_id: 0,
@@ -31,78 +37,128 @@ export const reviewPostAtom = atom({
   },
 });
 
+export const filterAtom = atom<string>({
+  key: 'filterAtom',
+  default: '전체',
+});
+
 // 나중에 검색이랑 합치기
-export const fetchPlant = selector({
+export const fetchPlant = selector<Plant[] | any>({
   key: 'fetchPlant',
-  get: async () => {
+  get: async ({ get }) => {
+    const filter = get(filterAtom);
+    let requestUrl = null;
+
+    if (filter === '전체') {
+      requestUrl = 'api/plant/search';
+    } else {
+      requestUrl = `api/plant/search?f=${filter}`;
+    }
+
+    if (requestUrl !== null) {
+      const { data } = await api.get(requestUrl);
+      return data;
+    }
+  },
+});
+
+export const searchPlant = selector<Promise<Plant[]>>({
+  key: 'searchPlant',
+  get: async ({ get }) => {
+    const plant = get(plantQueryAtom);
     try {
-      const { data } = await api.get('api/plant/search');
+      const { data } = await api.get(`api/plant/search?kw=${plant}`);
       return data;
     } catch (error) {
+      console.log(error);
       return;
     }
   },
 });
 
-export const searchPlant = selector({
-  key: 'searchPlant',
-  get: async ({ get }) => {
-    const plant = get(plantQueryAtom);
+export const scrollPage = async (page: number, filter: string) => {
+  let requestUrl = null;
+
+  if (filter === '전체') {
+    requestUrl = `api/plant/search?page=${page}`;
+  } else {
+    requestUrl = `api/plant/search?f=${filter}&page=${page}`;
+  }
+  if (requestUrl !== null) {
     try {
-      const { data } = await api.get(`api/plant/search?keyword=${plant}`);
+      const { data } = await api.get(requestUrl);
       return data;
     } catch (error) {
       return false;
     }
-  },
-});
-
-export const scrollPage = async (page: number) => {
-  try {
-    const { data } = await api.get(`api/plant/search?page=${page}`);
-    return data;
-  } catch (error) {
-    return false;
   }
 };
-
-export const getDetailInfo = async (pathname: string): Promise<Info | any> => {
+export const getDetailInfo = async (
+  pathname: string,
+): Promise<Info | Reviews[] | any> => {
   try {
     const { data } = await api.get(`api${pathname}`);
     return data;
   } catch (error) {
+    console.log(error);
     return;
   }
 };
 
-export const reviewsAtom = atomFamily({
-  key: 'reviewsAtom',
-  default: selectorFamily({
-    key: 'reviewSelector',
-    get:
-      (pathname: string) =>
-      async ({ get }) => {
-        const post = get(reviewPostAtom);
-        const method = get(methodAtom);
+export const getMoreReview = async (url: string) => {
+  try {
+    const { data } = await api.get(`${url}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+};
 
-        switch (method) {
-          case 'post':
-            try {
-              athentication.post(`api${pathname}`, post);
-            } catch (error) {
-              console.log(error);
-            }
-            return;
+export const postReview = async (
+  pathname: string,
+  method: string,
+  review?: Reviews,
+): Promise<void> => {
+  switch (method) {
+    case 'post':
+      try {
+        athentication.post(`api${pathname}`, review);
+      } catch (error) {
+        console.log(error);
+      }
+      return;
 
-          case 'delete':
-            return;
+    case 'delete':
+      try {
+        athentication.delete(`api${pathname}`);
+      } catch (error) {
+        console.log(error);
+      }
+      return;
 
-          case 'put':
-            return;
+    case 'put':
+      try {
+        athentication.put(`api${pathname}`, review);
+      } catch (error) {
+        console.log(error);
+      }
+      return;
 
-          default:
-            return;
-        }
-      },
-  }),
-});
+    default:
+      return;
+  }
+};
+
+export const preview = async (select: any) => {
+  const imageFile = select[0];
+  const image = new FormData();
+  image.append('file', imageFile);
+
+  try {
+    const { data } = await api.post('api/plant/upload', image);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -3,7 +3,12 @@ from django.db import models
 from django.db.models.deletion import CASCADE, DO_NOTHING
 from django.db.models.fields.related import ForeignKey
 
-# Create your models here.
+class Category(models.Model):
+    """
+        식물 특성 분류  
+    """  
+    name = models.CharField(max_length=200, verbose_name = '분류 항목') 
+
 class Plant(models.Model):
     """
         식물 정보 
@@ -17,10 +22,11 @@ class Plant(models.Model):
     water_cycle = models.CharField(max_length=200, verbose_name = '물 주기', blank=True, null=True)
     sunlight = models.CharField(max_length=200, verbose_name = '햇볕', blank=True, null=True)
     temperature = models.CharField(max_length=200, verbose_name = '온도', blank=True, null=True)
-    shopping_url = models.URLField(blank=True, verbose_name = '쇼핑 링크', null=True)
+    category = models.ManyToManyField(Category)
     
     def __str__(self):
         return str(self.id)
+
 
 class Review(models.Model):
     """
@@ -47,3 +53,15 @@ class Review(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+
+class UploadImage(models.Model):
+    """
+        식물 이미지 업로드 
+    """ 
+    image = models.ImageField(upload_to="images", verbose_name="식물 이미지", null=True)
+    upload_at = models.DateTimeField(auto_now=True, verbose_name="파일 작성일시")
+
+    def __str__(self):
+        return str(self.image)
+

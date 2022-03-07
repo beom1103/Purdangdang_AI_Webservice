@@ -1,5 +1,5 @@
-import React, { useMemo, useCallback } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useMemo, useCallback } from 'react';
+import { useRecoilState } from 'recoil';
 import tw from 'tailwind-styled-components';
 import { plantQueryAtom } from '../../api/search';
 import { debounce } from 'lodash';
@@ -15,7 +15,7 @@ const SearchInput = () => {
   );
 
   const debouncedResults = useMemo(() => {
-    return debounce(searchPlant, 300);
+    return debounce(searchPlant, 500);
   }, [query]);
 
   return (
@@ -27,7 +27,7 @@ const SearchInput = () => {
       <input
         className="search-input focus:outline-none"
         type="text"
-        placeholder="Search"
+        placeholder="한글 및 영문명으로 검색해주세요."
         onChange={debouncedResults}
         defaultValue={query}
       />
