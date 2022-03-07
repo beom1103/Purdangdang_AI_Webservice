@@ -132,7 +132,7 @@ class UserProfileView(APIView, LikeListPagination):
         """
         반려 식물 조회
         
-        마이 페이지에서 반려 식물 조회
+        마이 페이지에서 반려 식물과 찜리스트 조회
         """
         user = User.objects.get(username=self.get_user()).id
         wishlist = Wishlist.objects.filter(user_id=user)
