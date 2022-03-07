@@ -5,15 +5,10 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    volumes:
-      - ".:/apps"
-      - "/apps/node_modules"
     ports:
       - "3000:3000"
-    restart: always
     command: npm start
-    depends_on:
-      - client
+    restart: always
     # environment:
     #   - NODE_ENV=development
     # stdin_open: true
@@ -24,8 +19,6 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    volumes:
-      - ./backend:/apps
     ports:
       - "5000:5000"
     image: server:apps
