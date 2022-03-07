@@ -6,8 +6,10 @@ import React, {
   useEffect,
 } from 'react';
 import imageResize from '../homepage/ImageResize';
-import { setMyPlant } from '../../api/myplant';
-import { preview } from '../../api/search';
+import { setMyPlant } from '../../api/myPage';
+import { useRecoilValue } from 'recoil';
+import { validLogin } from '../../api';
+import { useNavigate } from 'react-router-dom';
 
 type ListProps = {
   id: number;
@@ -33,16 +35,15 @@ const UploadList = ({
   setImgUrl,
   setImgFile,
   imgFile,
-  pushPlantInfo,
-  imgagefiles,
   handleNamimg,
   plantName,
-  setPlantName,
   deleteName,
 }: ListProps) => {
+  const isLogin = useRecoilValue(validLogin);
   const [planttitle, setPlantTitle] = useState<string>('');
   const [edit, setEdit] = useState(false);
   const inputRef: any = useRef<HTMLInputElement | null>(null);
+
   const onClickFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | any): void => {
       let selectFiles: File[] = [];
@@ -124,14 +125,16 @@ const UploadList = ({
   };
 
   const checkName = () => {
+    const user = isLogin?.username;
     const currentId = id - 1;
-    const method = 'post';
     handleNamimg(currentId, planttitle);
 
     // preview(imgFile).then(data => console.log(data));
     // pushPlantInfo(imgFile, planttitle, currentId, method);
 
-    setMyPlant(imgFile, planttitle, currentId).then(data => console.log(data));
+    setMyPlant(user, imgFile, planttitle, currentId).then(data =>
+      console.log(data),
+    );
     setEdit(true);
   };
 
@@ -140,6 +143,14 @@ const UploadList = ({
     // console.log('내부', planttitle, '외부', plantName);
     return;
   });
+
+  useEffect(() => {
+    if (!isLogin) {
+      const navigate = useNavigate();
+      alert('로그인 후 이용하실 수 있습니다.');
+      navigate('/account');
+    }
+  }, []);
 
   return (
     <>

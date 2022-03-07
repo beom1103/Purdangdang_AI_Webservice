@@ -21,3 +21,25 @@ export const addPlant = async (fill: boolean, plantId: string) => {
       return;
   }
 };
+
+export const setMyPlant = async (
+  user: string | undefined,
+  image: string[],
+  plantName: string,
+  num: number,
+) => {
+  const imageFile = image[0];
+  const formData = new FormData();
+  formData.append('file', imageFile);
+  formData.append('name', plantName);
+
+  try {
+    const { data } = await athentication.post(
+      `api/user/${user}?order=${num}`,
+      formData,
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
