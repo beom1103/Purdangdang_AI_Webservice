@@ -74,6 +74,7 @@ const UploadModal = ({ isModal, plantData }: any) => {
                 </div>
                 <div className="flex mb-3">
                   <div className="ml-5 w-14" onClick={() => selectRank(1)}>
+                    <span className="ml-1 text-center">top1</span>
                     <div
                       className={`w-10 h-10 ${
                         selectBox === 1 ? `border-2 border-green-500` : null
@@ -86,6 +87,7 @@ const UploadModal = ({ isModal, plantData }: any) => {
                     </div>
                   </div>
                   <div className="ml-5 w-14" onClick={() => selectRank(2)}>
+                    <span className="ml-1 text-center">top2</span>
                     <div
                       className={`w-10 h-10 ${
                         selectBox === 2 ? `border-2 border-green-500` : null
@@ -98,6 +100,7 @@ const UploadModal = ({ isModal, plantData }: any) => {
                     </div>
                   </div>
                   <div className="ml-5 w-14" onClick={() => selectRank(3)}>
+                    <span className="ml-1 text-center">top3</span>
                     <div
                       className={`w-10 h-10 ${
                         selectBox === 3 ? `border-2 border-green-500` : null

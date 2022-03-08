@@ -33,6 +33,8 @@ export const setMyPlant = async (
   formData.append('file', imageFile);
   formData.append('name', plantName);
 
+  console.log(imageFile, plantName, user, num);
+
   try {
     const { data } = await athentication.post(
       `api/user/${user}?order=${num}`,

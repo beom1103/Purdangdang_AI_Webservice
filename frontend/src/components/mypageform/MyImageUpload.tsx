@@ -29,7 +29,6 @@ const MyImageUpload = ({
     if (files[id] !== undefined) {
       const imgEl1 = imgRef.current[id];
       imgEl1.src = files[id];
-      // console.log(files[id]);
     } else {
       const imgEl1 = imgRef.current[id];
       imgEl1.src = `./img/tree.png`;

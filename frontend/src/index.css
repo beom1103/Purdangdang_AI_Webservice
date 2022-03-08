@@ -368,5 +368,9 @@ body::-webkit-scrollbar {
 }
 
 .mypage_SelectedBox {
-  @apply flex justify-around w-full mt-3 border-2 border-gray-400 h-36 sm:h-3/4 rounded-xl;
+  @apply flex justify-around w-full h-full mt-3 border-2 border-gray-400 sm:h-3/4 rounded-xl;
+}
+
+.mypage_Card {
+  @apply max-w-sm overflow-hidden bg-white rounded-md shadow-md cursor-pointer;
 }

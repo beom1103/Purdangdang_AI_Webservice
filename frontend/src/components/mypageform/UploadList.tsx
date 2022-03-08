@@ -19,11 +19,8 @@ type ListProps = {
   setImgUrl: any;
   setImgFile: any;
   imgFile: any;
-  pushPlantInfo: any;
-  imgagefiles: any;
   handleNamimg: any;
   plantName: string[];
-  setPlantName: any;
   deleteName: any;
 };
 
@@ -58,7 +55,7 @@ const UploadList = ({
       const check_file_type = ['jpg', 'gif', 'png', 'jpeg', 'bmp'];
 
       if (check_file_type.indexOf(file_type) === -1) {
-        alert('님 이거 사진 아니자늠');
+        alert('사진 파일만 업로드 가능합니다');
         return;
       }
 
@@ -98,28 +95,12 @@ const UploadList = ({
     setPlantTitle('');
 
     deleteName(number);
-
-    // console.log([...plantName]);
   };
 
   const handleInput = (e: any) => {
     const name = e.target.value;
     setPlantTitle(name);
-    // console.log(planttitle);
   };
-
-  // const onSubmit = (
-  //   imgFile: any,
-  //   planttitle: any,
-  //   currentId: any,
-  //   method: any,
-  // ) => {
-  //   console.log(imgFile, planttitle, currentId, method);
-  //   // preview(imgFile).then(data => console.log(data));
-  //   setMyPlant(imgFile, planttitle, currentId, method).then(data =>
-  //     console.log(data),
-  //   );
-  // };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
