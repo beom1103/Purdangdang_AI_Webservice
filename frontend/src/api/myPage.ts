@@ -10,7 +10,7 @@ export const isLikePlant = async (plantId: string): Promise<boolean> => {
   }
 };
 
-export const addPlant = async (
+export const addMyPage = async (
   fill: boolean,
   plantId: string,
 ): Promise<void> => {
