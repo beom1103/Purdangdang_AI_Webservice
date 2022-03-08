@@ -73,42 +73,33 @@ const UploadModal = ({ isModal, plantData }: any) => {
                   />
                 </div>
                 <div className="flex mb-3">
-                  <div className="ml-5 w-14" onClick={() => selectRank(1)}>
-                    <div
-                      className={`w-10 h-10 ${
+                  <ImgBox onClick={() => selectRank(1)}>
+                    <SelectedBorder
+                      className={`${
                         selectBox === 1 ? `border-2 border-green-500` : null
                       }`}
                     >
-                      <img
-                        className="object-fill w-full h-full"
-                        src={plantData.top1.detail.image_url}
-                      ></img>
-                    </div>
-                  </div>
-                  <div className="ml-5 w-14" onClick={() => selectRank(2)}>
-                    <div
-                      className={`w-10 h-10 ${
+                      <Img src={plantData.top1.detail.image_url} />
+                    </SelectedBorder>
+                  </ImgBox>
+                  <ImgBox onClick={() => selectRank(2)}>
+                    <SelectedBorder
+                      className={`${
                         selectBox === 2 ? `border-2 border-green-500` : null
                       }`}
                     >
-                      <img
-                        className="object-fill w-full h-full"
-                        src={plantData.top2.detail.image_url}
-                      ></img>
-                    </div>
-                  </div>
-                  <div className="ml-5 w-14" onClick={() => selectRank(3)}>
-                    <div
-                      className={`w-10 h-10 ${
+                      <Img src={plantData.top2.detail.image_url} />
+                    </SelectedBorder>
+                  </ImgBox>
+                  <ImgBox onClick={() => selectRank(3)}>
+                    <SelectedBorder
+                      className={`${
                         selectBox === 3 ? `border-2 border-green-500` : null
                       }`}
                     >
-                      <img
-                        className="object-fill w-full h-full"
-                        src={plantData.top3.detail.image_url}
-                      ></img>
-                    </div>
-                  </div>
+                      <Img src={plantData.top3.detail.image_url} />
+                    </SelectedBorder>
+                  </ImgBox>
                 </div>
 
                 <div className="modal-next">이 댕댕이가 더 궁금하다면?</div>
@@ -142,4 +133,21 @@ const Close = tw.button`
   hover:bg-gray-100
   h-9
   text-gray-600
+`;
+
+const Img = tw.img` 
+  object-fill
+  w-full 
+  h-full
+`;
+
+const ImgBox = tw.div` 
+  ml-5 
+  w-14
+  cursor-pointer
+`;
+
+const SelectedBorder = tw.div` 
+  w-10 
+  h-10
 `;
