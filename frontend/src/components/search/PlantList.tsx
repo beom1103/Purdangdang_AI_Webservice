@@ -16,6 +16,9 @@ import PlantCard from './PlantCard';
 import { useNavigate } from 'react-router-dom';
 import { Plant } from '../../store/type';
 import SearchList from './SearchList';
+import { throttle } from 'lodash';
+
+const TIME = 700;
 
 const PlantList = () => {
   const navigate = useNavigate();
@@ -49,15 +52,28 @@ const PlantList = () => {
   }, [fetchPlantList]);
 
   // 스크롤이 맨 밑에 있을때 실행
-  const handleScroll = useCallback(async () => {
-    const { scrollY, innerHeight } = window;
-    const { scrollHeight } = document.documentElement;
-    if (innerHeight + scrollY > scrollHeight - 10) {
-      const pageUp = page + 1;
-      setPage(pageUp);
-      await getMorePlant(pageUp, filter);
-    }
-  }, [fetchPlantList, page]);
+  // const handleScroll = useCallback(async () => {
+  //   const { scrollY, innerHeight } = window;
+  //   const { scrollHeight } = document.documentElement;
+  //   if (innerHeight + scrollY > scrollHeight - 10) {
+  //     const pageUp = page + 1;
+  //     setPage(pageUp);
+  //     await getMorePlant(pageUp, filter);
+  //   }
+  // }, [fetchPlantList, page]);
+
+  const handleScroll = useCallback(
+    throttle(async () => {
+      const { scrollY, innerHeight } = window;
+      const { scrollHeight } = document.documentElement;
+      if (innerHeight + scrollY > scrollHeight - 10) {
+        const pageUp = page + 1;
+        setPage(pageUp);
+        await getMorePlant(pageUp, filter);
+      }
+    }, TIME),
+    [fetchPlantList, page],
+  );
 
   //추가 데이터 불러오기
   const getMorePlant = useCallback(
