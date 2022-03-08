@@ -12,7 +12,7 @@ const imageResize = (settings: IResizeImageOptions) => {
   const canvas = document.createElement('canvas');
   // 이미지 uri를 반환 주석 처리는 본래 blob타입 객체를 반환하도록 하지만 지금은 필요없음
   const dataURItoBlob = (dataURI: string) => {
-    // console.log(dataURI);
+    console.log(dataURI);
     // return dataURI;
     const bytes =
       dataURI.split(',')[0].indexOf('base64') >= 0

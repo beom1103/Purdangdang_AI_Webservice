@@ -14,14 +14,16 @@ import { useNavigate } from 'react-router-dom';
 type ListProps = {
   id: number;
   checked: number;
-  files: string[];
+  files: string;
   setFiles: any;
   setImgUrl: any;
   setImgFile: any;
   imgFile: any;
   handleNamimg: any;
-  plantName: string[];
+  plantName: string;
   deleteName: any;
+  setMyList: any;
+  myList: any;
 };
 
 const UploadList = ({
@@ -35,7 +37,10 @@ const UploadList = ({
   handleNamimg,
   plantName,
   deleteName,
+  setMyList,
+  myList,
 }: ListProps) => {
+  const IMAGEROOT = './img/tree.png';
   const isLogin = useRecoilValue(validLogin);
   const [planttitle, setPlantTitle] = useState<string>('');
   const [edit, setEdit] = useState(false);
@@ -73,26 +78,30 @@ const UploadList = ({
     [],
   );
 
-  useEffect(() => {
-    if (plantName[id - 1] !== undefined) {
-      setEdit(true);
-    } else {
-      setEdit(false);
-    }
-  }, [plantName]);
+  // useEffect(() => {
+  //   if (plantName[id - 1] !== undefined) {
+  //     setEdit(true);
+  //   } else {
+  //     setEdit(false);
+  //   }
+  // }, [plantName]);
 
   const setImage = (res: any) => {
     const imageFile = res;
     // console.log(imageFile[1]);
     setImgFile(imageFile);
     setImgUrl(imageFile[1]);
+    console.log(myList);
+    const NewImage = myList;
+    NewImage[id - 1].image = imageFile[1];
+    setMyList(NewImage);
   };
 
   const handleDelete = (number: number) => {
     const delList = files;
-    delList.splice(number, 1);
-    setFiles([...delList]);
-    setPlantTitle('');
+    // delList.splice(number, 1);
+    // setFiles([...delList]);
+    setPlantTitle('없음');
 
     deleteName(number);
   };
@@ -114,7 +123,7 @@ const UploadList = ({
 
   const checkName = () => {
     const user = isLogin?.username;
-    const currentId = id - 1;
+    const currentId = id;
     handleNamimg(currentId, planttitle);
 
     setMyPlant(user, imgFile, planttitle, id).then(data => console.log(data));
@@ -134,85 +143,77 @@ const UploadList = ({
     }
   }, []);
 
-  useEffect(() => {
-    // console.log(id, files[id - 1]);
-    // console.log(plantName[id - 1] !== undefined);
-  });
-
   return (
     <>
-      {plantName[id - 2] !== undefined || id === 1 ? (
-        <li className="mb-2">
-          {files[id - 1] !== undefined ? (
-            <div className="flex justify-between md:justify-between">
-              <div className="flex flex-row items-end w-40 h-6 lg:w-48">
-                <span className="w-14">{id}.이름 : </span>
-                {edit === false || plantName[id - 1] === undefined ? (
-                  <input
-                    // type="text"
-                    onChange={handleInput}
-                    value={planttitle}
-                    onKeyPress={handleKeyPress}
-                    placeholder=" 이름 입력"
-                    className="w-20 h-6 pl-2 border border-gray-200 resize-none lg:w-28 rounded-xl"
-                    ref={inputRef}
-                  ></input>
-                ) : (
-                  <span
-                    className={` w-20 lg:w-28 h-6 overflow-hidden text-ellipsis whitespace-nowrap  ${
-                      checked === id ? `text-green-500` : null
-                    }`}
+      {/* {plantName[id - 2] !== undefined || id === 1 ? ( */}
+      <li className="mb-2">
+        {files !== IMAGEROOT ? (
+          <div className="flex justify-between md:justify-between">
+            <div className="flex flex-row items-end w-40 h-6 lg:w-48">
+              <span className="w-14">{id}.이름 : </span>
+              {plantName === '없음' ? (
+                <input
+                  // type="text"
+                  onChange={handleInput}
+                  value={planttitle}
+                  onKeyPress={handleKeyPress}
+                  placeholder=" 이름 입력"
+                  className="w-20 h-6 pl-2 border border-gray-200 resize-none lg:w-28 rounded-xl"
+                  ref={inputRef}
+                ></input>
+              ) : (
+                <span
+                  className={` w-20 lg:w-28 h-6 overflow-hidden text-ellipsis whitespace-nowrap  ${
+                    checked === id ? `text-green-500` : null
+                  }`}
+                >
+                  {myList.name[id]}
+                </span>
+              )}
+            </div>
+            <div>
+              {plantName === '없음' ? (
+                <div>
+                  <button className="bg-sky-400 " onClick={() => checkName()}>
+                    확인
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <button className="bg-green-400 " onClick={() => editName()}>
+                    수정
+                  </button>
+                  <button
+                    className="bg-red-400 "
+                    onClick={() => handleDelete(id - 1)}
                   >
-                    {plantName[id - 1]}
-                  </span>
-                )}
-              </div>
-              <div>
-                {edit === false || plantName[id - 1] === undefined ? (
-                  <div>
-                    <button className="bg-sky-400 " onClick={() => checkName()}>
-                      확인
-                    </button>
-                  </div>
-                ) : (
-                  <div>
-                    <button
-                      className="bg-green-400 "
-                      onClick={() => editName()}
-                    >
-                      수정
-                    </button>
-                    <button
-                      className="bg-red-400 "
-                      onClick={() => handleDelete(id - 1)}
-                    >
-                      삭제
-                    </button>
-                  </div>
-                )}
-              </div>
+                    삭제
+                  </button>
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="flex justify-between md:justify-between">
-              <span>{id}. 파일없음</span>
-              <input
-                type="file"
-                id={String(id)}
-                style={{ display: 'none' }}
-                multiple={true}
-                accept="image/*"
-                onChange={onClickFiles}
-              />
-              <label
-                className="text-white bg-green-400 rounded-md"
-                htmlFor={String(id)}
-              >
-                파일 선택
-              </label>
-            </div>
-          )}
-        </li>
-      ) : null}
+          </div>
+        ) : (
+          <div className="flex justify-between md:justify-between">
+            <span>{id}. 파일없음</span>
+            <input
+              type="file"
+              id={String(id)}
+              style={{ display: 'none' }}
+              multiple={true}
+              accept="image/*"
+              onChange={onClickFiles}
+            />
+            <label
+              className="text-white bg-green-400 rounded-md"
+              htmlFor={String(id)}
+            >
+              파일 선택
+            </label>
+          </div>
+        )}
+      </li>
+      {/* // ) : null} */}
     </>
   );
 };

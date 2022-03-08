@@ -14,14 +14,7 @@ import { setMyPlant } from '../api/myPage';
 const MyPage = () => {
   // const isLogin = useRecoilValue(validLogin);
   const userInfo = useRecoilValue(validLogin);
-  const [files, setFiles] = useState<string[]>([]);
-  const [imgagefiles, setImgageFiles] = useState<string[]>([]);
-  const [imgUrl, setImgUrl] = useState<string[]>([]);
-  const [imgFile, setImgFile] = useState<any[]>([]);
-  const [plantName, setPlantName] = useState<any[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
-  const [checked, setChecked] = useState(1);
-  const [mainImg, setMainImg] = useState('/img/tree.png');
 
   useEffect(() => {
     const user = userInfo?.username;
@@ -59,27 +52,6 @@ const MyPage = () => {
   //   console.log('이미지 파일', imgFile);
   // }, [files, plantName]);
 
-  useEffect(() => {
-    setFiles(files.concat(imgUrl));
-  }, [imgUrl]);
-
-  useEffect(() => {
-    setImgageFiles(imgagefiles.concat(imgFile));
-    // console.log('이미지파일즈', imgagefiles);
-  }, [imgFile]);
-
-  const handleNamimg = (number: number, name: string) => {
-    const setName = plantName;
-    setName.splice(number, 1, name);
-    setPlantName([...setName]);
-  };
-
-  const deleteName = (number: number) => {
-    const delName = plantName;
-    delName.splice(number, 1);
-    setPlantName([...delName]);
-  };
-
   return (
     <div className="mypage_div">
       <div
@@ -109,20 +81,7 @@ const MyPage = () => {
           </h4>
           <div className="detail_Modal-line"></div>
           <div className="mypage_ImgContainer">
-            <MyImageList
-              files={files}
-              mainImg={mainImg}
-              checked={checked}
-              setChecked={setChecked}
-              setMainImg={setMainImg}
-              setFiles={setFiles}
-              setImgUrl={setImgUrl}
-              setImgFile={setImgFile}
-              imgFile={imgFile}
-              handleNamimg={handleNamimg}
-              plantName={plantName}
-              deleteName={deleteName}
-            />
+            <MyImageList />
           </div>
         </div>
         <div className="mypage_SelectedDiv">
