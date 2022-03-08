@@ -74,7 +74,7 @@ const UploadModal = ({ isModal, plantData }: any) => {
                 </div>
                 <div className="flex mb-3">
                   <ImgBox onClick={() => selectRank(1)}>
-                    <span className="ml-1 text-center">top1</span>
+                    <TopSpan className="ml-1 text-center">top1</TopSpan>
                     <SelectedBorder
                       className={`${
                         selectBox === 1 ? `border-2 border-green-500` : null
@@ -84,7 +84,7 @@ const UploadModal = ({ isModal, plantData }: any) => {
                     </SelectedBorder>
                   </ImgBox>
                   <ImgBox onClick={() => selectRank(2)}>
-                    <span className="ml-1 text-center">top1</span>
+                    <TopSpan className="ml-1 text-center">top2</TopSpan>
                     <SelectedBorder
                       className={`${
                         selectBox === 2 ? `border-2 border-green-500` : null
@@ -94,7 +94,7 @@ const UploadModal = ({ isModal, plantData }: any) => {
                     </SelectedBorder>
                   </ImgBox>
                   <ImgBox onClick={() => selectRank(3)}>
-                    <span className="ml-1 text-center">top1</span>
+                    <TopSpan className="ml-1 text-center">top3</TopSpan>
                     <SelectedBorder
                       className={`${
                         selectBox === 3 ? `border-2 border-green-500` : null
@@ -153,4 +153,9 @@ const ImgBox = tw.div`
 const SelectedBorder = tw.div` 
   w-10 
   h-10
+`;
+
+const TopSpan = tw.span` 
+  ml-1 
+  text-center
 `;
