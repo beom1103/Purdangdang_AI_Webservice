@@ -1,4 +1,10 @@
-import React, { MouseEventHandler, useCallback, useEffect } from 'react';
+import { debounce } from 'lodash';
+import React, {
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useMemo,
+} from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import tw from 'tailwind-styled-components';
@@ -23,7 +29,7 @@ const ReviewModal: React.FC<ModalProps | any> = ({
   const { score, content } = reviewState;
   const disabledButton = score > 0 && content.length > 0;
 
-  const onSubmit = useCallback(async () => {
+  const onSubmitReview = useCallback(async () => {
     if (!disabledButton) {
       alert('리뷰를 작성 후 제출해주세요!');
     } else {
@@ -43,9 +49,13 @@ const ReviewModal: React.FC<ModalProps | any> = ({
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
-      onSubmit();
+      onSubmitReview();
     }
   };
+
+  const debouncedContent = useMemo(() => {
+    return debounce(onChangeInput, 500);
+  }, [reviewState]);
 
   useEffect(() => {
     setReviewState({ ...reviewState, ['plant_id']: id });
@@ -65,11 +75,11 @@ const ReviewModal: React.FC<ModalProps | any> = ({
       </h3>
       <TextArea
         name="content"
-        onChange={onChangeInput}
+        onChange={debouncedContent}
         onKeyPress={handleKeyPress}
         defaultValue={modifyReview?.content}
       />
-      <Button onClick={onSubmit}>제출</Button>
+      <Button onClick={onSubmitReview}>제출</Button>
     </Modal>
   );
 };

@@ -5,7 +5,7 @@ import Footer from '../components/global/Footer';
 import tw from 'tailwind-styled-components';
 import { useRecoilState } from 'recoil';
 import { infoAtom, getDetailInfo } from '../api/search';
-import { addPlant, isLikePlant } from '../api/myPage';
+import { addMyPage, isLikePlant } from '../api/myPage';
 
 const PlantDetailPage = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const PlantDetailPage = () => {
 
   const likePlant = useCallback((): void => {
     fillHeart();
-    addPlant(fill, params.name);
+    addMyPage(fill, params.name);
   }, [fill]);
 
   const id = React.useMemo(() => {

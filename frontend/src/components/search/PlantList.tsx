@@ -69,7 +69,7 @@ const PlantList = () => {
   );
 
   //상세 페이지로 라우팅
-  const goDetail = useCallback((e: MouseEventHandler | any) => {
+  const goDetailPage = useCallback((e: MouseEventHandler | any) => {
     const plantId = e.target.id;
     if (plantId) {
       navigate(`/plant/${plantId}/info`);
@@ -106,7 +106,7 @@ const PlantList = () => {
               name={data.name}
               rank={data.rank}
               image={data.image_url}
-              onClick={goDetail}
+              onClick={goDetailPage}
             />
           );
         })
