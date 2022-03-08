@@ -1,22 +1,36 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import React, {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import UploadModal from '../modal/UploadModal';
 import imageResize from './ImageResize';
 import tw from 'tailwind-styled-components';
 import { preview } from '../../api/search';
 import UploadLading from '../load-page/UploadLoading';
+import { Info } from '../../store/type';
 
-const UploadContainer = ({ setIsModal }: any) => {
+type PlantDataType = {
+  top1?: {
+    detail: Info;
+    percent: string;
+  };
+  top2?: {
+    detail: Info;
+    percent: string;
+  };
+  top3?: {
+    detail: Info;
+    percent: string;
+  };
+};
+
+type UploadContainerProps = {
+  setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
   //드래그 중일때와 아닐 때의 스타일을 구분하기 위한 state 변수
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [files, setFiles] = useState<any[]>([]);
-  const [plantData, setPlantData] = useState<any>({});
+  const [files, setFiles] = useState<File[]>([]);
+  const [plantData, setPlantData] = useState<PlantDataType>({});
   const [isLoading, setIsLoading] = useState(true);
 
   // Modal 띄우기 여부
@@ -26,8 +40,6 @@ const UploadContainer = ({ setIsModal }: any) => {
   const dragRef = useRef<HTMLLabelElement | null>(null);
   const clickRef = useRef<HTMLLabelElement | null>(null);
 
-  const [imgBox, setImgBox] = useState<any[]>([]);
-
   const openModal = () => {
     if (files.length !== 0) {
       setShowModal(!showModal);
@@ -36,39 +48,36 @@ const UploadContainer = ({ setIsModal }: any) => {
     }
   };
 
-  useEffect(() => {
-    setIsModal(showModal);
+  const handleFiles = (e: any) => {
+    let selectFiles = [];
 
-    if (showModal) {
-      document.body.style.overflow = 'hidden';
-    } else if (!showModal) {
-      document.body.style.overflow = `visible `;
+    if (e.type === 'drop') {
+      selectFiles = e.dataTransfer.files;
+    } else {
+      selectFiles = e.target.files;
     }
-  }, [showModal]);
 
-  const onClickFiles = useCallback(
+    const target = selectFiles[0].name;
+
+    const file_kind = target.lastIndexOf('.');
+    const file_name = target.substring(file_kind + 1, target.length);
+    const file_type = file_name.toLowerCase();
+
+    const check_file_type = ['jpg', 'gif', 'png', 'jpeg', 'bmp'];
+
+    if (check_file_type.indexOf(file_type) === -1) {
+      alert('잘못된 형식의 파일입니다.');
+      return;
+    }
+
+    return selectFiles[0];
+  };
+
+  const uploadImageFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | any): void => {
-      let selectFiles: File[] = [];
-
-      console.log('클릭?');
-
-      selectFiles = e.target?.files;
-      // checkFile(selectFiles[0].name);
-
-      const target = selectFiles[0].name;
-      const file_kind = target.lastIndexOf('.');
-      const file_name = target.substring(file_kind + 1, target.length);
-      const file_type = file_name.toLowerCase();
-
-      const check_file_type = ['jpg', 'gif', 'png', 'jpeg', 'bmp'];
-
-      if (check_file_type.indexOf(file_type) === -1) {
-        alert('잘못된 형식의 파일입니다.');
-        return;
-      }
-      setIsLoading(false);
+      const image = handleFiles(e);
       imageResize({
-        file: selectFiles[0],
+        file: image,
         maxSize: 400,
       })
         .then(res => {
@@ -81,56 +90,21 @@ const UploadContainer = ({ setIsModal }: any) => {
     [files],
   );
 
-  const onChangeFiles = useCallback(
-    (e: ChangeEvent<HTMLInputElement> | any): void => {
-      let selectFiles: File[] = [];
-
-      if (e.type === 'drop') {
-        selectFiles = e.dataTransfer.files;
-      } else {
-        selectFiles = e.target.files;
-      }
-
-      const target = selectFiles[0].name;
-      const file_kind = target.lastIndexOf('.');
-      const file_name = target.substring(file_kind + 1, target.length);
-      const file_type = file_name.toLowerCase();
-
-      const check_file_type = ['jpg', 'gif', 'png', 'jpeg', 'bmp'];
-
-      if (check_file_type.indexOf(file_type) === -1) {
-        alert('잘못된 형식의 파일입니다.');
-        return;
-      }
-
-      setFiles(selectFiles);
-      setIsLoading(false);
-      imageResize({
-        file: selectFiles[0],
-        maxSize: 400,
-      })
-        .then(res => {
-          imageCheck(res);
-        })
-        .catch(function (err) {
-          console.error(err);
-        });
-    },
-    [files],
-  );
-
-  const imageCheck = (res: any) => {
-    // console.log('파일', file, res[0]);
+  const imageCheck = async (res: any) => {
     const file = res;
     setFiles(file);
-    preview(file)
-      .then(data => setPlantData(data))
-      .then(check => setIsLoading(true));
-
     const imgEl: any = document.querySelector('.dragContainer');
 
     imgEl.style.backgroundImage = `url(${res[1]})`;
   };
+
+  const postSearchPlant = useCallback(() => {
+    setIsLoading(false);
+    preview(files)
+      .then(data => setPlantData(data))
+      .then(check => setIsLoading(true))
+      .then(() => openModal());
+  }, [files]);
 
   const handleFilterFile = useCallback((): void => {
     setFiles([]);
@@ -165,21 +139,10 @@ const UploadContainer = ({ setIsModal }: any) => {
       e.preventDefault();
       e.stopPropagation();
 
-      onChangeFiles(e);
+      uploadImageFiles(e);
       setIsDragging(false);
     },
-    [onChangeFiles],
-  );
-
-  const handleClick = useCallback(
-    (e: DragEvent): void => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      onChangeFiles(e);
-      setIsDragging(false);
-    },
-    [onChangeFiles],
+    [uploadImageFiles],
   );
 
   const initDragEvents = useCallback((): void => {
@@ -202,10 +165,19 @@ const UploadContainer = ({ setIsModal }: any) => {
 
   useEffect(() => {
     initDragEvents();
-    // clickEvents();
 
     return () => resetDragEvents();
   }, [initDragEvents, resetDragEvents]);
+
+  useEffect(() => {
+    setIsModal(showModal);
+
+    if (showModal) {
+      document.body.style.overflow = 'hidden';
+    } else if (!showModal) {
+      document.body.style.overflow = `visible `;
+    }
+  }, [showModal]);
 
   return (
     <div className="relative flex">
@@ -229,7 +201,7 @@ const UploadContainer = ({ setIsModal }: any) => {
                 style={{ display: 'none' }}
                 multiple={true}
                 accept="image/*"
-                onChange={onChangeFiles}
+                onChange={uploadImageFiles}
               />
               <label htmlFor="fileUpload" ref={dragRef}>
                 <div
@@ -263,7 +235,7 @@ const UploadContainer = ({ setIsModal }: any) => {
                   <span>업로드 이미지</span>
                   <span
                     className="cursor-pointer drags hover:text-rose-500"
-                    onClick={() => handleFilterFile()}
+                    onClick={handleFilterFile}
                   >
                     &nbsp; 삭제 X
                   </span>
@@ -280,7 +252,7 @@ const UploadContainer = ({ setIsModal }: any) => {
                   style={{ display: 'none' }}
                   multiple={true}
                   accept="image/*"
-                  onChange={onClickFiles}
+                  onChange={uploadImageFiles}
                 />
                 <label htmlFor="clickUpload" ref={clickRef}>
                   이미지 등록
@@ -292,9 +264,19 @@ const UploadContainer = ({ setIsModal }: any) => {
                     ? `pointer-events-auto main-color`
                     : `pointer-events-none bg-gray-300`
                 }`}
-                onClick={() => openModal()}
+                onClick={() => postSearchPlant()}
               >
                 식물 검사
+              </button>
+              <button
+                className={`upload-btn  ${
+                  isLoading
+                    ? `pointer-events-auto main-color`
+                    : `pointer-events-none bg-gray-300`
+                }`}
+                // onClick={() => openModal()}
+              >
+                질병 진단
               </button>
             </div>
           </Div>

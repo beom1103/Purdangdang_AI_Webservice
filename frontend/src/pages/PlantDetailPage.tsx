@@ -3,12 +3,14 @@ import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom';
 import Footer from '../components/global/Footer';
 
 import tw from 'tailwind-styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { infoAtom, getDetailInfo } from '../api/search';
 import { addMyPage, isLikePlant } from '../api/myPage';
+import { validLogin } from '../api';
 
 const PlantDetailPage = () => {
   const navigate = useNavigate();
+  const user = useRecoilValue(validLogin);
   const params = useParams() as { name: string };
   const [info, setInfo] = useRecoilState(infoAtom);
   const [fill, setFill] = useState(false);
@@ -25,9 +27,13 @@ const PlantDetailPage = () => {
     return null;
   }, [params]);
 
-  const fillHeart = (): void => {
-    setFill(!fill);
-  };
+  const fillHeart = useCallback((): void => {
+    if (!user) {
+      alert('로그인 후 이용할 수 있습니다.');
+    } else {
+      setFill(!fill);
+    }
+  }, [fill]);
 
   useEffect(() => {
     const handlePopState = () => {
@@ -63,7 +69,7 @@ const PlantDetailPage = () => {
             <h4 className="text-sm">이름</h4>
             <h2 className="mb-4 text-green-600 ">
               {info?.kor}
-              <button className="like" onClick={fillHeart}>
+              <button className="like" onClick={() => fillHeart}>
                 <Heart
                   className={fill ? 'text-red-500 text-xl' : 'text-gray-500'}
                   onClick={likePlant}
