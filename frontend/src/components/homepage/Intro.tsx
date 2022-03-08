@@ -19,7 +19,7 @@ const Intro = ({ textAnim }: AnimProps) => {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className="flex items-center justify-around w-8/12 h-4/6 ">
+      <div className="justify-around w-8/12 center h-4/6 ">
         <section className="intro-section">
           <Article
             className={` ${textAnim ? `animate-fade-in-up` : null} `}

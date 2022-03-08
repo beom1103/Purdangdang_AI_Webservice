@@ -58,7 +58,7 @@ const Header = () => {
             <span className="logo-span">푸르댕댕</span>
           </Link>
           <nav className="hidden nav lg:block">
-            <div className="flex ">
+            <div className="flex">
               <div>
                 <Link to="/" className="header-link">
                   홈

@@ -1,4 +1,3 @@
-import React from 'react';
 import tw from 'tailwind-styled-components';
 
 const DetailModal = ({ isModal, plantData }: any) => {
@@ -26,10 +25,9 @@ const DetailModal = ({ isModal, plantData }: any) => {
 
       <div className="w-full lg:h-full lg:flex">
         <ImgBox>
-          <img
+          <Img
             src={plantImage}
-            alt=""
-            className="w-full h-full border-2 border-gray-500 lg:rounded-md"
+            alt={plantName}
             style={{ objectFit: 'cover' }}
           />
         </ImgBox>
@@ -37,47 +35,39 @@ const DetailModal = ({ isModal, plantData }: any) => {
           <div className="w-full ">
             <p className="detail_Modal-name">{plantName}</p>
           </div>
-          <div className="detail_Modal-line"></div>
+
+          <Line />
           <div className="w-full">
             <p className="px-8 my-4 lg:p-0 ">{plantScript}</p>
           </div>
-          <div className="detail_Modal-line"></div>
+          <Line />
         </div>
       </div>
 
       <div className="w-full mt-6 h-3/6">
         <div className="w-full px-8 lg:py-0">
-          <li className="detail_Modal-li">
-            <div className="flex items-center">
+          <Li>
+            <LiBox>
               <I className="text-blue-500 fas fa-water"></I>
-              <span className="text-sm">물</span>
-            </div>
-            <span className="items-center text-sm">{plantWater}</span>
-          </li>
-          <li className="detail_Modal-li">
-            <div className="flex items-center">
+              <Span>물</Span>
+            </LiBox>
+            <Span>{plantWater}</Span>
+          </Li>
+          <Li>
+            <LiBox>
               <I className="text-orange-500 fas fa-sun"></I>
-              <span className="text-sm">햇빛</span>
-            </div>
-            <span className="items-center text-sm">{plantSun}</span>
-          </li>
-          <li className="detail_Modal-li">
-            <div className="flex items-center">
+              <Span>햇빛</Span>
+            </LiBox>
+            <Span>{plantSun}</Span>
+          </Li>
+          <Li>
+            <LiBox>
               <I className="text-green-500 fas fa-temperature-low"></I>
-              <span className="text-sm">온도</span>
-            </div>
-            <span className="items-center text-sm">{plantTempe}</span>
-          </li>
-          <div className="detail_Modal-line"></div>
-        </div>
-
-        <div className="w-full mt-4">
-          <div className="flex flex-row justify-between mx-8">
-            <p className="">커뮤니티</p>
-            <button className="">
-              <p className="text-black">+더보기</p>
-            </button>
-          </div>
+              <Span>온도</Span>
+            </LiBox>
+            <Span>{plantTempe}</Span>
+          </Li>
+          <Line />
         </div>
 
         <div className="detail_Modal-btnBox">
@@ -118,6 +108,31 @@ const ImgBox = tw.div`
   lg:w-2/4
 `;
 
+const Img = tw.img` 
+  w-full 
+  h-full
+  border-2 
+  border-gray-500 
+  lg:rounded-md
+`;
+
 const I = tw.i`
   detail_Modal-i
+`;
+
+const Li = tw.li` 
+  detail_Modal-li
+`;
+
+const LiBox = tw.div` 
+  flex items-center
+`;
+
+const Line = tw.div` 
+  detail_Modal-line
+`;
+
+const Span = tw.span` 
+  items-center
+  test-sm
 `;
