@@ -62,7 +62,7 @@ const SurveyPage = () => {
           <AnswerButton question={question} next={next} />
         </QuestionBox>
       ) : (
-        isConfirm && <Complete />
+        isConfirm && <Complete user={isLogin} />
       )}
     </Container>
   );
