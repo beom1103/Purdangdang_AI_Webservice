@@ -7,6 +7,7 @@ type MyImageProps = {
   checked: number;
   setChecked: any;
   setMainImg: any;
+  myList: any;
 };
 
 const MyImageUpload = ({
@@ -15,6 +16,7 @@ const MyImageUpload = ({
   checked,
   setChecked,
   setMainImg,
+  myList,
 }: MyImageProps) => {
   const imgRef: any = useRef([]);
   let main;
@@ -28,11 +30,11 @@ const MyImageUpload = ({
   useEffect(() => {
     if (files[id] !== undefined) {
       const imgEl1 = imgRef.current[id];
-      imgEl1.src = files[id];
+      imgEl1.src = myList[id].image;
     } else {
       const imgEl1 = imgRef.current[id];
       imgEl1.src = `./img/tree.png`;
-      setMainImg(files[0]);
+      setMainImg(myList[id].image);
     }
   }, [files]);
   return (
