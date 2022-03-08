@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import SideMenu from './SideMenu';
 import { Link } from 'react-router-dom';
 import tw from 'tailwind-styled-components';

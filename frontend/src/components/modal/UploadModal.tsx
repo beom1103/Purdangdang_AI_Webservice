@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import DetailModal from '../modal/DetailModal';
+import { useEffect, useState } from 'react';
+import DetailModal from './DetailModal';
 import tw from 'tailwind-styled-components';
 
 const UploadModal = ({ isModal, plantData }: any) => {
