@@ -13,7 +13,7 @@ import MyPage from '../../pages/MyPage';
 import PrivateRoute from './PrivateRoute';
 
 import PlantInfo from '../plant-detail/PlantInfo';
-import Header from '../homepage/Header';
+import Header from '../global/Header';
 
 import PlantReview from '../plant-detail/PlantReview';
 

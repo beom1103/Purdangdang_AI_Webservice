@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import UploadModal from './UploadModal';
+import UploadModal from '../modal/UploadModal';
 import imageResize from './ImageResize';
 import tw from 'tailwind-styled-components';
 import { preview } from '../../api/search';
