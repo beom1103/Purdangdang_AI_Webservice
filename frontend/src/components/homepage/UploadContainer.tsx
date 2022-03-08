@@ -63,7 +63,7 @@ const UploadContainer = ({ setIsModal }: any) => {
       const check_file_type = ['jpg', 'gif', 'png', 'jpeg', 'bmp'];
 
       if (check_file_type.indexOf(file_type) === -1) {
-        alert('님 이거 사진 아니자늠');
+        alert('잘못된 형식의 파일입니다.');
         return;
       }
       setIsLoading(false);
@@ -99,7 +99,7 @@ const UploadContainer = ({ setIsModal }: any) => {
       const check_file_type = ['jpg', 'gif', 'png', 'jpeg', 'bmp'];
 
       if (check_file_type.indexOf(file_type) === -1) {
-        alert('님 이거 사진 아니자늠');
+        alert('잘못된 형식의 파일입니다.');
         return;
       }
 
