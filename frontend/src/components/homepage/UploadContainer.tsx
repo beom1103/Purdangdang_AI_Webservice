@@ -32,7 +32,7 @@ const UploadContainer = ({ setIsModal }: any) => {
     if (files.length !== 0) {
       setShowModal(!showModal);
     } else {
-      alert('ㅋㅋ 파일 없음');
+      alert('등록한 파일이 없습니다.');
     }
   };
 
