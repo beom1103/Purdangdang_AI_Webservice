@@ -216,7 +216,7 @@ body::-webkit-scrollbar {
 }
 
 .account-link {
-  @apply pl-1 link;
+  @apply pl-1 link text-lg font-bold;
 }
 
 .account-btn {
