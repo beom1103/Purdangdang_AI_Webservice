@@ -3,11 +3,17 @@ import { Route, Routes } from 'react-router-dom';
 
 //페이지
 import AccountPage from '../../pages/AccountPage';
-import HomePage from '../../pages/HomePage';
-import Login from '../account/Login';
-import Register from '../account/Register';
 import ErrorPage from '../load-page/ErrorPage';
-import MyPage from '../../pages/MyPage';
+import ServicePage from '../../pages/ServicePage';
+
+//lazy
+const HomePage = React.lazy(() => import('../../pages/HomePage'));
+const Login = React.lazy(() => import('../account/Login'));
+const Register = React.lazy(() => import('../account/Register'));
+const MyPage = React.lazy(() => import('../../pages/MyPage'));
+const SearchPage = React.lazy(() => import('../../pages/SearchPage'));
+const SurveyPage = React.lazy(() => import('../../pages/SurveyPage'));
+const PlantDetailPage = React.lazy(() => import('../../pages/PlantDetailPage'));
 
 //접근제한
 import PrivateRoute from './PrivateRoute';
@@ -16,11 +22,6 @@ import PlantInfo from '../plant-detail/PlantInfo';
 import Header from '../global/Header';
 
 import PlantReview from '../plant-detail/PlantReview';
-
-//lazy
-const SearchPage = React.lazy(() => import('../../pages/SearchPage'));
-const SurveyPage = React.lazy(() => import('../../pages/SurveyPage'));
-const PlantDetailPage = React.lazy(() => import('../../pages/PlantDetailPage'));
 
 const Routing = () => {
   return (
@@ -45,8 +46,9 @@ const Routing = () => {
           <Route path="reviews" element={<PlantReview />} />
         </Route>
         <Route element={<SurveyPage />} path="/survey" />
-        <Route element={<ErrorPage />} path="*" />
         <Route element={<MyPage />} path="/mypage" />
+        <Route element={<ServicePage />} path="/service" />
+        <Route element={<ErrorPage />} path="*" />
       </Routes>
     </div>
   );
