@@ -51,6 +51,14 @@ module.exports = {
             transform: 'translateY(10px)',
           },
         },
+        'fade-img': {
+          from: {
+            opacity: '0',
+          },
+          to: {
+            opacity: '1',
+          },
+        },
       },
       animation: {
         'fade-in-down': 'fade-in-down 0.5s ease-out',

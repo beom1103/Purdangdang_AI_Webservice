@@ -3,7 +3,7 @@ import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import UploadModal from '../modal/UploadModal';
 import imageResize from './ImageResize';
 import tw from 'tailwind-styled-components';
-import { preview } from '../../api/search';
+import { postAiModel } from '../../api/search';
 import UploadLading from '../load-page/UploadLoading';
 import { Info } from '../../store/type';
 
@@ -100,10 +100,17 @@ const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
 
   const postSearchPlant = useCallback(() => {
     setIsLoading(false);
-    preview(files)
+    postAiModel(files, 'species')
       .then(data => setPlantData(data))
       .then(check => setIsLoading(true))
       .then(() => openModal());
+  }, [files]);
+
+  const postDiseasePlant = useCallback(() => {
+    setIsLoading(false);
+    postAiModel(files, 'disease')
+      .then(data => setPlantData(data))
+      .then(check => setIsLoading(true));
   }, [files]);
 
   const handleFilterFile = useCallback((): void => {
@@ -274,7 +281,7 @@ const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
                     ? `pointer-events-auto main-color`
                     : `pointer-events-none bg-gray-300`
                 }`}
-                // onClick={() => openModal()}
+                onClick={() => postDiseasePlant()}
               >
                 질병 진단
               </button>

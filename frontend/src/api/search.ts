@@ -145,13 +145,13 @@ export const postReview = async (
   }
 };
 
-export const preview = async (select: File[]) => {
+export const postAiModel = async (select: File[], filter: string) => {
   const imageFile = select[0];
   const image = new FormData();
   image.append('file', imageFile);
 
   try {
-    const { data } = await api.post('api/plant/upload', image);
+    const { data } = await api.post(`api/plant/upload?=act${filter}`, image);
     return data;
   } catch (error) {
     console.log(error);
