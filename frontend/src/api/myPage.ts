@@ -28,16 +28,14 @@ export const addMyPage = async (
 
 export const setMyPlant = async (
   user: string | undefined,
-  image: string[],
+  image: string,
   plantName: string,
   num: number,
 ) => {
-  const imageFile = image[0];
+  const imageFile = image;
   const formData = new FormData();
   formData.append('file', imageFile);
   formData.append('name', plantName);
-
-  console.log(imageFile, plantName, user, num);
 
   try {
     const { data } = await athentication.post(
@@ -62,6 +60,17 @@ export const loadMyPlant = async (user: string | undefined) => {
 export const postAnswer = async (answer: Answer) => {
   try {
     const { data } = await athentication.post(`api/survey/`, answer);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteMyPlant = async (user: string | undefined, num: number) => {
+  try {
+    const { data } = await athentication.delete(
+      `api/user/${user}?order=${num}`,
+    );
     return data;
   } catch (error) {
     console.log(error);

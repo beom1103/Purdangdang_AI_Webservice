@@ -340,7 +340,7 @@ body::-webkit-scrollbar {
 }
 
 .mypage_ImgContainer {
-  @apply relative flex flex-col items-center justify-around w-full px-10 mt-3 sm:flex-row h-2/4 rounded-xl sm:px-0;
+  @apply relative flex flex-col items-center justify-around w-full mt-3 sm:px-10 sm:flex-row h-2/4 rounded-xl sm:px-0;
 }
 
 .mypage_ImgSet {

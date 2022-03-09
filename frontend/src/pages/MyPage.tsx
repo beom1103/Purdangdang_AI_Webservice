@@ -1,55 +1,28 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import tw from 'tailwind-styled-components';
 import { Link } from 'react-router-dom';
 import { validLogin } from '../api';
-import ImagePreview from '../components/mypageform/MyImageUpload';
-import UploadList from '../components/mypageform/UploadList';
 import MyImageList from '../components/mypageform/MyImageList';
 import Noti from '../components/mypageform/Noti';
 import { loadMyPlant } from '../api/myPage';
 import WishiCard from '../components/mypageform/WishiCard';
-import { setMyPlant } from '../api/myPage';
+
 const MyPage = () => {
-  // const isLogin = useRecoilValue(validLogin);
   const userInfo = useRecoilValue(validLogin);
   const [selected, setSelected] = useState<string[]>([]);
+  const [userPlant, setUserPlant] = useState([]);
 
   useEffect(() => {
     const user = userInfo?.username;
     loadMyPlant(user).then(res => setData(res));
-
-    // console.log(loadData);
   }, []);
-
-  // let myImgUrl: any[] = [];
-  // let imgName: any[] = [];
 
   const setData = (res: any) => {
     setSelected(res.wishlist);
-    // const plantList = res.userplant;
-    // for (const i of plantList) {
-    //   if (i.order === 1) {
-    //     myImgUrl = [...myImgUrl, `/backend` + i.image];
-    //     imgName = [...imgName, i.name];
-    //   } else if (i.order === 2) {
-    //     myImgUrl = [...myImgUrl, `/backend` + i.image];
-    //     imgName = [...imgName, i.name];
-    //   } else if (i.order === 3) {
-    //     myImgUrl = [...myImgUrl, `/backend` + i.image];
-    //     imgName = [...imgName, i.name];
-    //   }
-    //   setFiles(myImgUrl);
-    //   setPlantName(imgName);
-    //   setImgFile(imgUrl);
-    // }
+    const plantList = res.userplant;
+    setUserPlant(plantList);
   };
-
-  // useEffect(() => {
-  //   console.log('파일', files);
-  //   console.log('이름', plantName);
-  //   console.log('이미지 파일', imgFile);
-  // }, [files, plantName]);
 
   return (
     <div className="mypage_div">
@@ -63,15 +36,12 @@ const MyPage = () => {
         {userInfo ? (
           <span className="pt-16 mypage_user">
             <i className="ml-2 text-4xl text-green-600 fas fa-leaf"></i>
-            <H2>&nbsp; {userInfo.email}님</H2>
+            <H2>&nbsp; {userInfo.username}님</H2>
             <H3>&nbsp;&nbsp;안녕하세요!</H3>
           </span>
         ) : (
-          //   <H3>? 님 누구임?</H3>
           <span className="mypage_user">
-            <i className="ml-2 text-4xl text-green-600 fas fa-leaf"></i>
-            <H2>&nbsp; dangedaeng.com님</H2>
-            <H3>&nbsp;&nbsp;안녕하세요!</H3>
+            <H2>누구시죠? 어케 들어오셨어요??</H2>
           </span>
         )}
         <div className="mypage_ImgBox">
@@ -80,7 +50,7 @@ const MyPage = () => {
           </h4>
           <div className="detail_Modal-line"></div>
           <div className="mypage_ImgContainer">
-            <MyImageList />
+            <MyImageList userPlant={userPlant} />
           </div>
         </div>
         <div className="mypage_SelectedDiv">
@@ -89,7 +59,7 @@ const MyPage = () => {
             {selected.length !== 0 ? (
               <div className="w-full">
                 <div className="">
-                  <ul className="w-8 lg:w-4/5">
+                  <ul className="w-8">
                     {selected.map((wishi, index) => {
                       return <WishiCard key={index} wishi={wishi} />;
                     })}

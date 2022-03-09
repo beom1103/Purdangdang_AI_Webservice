@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import tw from 'tailwind-styled-components';
 
 type MyImageProps = {
@@ -6,35 +6,22 @@ type MyImageProps = {
   id: number;
   checked: number;
   setChecked: any;
-  setMainImg: any;
-  myList: any;
 };
 
-const MyImageUpload = ({
-  files,
-  id,
-  checked,
-  setChecked,
-  setMainImg,
-  myList,
-}: MyImageProps) => {
+const MyImageUpload = ({ files, id, checked, setChecked }: MyImageProps) => {
   const imgRef: any = useRef([]);
-  let main;
 
   const checkHandler = (num: any) => {
-    main = imgRef.current[num].src;
-    setMainImg(main);
     setChecked(num + 1);
   };
 
   useEffect(() => {
-    if (files[id] !== undefined) {
-      const imgEl1 = imgRef.current[id];
-      imgEl1.src = myList[id].image;
+    if (files[id] !== `./img/tree.png`) {
+      const imgEl = imgRef.current[id];
+      imgEl.src = files[id];
     } else {
-      const imgEl1 = imgRef.current[id];
-      imgEl1.src = `./img/tree.png`;
-      setMainImg(myList[id].image);
+      const imgEl = imgRef.current[id];
+      imgEl.src = `./img/tree.png`;
     }
   }, [files]);
   return (

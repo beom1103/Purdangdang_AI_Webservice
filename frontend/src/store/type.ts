@@ -58,3 +58,11 @@ export type Question = {
 export type Answer = {
   answers: string;
 };
+
+export type UserPlantList = {
+  id: number;
+  name: string;
+  image: string;
+  order: number;
+  user_id: number;
+};
