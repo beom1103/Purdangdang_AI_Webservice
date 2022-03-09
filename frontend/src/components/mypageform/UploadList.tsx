@@ -19,7 +19,6 @@ type ListProps = {
   setImgUrl: any;
   setImgFile: any;
   imgFile: any;
-  handleNamimg: any;
   plantName: string;
   deleteName: any;
   setMyList: any;
@@ -34,7 +33,6 @@ const UploadList = ({
   setImgUrl,
   setImgFile,
   imgFile,
-  handleNamimg,
   plantName,
   deleteName,
   setMyList,
@@ -70,6 +68,7 @@ const UploadList = ({
       })
         .then(res => {
           setImage(res);
+          console.log('클릭댐');
         })
         .catch(function (err) {
           console.error(err);
@@ -123,8 +122,9 @@ const UploadList = ({
 
   const checkName = () => {
     const user = isLogin?.username;
-    const currentId = id;
-    handleNamimg(currentId, planttitle);
+    const ImageName = myList;
+    ImageName[id - 1].name = planttitle;
+    setMyList(ImageName);
 
     setMyPlant(user, imgFile, planttitle, id).then(data => console.log(data));
     setEdit(true);
@@ -145,13 +145,12 @@ const UploadList = ({
 
   return (
     <>
-      {/* {plantName[id - 2] !== undefined || id === 1 ? ( */}
       <li className="mb-2">
-        {files !== IMAGEROOT ? (
+        {myList[id - 1].image !== IMAGEROOT ? (
           <div className="flex justify-between md:justify-between">
             <div className="flex flex-row items-end w-40 h-6 lg:w-48">
               <span className="w-14">{id}.이름 : </span>
-              {plantName === '없음' ? (
+              {myList[id - 1].name === '없음' ? (
                 <input
                   // type="text"
                   onChange={handleInput}
@@ -167,12 +166,12 @@ const UploadList = ({
                     checked === id ? `text-green-500` : null
                   }`}
                 >
-                  {myList.name[id]}
+                  {myList[id - 1].name}
                 </span>
               )}
             </div>
             <div>
-              {plantName === '없음' ? (
+              {myList[id - 1].name === '없음' ? (
                 <div>
                   <button className="bg-sky-400 " onClick={() => checkName()}>
                     확인
@@ -213,7 +212,6 @@ const UploadList = ({
           </div>
         )}
       </li>
-      {/* // ) : null} */}
     </>
   );
 };

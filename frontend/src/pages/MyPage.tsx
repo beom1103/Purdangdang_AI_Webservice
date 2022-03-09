@@ -15,6 +15,7 @@ const MyPage = () => {
   // const isLogin = useRecoilValue(validLogin);
   const userInfo = useRecoilValue(validLogin);
   const [selected, setSelected] = useState<string[]>([]);
+  const [userPlant, setUserPlant] = useState([]);
 
   useEffect(() => {
     const user = userInfo?.username;
@@ -28,7 +29,8 @@ const MyPage = () => {
 
   const setData = (res: any) => {
     setSelected(res.wishlist);
-    // const plantList = res.userplant;
+    const plantList = res.userplant;
+    setUserPlant(plantList);
     // for (const i of plantList) {
     //   if (i.order === 1) {
     //     myImgUrl = [...myImgUrl, `/backend` + i.image];
@@ -81,7 +83,7 @@ const MyPage = () => {
           </h4>
           <div className="detail_Modal-line"></div>
           <div className="mypage_ImgContainer">
-            <MyImageList />
+            <MyImageList userPlant={userPlant} />
           </div>
         </div>
         <div className="mypage_SelectedDiv">

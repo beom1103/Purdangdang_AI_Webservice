@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import UploadList from './UploadList';
 import ImagePreview from './MyImageUpload';
 
-const MyImageList = () => {
+const MyImageList = ({ userPlant }: any) => {
   const [myList, setMyList] = useState([
     { id: 0, name: '없음', image: './img/tree.png', order: 1 },
     { id: 0, name: '없음', image: './img/tree.png', order: 2 },
@@ -19,25 +19,23 @@ const MyImageList = () => {
   const [mainImg, setMainImg] = useState('/img/tree.png');
 
   useEffect(() => {
+    console.log(userPlant);
+    if (userPlant.length !== 0) {
+      setMyList(userPlant);
+    }
+  }, [userPlant]);
+
+  useEffect(() => {
     setFiles(files.concat(imgUrl));
   }, [imgUrl]);
 
   useEffect(() => {
-    console.log(myList);
+    console.log('바뀐 리스트', myList);
   }, [myList]);
 
   useEffect(() => {
     setImgageFiles(imgagefiles.concat(imgFile));
   }, [imgFile]);
-
-  const handleNamimg = (number: number, name: string) => {
-    // const setName = plantName;
-    // setName.splice(number, 1, name);
-    // setPlantName([...setName]);
-    const ImageName = myList;
-    ImageName[number - 1].name = name;
-    setMyList(ImageName);
-  };
 
   const deleteName = (number: number) => {
     const delName = plantName;
@@ -99,7 +97,6 @@ const MyImageList = () => {
                       setImgUrl={setImgUrl}
                       setImgFile={setImgFile}
                       imgFile={imgFile}
-                      handleNamimg={handleNamimg}
                       // plantName={plantName}
                       plantName={list.name}
                       deleteName={deleteName}

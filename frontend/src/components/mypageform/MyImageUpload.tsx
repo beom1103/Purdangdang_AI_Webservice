@@ -28,7 +28,7 @@ const MyImageUpload = ({
   };
 
   useEffect(() => {
-    if (files[id] !== undefined) {
+    if (myList[id] !== `./img/tree.png`) {
       const imgEl1 = imgRef.current[id];
       imgEl1.src = myList[id].image;
     } else {
@@ -36,7 +36,7 @@ const MyImageUpload = ({
       imgEl1.src = `./img/tree.png`;
       setMainImg(myList[id].image);
     }
-  }, [files]);
+  }, [myList]);
   return (
     <>
       <li className="relative" onClick={() => checkHandler(id)}>
