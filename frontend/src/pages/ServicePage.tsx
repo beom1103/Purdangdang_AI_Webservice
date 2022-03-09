@@ -107,7 +107,7 @@ const ServicePage = () => {
                 </div>
               </div>
             </main>
-            <footer className="my-10 text-gray-600 body-font">
+            <footer className="my-20 text-gray-600 body-font">
               <div className="container px-5 mx-auto">
                 <div className="w-full mx-auto text-center xl:w-1/2 lg:w-3/4">
                   <i className="text-3xl fas fa-quote-right" />
