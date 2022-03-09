@@ -82,3 +82,13 @@ class Wishlist(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+class Disease(models.Model):
+    """
+        질병 목록 
+    """ 
+    name = models.CharField(max_length=30, verbose_name = '질병명') 
+    symptom = models.TextField(verbose_name = '개요 및 증상', blank=True, null=True)
+    cause = models.TextField(verbose_name = '원인', blank=True, null=True)
+    precaution = models.TextField(verbose_name = '예방법', blank=True, null=True)
+    image_url = models.URLField(blank=True, verbose_name = '참고 이미지 링크')

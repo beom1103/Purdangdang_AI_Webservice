@@ -10,11 +10,11 @@ from knox.auth import TokenAuthentication
 from pathlib import Path
 import os 
 
-from .serializers import PlantSerializer, PlantDetailSerializer, PlantReviewSerializer, UploadSerializer, WishlistSerializer
+from .serializers import PlantSerializer, PlantDetailSerializer, PlantReviewSerializer, DiseaseSerializer
 from .pagination import PlantListPagination, ReviewListPagination
-from .models import Plant, Review, Category, UploadImage, Wishlist
+from .models import Plant, Review, Category, UploadImage, Wishlist, Disease
 from apps.user.models import User
-from apps.ai import resnet_model
+from apps.ai import plant_analysis
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 class PlantListView(APIView, PlantListPagination):
@@ -149,41 +149,45 @@ class PlantUploadView(APIView):
         """
         식물 이미지 업로드 
         
-        식물 사진을 올리면 예측한 식물의 상세 정보값을 가져옵니다.       
+        식물 사진을 올리면 예측한 식물의 상세 정보값을 가져옵니다.
+               
         """
+        act = request.GET.get("act", None) # 식물 종 / 질병
+        
         try:
             file = request.data['file']
         except KeyError:
             raise ParseError('Request has no resource file attached')
-        
+            
         # 파일 확장자 검사 
         if not str(file).endswith(tuple(FORMAT)) : 
             raise ValidationError("Invalid format")
 
         uploadFile = UploadImage.objects.create(image=file)
         uploadFile.save()
-        
-        model = resnet_model.Resnet(THIS_FOLDER + "/apps/ai/48_class_model_3.h5")
         my_file = os.path.join(THIS_FOLDER + "/media/", str(uploadFile.image))
+
+        if act == "species":
+            model = plant_analysis.Species(THIS_FOLDER + "/apps/ai/48_class_model_3.h5")
+            pred = model.predict(my_file)
+            result = {'top1':{}, 'top2':{}, 'top3':{}}
+            
+            for i in range(3):
+                top = f'top{i+1}'
+                result[top]['detail'] = PlantDetailSerializer(get_object_or_404(Plant, kor=pred[top]['name'])).data
+                result[top]['percent'] = str(pred[top]['percent']) + '%'
+            
+            return Response(result, status=status.HTTP_201_CREATED)
         
-        pred = model.predict(my_file)
-  
-        result = {
-            'top1' : {
-                'detail' : PlantDetailSerializer(get_object_or_404(Plant, kor=pred['top1']['name'])).data,
-                'percent' : str(pred['top1']['percent']) + '%'
-            },
-            'top2' : {
-                'detail' : PlantDetailSerializer(get_object_or_404(Plant, kor=pred['top2']['name'])).data,
-                'percent' : str(pred['top2']['percent']) + '%'
-            },
-            'top3' : {
-                'detail' : PlantDetailSerializer(get_object_or_404(Plant, kor=pred['top3']['name'])).data,
-                'percent' : str(pred['top3']['percent']) + '%'
-            },
-        }
-        
-        return Response(result, status=status.HTTP_201_CREATED)
+        if act == "disease":
+            model = plant_analysis.Disease(THIS_FOLDER + "/apps/ai/kaggle.h5")
+            pred = model.predict(my_file)
+            serializer = DiseaseSerializer(get_object_or_404(Disease, name=pred))
+            
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response("Please choose your action.", status=status.HTTP_201_CREATED)
+
 
 
 class PlantLikeView(APIView):
@@ -232,7 +236,7 @@ class PlantLikeView(APIView):
             wishlist.delete()
             content = "Successfully deleteed." 
         else: 
-            content = "There are no item"
+            content = "There is no item"
 
         return Response("Successfully deleted.", status=status.HTTP_201_CREATED)
 

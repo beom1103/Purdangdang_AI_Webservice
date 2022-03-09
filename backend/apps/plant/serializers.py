@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Plant, Review, UploadImage, Wishlist
+from .models import Plant, Review, UploadImage, Wishlist, Disease
 
 
 class PlantSerializer(serializers.ModelSerializer):
@@ -62,4 +62,12 @@ class WishlistSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Wishlist
+        fields = "__all__"
+
+class DiseaseSerializer(serializers.ModelSerializer):
+    """
+    질병 정보 
+    """
+    class Meta:
+        model = Disease
         fields = "__all__"

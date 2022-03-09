@@ -18,8 +18,9 @@ class UserPlant(models.Model):
         verbose_name="유저 ID",
     )
     name = models.CharField(max_length=20, verbose_name="반려식물 이름", blank=True, null=True)
-    image = models.ImageField(upload_to="user_plants", verbose_name="반려식물 이미지", blank=True, null=True)
-    order = models.IntegerField(validators=[MaxValueValidator('3'), MinValueValidator('1')], verbose_name="반려식물 순서")
+    image = models.TextField(verbose_name="base64_반려식물 이미지", blank=True, null=True)
+    # image = models.ImageField(upload_to="user_plants", verbose_name="반려식물 이미지", blank=True, null=True)
+    order = models.IntegerField(default=1, validators=[MaxValueValidator('3'), MinValueValidator('1')], verbose_name="반려식물 순서", unique=True)
     
     def __str__(self):
         return str(self.id)

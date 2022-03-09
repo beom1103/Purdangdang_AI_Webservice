@@ -5,9 +5,14 @@
 ### Custom ### 
 media/
 secrets.json
+<<<<<<< HEAD
 *.h5
 migrations/
 
+=======
+migrations/
+*.h5
+>>>>>>> feature_back
 ### Django ###
 *.log
 *.pot
