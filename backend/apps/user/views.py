@@ -140,7 +140,7 @@ class UserProfileView(APIView, LikeListPagination):
         if int(order) not in [1,2,3] : 
             return Response("Invalid order", status=status.HTTP_201_CREATED)
         user = self.get_user()
-        self.image_exception()
+        # self.image_exception()
         # user_id, order가 일치하는 게 있으면 삭제하고 생성
         if UserPlant.objects.filter(user_id=user, order=order).exists():
             userplant = get_object_or_404(UserPlant, user_id=user, order=order)
@@ -164,7 +164,7 @@ class UserProfileView(APIView, LikeListPagination):
         if int(order) not in [1,2,3] : 
             return Response("Invalid order", status=status.HTTP_201_CREATED)
         user = self.get_user()
-        self.image_exception()
+        # self.image_exception()
         # user_id, order가 일치하는 게 있으면 삭제하고 생성
         if UserPlant.objects.filter(user_id=user, order=order).exists():
             userplant = get_object_or_404(UserPlant, user_id=user, order=order)
