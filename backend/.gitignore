@@ -5,6 +5,8 @@
 ### Custom ### 
 media/
 secrets.json
+*.h5
+migrations/
 
 ### Django ###
 *.log
