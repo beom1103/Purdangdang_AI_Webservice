@@ -6,6 +6,8 @@ import tw from 'tailwind-styled-components';
 import { postAiModel } from '../../api/search';
 import UploadLading from '../load-page/UploadLoading';
 import { Info } from '../../store/type';
+import { useRecoilValue } from 'recoil';
+import { validLogin } from '../../api';
 
 type PlantDataType = {
   top1?: {
@@ -27,6 +29,8 @@ type UploadContainerProps = {
 };
 
 const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
+  const user = useRecoilValue(validLogin);
+
   //드래그 중일때와 아닐 때의 스타일을 구분하기 위한 state 변수
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [files, setFiles] = useState<File[]>([]);
@@ -107,10 +111,14 @@ const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
   }, [files]);
 
   const postDiseasePlant = useCallback(() => {
-    setIsLoading(false);
-    postAiModel(files, 'disease')
-      .then(data => setPlantData(data))
-      .then(check => setIsLoading(true));
+    if (user) {
+      setIsLoading(false);
+      postAiModel(files, 'disease')
+        .then(data => setPlantData(data))
+        .then(check => setIsLoading(true));
+    } else {
+      alert('회원만 이용할 수 있습니다.');
+    }
   }, [files]);
 
   const handleFilterFile = useCallback((): void => {

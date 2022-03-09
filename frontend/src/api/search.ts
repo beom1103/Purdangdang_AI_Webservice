@@ -151,7 +151,7 @@ export const postAiModel = async (select: File[], filter: string) => {
   image.append('file', imageFile);
 
   try {
-    const { data } = await api.post(`api/plant/upload?=act${filter}`, image);
+    const { data } = await api.post(`api/plant/upload?act=${filter}`, image);
     return data;
   } catch (error) {
     console.log(error);
