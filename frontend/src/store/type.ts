@@ -54,3 +54,7 @@ export type Question = {
   answer2: string;
   image: string;
 };
+
+export type Answer = {
+  answers: string;
+};

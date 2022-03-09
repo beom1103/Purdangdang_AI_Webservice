@@ -23,7 +23,7 @@ const PlantCard: React.FC<CardProps> = ({
           className="card-img"
           style={{
             backgroundImage: `url(${image})`,
-            backgroundPositionY: '-50px',
+            backgroundPositionY: '-40px',
           }}
           onClick={onClick}
         ></div>

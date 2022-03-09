@@ -1,99 +1,67 @@
+import React, { useEffect } from 'react';
 import tw from 'tailwind-styled-components';
 import { QuestionBox, Title } from '../../pages/SurveyPage';
-import { User } from '../../store/type';
-import fake from '../../store/fake.json';
-import { useEffect, useRef, useState } from 'react';
+import { Plant, User } from '../../store/type';
+import { useCallback } from 'react';
+import PlantCard from '../search/PlantCard';
+import { useNavigate } from 'react-router-dom';
+import Footer from '../global/Footer';
+import { addMyPage } from '../../api/myPage';
 
 type CompleteProps = {
   user: User | undefined;
+  result: Plant[];
 };
 
-let count = 0;
-let slideInterval: any;
+const Complete: React.FC<CompleteProps> = ({ user, result }) => {
+  const navigate = useNavigate();
 
-const Complete: React.FC<CompleteProps> = ({ user }) => {
-  const TOTAL_SLIDES = fake.length;
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const slideRef = useRef<any>(null);
+  const goDetailPage = useCallback((e: React.MouseEventHandler | any) => {
+    const plantId = e.target.id;
+    if (plantId) {
+      navigate(`/plant/${plantId}/info`);
+    }
+  }, []);
 
-  const nextSlide = () => {
-    count = (count + 1) % TOTAL_SLIDES;
-    setCurrentSlide(count);
-    slideRef !== null && slideRef?.current.classList.add('animate-fade-in-up');
-  };
-
-  const prevSlide = () => {
-    count = (count - 1) % TOTAL_SLIDES;
-    setCurrentSlide(count);
-    slideRef.current.classList.add('animate-fade-in-up');
-  };
-
-  const startSlider = () => {
-    slideInterval = setInterval(() => {
-      nextSlide();
-    }, 3000);
-  };
-
-  const pauseSlider = () => {
-    clearInterval(slideInterval);
-  };
-
-  const removeAnimation = () => {
-    slideRef !== null &&
-      slideRef.current.classList.remove('animate-fade-in-up');
+  const addMyList = () => {
+    result.map(plant => addMyPage(false, `${plant.rank}`));
   };
 
   useEffect(() => {
-    slideRef.current?.addEventListener('animationend', removeAnimation);
-
-    slideRef.current?.addEventListener('mouseenter', pauseSlider);
-
-    slideRef.current?.addEventListener('mouseleave', startSlider);
-
-    startSlider();
-    return () => {
-      pauseSlider();
-    };
-  }, []);
+    addMyList();
+  }, [result]);
 
   return (
-    <div>
+    <div className="container">
       <QuestionBox className="animate-fade-in-up">
         <Title>검사를 완료하였습니다.</Title>
         <Title>
           <Green>{user?.username}</Green>님께 추천하는 푸르댕댕이는 다음과
           같습니다.
         </Title>
-
-        <div className="max-w-screen-xl m-auto">
-          <div ref={slideRef} className="relative w-full select-none">
-            {/* {fake.map((idx: any) => {
-              <div className="aspect-w-16 aspect-hs-9">
-                <img src={idx[currentSlide].image_url} alt="s" />
-                <img src={idx[currentSlide].image_url} alt="s" />
-                <img src={idx[currentSlide].image_url} alt="s" />
-              </div>;
-            })} */}
-            <Img src={fake[currentSlide].image_url} alt="s" />
-
-            <div className="absolute justify-between w-full px-2 transform -translate-y-1/2 top-1/2 center">
-              <button onClick={nextSlide}>이전</button>
-              <button onClick={prevSlide}>다음</button>
-            </div>
-          </div>
-        </div>
       </QuestionBox>
+
+      <div className="mb-5 card">
+        {result?.map((plant: Plant) => {
+          return (
+            <PlantCard
+              key={`plant-${plant.rank}`}
+              kor={plant.kor}
+              name={plant.name}
+              rank={plant.rank}
+              image={plant.image_url}
+              onClick={goDetailPage}
+            />
+          );
+        })}
+      </div>
+      <Footer />
     </div>
   );
 };
 
-export default Complete;
+export default React.memo(Complete);
 
 const Green = tw.span` 
   text-green-500
-`;
-
-const Img = tw.img` 
-  ease-out
-  delay-500
 `;

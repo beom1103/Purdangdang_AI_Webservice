@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom';
+import { NavLink, Outlet, useParams } from 'react-router-dom';
 import Footer from '../components/global/Footer';
 
 import tw from 'tailwind-styled-components';
@@ -9,7 +9,6 @@ import { addMyPage, isLikePlant } from '../api/myPage';
 import { validLogin } from '../api';
 
 const PlantDetailPage = () => {
-  const navigate = useNavigate();
   const user = useRecoilValue(validLogin);
   const params = useParams() as { name: string };
   const [info, setInfo] = useRecoilState(infoAtom);
@@ -36,10 +35,6 @@ const PlantDetailPage = () => {
   }, [fill]);
 
   useEffect(() => {
-    const handlePopState = () => {
-      navigate('/search');
-    };
-
     const fetchInfo = async () => {
       const newInfo = await getDetailInfo(`/plant/${id}/info`);
       const like = await isLikePlant(params.name);
@@ -48,12 +43,6 @@ const PlantDetailPage = () => {
     };
 
     fetchInfo();
-
-    window.addEventListener('popstate', handlePopState);
-
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
   }, []);
 
   if (id === null) {

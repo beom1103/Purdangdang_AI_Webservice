@@ -1,4 +1,5 @@
 import { athentication } from '.';
+import { Answer } from '../store/type';
 
 export const isLikePlant = async (plantId: string): Promise<boolean> => {
   try {
@@ -52,6 +53,15 @@ export const setMyPlant = async (
 export const loadMyPlant = async (user: string | undefined) => {
   try {
     const { data } = await athentication.get(`api/user/${user}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const postAnswer = async (answer: Answer) => {
+  try {
+    const { data } = await athentication.post(`api/survey/`, answer);
     return data;
   } catch (error) {
     console.log(error);

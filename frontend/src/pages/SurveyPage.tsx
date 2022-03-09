@@ -2,12 +2,15 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { validLogin } from '../api';
+import { postAnswer } from '../api/myPage';
+
 import questionList from '../store/questionList.json';
 import tw from 'tailwind-styled-components';
 import AnswerButton from '../components/surveypage/AnswerButton';
 import Complete from '../components/surveypage/Complete';
 import SurveyIntro from '../components/surveypage/SurveyIntro';
 import ProgressBar from '../components/surveypage/ProgressBar';
+import { Plant } from '../store/type';
 
 const SurveyPage = () => {
   const navigate = useNavigate();
@@ -16,30 +19,35 @@ const SurveyPage = () => {
   const [isConfirm, setIsConFirm] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [checkList, setCheckList] = useState<string[]>([]);
+  const [result, setResult] = useState<Plant[]>([]);
+
   const question = questionList[questionNo];
 
   const next = useCallback(
     e => {
-      if (questionNo < 5) {
+      if (questionNo < 6) {
         const { value } = e.target;
         const newList = checkList;
         newList.push(value);
         setCheckList(newList);
         const upQuestionNo = questionNo + 1;
         setQuestionNo(upQuestionNo);
-      } else {
+      }
+      if (questionNo === 5) {
         setIsComplete(true);
-        onSubmit();
+        fetchResult();
       }
     },
     [questionNo],
   );
 
-  const onSubmit = () => {
+  const fetchResult = async () => {
     const answers = checkList
       .map((check, idx) => `${idx + 1}=${check}`)
       .join(' ');
     const post = { answers: answers };
+    const newResult = await postAnswer(post);
+    setResult(newResult);
   };
 
   useEffect(() => {
@@ -52,7 +60,7 @@ const SurveyPage = () => {
   return (
     <Container>
       {!isConfirm && <SurveyIntro setIsConFirm={setIsConFirm} />}
-      {isConfirm && !isComplete ? (
+      {isConfirm && !isComplete && (
         <QuestionBox>
           <div className="h-64 overflow-hidden rounded-lg">
             <IMG src={question.image} alt="questionImage" />
@@ -61,9 +69,8 @@ const SurveyPage = () => {
           <ProgressBar checkList={checkList} />
           <AnswerButton question={question} next={next} />
         </QuestionBox>
-      ) : (
-        isConfirm && <Complete user={isLogin} />
       )}
+      {isComplete && <Complete user={isLogin} result={result} />}
     </Container>
   );
 };

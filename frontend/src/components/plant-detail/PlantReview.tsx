@@ -83,6 +83,18 @@ const PlantReview = () => {
     fetchReviews();
   }, []);
 
+  useEffect(() => {
+    const handlePopState = () => {
+      navigate('/search');
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
   return (
     <div>
       {reviews &&
