@@ -66,3 +66,27 @@ export type UserPlantList = {
   order: number;
   user_id: number;
 };
+
+export type PlantDisease = {
+  id?: number;
+  cause?: string;
+  image_url?: string;
+  name?: string;
+  precaution?: string;
+  symptom?: string;
+};
+
+export type PlantDataType = {
+  top1?: {
+    detail: Info;
+    percent: string;
+  };
+  top2?: {
+    detail: Info;
+    percent: string;
+  };
+  top3?: {
+    detail: Info;
+    percent: string;
+  };
+};

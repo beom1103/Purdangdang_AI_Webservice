@@ -8,7 +8,6 @@ const UploadModal = ({ isModal, plantData }: any) => {
   const [plantImage, setPlantImage] = useState('');
   const [plantPer, setPlantPer] = useState('');
   const [selectPlant, setSelectPlant] = useState(plantData.top1);
-
   const [selectBox, setSelectBox] = useState(1);
 
   const closeModal = () => {
@@ -41,7 +40,7 @@ const UploadModal = ({ isModal, plantData }: any) => {
 
   return (
     <div className="modal-div sticky-0 modal" onClick={() => closeModal()}>
-      <div className="mt-10 modal-container ">
+      <div className="mt-10 modal-container">
         <div
           className={`modal-background overflow-auto scroll ${
             detail
@@ -56,9 +55,8 @@ const UploadModal = ({ isModal, plantData }: any) => {
               plantData={selectPlant}
             ></DetailModal>
           ) : (
-            <div className="">
-              <div className="modal-box ">
-                <div className="flex justify-end w-full mb-8"></div>
+            <div>
+              <div className="modal-box">
                 <p className="modal-title">이 댕댕이는?</p>
                 <p className="modal-text">
                   {plantName}일 확률 {plantPer}.

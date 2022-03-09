@@ -5,24 +5,10 @@ import imageResize from './ImageResize';
 import tw from 'tailwind-styled-components';
 import { postAiModel } from '../../api/search';
 import UploadLading from '../load-page/UploadLoading';
-import { Info } from '../../store/type';
+import { Info, PlantDisease, PlantDataType } from '../../store/type';
 import { useRecoilValue } from 'recoil';
 import { validLogin } from '../../api';
-
-type PlantDataType = {
-  top1?: {
-    detail: Info;
-    percent: string;
-  };
-  top2?: {
-    detail: Info;
-    percent: string;
-  };
-  top3?: {
-    detail: Info;
-    percent: string;
-  };
-};
+import DiseaseModal from '../modal/DiseaseModal';
 
 type UploadContainerProps = {
   setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -35,10 +21,12 @@ const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [files, setFiles] = useState<File[]>([]);
   const [plantData, setPlantData] = useState<PlantDataType>({});
+  const [diseaseData, setDiseaseData] = useState<PlantDisease>({});
   const [isLoading, setIsLoading] = useState(true);
 
   // Modal 띄우기 여부
   const [showModal, setShowModal] = useState(false);
+  const [showDisease, setShowDisease] = useState(false);
 
   // 드래그 이벤트를 감지한 ref 참조변수 (label 태그에 들어갈 예정)
   const dragRef = useRef<HTMLLabelElement | null>(null);
@@ -47,6 +35,14 @@ const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
   const openModal = () => {
     if (files.length !== 0) {
       setShowModal(!showModal);
+    } else {
+      alert('등록한 파일이 없습니다.');
+    }
+  };
+
+  const openDiseaseModal = () => {
+    if (files.length !== 0) {
+      setShowDisease(!showDisease);
     } else {
       alert('등록한 파일이 없습니다.');
     }
@@ -114,8 +110,9 @@ const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
     if (user) {
       setIsLoading(false);
       postAiModel(files, 'disease')
-        .then(data => setPlantData(data))
-        .then(check => setIsLoading(true));
+        .then(data => setDiseaseData(data))
+        .then(check => setIsLoading(true))
+        .then(() => openDiseaseModal());
     } else {
       alert('회원만 이용할 수 있습니다.');
     }
@@ -186,13 +183,13 @@ const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
 
   useEffect(() => {
     setIsModal(showModal);
-
-    if (showModal) {
+    setShowDisease(showDisease);
+    if (showModal || showDisease) {
       document.body.style.overflow = 'hidden';
-    } else if (!showModal) {
+    } else if (!showModal || !showDisease) {
       document.body.style.overflow = `visible `;
     }
-  }, [showModal]);
+  }, [showModal, showDisease]);
 
   return (
     <div className="relative flex">
@@ -298,14 +295,22 @@ const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
         </div>
       </div>
 
-      {showModal ? (
+      {showModal && (
         <Modal>
           <UploadModal
             isModal={setShowModal}
             plantData={plantData}
           ></UploadModal>
         </Modal>
-      ) : null}
+      )}
+      {showDisease && (
+        <Modal>
+          <DiseaseModal
+            diseaseData={diseaseData}
+            setShowDisease={setShowDisease}
+          />
+        </Modal>
+      )}
     </div>
   );
 };
