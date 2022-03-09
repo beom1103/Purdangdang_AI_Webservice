@@ -10,33 +10,28 @@ import { setMyPlant } from '../../api/myPage';
 import { useRecoilValue } from 'recoil';
 import { validLogin } from '../../api';
 import { useNavigate } from 'react-router-dom';
+import { deleteMyPlant } from '../../api/myPage';
 
 type ListProps = {
   id: number;
   checked: number;
-  files: string;
-  setFiles: any;
-  setImgUrl: any;
-  setImgFile: any;
-  imgFile: any;
-  plantName: string;
-  deleteName: any;
+  image: string[];
+  plantName: string[];
   setMyList: any;
   myList: any;
+  ChangList: any;
+  deleteList: any;
 };
 
 const UploadList = ({
   id,
   checked,
-  files,
-  setFiles,
-  setImgUrl,
-  setImgFile,
-  imgFile,
+  image,
   plantName,
-  deleteName,
   setMyList,
   myList,
+  ChangList,
+  deleteList,
 }: ListProps) => {
   const IMAGEROOT = './img/tree.png';
   const isLogin = useRecoilValue(validLogin);
@@ -77,32 +72,18 @@ const UploadList = ({
     [],
   );
 
-  // useEffect(() => {
-  //   if (plantName[id - 1] !== undefined) {
-  //     setEdit(true);
-  //   } else {
-  //     setEdit(false);
-  //   }
-  // }, [plantName]);
-
   const setImage = (res: any) => {
     const imageFile = res;
-    // console.log(imageFile[1]);
-    setImgFile(imageFile);
-    setImgUrl(imageFile[1]);
-    console.log(myList);
     const NewImage = myList;
     NewImage[id - 1].image = imageFile[1];
     setMyList(NewImage);
+    ChangList(imageFile[1], 'image', id - 1);
   };
 
-  const handleDelete = (number: number) => {
-    const delList = files;
-    // delList.splice(number, 1);
-    // setFiles([...delList]);
-    setPlantTitle('없음');
-
-    deleteName(number);
+  const handleDelete = () => {
+    const user = isLogin?.username;
+    deleteList(id);
+    deleteMyPlant(user, id).then(res => console.log(res));
   };
 
   const handleInput = (e: any) => {
@@ -122,18 +103,14 @@ const UploadList = ({
 
   const checkName = () => {
     const user = isLogin?.username;
-    const ImageName = myList;
-    ImageName[id - 1].name = planttitle;
-    setMyList(ImageName);
-
-    setMyPlant(user, imgFile, planttitle, id).then(data => console.log(data));
+    const NewName = myList;
+    NewName[id - 1].name = planttitle;
+    const postImage = image[id - 1];
+    setMyList(NewName);
+    ChangList(planttitle, 'name', id - 1);
+    setMyPlant(user, postImage, planttitle, id).then(data => console.log(data));
     setEdit(true);
   };
-
-  useEffect(() => {
-    if (inputRef.current !== null) inputRef.current.focus();
-    return;
-  });
 
   useEffect(() => {
     if (!isLogin) {
@@ -141,16 +118,27 @@ const UploadList = ({
       alert('로그인 후 이용하실 수 있습니다.');
       navigate('/account');
     }
+    if (plantName[id - 1] !== '없음') {
+      setEdit(true);
+    } else {
+      setEdit(false);
+    }
+    return;
   }, []);
+
+  useEffect(() => {
+    if (inputRef.current !== null) inputRef.current.focus();
+    return;
+  });
 
   return (
     <>
       <li className="mb-2">
-        {myList[id - 1].image !== IMAGEROOT ? (
+        {image[id - 1] !== IMAGEROOT ? (
           <div className="flex justify-between md:justify-between">
             <div className="flex flex-row items-end w-40 h-6 lg:w-48">
               <span className="w-14">{id}.이름 : </span>
-              {myList[id - 1].name === '없음' ? (
+              {edit === false || plantName[id - 1] === '없음' ? (
                 <input
                   // type="text"
                   onChange={handleInput}
@@ -166,12 +154,12 @@ const UploadList = ({
                     checked === id ? `text-green-500` : null
                   }`}
                 >
-                  {myList[id - 1].name}
+                  {plantName[id - 1]}
                 </span>
               )}
             </div>
             <div>
-              {myList[id - 1].name === '없음' ? (
+              {edit === false || plantName[id - 1] === '없음' ? (
                 <div>
                   <button className="bg-sky-400 " onClick={() => checkName()}>
                     확인
@@ -184,7 +172,7 @@ const UploadList = ({
                   </button>
                   <button
                     className="bg-red-400 "
-                    onClick={() => handleDelete(id - 1)}
+                    onClick={() => handleDelete()}
                   >
                     삭제
                   </button>

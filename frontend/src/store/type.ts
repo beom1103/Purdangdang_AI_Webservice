@@ -54,3 +54,11 @@ export type Question = {
   answer2: string;
   image: string;
 };
+
+export type UserPlantList = {
+  id: number;
+  name: string;
+  image: string;
+  order: number;
+  user_id: number;
+};
