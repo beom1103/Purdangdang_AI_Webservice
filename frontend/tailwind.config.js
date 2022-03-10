@@ -10,6 +10,10 @@ module.exports = {
       scale: {
         118: '1.18',
       },
+      colors: {
+        gradation: `rgba(243,255,244,0.1)
+                    linear-gradient(180deg, rgba(243,255,244,0.1) 0%, rgba(255,249,246,0.7) 50%, rgba(255,238,246,1) 100%)`,
+      },
       keyframes: {
         'fade-in-down': {
           '0%': {
@@ -98,6 +102,20 @@ module.exports = {
           '&::-webkit-scrollbar-track': {
             background: '#e8f5e9',
             // borderRadius: '30%',
+          },
+        },
+        '.x-scroll-style': {
+          '&::-webkit-scrollbar': {
+            width: '2px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            height: `2%`,
+            background: `#005005`,
+            borderRadius: '30px',
+          },
+          '&::-webkit-scrollbar-track': {
+            background: 'transparent',
+            borderRadius: '30%',
           },
         },
       });

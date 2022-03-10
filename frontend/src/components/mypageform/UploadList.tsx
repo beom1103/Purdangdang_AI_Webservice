@@ -11,6 +11,7 @@ import { useRecoilValue } from 'recoil';
 import { validLogin } from '../../api';
 import { useNavigate } from 'react-router-dom';
 import { deleteMyPlant } from '../../api/myPage';
+import tw from 'tailwind-styled-components';
 
 type ListProps = {
   id: number;
@@ -21,6 +22,7 @@ type ListProps = {
   myList: any;
   ChangList: any;
   deleteList: any;
+  handleToast: any;
 };
 
 const UploadList = ({
@@ -32,9 +34,11 @@ const UploadList = ({
   myList,
   ChangList,
   deleteList,
+  handleToast,
 }: ListProps) => {
   const IMAGEROOT = './img/tree.png';
   const isLogin = useRecoilValue(validLogin);
+  const navigate = useNavigate();
   const [planttitle, setPlantTitle] = useState<string>('');
   const [edit, setEdit] = useState(false);
   const inputRef: any = useRef<HTMLInputElement | null>(null);
@@ -63,7 +67,6 @@ const UploadList = ({
       })
         .then(res => {
           setImage(res);
-          console.log('클릭댐');
         })
         .catch(function (err) {
           console.error(err);
@@ -72,49 +75,80 @@ const UploadList = ({
     [],
   );
 
-  const setImage = (res: any) => {
-    const imageFile = res;
-    const NewImage = myList;
-    NewImage[id - 1].image = imageFile[1];
-    setMyList(NewImage);
-    ChangList(imageFile[1], 'image', id - 1);
-  };
+  const setImage = useCallback(
+    (res: any) => {
+      const imageFile = res;
+      const NewImage = myList;
+      NewImage[id - 1].image = imageFile[1];
+      setMyList(NewImage);
+      ChangList(imageFile[1], 'image', id - 1);
+    },
+    [myList, id],
+  );
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     const user = isLogin?.username;
     deleteList(id);
-    deleteMyPlant(user, id).then(res => console.log(res));
-  };
+    deleteMyPlant(user, id)
+      .then(ok => printToast('delete'))
+      .catch(error => printToast('에러'));
+  }, [isLogin, deleteList, deleteMyPlant, id]);
 
-  const handleInput = (e: any) => {
-    const name = e.target.value;
-    setPlantTitle(name);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      checkName();
-    }
-  };
+  const handleInput = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const name = e.currentTarget.value;
+      setPlantTitle(name);
+    },
+    [setPlantTitle],
+  );
 
   const editName = () => {
     setEdit(false);
+    if (plantName[id - 1] !== '없음') {
+      setPlantTitle(plantName[id - 1]);
+    }
   };
 
-  const checkName = () => {
+  const checkName = useCallback(() => {
     const user = isLogin?.username;
     const NewName = myList;
-    NewName[id - 1].name = planttitle;
-    const postImage = image[id - 1];
-    setMyList(NewName);
-    ChangList(planttitle, 'name', id - 1);
-    setMyPlant(user, postImage, planttitle, id).then(data => console.log(data));
-    setEdit(true);
+    if (planttitle.length === 0 || planttitle === '없음') {
+      printToast('nameNull');
+    } else {
+      NewName[id - 1].name = planttitle;
+      const postImage = image[id - 1];
+      setMyList(NewName);
+      ChangList(planttitle, 'name', id - 1);
+      setMyPlant(user, postImage, planttitle, id)
+        .then(ok => printToast('complete'))
+        .catch(error => printToast('에러'));
+      setEdit(true);
+    }
+  }, [isLogin, myList, planttitle, image]);
+
+  const handleKeyPress = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        checkName();
+      }
+    },
+    [checkName],
+  );
+
+  const printToast = (msg: string) => {
+    if (msg === 'complete') {
+      handleToast(msg);
+    } else if (msg === 'delete') {
+      handleToast(msg);
+    } else if (msg === 'nameNull') {
+      handleToast(msg);
+    } else {
+      handleToast('waring');
+    }
   };
 
   useEffect(() => {
     if (!isLogin) {
-      const navigate = useNavigate();
       alert('로그인 후 이용하실 수 있습니다.');
       navigate('/account');
     }
@@ -135,29 +169,26 @@ const UploadList = ({
     <>
       <li className="mb-2">
         {image[id - 1] !== IMAGEROOT ? (
-          <div className="flex justify-between md:justify-between">
-            <div className="flex flex-row items-end w-40 h-6 lg:w-48">
+          <Div>
+            <Box>
               <span className="w-14">{id}.이름 : </span>
               {edit === false || plantName[id - 1] === '없음' ? (
-                <input
+                <Input
                   // type="text"
                   onChange={handleInput}
                   value={planttitle}
                   onKeyPress={handleKeyPress}
                   placeholder=" 이름 입력"
-                  className="w-20 h-6 pl-2 border border-gray-200 resize-none lg:w-28 rounded-xl"
                   ref={inputRef}
-                ></input>
+                ></Input>
               ) : (
-                <span
-                  className={` w-20 lg:w-28 h-6 overflow-hidden text-ellipsis whitespace-nowrap  ${
-                    checked === id ? `text-green-500` : null
-                  }`}
+                <Span
+                  className={` ${checked === id ? `text-green-500` : null}`}
                 >
                   {plantName[id - 1]}
-                </span>
+                </Span>
               )}
-            </div>
+            </Box>
             <div>
               {edit === false || plantName[id - 1] === '없음' ? (
                 <div>
@@ -179,9 +210,9 @@ const UploadList = ({
                 </div>
               )}
             </div>
-          </div>
+          </Div>
         ) : (
-          <div className="flex justify-between md:justify-between">
+          <FileDiv>
             <span>{id}. 파일없음</span>
             <input
               type="file"
@@ -197,7 +228,7 @@ const UploadList = ({
             >
               파일 선택
             </label>
-          </div>
+          </FileDiv>
         )}
       </li>
     </>
@@ -205,3 +236,44 @@ const UploadList = ({
 };
 
 export default UploadList;
+
+const Div = tw.div`
+  flex
+  justify-between
+  md:justify-between
+`;
+
+const Box = tw.div`
+  flex
+  flex-row
+  items-end
+  w-40
+  h-6
+  lg:w-48
+`;
+
+const Input = tw.input`
+  w-20
+  h-6
+  pl-2
+  border
+  border-gray-200
+  resize-none
+  lg:w-28
+  rounded-xl
+`;
+
+const Span = tw.span`
+  w-20
+  lg:w-28
+  h-6
+  overflow-hidden
+  text-ellipsis
+  whitespace-nowrap
+`;
+
+const FileDiv = tw.div`
+  flex
+  justify-between
+  md:justify-between
+`;
