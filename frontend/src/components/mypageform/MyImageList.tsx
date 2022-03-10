@@ -2,8 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import UploadList from './UploadList';
 import ImagePreview from './MyImageUpload';
 import { UserPlantList } from '../../store/type';
+import tw from 'tailwind-styled-components';
 
-const MyImageList = ({ userPlant }: any) => {
+const MyImageList = ({ userPlant, handleToast }: any) => {
   const [myList, setMyList] = useState<UserPlantList[]>([
     { id: 0, name: '없음', image: './img/tree.png', order: 1, user_id: 0 },
     { id: 0, name: '없음', image: './img/tree.png', order: 2, user_id: 0 },
@@ -12,7 +13,6 @@ const MyImageList = ({ userPlant }: any) => {
 
   const [plantName, setPlantName] = useState<string[]>([]);
   const [plantImage, setPlantImage] = useState<string[]>([]);
-
   const [checked, setChecked] = useState(1);
   const [mainImg, setMainImg] = useState(myList[0].image);
 
@@ -32,15 +32,15 @@ const MyImageList = ({ userPlant }: any) => {
     NameChange();
   }, [userPlant]);
 
-  const ImageChange = () => {
+  const ImageChange = useCallback(() => {
     const changeImage = myList.map(list => list.image);
     setPlantImage(changeImage);
-  };
+  }, [myList]);
 
-  const NameChange = () => {
+  const NameChange = useCallback(() => {
     const changeName = myList.map(list => list.name);
     setPlantName(changeName);
-  };
+  }, [myList]);
 
   const ChangList = useCallback(
     (change: string, method: string, number: number) => {
@@ -98,14 +98,14 @@ const MyImageList = ({ userPlant }: any) => {
               setChecked={setChecked}
             />
 
-            <div className="px-2 mx-3 border-gray-300 border-x-2">
+            <Div>
               <ImagePreview
                 files={plantImage}
                 id={1}
                 checked={checked}
                 setChecked={setChecked}
               />
-            </div>
+            </Div>
 
             <ImagePreview
               files={plantImage}
@@ -120,6 +120,7 @@ const MyImageList = ({ userPlant }: any) => {
                 {myList.map((list: any) => {
                   return (
                     <UploadList
+                      key={list.order}
                       id={list.order}
                       image={plantImage}
                       checked={checked}
@@ -128,6 +129,7 @@ const MyImageList = ({ userPlant }: any) => {
                       myList={myList}
                       ChangList={ChangList}
                       deleteList={deleteList}
+                      handleToast={handleToast}
                     />
                   );
                 })}
@@ -141,3 +143,10 @@ const MyImageList = ({ userPlant }: any) => {
 };
 
 export default MyImageList;
+
+const Div = tw.div`
+  px-2
+  mx-3
+  border-gray-300
+  border-x-2
+`;

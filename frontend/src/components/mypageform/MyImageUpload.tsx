@@ -27,11 +27,7 @@ const MyImageUpload = ({ files, id, checked, setChecked }: MyImageProps) => {
   return (
     <>
       <li className="relative" onClick={() => checkHandler(id)}>
-        <img
-          className="object-fill w-64 rounded-lg h-1/5 md:h-24"
-          alt="나만의 식물"
-          ref={elem => (imgRef.current[id] = elem)}
-        />
+        <Image alt="나만의 식물" ref={elem => (imgRef.current[id] = elem)} />
         <Div
           className={` ${checked === id + 1 ? `visible` : `invisible`}`}
           style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
@@ -56,4 +52,12 @@ const Div = tw.div`
   text-white
   rounded-lg
   m-0
+`;
+
+const Image = tw.img`
+  object-fill
+  w-64
+  rounded-lg
+  h-1/5
+  md:h-24
 `;

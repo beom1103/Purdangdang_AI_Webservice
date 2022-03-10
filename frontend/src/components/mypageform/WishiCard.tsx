@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import tw from 'tailwind-styled-components';
 
-const WishiCard = ({ key, wishi }: any) => {
+const WishiCard = ({ wishi }: any) => {
   const id = wishi.id;
   const image = wishi.image_url;
   const kor = wishi.kor;
   const name = wishi.name;
 
   return (
-    <li className="inline-block w-48 mx-3 my-4 mypage_Card ">
+    <Li className="mypage_Card">
       <Link to={`/plant/${id}/info`}>
         <div
           className="card-img"
@@ -21,8 +22,15 @@ const WishiCard = ({ key, wishi }: any) => {
           <span className="mt-2 text-gray-500">{name}</span>
         </div>
       </Link>
-    </li>
+    </Li>
   );
 };
 
 export default WishiCard;
+
+const Li = tw.li`
+  inline-block
+  w-48
+  mx-3
+  my-4
+`;

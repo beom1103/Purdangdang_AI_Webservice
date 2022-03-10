@@ -124,7 +124,7 @@ body::-webkit-scrollbar {
 
 /* BounceArrow */
 .bounce-arrow {
-  @apply absolute w-10 h-10 p-2 bg-transparent rounded-full wrap bottom-24 left-2/4 animate-bounce;
+  @apply absolute w-10 h-10 p-2 bg-transparent rounded-full wrap bottom-24 right-2/4 animate-bounce;
 }
 
 /* Intro */
@@ -175,7 +175,7 @@ body::-webkit-scrollbar {
 
 /* UploadContainer */
 .upload-container {
-  @apply flex items-end justify-center w-screen h-screen bg-black bg-no-repeat md:items-center;
+  @apply flex items-center justify-center w-screen h-screen bg-black bg-no-repeat md:items-center;
 }
 
 .upload-div {
@@ -324,23 +324,23 @@ body::-webkit-scrollbar {
 
 /* My page */
 .mypage_div {
-  @apply flex items-center justify-center h-screen mt-24 md:mt-0;
+  @apply flex items-center justify-center h-full mt-24 md:mt-0;
 }
 
 .mypage_Container {
-  @apply flex flex-col items-center p-0 mt-0 rounded-lg lg:mt-48 lg:p-10 drop-shadow-lg;
+  @apply flex flex-col items-center p-0 mt-0 rounded-lg lg:mt-6 lg:p-10 drop-shadow-lg;
 }
 
 .mypage_user {
-  @apply flex flex-col items-center justify-center mt-48 md:mt-24 sm:flex-row sm:items-end lg:mt-0 sm:justify-start sm:flex;
+  @apply flex flex-col items-center justify-center pt-6 sm:flex-row md:pt-20 lg:pt-6 sm:items-end lg:mt-0 sm:justify-start sm:flex;
 }
 
 .mypage_ImgBox {
-  @apply flex-col items-center justify-between w-3/4 p-3 mt-10 border-2 border-gray-400 border-dotted rounded-xl;
+  @apply flex-col items-center justify-between w-3/4 p-3 mt-10 border border-2 border-gray-400 rounded-xl;
 }
 
 .mypage_ImgContainer {
-  @apply relative flex flex-col items-center justify-around w-full mt-3 sm:px-10 sm:flex-row h-2/4 rounded-xl sm:px-0;
+  @apply relative flex flex-col items-center justify-around w-full mt-3 sm:flex-row h-2/4 rounded-xl sm:px-0;
 }
 
 .mypage_ImgSet {
@@ -373,4 +373,8 @@ body::-webkit-scrollbar {
 
 .mypage_Card {
   @apply max-w-sm overflow-hidden bg-white rounded-md shadow-md cursor-pointer;
+}
+
+.selected_container {
+  @apply mb-12 overflow-hidden overflow-x-scroll snap-x whitespace-nowrap mypage_SelectedBox x-scroll-style;
 }

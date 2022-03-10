@@ -17,9 +17,6 @@ const Header = () => {
     setMenus(true);
   }, []);
 
-  // const navbar = document.querySelector('.navbar');
-  // const navbarHeight = navbar?.getBoundingClientRect().height;
-
   const handleHeaderScroll = React.useCallback(() => {
     const headerHeight = headerRef.current?.clientHeight ?? 0;
     if (window.scrollY > headerHeight) {
@@ -53,7 +50,7 @@ const Header = () => {
             headerColor ? `bg-white drop-shadow-md` : `backdrop-blur-md`
           }`}
         >
-          <Link to="/" className="w-32 wrap md:mb-0">
+          <Link to="/" className="w-40 wrap md:mb-0">
             <img className="logo" src="/img/icon.png" alt="로고 이미지" />
             <span className="logo-span">푸르댕댕</span>
           </Link>
@@ -88,7 +85,7 @@ const Header = () => {
               )}
             </div>
           </nav>
-          <div className="flex justify-end w-32">
+          <div className="flex justify-end w-40">
             <button className=" header-btn" onClick={() => menuOpen()}>
               <i className="text-green-500 fas fa-bars"></i>
             </button>
@@ -107,6 +104,6 @@ export default Header;
 const Div = tw.div`
   header-bg
   transition
-  duration-300
+  duration-100
   ease-in-out
 `;
