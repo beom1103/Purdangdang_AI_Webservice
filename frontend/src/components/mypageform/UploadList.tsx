@@ -39,7 +39,6 @@ const UploadList = ({
   const navigate = useNavigate();
   const IMAGEROOT = './img/tree.png';
   const isLogin = useRecoilValue(validLogin);
-  const navigate = useNavigate();
   const [planttitle, setPlantTitle] = useState<string>('');
   const [edit, setEdit] = useState(false);
   const inputRef: any = useRef<HTMLInputElement | null>(null);
