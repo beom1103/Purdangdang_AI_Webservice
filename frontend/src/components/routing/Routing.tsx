@@ -10,6 +10,7 @@ const MyPage = React.lazy(() => import('../../pages/MyPage'));
 const SearchPage = React.lazy(() => import('../../pages/SearchPage'));
 const SurveyPage = React.lazy(() => import('../../pages/SurveyPage'));
 const PlantDetailPage = React.lazy(() => import('../../pages/PlantDetailPage'));
+/* eslint-disable import/first */
 import AccountPage from '../../pages/AccountPage';
 import ErrorPage from '../load-page/ErrorPage';
 import ServicePage from '../../pages/ServicePage';
