@@ -49,15 +49,7 @@ class LoginUserSerializer(serializers.Serializer):
             return user
         raise serializers.ValidationError("Unable to log in with provided credentials.")
 
-# class ProfileSerializer():
-#     class Meta:
-#         model = Profile
-#         fields = [
-#             "id", 
-#             "username", 
-#             "email"
-#         ]
-
+# 반려식물 리스트 
 class UserPlantSerializer(serializers.ModelSerializer):
      class Meta:
         model = UserPlant

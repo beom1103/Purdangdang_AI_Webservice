@@ -133,13 +133,8 @@ class PlantReviewListView(APIView, ReviewListPagination):
         review = get_object_or_404(Review, user_id=user, plant_id=plant_id)
         review.delete()
         
-        # TODO: redirect가 delete안에서만 도는 문제 
-        # 일단 get method code 가져와서 임시 해결 
-        review = Review.objects.filter(plant_id=plant_id).order_by("-updated_at")[:3]
-        serializer = PlantReviewSerializer(review, many=True)
         return Response("Successfully deleted.", status=status.HTTP_201_CREATED) 
 
-        # return redirect(f'/api/plant/{plant_id}/reviews')
        
 THIS_FOLDER = os.path.dirname(Path(__file__).resolve().parent.parent)
 FORMAT = [".jpg"] # 지원하는 포맷확장자 나열
@@ -221,7 +216,7 @@ class PlantLikeView(APIView):
         else:
             content = "Already existed"
             
-        return Response("Successfully updated.", status=status.HTTP_201_CREATED)
+        return Response(content, status=status.HTTP_201_CREATED)
     
     def delete(self, request, plant_id: int, format=None):
         """
@@ -238,6 +233,6 @@ class PlantLikeView(APIView):
         else: 
             content = "There is no item"
 
-        return Response("Successfully deleted.", status=status.HTTP_201_CREATED)
+        return Response(content, status=status.HTTP_201_CREATED)
 
 
