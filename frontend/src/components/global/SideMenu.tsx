@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import tw from 'tailwind-styled-components';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { validLogin } from '../../api';
 import { logout } from '../../api';
+import { plantQueryAtom } from '../../api/search';
 
 type MenuProps = {
   menu: boolean;
@@ -11,8 +12,10 @@ type MenuProps = {
 };
 
 const SideMenu = ({ menu, selectMenu }: MenuProps) => {
+  const resetPlantQuery = useResetRecoilState(plantQueryAtom);
   const menuClose = useCallback((): void => {
     selectMenu(false);
+    resetPlantQuery();
   }, [menu]);
 
   const isLogin = useRecoilValue(validLogin);
