@@ -7,7 +7,7 @@ const PlantInfo = () => {
   const info = useRecoilValue(infoAtom);
 
   const openShoppingPage = () => {
-    const url = 'https://search.shopping.naver.com/search/all?query=';
+    const url = 'https://msearch.shopping.naver.com/search/all?query=';
     window.open(url + info.kor);
   };
 
