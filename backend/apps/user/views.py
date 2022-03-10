@@ -1,5 +1,4 @@
 from django.shortcuts import redirect, get_object_or_404
-from django.core.files.base import ContentFile
 from rest_framework import viewsets, permissions, generics, status
 from rest_framework.exceptions import ValidationError, ParseError
 from rest_framework.response import Response
@@ -15,19 +14,17 @@ from apps.plant.models import Plant, Wishlist
 from apps.plant.serializers import PlantDetailSerializer
 
 import re
-import base64
-
+  
 # Create your views here.
 # class ProfileUpdateAPI(generics.UpdateAPIView):
 #     lookup_field = "user_pk"
 #     queryset = Profile.objects.all()
 #     serializer_class = ProfileSerializer
-
 class RegistrationAPI(generics.GenericAPIView):
     
     serializer_class = CreateUserSerializer
 
-    def check(email):
+    def check(self, email):
         regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
         if(re.fullmatch(regex, email)):
             return False;
@@ -39,7 +36,8 @@ class RegistrationAPI(generics.GenericAPIView):
         
         회원가입 후 토큰 발급. 
         """
-        if not (2 <= len(request.data["username"]) <= 10) or not (6 <= len(request.data["password"]) <= 15) or check(request.data["email"]):
+        print(request.data["email"])
+        if not (2 <= len(request.data["username"]) <= 10) or not (6 <= len(request.data["password"]) <= 15) or self.check(request.data["email"]):
             body = {"message": "wrong field"}
             return Response(body, status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(data=request.data)
@@ -87,6 +85,28 @@ class UserAPI(generics.RetrieveAPIView):
         """
         return self.request.user
     
+# class UserLikeListView(APIView, LikeListPagination):
+#     authentication_classes = [TokenAuthentication]
+#     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+#     def get_user(self):
+#         return self.request.user
+    
+#     def get(self, request, username: str, format=None):
+#         """
+#         찜 목록 조회
+        
+#         마이 페이지에서 찜 목록 조회
+#         """
+#         user = User.objects.get(username=self.get_user()).id
+#         wishlist = Wishlist.objects.filter(user_id=user)
+#         plants = []
+#         for w in wishlist.values():
+#             results = get_object_or_404(Plant, pk=w['plant_id_id'])
+#             serializer = PlantDetailSerializer(results)
+#             plants.append(serializer.data)
+            
+#         return Response(self.get_paginated_response(plants), status=status.HTTP_201_CREATED)
     
 class UserProfileView(APIView, LikeListPagination):
     authentication_classes = [TokenAuthentication]
@@ -129,18 +149,17 @@ class UserProfileView(APIView, LikeListPagination):
     
     def post(self, request, username: str, format=None):
         """
-        반려 식물 등록 
+        반려 식물 등록, 수정 
         
-        반려 식물의 이미지와 이름을 생성  
+        반려 식물의 이미지와 이름을 생성, 수정   
         """
         order = request.GET.get("order", None) 
         image = request.data['file']
         name = request.data['name']
-        if not len(name) : return Response("Please fill the name", status=status.HTTP_201_CREATED)
         if int(order) not in [1,2,3] : 
             return Response("Invalid order", status=status.HTTP_201_CREATED)
         user = self.get_user()
-        # self.image_exception()
+        self.image_exception()
         # user_id, order가 일치하는 게 있으면 삭제하고 생성
         if UserPlant.objects.filter(user_id=user, order=order).exists():
             userplant = get_object_or_404(UserPlant, user_id=user, order=order)
@@ -149,46 +168,8 @@ class UserProfileView(APIView, LikeListPagination):
  
         userplants = UserPlant.objects.filter(order=order, user_id=user)
         serializer = UserPlantSerializer(userplants, many=True)   
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
-    def put(self, request, username: str, format=None):
-        """
-        반려 식물 수정 
-        
-        반려 식물의 이미지와 이름을 수정  
-        """
-        order = request.GET.get("order", None) 
-        image = request.data['file']
-        name = request.data['name']
-        if not len(name) : return Response("Please fill the name", status=status.HTTP_201_CREATED)
-        if int(order) not in [1,2,3] : 
-            return Response("Invalid order", status=status.HTTP_201_CREATED)
-        user = self.get_user()
-        # self.image_exception()
-        # user_id, order가 일치하는 게 있으면 삭제하고 생성
-        if UserPlant.objects.filter(user_id=user, order=order).exists():
-            userplant = get_object_or_404(UserPlant, user_id=user, order=order)
-            userplant.delete()
-        UserPlant.objects.update_or_create(image=image, name=name, order=order, user_id=user)
- 
-        userplants = UserPlant.objects.filter(order=order, user_id=user)
-        serializer = UserPlantSerializer(userplants, many=True)   
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response("Successfully created.", status=status.HTTP_201_CREATED)
 
-    def delete(self, request, username: str, format=None):
-        """
-        반려 식물 삭제 
-        
-        반려 식물의 이미지와 이름을 삭제  
-        """
-        order = request.GET.get("order", None) 
-        user = self.get_user()
-        # user_id, order가 일치하는 게 있으면 삭제
-        if UserPlant.objects.filter(user_id=user, order=order).exists():
-            userplant = get_object_or_404(UserPlant, user_id=user, order=order)
-            userplant.delete()
-            return Response("Successfully deleted.", status=status.HTTP_201_CREATED)
-        return Response("There is no item", status=status.HTTP_201_CREATED)
 
 
     
