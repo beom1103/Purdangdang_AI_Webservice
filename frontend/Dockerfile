@@ -10,8 +10,10 @@ COPY . .
 
 # Install the library
 
-RUN [“/usr/local/bin/npm”, “install”]
-RUN [“/usr/local/bin/npm”, “run”, “build:prod”]
+# RUN [“/usr/local/bin/npm”, “install”]
+# RUN [“/usr/local/bin/npm”, “run”, “build:prod”]
+RUN [“npm”, “install”]
+RUN [“npm”, “run”, “build”]
 
 # From make nginx image
 
