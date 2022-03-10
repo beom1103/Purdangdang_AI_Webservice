@@ -6,6 +6,12 @@ import AccountPage from '../../pages/AccountPage';
 import ErrorPage from '../load-page/ErrorPage';
 import ServicePage from '../../pages/ServicePage';
 
+//접근제한
+import PrivateRoute from './PrivateRoute';
+import PlantInfo from '../plant-detail/PlantInfo';
+import Header from '../global/Header';
+import PlantReview from '../plant-detail/PlantReview';
+
 //lazy
 const HomePage = React.lazy(() => import('../../pages/HomePage'));
 const Login = React.lazy(() => import('../account/Login'));
@@ -14,14 +20,6 @@ const MyPage = React.lazy(() => import('../../pages/MyPage'));
 const SearchPage = React.lazy(() => import('../../pages/SearchPage'));
 const SurveyPage = React.lazy(() => import('../../pages/SurveyPage'));
 const PlantDetailPage = React.lazy(() => import('../../pages/PlantDetailPage'));
-
-//접근제한
-import PrivateRoute from './PrivateRoute';
-
-import PlantInfo from '../plant-detail/PlantInfo';
-import Header from '../global/Header';
-
-import PlantReview from '../plant-detail/PlantReview';
 
 const Routing = () => {
   return (
