@@ -63,6 +63,9 @@ const Header = () => {
                 <Link to="/search" className="header-link">
                   검색
                 </Link>
+                <Link to="/service" className="header-link">
+                  서비스 소개
+                </Link>
               </div>
               {isLogin ? (
                 <div>
