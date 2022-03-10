@@ -33,6 +33,7 @@ const UploadList = ({
   ChangList,
   deleteList,
 }: ListProps) => {
+  const navigate = useNavigate();
   const IMAGEROOT = './img/tree.png';
   const isLogin = useRecoilValue(validLogin);
   const [planttitle, setPlantTitle] = useState<string>('');
@@ -114,7 +115,6 @@ const UploadList = ({
 
   useEffect(() => {
     if (!isLogin) {
-      const navigate = useNavigate();
       alert('로그인 후 이용하실 수 있습니다.');
       navigate('/account');
     }
