@@ -17,20 +17,18 @@ type UploadContainerProps = {
 const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
   const user = useRecoilValue(validLogin);
 
-  //드래그 중일때와 아닐 때의 스타일을 구분하기 위한 state 변수
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [files, setFiles] = useState<File[]>([]);
   const [plantData, setPlantData] = useState<PlantDataType>({});
   const [diseaseData, setDiseaseData] = useState<PlantDisease>({});
   const [isLoading, setIsLoading] = useState(true);
 
-  // Modal 띄우기 여부
   const [showModal, setShowModal] = useState(false);
   const [showDisease, setShowDisease] = useState(false);
 
-  // 드래그 이벤트를 감지한 ref 참조변수 (label 태그에 들어갈 예정)
   const dragRef = useRef<HTMLLabelElement | null>(null);
   const clickRef = useRef<HTMLLabelElement | null>(null);
+  const imageDivRef = useRef<HTMLDivElement | null>(null);
 
   const openModal = () => {
     if (files.length !== 0) {
@@ -48,7 +46,7 @@ const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
     }
   };
 
-  const handleFiles = (e: any) => {
+  const handleFiles = (e: ChangeEvent<HTMLInputElement> | any) => {
     let selectFiles = [];
 
     if (e.type === 'drop') {
@@ -122,8 +120,10 @@ const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
     setFiles([]);
     setIsLoading(true);
 
-    const imgEl: any = document.querySelector('.dragContainer');
-    imgEl.style.backgroundImage = `url(${null})`;
+    const imgEl: HTMLDivElement | null = imageDivRef.current;
+    if (imgEl !== null) {
+      imgEl.style.backgroundImage = `url(${null})`;
+    }
   }, [files]);
 
   const handleDragIn = useCallback((e: DragEvent): void => {
@@ -220,6 +220,7 @@ const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
                   className={`drop-container dragContainer   ${
                     isDragging ? `bg-slate-200` : 'bg-gray-50'
                   }`}
+                  ref={imageDivRef}
                 >
                   <span
                     className={` hidden md:block ${
@@ -241,7 +242,6 @@ const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
               </label>
             </Container>
             <Span>
-              {/* 파일명 : &nbsp; */}
               {files.length > 0 && (
                 <span>
                   <span>업로드 이미지</span>

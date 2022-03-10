@@ -10,6 +10,11 @@ module.exports = {
       scale: {
         118: '1.18',
       },
+      zIndex: {
+        1: '1',
+        2: '2',
+        3: '3',
+      },
       colors: {
         gradation: `rgba(243,255,244,0.1)
                     linear-gradient(180deg, rgba(243,255,244,0.1) 0%, rgba(255,249,246,0.7) 50%, rgba(255,238,246,1) 100%)`,
