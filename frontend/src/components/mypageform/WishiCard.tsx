@@ -2,14 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import tw from 'tailwind-styled-components';
 
-const WishiCard = ({ wishi }: any) => {
+type wishProps = {
+  key: string;
+  wishi: any;
+};
+
+const WishiCard = ({ wishi }: wishProps) => {
   const id = wishi.id;
   const image = wishi.image_url;
   const kor = wishi.kor;
   const name = wishi.name;
 
   return (
-    <Li className="mypage_Card">
+    <Li className="myPage_Card">
       <Link to={`/plant/${id}/info`}>
         <div
           className="card-img"

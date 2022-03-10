@@ -4,7 +4,12 @@ import ImagePreview from './MyImageUpload';
 import { UserPlantList } from '../../store/type';
 import tw from 'tailwind-styled-components';
 
-const MyImageList = ({ userPlant, handleToast }: any) => {
+type ImageListProps = {
+  userPlant: UserPlantList[];
+  handleToast: any;
+};
+
+const MyImageList: React.FC<ImageListProps> = ({ userPlant, handleToast }) => {
   const [myList, setMyList] = useState<UserPlantList[]>([
     { id: 0, name: '없음', image: './img/tree.png', order: 1, user_id: 0 },
     { id: 0, name: '없음', image: './img/tree.png', order: 2, user_id: 0 },
@@ -43,7 +48,7 @@ const MyImageList = ({ userPlant, handleToast }: any) => {
   }, [myList]);
 
   const ChangList = useCallback(
-    (change: string, method: string, number: number) => {
+    (change: string, method: string, number: number): void => {
       if (method === 'image') {
         const NewImage = myList;
         NewImage[number].image = change;
@@ -60,7 +65,7 @@ const MyImageList = ({ userPlant, handleToast }: any) => {
   );
 
   const deleteList = useCallback(
-    (number: number) => {
+    (number: number): void => {
       const NewList = myList;
       for (const key of NewList) {
         if (key.order === number) {
@@ -84,13 +89,13 @@ const MyImageList = ({ userPlant, handleToast }: any) => {
 
   return (
     <>
-      <div className="mypage_ImgSet">
+      <div className="myPage_ImgSet">
         <div className="w-full lg:w-2/4 ">
-          <img className="mypage_Img " src={mainImg} alt="선택된 이미지" />
+          <img className="myPage_Img " src={mainImg} alt="선택된 이미지" />
         </div>
-        <div className="mypage_TitleBox">
-          <span className="mypage_Title">나만의 식물들</span>
-          <ul className="mypage_Ul">
+        <div className="myPage_TitleBox">
+          <span className="myPage_Title">나만의 식물들</span>
+          <ul className="myPage_Ul">
             <ImagePreview
               files={plantImage}
               id={0}

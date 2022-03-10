@@ -12,19 +12,19 @@ import { validLogin } from '../../api';
 import { useNavigate } from 'react-router-dom';
 import { deleteMyPlant } from '../../api/myPage';
 import tw from 'tailwind-styled-components';
+import { UserPlantList } from '../../store/type';
 
 type ListProps = {
   id: number;
   checked: number;
   image: string[];
   plantName: string[];
-  setMyList: any;
-  myList: any;
+  setMyList: React.Dispatch<React.SetStateAction<UserPlantList[]>>;
+  myList: UserPlantList[];
   ChangList: any;
   deleteList: any;
   handleToast: any;
 };
-
 const UploadList = ({
   id,
   checked,
@@ -77,6 +77,7 @@ const UploadList = ({
 
   const setImage = useCallback(
     (res: any) => {
+      console.log(res);
       const imageFile = res;
       const NewImage = myList;
       NewImage[id - 1].image = imageFile[1];
@@ -137,13 +138,13 @@ const UploadList = ({
 
   const printToast = (msg: string) => {
     if (msg === 'complete') {
-      handleToast(msg);
+      handleToast(0);
     } else if (msg === 'delete') {
-      handleToast(msg);
+      handleToast(1);
     } else if (msg === 'nameNull') {
-      handleToast(msg);
+      handleToast(2);
     } else {
-      handleToast('waring');
+      handleToast(3);
     }
   };
 
