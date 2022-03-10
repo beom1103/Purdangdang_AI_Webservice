@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "question": "식물을 키워 보신 적이 있나요?",
+    "answer1": "네",
+    "answer2": "아니오",
+    "image": "https://images.unsplash.com/photo-1619522358358-666043cc0eca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+  },
+  {
+    "id": 2,
+    "question": "식물을 구입하는 데 있어 어느정도 지출을 생각하시나요? ",
+    "answer1": "5만원 이하",
+    "answer2": "상관없다",
+    "image": "https://images.unsplash.com/photo-1519314963043-050bb85af91a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+  },
+  {
+    "id": 3,
+    "question": "향기가 나는 식물을 원하시나요? ",
+    "answer1": "네",
+    "answer2": "아니오",
+    "image": "https://images.unsplash.com/photo-1508090228729-c062eefc9bef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+  },
+  {
+    "id": 4,
+    "question": "식물을 어디에 둘 예정이신가요? ",
+    "answer1": "베란다 or 바닥",
+    "answer2": "식탁 or 선반",
+    "image": "https://images.unsplash.com/photo-1644395223251-39dbbc1fa105?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1032&q=80"
+  },
+  {
+    "id": 5,
+    "question": "집에 햇빛이 얼마나 들어 오나요?",
+    "answer1": "2시간 이상",
+    "answer2": "간접광만 가능",
+    "image": "https://images.unsplash.com/photo-1415260088498-81911a0a016e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80"
+  },
+  {
+    "id": 6,
+    "question": "해야할 일을 자주 까먹으시는 편인가요?",
+    "answer1": "네",
+    "answer2": "아니오",
+    "image": "https://images.unsplash.com/photo-1578502107278-22c4430fb708?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80"
+  }
+]

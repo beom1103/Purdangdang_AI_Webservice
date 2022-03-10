@@ -1,20 +1,32 @@
-import React, {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import UploadModal from './UploadModal';
+/* eslint-disable @typescript-eslint/no-var-requires */
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import UploadModal from '../modal/UploadModal';
 import imageResize from './ImageResize';
+import tw from 'tailwind-styled-components';
+import { postAiModel } from '../../api/search';
+import UploadLading from '../load-page/UploadLoading';
+import { Info, PlantDisease, PlantDataType } from '../../store/type';
+import { useRecoilValue } from 'recoil';
+import { validLogin } from '../../api';
+import DiseaseModal from '../modal/DiseaseModal';
 
-const UploadContainer = () => {
+type UploadContainerProps = {
+  setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
+  const user = useRecoilValue(validLogin);
+
   //드래그 중일때와 아닐 때의 스타일을 구분하기 위한 state 변수
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [files, setFiles] = useState<any[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
+  const [plantData, setPlantData] = useState<PlantDataType>({});
+  const [diseaseData, setDiseaseData] = useState<PlantDisease>({});
+  const [isLoading, setIsLoading] = useState(true);
 
   // Modal 띄우기 여부
   const [showModal, setShowModal] = useState(false);
+  const [showDisease, setShowDisease] = useState(false);
 
   // 드래그 이벤트를 감지한 ref 참조변수 (label 태그에 들어갈 예정)
   const dragRef = useRef<HTMLLabelElement | null>(null);
@@ -24,24 +36,52 @@ const UploadContainer = () => {
     if (files.length !== 0) {
       setShowModal(!showModal);
     } else {
-      alert('ㅋㅋ 파일 없음');
+      alert('등록한 파일이 없습니다.');
     }
   };
 
-  const onClickFiles = useCallback(
+  const openDiseaseModal = () => {
+    if (files.length !== 0) {
+      setShowDisease(!showDisease);
+    } else {
+      alert('등록한 파일이 없습니다.');
+    }
+  };
+
+  const handleFiles = (e: any) => {
+    let selectFiles = [];
+
+    if (e.type === 'drop') {
+      selectFiles = e.dataTransfer.files;
+    } else {
+      selectFiles = e.target.files;
+    }
+
+    const target = selectFiles[0].name;
+
+    const file_kind = target.lastIndexOf('.');
+    const file_name = target.substring(file_kind + 1, target.length);
+    const file_type = file_name.toLowerCase();
+
+    const check_file_type = ['jpg', 'gif', 'png', 'jpeg', 'bmp'];
+
+    if (check_file_type.indexOf(file_type) === -1) {
+      alert('잘못된 형식의 파일입니다.');
+      return;
+    }
+
+    return selectFiles[0];
+  };
+
+  const uploadImageFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | any): void => {
-      let selectFiles: File[] = [];
-
-      selectFiles = e.target?.files;
-
-      setFiles(selectFiles);
-
+      const image = handleFiles(e);
       imageResize({
-        file: selectFiles[0],
-        maxSize: 500,
+        file: image,
+        maxSize: 400,
       })
         .then(res => {
-          preview(res);
+          imageCheck(res);
         })
         .catch(function (err) {
           console.error(err);
@@ -50,41 +90,40 @@ const UploadContainer = () => {
     [files],
   );
 
-  const onChangeFiles = useCallback(
-    (e: ChangeEvent<HTMLInputElement> | any): void => {
-      let selectFiles: File[] = [];
-
-      if (e.type === 'drop') {
-        selectFiles = e.dataTransfer.files;
-      } else {
-        selectFiles = e.target.files;
-      }
-
-      setFiles(selectFiles);
-
-      imageResize({
-        file: selectFiles[0],
-        maxSize: 500,
-      })
-        .then(res => {
-          preview(res);
-        })
-        .catch(function (err) {
-          console.error(err);
-        });
-    },
-    [files],
-  );
-
-  const preview = (select: any) => {
+  const imageCheck = async (res: any) => {
+    const file = res;
+    setFiles(file);
     const imgEl: any = document.querySelector('.dragContainer');
 
-    imgEl.style.backgroundImage = `url(${select})`;
+    imgEl.style.backgroundImage = `url(${res[1]})`;
   };
+
+  const postSearchPlant = useCallback(() => {
+    setIsLoading(false);
+    postAiModel(files, 'species')
+      .then(data => setPlantData(data))
+      .then(check => setIsLoading(true))
+      .then(() => openModal());
+  }, [files]);
+
+  const postDiseasePlant = useCallback(() => {
+    if (user) {
+      setIsLoading(false);
+      postAiModel(files, 'disease')
+        .then(data => setDiseaseData(data))
+        .then(check => setIsLoading(true))
+        .then(() => openDiseaseModal());
+    } else {
+      alert('회원만 이용할 수 있습니다.');
+    }
+  }, [files]);
 
   const handleFilterFile = useCallback((): void => {
     setFiles([]);
-    preview(null);
+    setIsLoading(true);
+
+    const imgEl: any = document.querySelector('.dragContainer');
+    imgEl.style.backgroundImage = `url(${null})`;
   }, [files]);
 
   const handleDragIn = useCallback((e: DragEvent): void => {
@@ -112,21 +151,10 @@ const UploadContainer = () => {
       e.preventDefault();
       e.stopPropagation();
 
-      onChangeFiles(e);
+      uploadImageFiles(e);
       setIsDragging(false);
     },
-    [onChangeFiles],
-  );
-
-  const handleClick = useCallback(
-    (e: DragEvent): void => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      onChangeFiles(e);
-      setIsDragging(false);
-    },
-    [onChangeFiles],
+    [uploadImageFiles],
   );
 
   const initDragEvents = useCallback((): void => {
@@ -149,32 +177,43 @@ const UploadContainer = () => {
 
   useEffect(() => {
     initDragEvents();
-    // clickEvents();
 
     return () => resetDragEvents();
   }, [initDragEvents, resetDragEvents]);
 
+  useEffect(() => {
+    setIsModal(showModal);
+    setShowDisease(showDisease);
+    if (showModal || showDisease) {
+      document.body.style.overflow = 'hidden';
+    } else if (!showModal || !showDisease) {
+      document.body.style.overflow = `visible `;
+    }
+  }, [showModal, showDisease]);
+
   return (
-    <div className="flex ">
+    <div className="relative flex">
+      {isLoading ? null : <UploadLading />}
       <div
         className="upload-container "
         style={{
-          background: `linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url(/img/dog.jpg)`,
+          background: `linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url(/img/10.jpg)`,
           backgroundSize: 'cover',
         }}
       >
         <div
           className="upload-div "
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}
         >
-          <div className="flex flex-col items-center justify-center w-full">
-            <div className="hidden w-3/5 py-2 h-2/5 sm:block md:h-72 lg:h-96">
+          <Div>
+            <Container>
               <input
                 type="file"
                 id="fileUpload"
                 style={{ display: 'none' }}
                 multiple={true}
-                onChange={onChangeFiles}
+                accept="image/*"
+                onChange={uploadImageFiles}
               />
               <label htmlFor="fileUpload" ref={dragRef}>
                 <div
@@ -200,53 +239,120 @@ const UploadContainer = () => {
                   />
                 </div>
               </label>
-            </div>
-            <span className="py-3 text-xs font-bold text-white">
-              파일명 : &nbsp;
+            </Container>
+            <Span>
+              {/* 파일명 : &nbsp; */}
               {files.length > 0 && (
                 <span>
-                  <span>{files[0]?.name}</span>
+                  <span>업로드 이미지</span>
                   <span
                     className="cursor-pointer drags hover:text-rose-500"
-                    onClick={() => handleFilterFile()}
+                    onClick={handleFilterFile}
                   >
-                    &nbsp; X
+                    &nbsp; 삭제 X
                   </span>
                 </span>
               )}
-            </span>
-            <p className="upload-text 2xl:text-2xl 2xl:block lg:text-1xl lg:blok">
-              어떤 식물인지 궁금하다면 푸르댕댕에 맡겨주세요!
-            </p>
+            </Span>
+            <P>어떤 식물인지 궁금하다면 푸르댕댕에 맡겨주세요!</P>
 
             <div className="upload-btnContainer md:flex-row">
-              <button className="upload-btn">
+              <button className="upload-btn main-color">
                 <input
                   type="file"
                   id="clickUpload"
                   style={{ display: 'none' }}
                   multiple={true}
-                  onChange={onClickFiles}
+                  accept="image/*"
+                  onChange={uploadImageFiles}
                 />
                 <label htmlFor="clickUpload" ref={clickRef}>
                   이미지 등록
                 </label>
               </button>
-              <button className="upload-btn " onClick={() => openModal()}>
+              <button
+                className={`upload-btn  ${
+                  isLoading
+                    ? `pointer-events-auto main-color`
+                    : `pointer-events-none bg-gray-300`
+                }`}
+                onClick={() => postSearchPlant()}
+              >
                 식물 검사
               </button>
+              <button
+                className={`upload-btn  ${
+                  isLoading
+                    ? `pointer-events-auto main-color`
+                    : `pointer-events-none bg-gray-300`
+                }`}
+                onClick={() => postDiseasePlant()}
+              >
+                질병 진단
+              </button>
             </div>
-          </div>
+          </Div>
         </div>
       </div>
 
-      {showModal ? (
-        <div className="fixed z-50 w-screen h-screen">
-          <UploadModal showModal={setShowModal}></UploadModal>
-        </div>
-      ) : null}
+      {showModal && (
+        <Modal>
+          <UploadModal
+            isModal={setShowModal}
+            plantData={plantData}
+          ></UploadModal>
+        </Modal>
+      )}
+      {showDisease && (
+        <Modal>
+          <DiseaseModal
+            diseaseData={diseaseData}
+            setShowDisease={setShowDisease}
+          />
+        </Modal>
+      )}
     </div>
   );
 };
 
 export default UploadContainer;
+
+const Div = tw.div`
+  flex
+  flex-col
+  items-center
+  justify-center
+  w-full
+`;
+
+const Container = tw.div`
+  hidden
+  w-3/5
+  py-2
+  h-2/5
+  sm:block
+  md:h-72
+  lg:h-96
+`;
+
+const Span = tw.span`
+  py-3
+  text-xs
+  font-bold
+  text-white
+`;
+
+const P = tw.p`
+  upload-text
+  2xl:text-2xl
+  2xl:block
+  lg:text-1xl
+  lg:blok
+`;
+
+const Modal = tw.div`
+  fixed
+  z-50
+  w-screen
+  h-screen
+`;

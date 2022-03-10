@@ -26,7 +26,7 @@ class RegistrationAPI(generics.GenericAPIView):
     
     serializer_class = CreateUserSerializer
 
-    def check(email):
+    def check(self, email):
         regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
         if(re.fullmatch(regex, email)):
             return False;

@@ -1,103 +1,73 @@
-import React from 'react';
+import tw from 'tailwind-styled-components';
 
-const DetailModal = ({ showModal }: any) => {
+const DetailModal = ({ isModal, plantData }: any) => {
+  const plantName = plantData && plantData.detail.kor;
+  const plantImage = plantData && plantData.detail.image_url;
+  const plantScript = plantData && plantData.detail.description;
+  const plantWater = plantData && plantData.detail.water_cycle;
+  const plantSun = plantData && plantData.detail.sunlight;
+  const plantTempe = plantData && plantData.detail.temperature;
+
+  // const plantPer = plantData && plantData.percent;
+
   const closeModal = () => {
-    showModal(false);
+    isModal(false);
   };
 
   return (
-    <div className="flex flex-col items-center w-full h-full ">
-      <div className="flex justify-between w-full">
+    <Div>
+      <Container>
         <div className="detail_Modal-title">상세 정보</div>
-        <button
-          className="detail_Modal-exit"
-          aria-label="close modal"
-          role="button"
-          onClick={() => closeModal()}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="icon icon-tabler icon-tabler-x"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            stroke-width="2.5"
-            stroke="currentColor"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" />
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
+        <button className="detail_Modal-exit" onClick={() => closeModal()}>
+          X
         </button>
-      </div>
+      </Container>
 
       <div className="w-full lg:h-full lg:flex">
-        <div className="w-full lg:pl-6 lg:h-full lg:w-2/4">
-          <img
-            src="https://i.pinimg.com/originals/1c/cc/23/1ccc23d257858830d213aea46bef2c0c.jpg"
-            alt=""
-            className="w-full h-full lg:rounded-md"
+        <ImgBox>
+          <Img
+            src={plantImage}
+            alt={plantName}
             style={{ objectFit: 'cover' }}
           />
-        </div>
+        </ImgBox>
         <div className="detail_Modal-box">
           <div className="w-full ">
-            <p className="detail_Modal-name">식물댕</p>
+            <p className="detail_Modal-name">{plantName}</p>
           </div>
-          <div className="detail_Modal-line"></div>
+
+          <Line />
           <div className="w-full">
-            <p className="px-8 my-4 lg:p-0 ">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Veritatis corporis, dolores, temporibus nihil porro, labore at hic
-              reiciendis soluta non quis unde beatae nesciunt. Tenetur
-              temporibus fugit illum aspernatur numquam atque repudiandae,
-              maxime magnam voluptatum error quidem deleniti quo autem
-              perferendis et. Dolores maxime, laborum iusto obcaecati totam
-              expedita deserunt.
-            </p>
+            <p className="px-8 my-4 lg:p-0 ">{plantScript}</p>
           </div>
-          <div className="detail_Modal-line"></div>
+          <Line />
         </div>
       </div>
 
       <div className="w-full mt-6 h-3/6">
         <div className="w-full px-8 lg:py-0">
-          <li className="detail_Modal-li">
-            <div className="flex items-center">
-              <i className="text-blue-500 detail_Modal-i fas fa-water"></i>
-              <span className="text-sm">물</span>
-            </div>
-            <span className="items-center text-sm">
-              1주일에 2번씩 주면 배불러요
-            </span>
-          </li>
-          <li className="detail_Modal-li">
-            <div className="flex items-center">
-              <i className="text-orange-500 detail_Modal-i fas fa-sun"></i>
-              <span className="text-sm">햇빛</span>
-            </div>
-            <span className="items-center text-sm">햇빛을 좋아하는 친구</span>
-          </li>
-          <li className="detail_Modal-li">
-            <div className="flex items-center">
-              <i className="text-green-500 detail_Modal-i fas fa-temperature-low"></i>
-              <span className="text-sm">온도</span>
-            </div>
-            <span className="items-center text-sm">더운거 싫어요</span>
-          </li>
-          <div className="detail_Modal-line"></div>
-        </div>
-
-        <div className="w-full mt-4">
-          <div className="flex flex-row justify-between mx-8">
-            <p className="">커뮤니티</p>
-            <button className="">
-              <p className="text-black">+더보기</p>
-            </button>
-          </div>
+          <Li>
+            <LiBox>
+              <I className="text-blue-500 fas fa-water"></I>
+              <Span>물</Span>
+            </LiBox>
+            <Span>{plantWater}</Span>
+          </Li>
+          <Li>
+            <LiBox>
+              <I className="text-orange-500 fas fa-sun"></I>
+              <Span>햇빛</Span>
+            </LiBox>
+            <Span>{plantSun}</Span>
+          </Li>
+          <Li>
+            <LiBox>
+              <I className="text-green-500 fas fa-temperature-low"></I>
+              <Span>온도</Span>
+            </LiBox>
+            <Span>{plantTempe}</Span>
+          </Li>
+          <Line />
         </div>
 
         <div className="detail_Modal-btnBox">
@@ -106,8 +76,63 @@ const DetailModal = ({ showModal }: any) => {
           </button>
         </div>
       </div>
-    </div>
+    </Div>
   );
 };
 
 export default DetailModal;
+
+const Div = tw.div`
+  flex
+  flex-col
+  items-center
+  w-full
+  h-full
+`;
+
+const Container = tw.div`
+  flex
+  justify-between
+  w-full
+  mb-0
+  bg-green-50
+  lg:mb-7
+  border-b-2
+  border-gary-500
+`;
+
+const ImgBox = tw.div`
+  w-full
+  lg:pl-6
+  lg:h-full
+  lg:w-2/4
+`;
+
+const Img = tw.img` 
+  w-full 
+  h-full
+  border-2 
+  border-gray-500 
+  lg:rounded-md
+`;
+
+const I = tw.i`
+  detail_Modal-i
+`;
+
+const Li = tw.li` 
+  detail_Modal-li
+`;
+
+const LiBox = tw.div` 
+  flex items-center
+`;
+
+const Line = tw.div` 
+  detail_Modal-line
+`;
+
+const Span = tw.span` 
+  items-center
+  test-sm
+`;

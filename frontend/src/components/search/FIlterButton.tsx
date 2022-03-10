@@ -1,37 +1,51 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import tw from 'tailwind-styled-components';
+import { filterAtom, plantListAtom } from '../../api/search';
 
-// 그냥 예시 버튼 나중에 다 지우고 다시 구현해야 함.
+const FilterButton = () => {
+  const [filter, setFilter] = useRecoilState(filterAtom);
+  const reset = useResetRecoilState(plantListAtom);
 
-const FIlterButton = () => {
+  const changeFilter = useCallback(
+    (e: any): void => {
+      const { textContent } = e.currentTarget;
+      if (filter !== textContent) {
+        reset();
+      }
+      setFilter(textContent);
+    },
+    [filter],
+  );
+
+  const filterList = ['전체', '꽃이 피는', '공기정화', '반려동물 안전한'];
+
   return (
     <div className="mt-5">
       <div className="flex rounded-xl">
-        <div>
-          <Input type="radio" name="option" id="1" hidden defaultChecked />
-          <Label htmlFor="1">전체</Label>
-        </div>
-
-        <div>
-          <Input type="radio" name="option" id="2" hidden />
-          <Label htmlFor="2">꽃이 피는</Label>
-        </div>
-
-        <div>
-          <Input type="radio" name="option" id="3" hidden />
-          <Label htmlFor="3">공기정화</Label>
-        </div>
-
-        <div>
-          <Input type="radio" name="option" id="4" hidden />
-          <Label htmlFor="4">반려동물 무해</Label>
-        </div>
+        {filterList.map((fil, idx) => {
+          return (
+            <div key={`fil${idx}`}>
+              <Input
+                type="radio"
+                name="option"
+                id={`${idx}`}
+                hidden
+                readOnly
+                checked={filter === fil}
+              />
+              <Label htmlFor={`${idx}`} onClick={changeFilter}>
+                {fil}
+              </Label>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 };
 
-export default FIlterButton;
+export default FilterButton;
 
 const Input = tw.input`
   peer

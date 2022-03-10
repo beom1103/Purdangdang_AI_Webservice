@@ -1,32 +1,68 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { NavLink, Outlet, useParams } from 'react-router-dom';
 import Footer from '../components/global/Footer';
 
-import fake from '../store/fake.json';
 import tw from 'tailwind-styled-components';
-// import { useSetRecoilState } from 'recoil';
-// import { plantAtom } from '../api/shop';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { infoAtom, getDetailInfo } from '../api/search';
+import { addMyPage, isLikePlant } from '../api/myPage';
+import { validLogin } from '../api';
 
 const PlantDetailPage = () => {
-  const params = useParams();
-  const id = Number(params.name);
-  // const setPlant = useSetRecoilState(plantAtom);
+  const user = useRecoilValue(validLogin);
+  const params = useParams() as { name: string };
+  const [info, setInfo] = useRecoilState(infoAtom);
+  const [fill, setFill] = useState(false);
 
-  // useEffect(() => {
-  //   setPlant(fake[id].kor);
-  // }, []);
+  const likePlant = useCallback((): void => {
+    fillHeart();
+    addMyPage(fill, params.name);
+  }, [fill]);
+
+  const id = React.useMemo(() => {
+    if (params.name !== undefined) {
+      return Number(params.name);
+    }
+    return null;
+  }, [params]);
+
+  const fillHeart = useCallback((): void => {
+    if (!user) {
+      alert('로그인 후 이용할 수 있습니다.');
+    } else {
+      setFill(!fill);
+    }
+  }, [fill]);
+
+  useEffect(() => {
+    const fetchInfo = async () => {
+      const newInfo = await getDetailInfo(`/plant/${id}/info`);
+      const like = await isLikePlant(params.name);
+      setFill(like);
+      setInfo(newInfo);
+    };
+
+    fetchInfo();
+  }, []);
+
+  if (id === null) {
+    return null;
+  }
 
   return (
     <Main>
       <Container>
         <Wrap>
-          <img alt="plant" className="plant-info-img" src={fake[id].image} />
+          <img alt="plant" className="plant-info-img" src={info?.image_url} />
           <Div>
             <h4 className="text-sm">이름</h4>
             <h2 className="mb-4 text-green-600 ">
-              {fake[id].kor}
-              <button className="like">
-                <i className="fas fa-heart like" />
+              {info?.kor}
+              <button className="like" onClick={() => fillHeart}>
+                <Heart
+                  className={fill ? 'text-red-500 text-xl' : 'text-gray-500'}
+                  onClick={likePlant}
+                />
               </button>
             </h2>
             <div className="flex mb-4">
@@ -56,13 +92,15 @@ const PlantDetailPage = () => {
   );
 };
 
-export default PlantDetailPage;
+export default React.memo(PlantDetailPage);
 
 const Main = tw.main`
   content-center 
   px-3 
   overflow-hidden 
-  lg:pt-32
+  mt-10
+  lg:mt-32
+
 `;
 
 const Container = tw.div`
@@ -82,4 +120,11 @@ const Div = tw.div`
   w-full 
   my-auto 
   lg:w-1/2
+`;
+
+const Heart = tw.i`
+  fas
+  fa-heart
+  bg-none
+  border-none
 `;
