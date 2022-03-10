@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-#from ..models import  User
 from ...user.serializers import CreateUserSerializer
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
@@ -111,7 +110,7 @@ class google_callback(APIView):
             accept = requests.post(
                 f"{BASE_URL}google/google/login/finish/", data=data)
             accept_status = accept.status_code
-            
+
             user = User.objects.get(email=email)
             user.username = user.email
             user.save()
@@ -123,8 +122,6 @@ class google_callback(APIView):
             accept_json['expiration_time']  = expiration_time
             accept_json['email'] = email
             return JsonResponse(accept_json)
-            
-
 
 class GoogleLogin(SocialLoginView):
     '''class used for social authentications

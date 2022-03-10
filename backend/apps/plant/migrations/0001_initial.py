@@ -50,6 +50,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('plant_id', models.ForeignKey(db_column='plant_id', on_delete=django.db.models.deletion.CASCADE, to='plant.plant', verbose_name='식물 ID')),
                 ('user_id', models.ForeignKey(db_column='user_id', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='유저 ID')),
+
             ],
         ),
         migrations.CreateModel(
@@ -62,6 +63,7 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(auto_now=True, verbose_name='댓글 수정일시')),
                 ('plant_id', models.ForeignKey(db_column='plant_id', on_delete=django.db.models.deletion.CASCADE, related_name='review_plant', to='plant.plant', verbose_name='식물 ID')),
                 ('user_id', models.ForeignKey(db_column='user_id', on_delete=django.db.models.deletion.CASCADE, related_name='review_user', to=settings.AUTH_USER_MODEL, verbose_name='유저 ID')),
+
             ],
         ),
     ]
