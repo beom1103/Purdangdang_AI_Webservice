@@ -41,7 +41,7 @@ export const registerAccount = async (
     redirect('/account');
     return true;
   } catch (error) {
-    alert('이미 존재하는 아이디 or 이메일입니다.');
+    alert(error);
     return false;
   }
 };
