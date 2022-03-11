@@ -4,22 +4,14 @@ import tw from 'tailwind-styled-components';
 import { Link } from 'react-router-dom';
 import { validLogin } from '../api';
 import MyImageList from '../components/mypageform/MyImageList';
-import Noti from '../components/mypageform/Noti';
 import { loadMyPlant } from '../api/myPage';
 import WishiCard from '../components/mypageform/WishiCard';
-import { UserPlantList } from '../store/type';
+import { Plant, UserPlantList } from '../store/type';
 import Toast from '../components/global/Toast';
 
 type PlantDataType = {
-  wishlist: string[];
+  wishlist: Plant[];
   userplant: UserPlantList[];
-};
-
-type ToastList = {
-  complete: string;
-  delete: string;
-  nameNull: string;
-  waring: string;
 };
 
 const msgList: string[] = [
@@ -31,7 +23,7 @@ const msgList: string[] = [
 
 const MyPage = () => {
   const userInfo = useRecoilValue(validLogin);
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<Plant[]>([]);
   const [userPlant, setUserPlant] = useState<UserPlantList[]>([]);
   const [ToastStatus, setToastStatus] = useState(false);
   const [ToastMsg, setToastMsg] = useState('');
@@ -89,8 +81,10 @@ const MyPage = () => {
               <div className="w-full">
                 <div className="">
                   <ul className="w-8">
-                    {selected.map((wishi, idx) => {
-                      return <WishiCard key={`wishi${idx}`} wishi={wishi} />;
+                    {selected.map((wishi: Plant) => {
+                      return (
+                        <WishiCard key={`wishi${wishi.id}`} wishi={wishi} />
+                      );
                     })}
                   </ul>
                 </div>

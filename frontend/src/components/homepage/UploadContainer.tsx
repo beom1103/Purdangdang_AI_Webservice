@@ -5,7 +5,7 @@ import imageResize from './ImageResize';
 import tw from 'tailwind-styled-components';
 import { postAiModel } from '../../api/search';
 import UploadLading from '../load-page/UploadLoading';
-import { Info, PlantDisease, PlantDataType } from '../../store/type';
+import { PlantDisease, PlantDataType } from '../../store/type';
 import { useRecoilValue } from 'recoil';
 import { validLogin } from '../../api';
 import DiseaseModal from '../modal/DiseaseModal';
@@ -78,7 +78,7 @@ const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
         file: image,
         maxSize: 400,
       })
-        .then(res => {
+        .then((res: any) => {
           imageCheck(res);
         })
         .catch(function (err) {
@@ -88,10 +88,10 @@ const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
     [files],
   );
 
-  const imageCheck = async (res: any) => {
+  const imageCheck = async (res: File[]) => {
     const file = res;
     setFiles(file);
-    const imgEl: any = document.querySelector('.dragContainer');
+    const imgEl = document.querySelector('.dragContainer') as HTMLDivElement;
 
     imgEl.style.backgroundImage = `url(${res[1]})`;
   };

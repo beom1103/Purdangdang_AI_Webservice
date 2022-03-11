@@ -6,7 +6,7 @@ import tw from 'tailwind-styled-components';
 
 type ImageListProps = {
   userPlant: UserPlantList[];
-  handleToast: any;
+  handleToast: (type: number) => void;
 };
 
 const MyImageList: React.FC<ImageListProps> = ({ userPlant, handleToast }) => {
@@ -122,7 +122,7 @@ const MyImageList: React.FC<ImageListProps> = ({ userPlant, handleToast }) => {
           <div className="w-full mt-10 lg:w-3/4">
             <div>
               <ul>
-                {myList.map((list: any) => {
+                {myList.map((list: UserPlantList) => {
                   return (
                     <UploadList
                       key={list.order}

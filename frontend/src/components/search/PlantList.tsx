@@ -40,7 +40,8 @@ const PlantList = () => {
         break;
 
       case 'hasValue':
-        setPlantsList(fetchPlantList?.contents?.results);
+        const { results } = fetchPlantList?.contents;
+        setPlantsList(results);
         break;
 
       case 'hasError':

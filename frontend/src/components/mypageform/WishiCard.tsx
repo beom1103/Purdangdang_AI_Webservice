@@ -1,10 +1,10 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import tw from 'tailwind-styled-components';
+import { Plant } from '../../store/type';
 
 type wishProps = {
   key: string;
-  wishi: any;
+  wishi: Plant;
 };
 
 const WishiCard = ({ wishi }: wishProps) => {

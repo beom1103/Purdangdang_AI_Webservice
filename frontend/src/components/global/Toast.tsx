@@ -1,7 +1,10 @@
-import React from 'react';
 import tw from 'tailwind-styled-components';
 
-const Toast = ({ msg }: any) => {
+type ToastProps = {
+  msg: string;
+};
+
+const Toast: React.FC<ToastProps> = ({ msg }) => {
   return <Div>{msg}</Div>;
 };
 

@@ -22,8 +22,8 @@ type ListProps = {
   setMyList: React.Dispatch<React.SetStateAction<UserPlantList[]>>;
   myList: UserPlantList[];
   ChangList: any;
-  deleteList: any;
-  handleToast: any;
+  deleteList: (type: number) => void;
+  handleToast: (type: number) => void;
 };
 const UploadList = ({
   id,
@@ -193,7 +193,7 @@ const UploadList = ({
             <div>
               {edit === false || plantName[id - 1] === '없음' ? (
                 <div>
-                  <button className="bg-sky-400 " onClick={() => checkName()}>
+                  <button className="bg-sky-400" onClick={() => checkName()}>
                     확인
                   </button>
                 </div>
@@ -224,7 +224,7 @@ const UploadList = ({
               onChange={onClickFiles}
             />
             <label
-              className="text-white bg-green-400 rounded-md"
+              className="text-white bg-green-400 rounded-md cursor-pointer"
               htmlFor={String(id)}
             >
               파일 선택

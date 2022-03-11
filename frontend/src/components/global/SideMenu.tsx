@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { SetStateAction, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import tw from 'tailwind-styled-components';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
@@ -8,7 +8,7 @@ import { plantQueryAtom } from '../../api/search';
 
 type MenuProps = {
   menu: boolean;
-  selectMenu: any;
+  selectMenu: React.Dispatch<SetStateAction<boolean>>;
 };
 
 const SideMenu = ({ menu, selectMenu }: MenuProps) => {

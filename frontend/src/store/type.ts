@@ -17,6 +17,7 @@ export type User = {
 };
 
 export type Plant = {
+  id: number;
   kor: string;
   name: string;
   rank: number;
