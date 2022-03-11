@@ -31,7 +31,6 @@ class UserPlant(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     user_pk = models.IntegerField(blank=True)
-    email = models.EmailField(max_length=500, unique=True, blank=True)
     nickname = models.CharField(max_length=200, blank=True)
     point = models.IntegerField(default=0)
     like = models.CharField(max_length=200, blank=True)
