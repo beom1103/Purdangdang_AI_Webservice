@@ -2,7 +2,6 @@ from rest_framework import serializers
 
 from .models import Plant, Review, UploadImage, Wishlist, Disease
 
-
 class PlantSerializer(serializers.ModelSerializer):
     """
     식물 정보 

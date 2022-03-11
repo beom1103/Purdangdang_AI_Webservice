@@ -21,24 +21,17 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import serializers
 from django.conf import settings
 
-
-
-
-
-BASE_URL = 'http://127.0.0.1:8000/api/'
+BASE_URL = 'http://elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com:5000/api/'
 GOOGLE_CALLBACK_URI = BASE_URL + 'google/google/callback/'
-
 
 class google_login(APIView):
     """
     Code Request
     """
-    
     def get(self, request):
         scope = "https://www.googleapis.com/auth/userinfo.email"
         client_id = getattr(settings, "SOCIAL_AUTH_GOOGLE_CLIENT_ID")
         return redirect(f"https://accounts.google.com/o/oauth2/v2/auth?client_id={client_id}&response_type=code&redirect_uri={GOOGLE_CALLBACK_URI}&scope={scope}")
-
 
 class google_callback(APIView):
     def get(self, request):

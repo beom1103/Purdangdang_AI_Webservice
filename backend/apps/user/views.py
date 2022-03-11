@@ -14,7 +14,6 @@ from .models import User, UserPlant
 from apps.plant.models import Plant, Wishlist
 from apps.plant.serializers import PlantDetailSerializer
 
-import re
 
 class RegistrationAPI(generics.GenericAPIView):
     

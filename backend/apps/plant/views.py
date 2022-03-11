@@ -183,8 +183,6 @@ class PlantUploadView(APIView):
 
         return Response("Please choose your action.", status=status.HTTP_201_CREATED)
 
-
-
 class PlantLikeView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
