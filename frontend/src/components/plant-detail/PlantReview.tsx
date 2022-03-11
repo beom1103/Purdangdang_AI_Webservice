@@ -24,14 +24,16 @@ const PlantReview = () => {
   const [nextReview, setNextReview] = useState('');
   const [prevReview, setPrevReview] = useState('');
 
-  const [modifyReview, setModifyReview] = useState<Reviews | any>([]);
+  const [modifyReview, setModifyReview] = useState<Reviews>();
   const [showModal, setShowModal] = useState(false);
+  const [isPrev, setIsPrev] = useState(false);
 
   const fetchReviews = async () => {
     const newReviews = await getDetailInfo(pathname);
-    newReviews.results.some((data: any): void => {
+    newReviews.results.some((data: Reviews): void => {
       if (data.username === user?.username) {
         setModifyReview(data);
+        setIsPrev(true);
       }
     });
     setReviews(newReviews.results);
@@ -134,9 +136,7 @@ const PlantReview = () => {
             />
           </div>
 
-          <Button hidden={modifyReview.id} onClick={showReviewModal}>
-            리뷰쓰기
-          </Button>
+          {!isPrev && <Button onClick={showReviewModal}>리뷰쓰기</Button>}
         </ButtonBox>
       )}
       {showModal && (

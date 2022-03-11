@@ -19,7 +19,7 @@ const DiseaseModal: React.FC<DiseaseModalProps> = ({
 }) => {
   const [active, setActive] = useState(false);
   const [height, setHeight] = useState('0px');
-  const [filter, setFilter] = useState<string | null>(diseaseData.casuse);
+  const [filter, setFilter] = useState<string | null>(diseaseData.cause);
 
   const contentSpace = useRef<HTMLDivElement | null>(null);
   const filters = ['cause', 'precaution', 'symptom'];
@@ -29,8 +29,8 @@ const DiseaseModal: React.FC<DiseaseModalProps> = ({
   };
 
   const toggleAccordian = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement> | any) => {
-      const { value } = e.target;
+    (e: React.MouseEvent) => {
+      const { value } = e.target as HTMLButtonElement;
       setActive(active === true ? false : true);
 
       setHeight(active ? '0px' : `${contentSpace?.current?.scrollHeight}px`);

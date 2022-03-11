@@ -57,9 +57,9 @@ const imageResize = (settings: IResizeImageOptions) => {
       return;
     }
 
-    reader.onload = (readerEvent: any) => {
+    reader.onload = (readerEvent: ProgressEvent<FileReader> | any) => {
       image.onload = () => ok(resize());
-      image.src = readerEvent.target.result;
+      image.src = readerEvent?.target?.result;
     };
 
     reader.readAsDataURL(file);

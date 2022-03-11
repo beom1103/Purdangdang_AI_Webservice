@@ -49,12 +49,12 @@ const ReviewModal: React.FC<ModalProps | any> = ({
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
-      onSubmitReview();
+      () => onSubmitReview();
     }
   };
 
   const debouncedContent = useMemo(() => {
-    return debounce(onChangeInput, 500);
+    return debounce(onChangeInput, 300);
   }, [reviewState]);
 
   useEffect(() => {
@@ -79,7 +79,7 @@ const ReviewModal: React.FC<ModalProps | any> = ({
         onKeyPress={handleKeyPress}
         defaultValue={modifyReview?.content}
       />
-      <Button onClick={onSubmitReview}>제출</Button>
+      <Button onClick={() => onSubmitReview()}>제출</Button>
     </Modal>
   );
 };

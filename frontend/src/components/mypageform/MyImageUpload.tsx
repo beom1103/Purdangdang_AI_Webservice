@@ -5,13 +5,13 @@ type MyImageProps = {
   files: string[];
   id: number;
   checked: number;
-  setChecked: any;
+  setChecked: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const MyImageUpload = ({ files, id, checked, setChecked }: MyImageProps) => {
   const imgRef: any = useRef([]);
 
-  const checkHandler = (num: any) => {
+  const checkHandler = (num: number) => {
     setChecked(num + 1);
   };
 

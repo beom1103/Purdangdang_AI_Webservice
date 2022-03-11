@@ -2,14 +2,16 @@ import React, { useState, useRef, useEffect } from 'react';
 import SideMenu from './SideMenu';
 import { Link } from 'react-router-dom';
 import tw from 'tailwind-styled-components';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { validLogin } from '../../api';
 import { logout } from '../../api';
+import { plantQueryAtom } from '../../api/search';
 
 const Header = () => {
   const [menus, setMenus] = useState(false);
   const [headerColor, setHeaderColor] = useState(false);
   const headerRef = useRef<HTMLHeadElement | null>(null);
+  const resetPlantQuery = useResetRecoilState(plantQueryAtom);
 
   const isLogin = useRecoilValue(validLogin);
 
@@ -50,14 +52,14 @@ const Header = () => {
             headerColor ? `bg-white drop-shadow-md` : `backdrop-blur-md`
           }`}
         >
-          <Link to="/" className="w-40 wrap md:mb-0">
+          <Link to="/" className="w-40 wrap md:mb-0" onClick={resetPlantQuery}>
             <img className="logo" src="/img/icon.png" alt="로고 이미지" />
             <span className="logo-span">푸르댕댕</span>
           </Link>
           <nav className="hidden nav lg:block">
             <div className="flex">
               <div>
-                <Link to="/" className="header-link">
+                <Link to="/" className="header-link" onClick={resetPlantQuery}>
                   홈
                 </Link>
                 <Link to="/search" className="header-link">
@@ -69,7 +71,11 @@ const Header = () => {
               </div>
               {isLogin ? (
                 <div>
-                  <Link to="/mypage" className="header-link">
+                  <Link
+                    to="/mypage"
+                    className="header-link"
+                    onClick={resetPlantQuery}
+                  >
                     마이페이지
                   </Link>
                   <button className="header-link" onClick={() => logout()}>
@@ -78,10 +84,18 @@ const Header = () => {
                 </div>
               ) : (
                 <div>
-                  <Link to="/account" className="header-link">
+                  <Link
+                    to="/account"
+                    className="header-link"
+                    onClick={resetPlantQuery}
+                  >
                     로그인
                   </Link>
-                  <Link to="/account/register" className="header-link">
+                  <Link
+                    to="/account/register"
+                    className="header-link"
+                    onClick={resetPlantQuery}
+                  >
                     회원가입
                   </Link>
                 </div>

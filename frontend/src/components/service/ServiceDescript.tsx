@@ -10,7 +10,7 @@ const ServiceDescript = () => {
         <DescriptBox>
           {description.map(des => {
             return (
-              <div className="flex p-4 md:w-1/3">
+              <div className="flex p-4 cursor-default md:w-1/3 ">
                 <Icon>
                   <i className={des.className} />
                 </Icon>

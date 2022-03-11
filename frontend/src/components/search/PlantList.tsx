@@ -6,11 +6,11 @@ import React, {
 } from 'react';
 import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import {
-  fetchPlant,
   scrollPage,
   plantQueryAtom,
   plantListAtom,
   filterAtom,
+  searchPlant,
 } from '../../api/search';
 import PlantCard from './PlantCard';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +23,7 @@ const TIME = 700;
 const PlantList = () => {
   const navigate = useNavigate();
   const plantQuery = useRecoilValue(plantQueryAtom);
-  const fetchPlantList = useRecoilValueLoadable(fetchPlant);
+  const fetchPlantList = useRecoilValueLoadable(searchPlant);
   const [plantsList, setPlantsList] = useRecoilState<Plant[] | any>(
     plantListAtom,
   );
@@ -40,7 +40,8 @@ const PlantList = () => {
         break;
 
       case 'hasValue':
-        setPlantsList(fetchPlantList.contents.results);
+        const { results } = fetchPlantList?.contents;
+        setPlantsList(results);
         break;
 
       case 'hasError':

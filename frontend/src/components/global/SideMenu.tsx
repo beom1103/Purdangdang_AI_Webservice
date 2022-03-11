@@ -1,18 +1,21 @@
-import React, { useCallback } from 'react';
+import { SetStateAction, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import tw from 'tailwind-styled-components';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { validLogin } from '../../api';
 import { logout } from '../../api';
+import { plantQueryAtom } from '../../api/search';
 
 type MenuProps = {
   menu: boolean;
-  selectMenu: any;
+  selectMenu: React.Dispatch<SetStateAction<boolean>>;
 };
 
 const SideMenu = ({ menu, selectMenu }: MenuProps) => {
+  const resetPlantQuery = useResetRecoilState(plantQueryAtom);
   const menuClose = useCallback((): void => {
     selectMenu(false);
+    resetPlantQuery();
   }, [menu]);
 
   const isLogin = useRecoilValue(validLogin);
@@ -79,8 +82,17 @@ const SideMenu = ({ menu, selectMenu }: MenuProps) => {
           </div>
           <Link to="/survey" className="side-link" onClick={() => menuClose()}>
             <div className="flex-row">
-              <I className="fas fa-filter" />
+              <I className="fas fa-leaf" />
               <span>나와 어울리는 푸르댕댕은?</span>
+            </div>
+          </Link>
+          <div className="flex w-full">
+            <Line />
+          </div>
+          <Link to="/service" className="side-link" onClick={() => menuClose()}>
+            <div className="flex-row">
+              <I className="fas fa-file" />
+              <span>서비스 소개</span>
             </div>
           </Link>
           <div className="flex w-full">

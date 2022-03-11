@@ -6,20 +6,8 @@ import UploadContainer from '../components/homepage/UploadContainer';
 import PageMark from '../components/homepage/PageMark';
 import tw from 'tailwind-styled-components';
 
-const throttle = (callback: any, waitTime: number) => {
-  let timerId: any = null;
-  return (e: any) => {
-    if (timerId) return;
-    timerId = setTimeout(() => {
-      callback.call(this, e);
-      timerId = null;
-    }, waitTime);
-  };
-};
-
 const HomePage = () => {
-  const outerDivRef: any = useRef<HTMLDivElement>(null);
-  const contentsRef: any = useRef([]);
+  const contentsRef: any = useRef<HTMLDivElement[]>([]);
   const [scrollIndex, setScrollIndex] = useState<number>(1);
   const [textAnim, setTextAnim] = useState<boolean>(false);
   const [isModal, setIsModal] = useState<boolean>(false);
@@ -39,7 +27,6 @@ const HomePage = () => {
       } else {
         if (startFlag) {
           const scrollDown = window.scrollY >= initialScroll;
-
           const scrollLimit = num >= 1 && num <= 3;
           if (scrollLimit) {
             document.body.style.overflowY = 'hidden';
@@ -71,30 +58,22 @@ const HomePage = () => {
       }
       setScrollIndex(num);
     };
-    const throttleScroll = throttle(scrollHandler, 25);
 
-    window.addEventListener('scroll', throttleScroll);
+    window.addEventListener('scroll', scrollHandler);
     return () => {
-      window.removeEventListener('scroll', throttleScroll);
+      window.removeEventListener('scroll', scrollHandler);
     };
   }, []);
 
   return (
-    <Body
-      ref={outerDivRef}
-      className="main"
-      style={{
-        height: `calc(100vh * 3)`,
-      }}
-    >
+    <Body className="main home-page">
       <div className="container hidden lg:block">
         <PageMark scrollIndex={scrollIndex} />
       </div>
 
       <div className="relative w-full ">
         <ContentBox
-          className="box1"
-          style={{ zIndex: 3 }}
+          className="box1 z-3"
           ref={elem => (contentsRef.current[1] = elem)}
         >
           <div className="relative ">
@@ -119,8 +98,8 @@ const HomePage = () => {
           </div>
         </ContentBox>
         <ContentBox
-          className="box2"
-          style={{ zIndex: 2, transform: `translateY(100vh)` }}
+          className="box2 z-2"
+          style={{ transform: `translateY(100vh)` }}
           ref={elem => (contentsRef.current[2] = elem)}
         >
           <div className="relative ">
@@ -131,8 +110,8 @@ const HomePage = () => {
           </div>
         </ContentBox>
         <ContentBox
-          className="box3"
-          style={{ zIndex: 1, transform: `translateY(100vh)` }}
+          className="box3 z-1"
+          style={{ transform: `translateY(100vh)` }}
           ref={elem => (contentsRef.current[3] = elem)}
         >
           <UploadContainer setIsModal={setIsModal} />
