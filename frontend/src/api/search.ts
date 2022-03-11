@@ -36,33 +36,23 @@ export const filterAtom = atom<string>({
   default: '전체',
 });
 
-// 나중에 검색이랑 합치기
-export const fetchPlant = selector<Plant[] | any>({
-  key: 'fetchPlant',
-  get: async ({ get }) => {
-    const filter = get(filterAtom);
-    let requestUrl = null;
-
-    if (filter === '전체') {
-      requestUrl = 'api/plant/search';
-    } else {
-      requestUrl = `api/plant/search?f=${filter}`;
-    }
-
-    if (requestUrl !== null) {
-      const { data } = await api.get(requestUrl);
-      return data;
-    }
-  },
-});
-
-export const searchPlant = selector<Promise<Plant[]>>({
+export const searchPlant = selector<Plant[] | any>({
   key: 'searchPlant',
   get: async ({ get }) => {
     const plant = get(plantQueryAtom);
+    const filter = get(filterAtom);
+    let requestUrl = null;
     try {
-      const { data } = await api.get(`api/plant/search?kw=${plant}`);
-      return data;
+      if (filter === '전체') {
+        requestUrl = `api/plant/search?kw=${plant}`;
+      } else {
+        requestUrl = `api/plant/search?kw=${plant}&f=${filter}`;
+      }
+
+      if (requestUrl !== null) {
+        const { data } = await api.get(requestUrl);
+        return data;
+      }
     } catch (error) {
       console.log(error);
       return;
