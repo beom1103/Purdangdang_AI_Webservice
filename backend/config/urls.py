@@ -50,8 +50,6 @@ app_urls = [
     path('google/', include('allauth.urls')),
     path('google/', include('apps.social_login.urls')),
     path("survey/", include("apps.plant_survey.urls")),
-
-    
 ]
 
 urlpatterns = [
