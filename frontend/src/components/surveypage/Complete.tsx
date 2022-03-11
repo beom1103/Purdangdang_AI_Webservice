@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import tw from 'tailwind-styled-components';
-import { QuestionBox, Title } from '../../pages/SurveyPage';
-import { Plant, User } from '../../store/type';
-import { useCallback } from 'react';
-import PlantCard from '../search/PlantCard';
-import { useNavigate } from 'react-router-dom';
-import Footer from '../global/Footer';
-import { addMyPage } from '../../api/myPage';
+import React, { useEffect } from "react";
+import tw from "tailwind-styled-components";
+import { QuestionBox, Title } from "../../pages/SurveyPage";
+import { Plant, User } from "../../store/type";
+import { useCallback } from "react";
+import PlantCard from "../search/PlantCard";
+import { useNavigate } from "react-router-dom";
+import Footer from "../global/Footer";
+import { addMyPage } from "../../api/myPage";
 
 type CompleteProps = {
   user: User | undefined;
@@ -16,15 +16,17 @@ type CompleteProps = {
 const Complete: React.FC<CompleteProps> = ({ user, result }) => {
   const navigate = useNavigate();
 
-  const goDetailPage = useCallback((e: React.MouseEventHandler | any) => {
-    const plantId = e.target.id;
+  const goDetailPage = useCallback((e: React.MouseEven<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    const plantId = target.id;
+
     if (plantId) {
       navigate(`/plant/${plantId}/info`);
     }
   }, []);
 
   const addMyList = () => {
-    result.map(plant => addMyPage(false, `${plant.rank}`));
+    result.map((plant) => addMyPage(false, `${plant.rank}`));
   };
 
   useEffect(() => {
@@ -50,7 +52,7 @@ const Complete: React.FC<CompleteProps> = ({ user, result }) => {
               name={plant.name}
               rank={plant.rank}
               image={plant.image_url}
-              onClick={goDetailPage}
+              onClickFunc={goDetailPage}
             />
           );
         })}

@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValueLoadable } from 'recoil';
-import { searchPlant } from '../../api/search';
-import { Plant } from '../../store/type';
-import PlantCard from './PlantCard';
+import React, { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValueLoadable } from "recoil";
+import { searchPlant } from "../../api/search";
+import { Plant } from "../../store/type";
+import PlantCard from "./PlantCard";
 
 const SearchList = () => {
   const searchData = useRecoilValueLoadable(searchPlant);
@@ -12,12 +12,12 @@ const SearchList = () => {
   const navigate = useNavigate();
 
   //상세 페이지로 라우팅
-  const goDetail = useCallback(
-    (e: React.MouseEventHandler<HTMLDivElement> | any): void => {
-      navigate(`/plant/${e.target.id}/info`);
-    },
-    [],
-  );
+  const goDetail = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    const plantId = target.id;
+
+    navigate(`/plant/${plantId}/info`);
+  }, []);
   return (
     <>
       {searchResult?.results?.map((data: Plant, idx: number): JSX.Element => {
@@ -28,7 +28,7 @@ const SearchList = () => {
             name={data.name}
             rank={data.rank}
             image={data.image_url}
-            onClick={goDetail}
+            onClickFunc={goDetail}
           />
         );
       })}
