@@ -1,41 +1,40 @@
-import React, { useRef, useEffect } from 'react';
-import tw from 'tailwind-styled-components';
+import React from "react";
+import tw from "tailwind-styled-components";
 
 type MyImageProps = {
   files: string[];
-  id: number;
-  checked: number;
+  idx: number;
+  checkedIdx: number;
   setChecked: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const MyImageUpload = ({ files, id, checked, setChecked }: MyImageProps) => {
-  const imgRef: any = useRef([]);
-
-  const checkHandler = (num: number) => {
+const MyImageUpload = ({
+  files,
+  idx,
+  checkedIdx,
+  setChecked,
+}: MyImageProps) => {
+  const checkHandler = React.useCallback((num) => {
     setChecked(num + 1);
-  };
+  }, []);
 
-  useEffect(() => {
-    if (files[id] !== `./img/tree.png`) {
-      const imgEl = imgRef.current[id];
-      imgEl.src = files[id];
-    } else {
-      const imgEl = imgRef.current[id];
-      imgEl.src = `./img/tree.png`;
+  const checked = React.useMemo(() => {
+    if (idx + 1 === checkedIdx) {
+      return true;
     }
-  }, [files]);
+    return false;
+  }, [idx, checkedIdx]);
+
   return (
-    <>
-      <li className="relative" onClick={() => checkHandler(id)}>
-        <Image alt="나만의 식물" ref={elem => (imgRef.current[id] = elem)} />
-        <Div
-          className={` ${checked === id + 1 ? `visible` : `invisible`}`}
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
-        >
-          {id + 1}
-        </Div>
-      </li>
-    </>
+    <li className="relative" onClick={() => checkHandler(idx)}>
+      {files.length > 0 && <Image alt="나만의 식물" src={files[idx]} />}
+      <Div
+        className={` ${checked ? `visible` : `invisible`}`}
+        style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
+      >
+        {idx + 1}
+      </Div>
+    </li>
   );
 };
 

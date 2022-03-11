@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import UploadList from './UploadList';
-import ImagePreview from './MyImageUpload';
-import { UserPlantList } from '../../store/type';
-import tw from 'tailwind-styled-components';
+import React, { useState, useEffect, useCallback } from "react";
+import UploadList from "./UploadList";
+import MyImageUpload from "./MyImageUpload";
+import { UserPlantList } from "../../store/type";
+import tw from "tailwind-styled-components";
 
 type ImageListProps = {
   userPlant: UserPlantList[];
@@ -11,9 +11,9 @@ type ImageListProps = {
 
 const MyImageList: React.FC<ImageListProps> = ({ userPlant, handleToast }) => {
   const [myList, setMyList] = useState<UserPlantList[]>([
-    { id: 0, name: '없음', image: './img/tree.png', order: 1, user_id: 0 },
-    { id: 0, name: '없음', image: './img/tree.png', order: 2, user_id: 0 },
-    { id: 0, name: '없음', image: './img/tree.png', order: 3, user_id: 0 },
+    { id: 0, name: "없음", image: "./img/tree.png", order: 1, user_id: 0 },
+    { id: 0, name: "없음", image: "./img/tree.png", order: 2, user_id: 0 },
+    { id: 0, name: "없음", image: "./img/tree.png", order: 3, user_id: 0 },
   ]);
 
   const [plantName, setPlantName] = useState<string[]>([]);
@@ -38,30 +38,30 @@ const MyImageList: React.FC<ImageListProps> = ({ userPlant, handleToast }) => {
   }, [userPlant]);
 
   const ImageChange = useCallback(() => {
-    const changeImage = myList.map(list => list.image);
+    const changeImage = myList.map((list) => list.image);
     setPlantImage(changeImage);
   }, [myList]);
 
   const NameChange = useCallback(() => {
-    const changeName = myList.map(list => list.name);
+    const changeName = myList.map((list) => list.name);
     setPlantName(changeName);
   }, [myList]);
 
   const ChangList = useCallback(
     (change: string, method: string, number: number): void => {
-      if (method === 'image') {
+      if (method === "image") {
         const NewImage = myList;
         NewImage[number].image = change;
         setMyList(NewImage);
         ImageChange();
-      } else if (method === 'name') {
+      } else if (method === "name") {
         const NewName = myList;
         NewName[number].name = change;
         setMyList(NewName);
         NameChange();
       }
     },
-    [myList],
+    [myList]
   );
 
   const deleteList = useCallback(
@@ -69,15 +69,15 @@ const MyImageList: React.FC<ImageListProps> = ({ userPlant, handleToast }) => {
       const NewList = myList;
       for (const key of NewList) {
         if (key.order === number) {
-          key.image = './img/tree.png';
-          key.name = '없음';
+          key.image = "./img/tree.png";
+          key.name = "없음";
         }
       }
       setMyList(NewList);
       ImageChange();
       NameChange();
     },
-    [myList],
+    [myList]
   );
 
   useEffect(() => {
@@ -96,26 +96,26 @@ const MyImageList: React.FC<ImageListProps> = ({ userPlant, handleToast }) => {
         <div className="myPage_TitleBox">
           <span className="myPage_Title">나만의 식물들</span>
           <ul className="myPage_Ul">
-            <ImagePreview
+            <MyImageUpload
               files={plantImage}
-              id={0}
-              checked={checked}
+              idx={0}
+              checkedIdx={checked}
               setChecked={setChecked}
             />
 
             <Div>
-              <ImagePreview
+              <MyImageUpload
                 files={plantImage}
-                id={1}
-                checked={checked}
+                idx={1}
+                checkedIdx={checked}
                 setChecked={setChecked}
               />
             </Div>
 
-            <ImagePreview
+            <MyImageUpload
               files={plantImage}
-              id={2}
-              checked={checked}
+              idx={2}
+              checkedIdx={checked}
               setChecked={setChecked}
             />
           </ul>
