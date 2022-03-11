@@ -5,8 +5,6 @@
    3. Docker
 
 ## 실행(backend에서 실행)
-
-1. npm start(port:8000)
-   pip install -r requirements.txt
-   cd backend
-   python manage.py runserver
+   - cd backend
+   - pip install -r requirements.txt
+   - python manage.py runserver
