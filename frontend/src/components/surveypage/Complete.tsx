@@ -16,7 +16,7 @@ type CompleteProps = {
 const Complete: React.FC<CompleteProps> = ({ user, result }) => {
   const navigate = useNavigate();
 
-  const goDetailPage = useCallback((e: React.MouseEven<HTMLDivElement>) => {
+  const goDetailPage = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.currentTarget;
     const plantId = target.id;
 
