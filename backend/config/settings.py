@@ -13,9 +13,19 @@ from datetime import timedelta
 from rest_framework.settings import api_settings
 from pathlib import Path
 import os 
+import json
+import sys 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+ROOT_DIR = os.path.dirname(BASE_DIR)	
+# SECRET_BASE_FILE = os.path.join(BASE_DIR, 'secrets.json')	
+# secrets = json.loads(open(SECRET_BASE_FILE).read())	
+# for key, value in secrets.items():	
+#     setattr(sys.modules[__name__], key, value)
 
+SOCIAL_AUTH_GOOGLE_CLIENT_ID = "808974595631-mka0gfen272dqe388ned3e726jaseenu.apps.googleusercontent.com"
+SOCIAL_AUTH_GOOGLE_SECRET = "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"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -26,12 +36,12 @@ SECRET_KEY = 'django-insecure-j#nqqtp=63zxzdf)m85-8nsh+$(tv#4!^ol8r2gn4d)fo1qt5u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-
-# ALLOWED_HOSTS = ['0.0.0.0','localhost','elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com']
+ALLOWED_HOSTS = ['0.0.0.0','localhost','elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com','127.0.0.1']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Application definition
 DJANGO_APPS = [    
@@ -41,6 +51,7 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 ]
 
 REST_KNOX = {
@@ -52,9 +63,23 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'drf_yasg', 
     'knox',
+    'rest_framework_simplejwt.token_blacklist',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    'rest_framework.authtoken',
+
+    #allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    #provider 구글 페이스북 카톡 깃허브 등 소셜로그인 제공업체
+    'allauth.socialaccount.providers.google',
+
 ]
 
 LOCAL_APPS = [
+    'apps.social_login',
     'apps.user',
     'apps.plant',
     'apps.plant_survey'
@@ -64,7 +89,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
-     "DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",),
+     "DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",
+     'rest_framework_simplejwt.authentication.JWTAuthentication',),
 }
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -116,29 +142,29 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-# 로컬 테스트용
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'team12',
-        'USER': 'root',
-        'PASSWORD': 'vnfmeod12',
-        'HOST': 'elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com',
-        'PORT': '3306',
-        'TEST': {
-            'CHARSET': 'utf8',
-            'COLLATION': 'utf8_general_ci',
-        }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'team12',
+#         'USER': 'root',
+#         'PASSWORD': 'vnfmeod12',
+#         'HOST': 'elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com',
+#         'PORT': '3306',
+#         'TEST': {
+#             'CHARSET': 'utf8',
+#             'COLLATION': 'utf8_general_ci',
+#         }
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -158,7 +184,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -167,16 +192,48 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
-
-USE_TZ = True
-
+USE_L10N = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+# https://docs.djangoproject.com/en/3.2/howto/static-files/
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTHENTICATION_BACKENDS = (
+    #Needed to login by username in Django admin, regardless of 'allauth'
+    'django.contrib.auth.backends.ModelBackend',
+    
+    # 'allauth' specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+#JWT 환경
+REST_USE_JWT = True
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=2),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+}
+
+SITE_ID = 4
+
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
+

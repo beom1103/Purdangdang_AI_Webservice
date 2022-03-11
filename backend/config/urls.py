@@ -41,6 +41,11 @@ app_urls = [
     path("plant/",include("apps.plant.urls")),
     path("auth/", include("knox.urls")),
     path("survey/", include("apps.plant_survey.urls")),
+    path('accounts/', include('dj_rest_auth.urls')),
+    path('accounts/', include('dj_rest_auth.registration.urls')),
+    path('google/', include('allauth.urls')),
+    path('google/', include('apps.social_login.urls')),
+    path("survey/", include("apps.plant_survey.urls")),
 ]
 
 urlpatterns = [
