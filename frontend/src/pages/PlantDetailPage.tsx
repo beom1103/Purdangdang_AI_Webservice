@@ -9,6 +9,7 @@ import { addMyPage, isLikePlant } from '../api/myPage';
 import { validLogin } from '../api';
 
 const PlantDetailPage = () => {
+  window.scrollTo(0, 0);
   const user = useRecoilValue(validLogin);
   const params = useParams() as { name: string };
   const [info, setInfo] = useRecoilState(infoAtom);
