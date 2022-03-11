@@ -121,7 +121,7 @@ class PlantReviewListView(APIView, ReviewListPagination):
         serializer = PlantReviewSerializer(data=request.data, instance=review)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response("Successfully updated.", status=status.HTTP_201_CREATED) 
+        return Response("Successfully updated.", status=status.HTTP_201_CREATED) 
         
     def delete(self, request, plant_id: int, format=None):
         """

@@ -117,28 +117,28 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 # 로컬 테스트용
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'django_app_db',
-#         'USER': 'root',
-#         'PASSWORD': 'vnfmeod12',
-#         'HOST': 'db',
-#         'PORT': '3306',
-#         'TEST': {
-#             'CHARSET': 'utf8',
-#             'COLLATION': 'utf8_general_ci',
-#         }
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'team12',
+        'USER': 'root',
+        'PASSWORD': 'vnfmeod12',
+        'HOST': 'elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com',
+        'PORT': '3306',
+        'TEST': {
+            'CHARSET': 'utf8',
+            'COLLATION': 'utf8_general_ci',
+        }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
