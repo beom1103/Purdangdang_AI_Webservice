@@ -1,7 +1,7 @@
+from logging import exception
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from ...user.serializers import CreateUserSerializer
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from django.http import JsonResponse, HttpResponse
@@ -35,7 +35,6 @@ class google_login(APIView):
     """
     
     def get(self, request):
-        print("google_login 들어옴")
         scope = "https://www.googleapis.com/auth/userinfo.email"
         client_id = getattr(settings, "SOCIAL_AUTH_GOOGLE_CLIENT_ID")
         return redirect(f"https://accounts.google.com/o/oauth2/v2/auth?client_id={client_id}&response_type=code&redirect_uri={GOOGLE_CALLBACK_URI}&scope={scope}")
@@ -43,7 +42,6 @@ class google_login(APIView):
 
 class google_callback(APIView):
     def get(self, request):
-        print("google_callback 들어옴")
         client_id = getattr(settings, "SOCIAL_AUTH_GOOGLE_CLIENT_ID")
         client_secret = getattr(settings, "SOCIAL_AUTH_GOOGLE_SECRET")
         code = request.GET.get('code')
@@ -110,18 +108,19 @@ class google_callback(APIView):
             accept = requests.post(
                 f"{BASE_URL}google/google/login/finish/", data=data)
             accept_status = accept.status_code
-
-            user = User.objects.get(email=email)
-            user.username = user.email
-            user.save()
-
             if accept_status != 200:
                 return JsonResponse({'err_msg': 'failed to signup'}, status=accept_status)
             accept_json = accept.json()
             accept_json.pop('user', None)
             accept_json['expiration_time']  = expiration_time
             accept_json['email'] = email
+
+            user = User.objects.get(email=email)
+            user.username = user.email
+            user.save()
+
             return JsonResponse(accept_json)
+
 
 class GoogleLogin(SocialLoginView):
     '''class used for social authentications
