@@ -11,14 +11,7 @@ type AnimProps = {
 
 const Intro = ({ textAnim }: AnimProps) => {
   return (
-    <div
-      className="intro-div"
-      style={{
-        backgroundColor: '#f8f8f6',
-        backgroundImage: 'url(/img/home1.jpg)',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
+    <div className="intro-div intro">
       <div className="justify-around w-8/12 center h-4/6 ">
         <section className="intro-section">
           <Article

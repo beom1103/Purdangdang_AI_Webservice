@@ -14,13 +14,6 @@ type PlantDataType = {
   userplant: UserPlantList[];
 };
 
-type ToastList = {
-  complete: string;
-  delete: string;
-  nameNull: string;
-  waring: string;
-};
-
 const msgList: string[] = [
   '저장되었습니다',
   '삭제되었습니다',

@@ -392,3 +392,8 @@ body::-webkit-scrollbar {
     rgba(255, 238, 246, 1) 100%
   );
 }
+.intro {
+  background-color: #f8f8f6;
+  background-image: 'url(/img/home1.jpg)';
+  background-repeat: no-repeat;
+}

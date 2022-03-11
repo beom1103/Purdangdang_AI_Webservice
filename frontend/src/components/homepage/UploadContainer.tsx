@@ -26,9 +26,13 @@ type PlantDataType = {
 
 type UploadContainerProps = {
   setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
+  handleToast: any;
 };
 
-const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
+const UploadContainer: React.FC<UploadContainerProps> = ({
+  setIsModal,
+  handleToast,
+}) => {
   const user = useRecoilValue(validLogin);
 
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -85,6 +89,7 @@ const UploadContainer: React.FC<UploadContainerProps> = ({ setIsModal }) => {
         .then(res => {
           imageCheck(res);
         })
+        .then(ok => handleToast('ok'))
         .catch(function (err) {
           console.error(err);
         });
