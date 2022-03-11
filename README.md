@@ -1,66 +1,72 @@
-# (서비스 명)
-- 최종 서비스 명을 위 괄호 부분에 작성하세요.
-- 최종 서비스의 한 줄 소개를 작성하세요.
+# 푸르댕댕🍀
 
+<strong> 플랜테리어, 반려식물에 관심을 갖는 사람들에게 식물을 찾아주고 식물의 정보를 제공해주는 서비스  </strong>
+<br/>
+<br/>
+## 1. 기술스택
+<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
+  <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black"> 
+  <img src="https://img.shields.io/badge/React Router-CA4245?style=for-the-badge&logo=react router&logoColor=black"> 
+  <img src="https://img.shields.io/badge/recoil-white?style=for-the-badge&logo=react&logoColor=black">
+  <img src="https://img.shields.io/badge/tailwind css-06B6D4?style=for-the-badge&logo=tailwind css&logoColor=black">
+  <img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styled-components&logoColor=black">
+  <img src="https://img.shields.io/badge/eslint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white">
+  <img src="https://img.shields.io/badge/prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=black">
+  <img src="https://img.shields.io/badge/axios-white?style=for-the-badge&logo=&logoColor=black">
+  <img src="https://img.shields.io/badge/keras-D00000?style=for-the-badge&logo=keras&logoColor=white">
+  <img src="https://img.shields.io/badge/tensorflow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white">
+  <img src="https://img.shields.io/badge/opencv-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white">
+  <img src="https://img.shields.io/badge/numpy-013243?style=for-the-badge&logo=numpy&logoColor=white">
+  <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white">
 
-## 프로젝트 구성 안내
+## 2. 프로젝트 소개
+- 사용자가 원하는 식물을 찾을 수 있도록 사진을 찍어서 업로드하면 유사한 식물의 정보를 알려줍니다.
+- 사용자의 주거 환경, 식물을 길러 봤던 경험 등의 검사 문항을 통해 사용자가 키우기 적합한 식물을 추천해줍니다.
+- 247종의 실내에서 키우기 적합한 식물들 정보를 제공해 줍니다.
+- 마음에 드는 식물이 있다면 네이버 쇼핑, 유튜브 링크(ex.'스투키 키우기')를 통해 식물을 구매하거나, 식물 관련 유튜브 영상을 곧바로 확인해볼 수 있습니다.
+- 잎이 있는 식물이라면, 식물의 잎을 찍어서 식물이 현재 질병에 걸린 것인지 확인해볼 수 있습니다.
 
-* `bullet point 에 적힌 내용을 수정해 주시면 됩니다.`
+### 프로젝트 기획 의도
 
-* `초기 기획은 언제든 수정될 수 있으니 웹서비스 결과를 내는데 초점을 두시기 바랍니다.`
+- 코로나 19로 실내생활 시간이 늘어남에 따라 <strong>반려식물과 플랜테리어(Planterior)</strong>에 대한 관심과 수요가 증가하고 있다.
+- 실내 공간 인테리어(ex. 인스타 감성 카페)에 있어 식물은 필연적 요소가 되어가지만, 정작 그러한 녹색 식물에 대해 이름조차 제대로 알고 있지 않은 경우가 많다.
 
-## 1. 프로젝트 소개
+<strong> 따라서 사진을 찍음으로써 식물의 정보를 곧바로 제공받을 수 있는 서비스를 기획하게 되었다.
+- 어떤 사람들은 '식물킬러'라고 불릴 만큼, 식물을 기르는 능력이 부족한 사람도 있고 식물마다 키우는 난이도가 다르다. 
+- 따라서 사람들의 주거환경, 양육 난이도 등의 검사 문항을 만들어서 사용자가 키우기 제일 적합한 식물들을 추천하는 기능을 추가하게 되었다.
 
-**엔드유저에게 보이는 웹서비스에 대한 소개**
-  - 기술 스택 (React.js, Flask, MySQL 등)
-  - 웹서비스에 대한 자세한 개요
-
-## 2. 프로젝트 기획 의도
-
-**어떤 의도로 프로젝트를 기획했는지에 대한 설명**
-  - 프로젝트 아이디어 동기
-  - 해당 서비스를 통해 해결하고 싶었던 문제를 구체적으로 명시
+<strong> → 푸르댕댕은 사용자가 원하는 식물을 찾을 수 있도록 돕고 <br/> 사용자의 환경에 적합한 식물을 추천하여 "식물이 있는 삶"을 통한 삶의 질 개선을 돕고자 한다.
 
 ## 3. 서비스 주요 기능 설명
 
-**웹서비스의 유용성, 편의성 및 시각화의 실용성에 대한 설명**
-  - 주요 기능 (주된 활용성) 및 서브 기능 소개
-  - 프로젝트만의 차별점, 기대 효과
+### 주요 기능 
+ 
+- <strong> 사용자의 입력 이미지를 토대로 해당 이미지의 분류 결과 어떤 식물인지를 알려준다. </strong>
+   - 분류 결과 중 정확도가 높은 세가지의 식물을 보여준다. 
+- <strong>사용자의 거주 환경을 조사 받아 사용자에게 적합한 식물을 추천해준다. </strong>
+   - 조사 받은 결과를 바탕으로 사용자가 키우기 적합한 식물 리스트를 보여준다. 
+### 서브 기능
+- 식물 잎의 사진을 찍어 질병을 진단해준다. 
+   - 총 8가지의 질병 클래스 중에서 사용자가 찍은 잎의 증상과 유사한 증상을 나타내는 질병을 알려준다. 
+
+ → <strong>(기대효과) </strong> 공간을 아름답게 꾸미는 식물들에 대해 정보를 제공해줌으로써, 선뜻 실행하지 못했던 반려식물 키우기에 대해 접근성을 높여주고, 식물에 대한 관심을 환기시켜준다.
+
+ → <strong>(차별점) </strong> 기존의 식물정보제공 서비스와 다르게 AI를 통해 사용자가 업로드한 식물의 정보를 제공한다. 또한 식물별 커뮤니티를 통한 정보 공유와 다양한 실내환경별 양육 방법을 알게해주고 식물의 질병을 진단해줌으로써, 식물에 대한 접근성을 높여 주고 식물을 키우는 사람들에게는 식물 중심의 커뮤니티를 형성하게 해준다. 
 
 ## 4. 프로젝트 구성도
-  - 프로젝트 구조도
-  - 와이어프레임 e.g) figma
-  - 스토리보드
+**와이어프레임**
+  - https://whimsical.com/DBTrfNZ1rU77QrWG4L71co
+     - pw : 푸르댕12
 
 ## 5. 프로젝트 팀원 역할 분담
-| 이름 | 담당 업무 |
-| ------ | ------ |
-| 멤버1 | 팀장/프론트엔드 개발 |
-| 멤버2 | 백엔드 개발 |
-| 멤버3 | 인공지능 개발 |
-
-**멤버별 responsibility**
-
-1. 멤버 1: 팀장/프론트엔드 담당
-
-- 기획 단계: 구체적인 설계와 지표에 따른 프로젝트 제안서 작성
-- 개발 단계: 팀원간의 일정 등 조율 + 프론트 or 백엔드 or 인공지능 개발
-- 수정 단계: 기획, 스크럼 진행, 코치님 피드백 반영해서 수정, 발표 준비
-
-2. 멤버 2: 백엔드 담당
-
-- 기획 단계: 큰 주제에서 문제 해결 아이디어 도출, 와이어프레임 작성
-- 개발 단계: 와이어프레임을 기반으로 API 및 데이터베이스 완성
-- 수정 단계: 피드백 반영해서 백엔드 설계 수정
-
-3. 멤버 3: 인공지능 담당
-
-- 기획 단계: 큰 주제에서 문제 해결 아이디어 도출, 와이어프레임 작성
-- 개발 단계: 와이어프레임을 기반으로 인공지능 모델 구현, 모델 학습 진행
-- 수정 단계: 피드백 반영해서 모델 정확도 향상 
+| 이름 | 파트 | 담당 업무|
+| ------ | ------ | ----- |
+| 서상훈 | 팀장/ AI| 1. 프로젝트 문서 작성 및 관리 <br/> 2. 식물 분류 모델 이미지 크롤링 및 전처리 <br/> 3. 식물 분류 AI 모델 설계 <br/> 4. 식물 질병 모델 이미지 크롤링 및 전처리 <br/> 5. 식물 질병 진단 AI 모델 설계 |
+| 권용찬 | AI | x |
+| 남기범 | 프론트엔드 | 1. 라우팅 관리(접근제한 및 url) <br/> 2. 로그인, 회원가입 구현 <br/> 3. 검색 페이지 구현(무한스크롤, 필터. 스크롤 top) <br/> 4. 상세 페이지 구현(리뷰 작성/수정/삭제, 찜/별점 , 네이버/유튜브 링크 연동) <br/> 5. 식물 추천/검사 페이지 구현 (검사 결과 마이페이지에 반영) <br/> 6. 질병진단 검사 결과 모달 구현 <br/> 7. 서비스 소개 페이지 구현 <br/>8. 로딩 스피너, 404 페이지 구현 <br/> 9. useCaseDiagram / 발표 ppt 제작 |
+| 양덕규 | 프론트엔드 | 1. 홈페이지 구현(full-page) <br/>2. 헤더바 제작(스크롤 시 배경 색상 변경)<br/>3. 사이드 메뉴 구현<br/>4. 이미지 업로드, 사진 파일 확인, 리사이징, 확장자 변경 기능 구현 <br/>5. 식물 이미지 검사 결과 모달 구현<br/>6. 마이 페이지 구현(사진 추가, 식물 이름 수정, 이름 삭제, 찜 목록 표시)<br/>7. 토스트 기능 구현<br/>8. 와이어 프레임 관리 |
+| 전예솜 | 백엔드 | x |
+| 채윤희 | 백엔드 | 1. API, 데이터베이스 설계 및 관리 <br/> 2. 인공지능 연동  <br/> 3. 로그인, 회원가입 구현  <br/> 4. Docker 개발 환경 구축 및 배포 <br/> 5. API 문서화 <br/>|
 
 ## 6. 버전
-  - 프로젝트의 버전 기입
-
-## 7. FAQ
-  - 자주 받는 질문 정리
+- ver 1.0
