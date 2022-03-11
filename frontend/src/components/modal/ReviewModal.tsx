@@ -49,7 +49,7 @@ const ReviewModal: React.FC<ModalProps | any> = ({
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
-      onSubmitReview();
+      () => onSubmitReview();
     }
   };
 
@@ -79,7 +79,7 @@ const ReviewModal: React.FC<ModalProps | any> = ({
         onKeyPress={handleKeyPress}
         defaultValue={modifyReview?.content}
       />
-      <Button onClick={onSubmitReview}>제출</Button>
+      <Button onClick={() => onSubmitReview()}>제출</Button>
     </Modal>
   );
 };
