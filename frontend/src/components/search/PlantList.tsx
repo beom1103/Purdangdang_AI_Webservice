@@ -1,9 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  MouseEventHandler,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import {
   scrollPage,
@@ -24,9 +19,7 @@ const PlantList = () => {
   const navigate = useNavigate();
   const plantQuery = useRecoilValue(plantQueryAtom);
   const fetchPlantList = useRecoilValueLoadable(searchPlant);
-  const [plantsList, setPlantsList] = useRecoilState<Plant[] | any>(
-    plantListAtom,
-  );
+  const [plantsList, setPlantsList] = useRecoilState(plantListAtom);
   const filter = useRecoilValue(filterAtom);
   const [page, setPage] = useState<number>(1);
 
@@ -40,7 +33,7 @@ const PlantList = () => {
         break;
 
       case 'hasValue':
-        const { results } = fetchPlantList?.contents;
+        const { results } = fetchPlantList.contents;
         setPlantsList(results);
         break;
 
@@ -76,8 +69,10 @@ const PlantList = () => {
   );
 
   //상세 페이지로 라우팅
-  const goDetailPage = useCallback((e: MouseEventHandler | any) => {
-    const plantId = e.target.id;
+  const goDetailPage = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    const plantId = target.id;
+
     if (plantId) {
       navigate(`/plant/${plantId}/info`);
     }
@@ -113,7 +108,7 @@ const PlantList = () => {
               name={data.name}
               rank={data.rank}
               image={data.image_url}
-              onClick={goDetailPage}
+              onClickFunc={goDetailPage}
             />
           );
         })

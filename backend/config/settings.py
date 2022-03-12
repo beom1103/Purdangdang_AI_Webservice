@@ -113,7 +113,8 @@ CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:3000',
     'http://localhost:8000',
     'http://localhost:3000',
-    'http://elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com:3000/'   
+    'http://elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com:3000/' 
+    'https://accounts.google.com'  
 ] 
 
 CORS_ORIGIN_ALLOW_ALL = True

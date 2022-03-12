@@ -16,8 +16,10 @@ type CompleteProps = {
 const Complete: React.FC<CompleteProps> = ({ user, result }) => {
   const navigate = useNavigate();
 
-  const goDetailPage = useCallback((e: React.MouseEventHandler | any) => {
-    const plantId = e.target.id;
+  const goDetailPage = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    const plantId = target.id;
+
     if (plantId) {
       navigate(`/plant/${plantId}/info`);
     }
@@ -50,7 +52,7 @@ const Complete: React.FC<CompleteProps> = ({ user, result }) => {
               name={plant.name}
               rank={plant.rank}
               image={plant.image_url}
-              onClick={goDetailPage}
+              onClickFunc={goDetailPage}
             />
           );
         })}

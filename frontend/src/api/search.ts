@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil';
 import { api, athentication } from '.';
-import { Info, Plant, Reviews } from '../store/type';
+import { Info, Plant, ReviewObj, Reviews } from '../store/type';
 
 export const plantListAtom = atom<Plant[]>({
   key: 'plantListAtom',
@@ -36,12 +36,14 @@ export const filterAtom = atom<string>({
   default: '전체',
 });
 
-export const searchPlant = selector<Plant[] | any>({
+export const searchPlant = selector<{ results: Plant[] }>({
   key: 'searchPlant',
   get: async ({ get }) => {
     const plant = get(plantQueryAtom);
     const filter = get(filterAtom);
+
     let requestUrl = null;
+
     try {
       if (filter === '전체') {
         requestUrl = `api/plant/search?kw=${plant}`;
@@ -80,7 +82,7 @@ export const scrollPage = async (page: number, filter: string) => {
 
 export const getDetailInfo = async (
   pathname: string,
-): Promise<Info | Reviews[] | any> => {
+): Promise<Info | ReviewObj | any> => {
   try {
     const { data } = await api.get(`api${pathname}`);
     return data;

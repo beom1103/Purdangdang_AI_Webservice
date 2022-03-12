@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import UploadList from './UploadList';
-import ImagePreview from './MyImageUpload';
+import MyImageUpload from './MyImageUpload';
 import { UserPlantList } from '../../store/type';
 import tw from 'tailwind-styled-components';
 
@@ -96,26 +96,26 @@ const MyImageList: React.FC<ImageListProps> = ({ userPlant, handleToast }) => {
         <div className="myPage_TitleBox">
           <span className="myPage_Title">나만의 식물들</span>
           <ul className="myPage_Ul">
-            <ImagePreview
+            <MyImageUpload
               files={plantImage}
-              id={0}
-              checked={checked}
+              idx={0}
+              checkedIdx={checked}
               setChecked={setChecked}
             />
 
             <Div>
-              <ImagePreview
+              <MyImageUpload
                 files={plantImage}
-                id={1}
-                checked={checked}
+                idx={1}
+                checkedIdx={checked}
                 setChecked={setChecked}
               />
             </Div>
 
-            <ImagePreview
+            <MyImageUpload
               files={plantImage}
-              id={2}
-              checked={checked}
+              idx={2}
+              checkedIdx={checked}
               setChecked={setChecked}
             />
           </ul>

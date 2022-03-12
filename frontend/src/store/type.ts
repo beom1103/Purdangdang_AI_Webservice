@@ -37,6 +37,13 @@ export type Info = {
   water_cycle?: string;
 };
 
+export type ReviewObj = {
+  count?: number;
+  next?: string;
+  previous?: string;
+  results?: Reviews[];
+};
+
 export type Reviews = {
   content: string;
   created_at?: string;

@@ -7,7 +7,9 @@ const token = localStorage.getItem('token');
 //기본 api
 export const api: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
-  headers: { 'Content-Type': `application/json` },
+  headers: {
+    'Content-Type': `application/json`,
+  },
 });
 
 //헤더에 토큰 있는 api

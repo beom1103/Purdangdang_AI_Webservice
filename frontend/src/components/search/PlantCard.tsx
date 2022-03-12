@@ -5,7 +5,7 @@ type CardProps = {
   name: string;
   image: string;
   rank: number;
-  onClick: React.MouseEventHandler<HTMLDivElement>;
+  onClickFunc: React.MouseEventHandler<HTMLDivElement>;
 };
 
 const PlantCard: React.FC<CardProps> = ({
@@ -13,7 +13,7 @@ const PlantCard: React.FC<CardProps> = ({
   image,
   name,
   rank,
-  onClick,
+  onClickFunc,
 }) => {
   return (
     <div className="card-div animate-fade-in-up">
@@ -25,9 +25,9 @@ const PlantCard: React.FC<CardProps> = ({
             backgroundImage: `url(${image})`,
             backgroundPositionY: '-40px',
           }}
-          onClick={onClick}
+          onClick={onClickFunc}
         ></div>
-        <div id={`${rank}`} className="px-5 py-3" onClick={onClick}>
+        <div id={`${rank}`} className="px-5 py-3" onClick={onClickFunc}>
           <h3>{kor}</h3>
           <span className="mt-2 text-gray-500">{name}</span>
         </div>
