@@ -65,7 +65,7 @@ const DetailModal = ({ isModal, plantData }: any) => {
               <I className="text-green-500 fas fa-temperature-low"></I>
               <Span>온도</Span>
             </LiBox>
-            <Span>{plantTempe}</Span>
+            <Span>잘 자라는 온도 : {plantTempe}</Span>
           </Li>
           <Line />
         </div>

@@ -85,7 +85,7 @@ body::-webkit-scrollbar {
 
 /* Header */
 .header-link {
-  @apply mr-5 link text-lg font-bold;
+  @apply mr-5 text-lg font-bold link;
 }
 
 .header-div {
@@ -216,7 +216,7 @@ body::-webkit-scrollbar {
 }
 
 .account-link {
-  @apply pl-1 link text-lg font-bold;
+  @apply pl-1 text-lg font-bold link;
 }
 
 .account-btn {
@@ -271,7 +271,7 @@ body::-webkit-scrollbar {
 }
 
 .modal-title {
-  @apply h-10 mb-6 text-2xl font-bold leading-10 text-center;
+  @apply h-10 mt-6 mb-4 text-2xl font-bold leading-10 text-center;
 }
 
 .modal-text {
@@ -315,7 +315,7 @@ body::-webkit-scrollbar {
 }
 
 .detail_Modal-btnBox {
-  @apply flex items-center justify-center w-full mt-8;
+  @apply flex items-center justify-center w-full mb-14 sm:mb-0 sm:mt-8;
 }
 
 .detail_Modal-btn {

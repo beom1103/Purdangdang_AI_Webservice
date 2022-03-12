@@ -45,7 +45,7 @@ const HomePage = () => {
       setTimeout(() => {
         setToastStatus(false);
         setToastMsg('');
-      }, 3000);
+      }, 3500);
     }
   }, [ToastStatus]);
 

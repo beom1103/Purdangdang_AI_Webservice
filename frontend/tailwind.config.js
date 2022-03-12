@@ -8,7 +8,8 @@ module.exports = {
         un: ['MapoFlowerIsland'],
       },
       scale: {
-        118: '1.18',
+        115: '1.15',
+        125: '1.25',
       },
       zIndex: {
         1: '1',

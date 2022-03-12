@@ -44,7 +44,7 @@ const UploadModal = ({ isModal, plantData }: any) => {
         <div
           className={`modal-background overflow-auto scroll ${
             detail
-              ? `lg:scale-x-150 lg:scale-y-118 overflow-auto scroll-style`
+              ? `lg:scale-x-125 lg:scale-y-115 overflow-auto scroll-style`
               : null
           }`}
           onClick={e => e.stopPropagation()}

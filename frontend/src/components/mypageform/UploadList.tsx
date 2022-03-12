@@ -77,7 +77,6 @@ const UploadList = ({
 
   const setImage = useCallback(
     (res: any) => {
-      console.log(res);
       const imageFile = res;
       const NewImage = myList;
       NewImage[id - 1].image = imageFile[1];
@@ -87,28 +86,26 @@ const UploadList = ({
     [myList, id],
   );
 
-  const handleDelete = useCallback(() => {
+  const handleDelete = () => {
     const user = isLogin?.username;
     deleteList(id);
     deleteMyPlant(user, id)
       .then(ok => printToast('delete'))
+      .then(del => setPlantTitle(''))
       .catch(error => printToast('에러'));
-  }, [isLogin, deleteList, deleteMyPlant, id]);
+  };
 
-  const handleInput = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const name = e.currentTarget.value;
-      setPlantTitle(name);
-    },
-    [setPlantTitle],
-  );
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const name = e.currentTarget.value;
+    setPlantTitle(name);
+  };
 
-  const editName = () => {
+  const editName = useCallback(() => {
     setEdit(false);
     if (plantName[id - 1] !== '없음') {
       setPlantTitle(plantName[id - 1]);
     }
-  };
+  }, [plantName]);
 
   const checkName = useCallback(() => {
     const user = isLogin?.username;
@@ -125,7 +122,7 @@ const UploadList = ({
         .catch(error => printToast('에러'));
       setEdit(true);
     }
-  }, [isLogin, myList, planttitle, image]);
+  }, [planttitle]);
 
   const handleKeyPress = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
