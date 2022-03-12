@@ -61,7 +61,6 @@
   - https://whimsical.com/DBTrfNZ1rU77QrWG4L71co
      - pw : 푸르댕12
 
-**useCaseDiagram**
 
 [](url)
 ## 5. 프로젝트 팀원 역할 분담
