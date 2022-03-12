@@ -38,7 +38,7 @@ class PlantListView(APIView, PlantListPagination):
         if kw: queryset = search()
         else : queryset = Plant.objects.all()
 
-        if f: results = self.paginate_queryset(queryset.intersection(category), request, view=self)
+        if f: results = self.paginate_queryset(queryset & category, request, view=self)
         else : results = self.paginate_queryset(queryset, request, view=self)
 
         serializer = PlantSerializer(results, many=True)

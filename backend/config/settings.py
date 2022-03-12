@@ -113,7 +113,9 @@ CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:3000',
     'http://localhost:8000',
     'http://localhost:3000',
-    'http://elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com:3000/' 
+    'http://elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com', 
+    'http://elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com:5000', 
+    'http://elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com:3000', 
     'https://accounts.google.com'  
 ] 
 
@@ -144,28 +146,28 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'team12',
-#         'USER': 'root',
-#         'PASSWORD': 'vnfmeod12',
-#         'HOST': 'elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com',
-#         'PORT': '3306',
-#         'TEST': {
-#             'CHARSET': 'utf8',
-#             'COLLATION': 'utf8_general_ci',
-#         }
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'team12',
+        'USER': 'root',
+        'PASSWORD': 'vnfmeod12',
+        'HOST': 'elice-kdt-ai-3rd-team12.koreacentral.cloudapp.azure.com',
+        'PORT': '3306',
+        'TEST': {
+            'CHARSET': 'utf8',
+            'COLLATION': 'utf8_general_ci',
+        }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
