@@ -22,7 +22,7 @@
 <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
 <img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white">
 
-## 2. 프로젝트 소개
+## 2. 프로젝트 소개: 링크(https://www.notion.so/4c0d7305ead349d19563819e5caa1d8f)
 - 사용자가 원하는 식물을 찾을 수 있도록 사진을 찍어서 업로드하면 유사한 식물의 정보를 알려줍니다.
 - 사용자의 주거 환경, 식물을 길러 봤던 경험 등의 검사 문항을 통해 사용자가 키우기 적합한 식물을 추천해줍니다.
 - 247종의 실내에서 키우기 적합한 식물들 정보를 제공해 줍니다.
@@ -61,6 +61,9 @@
   - https://whimsical.com/DBTrfNZ1rU77QrWG4L71co
      - pw : 푸르댕12
 
+**useCaseDiagram**
+
+[](url)
 ## 5. 프로젝트 팀원 역할 분담
 | 이름 | 파트 | 담당 업무|
 | ------ | ------ | ----- |
