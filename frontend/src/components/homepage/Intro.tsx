@@ -22,7 +22,7 @@ const Intro = ({ textAnim }: AnimProps) => {
           >
             <div className="intro-cardBack"></div>
             <div className="intro-cardCenter">
-              <H3>푸르댕댕은...</H3>
+              <H3>저 식물은 뭘까? 궁금한 식물을 찍어서 저희에게 알려주세요.</H3>
             </div>
           </Article>
           <Article
@@ -34,8 +34,7 @@ const Intro = ({ textAnim }: AnimProps) => {
             <div className="intro-cardBack"></div>
             <div className="intro-cardCenter">
               <H3>
-                사용자가 궁금한 식물을 업로드 시 CNN 모델을 토대로 식물 이미지를
-                식별하여 결과를 알려줍니다.
+                내가 잘 키울 수 있는 식물은 뭘까 ? 여러분의 환경에 적합한 식물을 추천해드려요.
               </H3>
             </div>
           </Article>
@@ -48,8 +47,7 @@ const Intro = ({ textAnim }: AnimProps) => {
             <div className="intro-cardBack"></div>
             <div className="intro-cardCenter">
               <H3>
-                반려동물 유무, 채광, 습도 등의 사용자의 환경을 입력받아 적합한
-                식물을 추천해줍니다. 
+                내 식물이 아픈거 아닐까? 내 식물의 건강을 확인해보세요. 
               </H3>
             </div>
           </Article>
@@ -73,4 +71,5 @@ const H3 = tw.h3`
   text-center
   text-white
   md:text-2xl
+  leading-relaxed
 `;
