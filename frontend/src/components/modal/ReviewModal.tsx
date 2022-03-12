@@ -54,7 +54,7 @@ const ReviewModal: React.FC<ModalProps | any> = ({
   };
 
   const debouncedContent = useMemo(() => {
-    return debounce(onChangeInput, 300);
+    return debounce(onChangeInput, 100);
   }, [reviewState]);
 
   useEffect(() => {
