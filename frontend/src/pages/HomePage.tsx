@@ -5,12 +5,26 @@ import Intro from '../components/homepage/Intro';
 import UploadContainer from '../components/homepage/UploadContainer';
 import PageMark from '../components/homepage/PageMark';
 import tw from 'tailwind-styled-components';
+import Toast from '../components/global/Toast';
+
+const throttle = (callback: any, waitTime: number) => {
+  let timerId: any = null;
+  return (e: any) => {
+    if (timerId) return;
+    timerId = setTimeout(() => {
+      callback.call(this, e);
+      timerId = null;
+    }, waitTime);
+  };
+};
 
 const HomePage = () => {
   const contentsRef: any = useRef<HTMLDivElement[]>([]);
   const [scrollIndex, setScrollIndex] = useState<number>(1);
   const [textAnim, setTextAnim] = useState<boolean>(false);
   const [isModal, setIsModal] = useState<boolean>(false);
+  const [ToastStatus, setToastStatus] = useState(false);
+  const [ToastMsg, setToastMsg] = useState('');
   let initialScroll = window.scrollY;
 
   const TIME_OUT = 600;
@@ -18,6 +32,22 @@ const HomePage = () => {
   let num = 0;
   let main = null;
   let next = null;
+
+  const handleToast = (): void => {
+    setToastStatus(true);
+    setToastMsg(
+      '질병 진단 서비스 이용시 관엽식물(잎이 있는 식물)만 가능합니다!',
+    );
+  };
+
+  useEffect(() => {
+    if (ToastStatus) {
+      setTimeout(() => {
+        setToastStatus(false);
+        setToastMsg('');
+      }, 3000);
+    }
+  }, [ToastStatus]);
 
   useEffect(() => {
     window.scroll(0, 30);
@@ -59,9 +89,11 @@ const HomePage = () => {
       setScrollIndex(num);
     };
 
-    window.addEventListener('scroll', scrollHandler);
+    const throttleScroll = throttle(scrollHandler, 25);
+
+    window.addEventListener('scroll', throttleScroll);
     return () => {
-      window.removeEventListener('scroll', scrollHandler);
+      window.removeEventListener('scroll', throttleScroll);
     };
   }, []);
 
@@ -76,10 +108,10 @@ const HomePage = () => {
           className="box1 z-3"
           ref={elem => (contentsRef.current[1] = elem)}
         >
-          <div className="relative ">
+          <div className="relative">
             <VideoBackground />
             <div className="flex">
-              <TextBox>
+              <TextBox className="h-screen main_background">
                 <h2 className="text-2xl text-white 2xl:text-6xl">
                   사람에겐 휴식의 공간을,
                 </h2>
@@ -114,7 +146,17 @@ const HomePage = () => {
           style={{ transform: `translateY(100vh)` }}
           ref={elem => (contentsRef.current[3] = elem)}
         >
-          <UploadContainer setIsModal={setIsModal} />
+          <UploadContainer setIsModal={setIsModal} handleToast={handleToast} />
+          <div className="w-full">
+            <div className="fixed flex justify-center w-full">
+              <Toast
+                msg={
+                  '질병 진단 서비스 이용시 관엽식물(잎이 있는 식물)만 가능합니다!'
+                }
+                ToastStatus={ToastStatus}
+              />
+            </div>
+          </div>
         </ContentBox>
       </div>
     </Body>

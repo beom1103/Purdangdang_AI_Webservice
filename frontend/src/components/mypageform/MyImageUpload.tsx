@@ -57,6 +57,7 @@ const Image = tw.img`
   object-fill
   w-64
   rounded-lg
-  h-1/5
+  h-16
+  sm:h-28
   md:h-24
 `;

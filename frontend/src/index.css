@@ -124,7 +124,7 @@ body::-webkit-scrollbar {
 
 /* BounceArrow */
 .bounce-arrow {
-  @apply absolute w-10 h-10 p-2 bg-transparent rounded-full wrap bottom-24 right-2/4 animate-bounce;
+  @apply absolute w-full h-10 p-2 bg-transparent rounded-full wrap bottom-24 animate-bounce;
 }
 
 /* Intro */
@@ -348,7 +348,7 @@ body::-webkit-scrollbar {
 }
 
 .myPage_Img {
-  @apply object-fill w-full border-2 border-green-800 border-dashed md:w-96 md:h-96;
+  @apply object-fill w-full h-64 border-2 border-green-800 border-dashed md:w-96 sm:h-80 xl:h-96;
 }
 
 .myPage_TitleBox {
@@ -391,4 +391,20 @@ body::-webkit-scrollbar {
     rgba(255, 249, 246, 0.7) 50%,
     rgba(255, 238, 246, 1) 100%
   );
+}
+.intro {
+  background-color: #f8f8f6;
+  background-image: 'url(/img/home1.jpg)';
+  background-repeat: no-repeat;
+}
+
+.main_background::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: -1;
 }

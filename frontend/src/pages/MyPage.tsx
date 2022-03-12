@@ -49,7 +49,7 @@ const MyPage = () => {
       setTimeout(() => {
         setToastStatus(false);
         setToastMsg('');
-      }, 1000);
+      }, 1500);
     }
   }, [ToastStatus]);
 
@@ -103,7 +103,7 @@ const MyPage = () => {
           </div>
         </div>
       </div>
-      {ToastStatus && <Toast msg={ToastMsg} />}
+      {ToastStatus && <Toast msg={ToastMsg} ToastStatus={ToastStatus} />}
     </div>
   );
 };
