@@ -163,7 +163,7 @@ class PlantUploadView(APIView):
         my_file = os.path.join(THIS_FOLDER + "/media/", str(uploadFile.image))
 
         if act == "species":
-            model = plant_analysis.Species(THIS_FOLDER + "/apps/ai/48_class_model_3.h5")
+            model = plant_analysis.Species(THIS_FOLDER + "/apps/ai/resnet101v2_95_lr_5.h5")
             pred = model.predict(my_file)
             result = {'top1':{}, 'top2':{}, 'top3':{}}
             
