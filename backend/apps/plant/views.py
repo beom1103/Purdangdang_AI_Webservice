@@ -166,12 +166,11 @@ class PlantUploadView(APIView):
             model = plant_analysis.Species(THIS_FOLDER + "/apps/ai/resnet101v2_95_lr_5.h5")
             pred = model.predict(my_file)
             result = {'top1':{}, 'top2':{}, 'top3':{}}
-            
             for i in range(3):
                 top = f'top{i+1}'
+                if pred[top]['name'] == '용신목' : print('뭐냐')
                 result[top]['detail'] = PlantDetailSerializer(get_object_or_404(Plant, kor=pred[top]['name'])).data
                 result[top]['percent'] = str(pred[top]['percent']) + '%'
-            
             return Response(result, status=status.HTTP_201_CREATED)
         
         if act == "disease":
