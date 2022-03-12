@@ -37,28 +37,28 @@ const ReviewModal: React.FC<ModalProps | any> = ({
       alert('등록 되었습니다.');
       window.location.reload();
     }
-  }, [disabledButton, pathname, method, reviewState]);
+  }, [reviewState]);
 
   const onChangeInput = useCallback(
     e => {
       const { name, value } = e.target;
       setReviewState({ ...reviewState, [name]: value });
     },
-    [reviewState, setReviewState],
+    [reviewState],
   );
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
-      onSubmitReview();
+      () => onSubmitReview();
     }
   };
 
   const debouncedContent = useMemo(() => {
     return debounce(onChangeInput, 300);
-  }, []);
+  }, [reviewState]);
 
   useEffect(() => {
-    setReviewState({ ...reviewState, plant_id: id });
+    setReviewState({ ...reviewState, ['plant_id']: id });
   }, []);
 
   return (
