@@ -49,7 +49,7 @@ const ReviewModal: React.FC<ModalProps | any> = ({
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
-      () => onSubmitReview();
+      onSubmitReview();
     }
   };
 
