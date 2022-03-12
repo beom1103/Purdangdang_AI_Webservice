@@ -1,16 +1,16 @@
-import { debounce } from "lodash";
+import { debounce } from 'lodash';
 import React, {
   MouseEventHandler,
   useCallback,
   useEffect,
   useMemo,
-} from "react";
-import { useLocation } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
-import tw from "tailwind-styled-components";
-import { methodAtom, reviewPostAtom, postReview } from "../../api/search";
-import { Reviews } from "../../store/type";
-import Star from "./Star";
+} from 'react';
+import { useLocation } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import tw from 'tailwind-styled-components';
+import { methodAtom, reviewPostAtom, postReview } from '../../api/search';
+import { Reviews } from '../../store/type';
+import Star from './Star';
 
 type ModalProps = {
   id: string;
@@ -31,24 +31,24 @@ const ReviewModal: React.FC<ModalProps | any> = ({
 
   const onSubmitReview = useCallback(async () => {
     if (!disabledButton) {
-      alert("리뷰를 작성 후 제출해주세요!");
+      alert('리뷰를 작성 후 제출해주세요!');
     } else {
       await postReview(pathname, method, reviewState);
-      alert("등록 되었습니다.");
+      alert('등록 되었습니다.');
       window.location.reload();
     }
   }, [disabledButton, pathname, method, reviewState]);
 
   const onChangeInput = useCallback(
-    (e) => {
+    e => {
       const { name, value } = e.target;
       setReviewState({ ...reviewState, [name]: value });
     },
-    [reviewState, setReviewState]
+    [reviewState, setReviewState],
   );
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       onSubmitReview();
     }
   };

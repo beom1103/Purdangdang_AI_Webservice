@@ -1,9 +1,9 @@
-import React, { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { useRecoilValueLoadable } from "recoil";
-import { searchPlant } from "../../api/search";
-import { Plant } from "../../store/type";
-import PlantCard from "./PlantCard";
+import React, { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilValueLoadable } from 'recoil';
+import { searchPlant } from '../../api/search';
+import { Plant } from '../../store/type';
+import PlantCard from './PlantCard';
 
 const SearchList = () => {
   const searchData = useRecoilValueLoadable(searchPlant);

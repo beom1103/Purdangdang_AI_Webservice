@@ -1,17 +1,17 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
+import React, { useCallback, useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import {
   scrollPage,
   plantQueryAtom,
   plantListAtom,
   filterAtom,
   searchPlant,
-} from "../../api/search";
-import PlantCard from "./PlantCard";
-import { useNavigate } from "react-router-dom";
-import { Plant } from "../../store/type";
-import SearchList from "./SearchList";
-import { throttle } from "lodash";
+} from '../../api/search';
+import PlantCard from './PlantCard';
+import { useNavigate } from 'react-router-dom';
+import { Plant } from '../../store/type';
+import SearchList from './SearchList';
+import { throttle } from 'lodash';
 
 const TIME = 700;
 
@@ -29,15 +29,15 @@ const PlantList = () => {
     }
 
     switch (fetchPlantList.state) {
-      case "loading":
+      case 'loading':
         break;
 
-      case "hasValue":
+      case 'hasValue':
         const { results } = fetchPlantList.contents;
         setPlantsList(results);
         break;
 
-      case "hasError":
+      case 'hasError':
         break;
 
       default:
@@ -56,7 +56,7 @@ const PlantList = () => {
         await getMorePlant(pageUp, filter);
       }
     }, TIME),
-    [fetchPlantList, page]
+    [fetchPlantList, page],
   );
 
   //추가 데이터 불러오기
@@ -65,7 +65,7 @@ const PlantList = () => {
       const newPlant = await scrollPage(page, filter);
       setPlantsList((prev: Plant[]) => [...prev, ...newPlant.results]);
     },
-    [fetchPlantList]
+    [fetchPlantList],
   );
 
   //상세 페이지로 라우팅
@@ -80,11 +80,11 @@ const PlantList = () => {
 
   //이벤트 제어
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("touchend", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('touchend', handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("touchend", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('touchend', handleScroll);
     };
   }, [handleScroll]);
 
@@ -99,7 +99,7 @@ const PlantList = () => {
 
   return (
     <div className="card">
-      {fetchPlantList?.state === "hasValue" && !plantQuery ? (
+      {fetchPlantList?.state === 'hasValue' && !plantQuery ? (
         plantsList?.map((data: Plant, index: number): JSX.Element => {
           return (
             <PlantCard

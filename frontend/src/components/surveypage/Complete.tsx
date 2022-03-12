@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import tw from "tailwind-styled-components";
-import { QuestionBox, Title } from "../../pages/SurveyPage";
-import { Plant, User } from "../../store/type";
-import { useCallback } from "react";
-import PlantCard from "../search/PlantCard";
-import { useNavigate } from "react-router-dom";
-import Footer from "../global/Footer";
-import { addMyPage } from "../../api/myPage";
+import React, { useEffect } from 'react';
+import tw from 'tailwind-styled-components';
+import { QuestionBox, Title } from '../../pages/SurveyPage';
+import { Plant, User } from '../../store/type';
+import { useCallback } from 'react';
+import PlantCard from '../search/PlantCard';
+import { useNavigate } from 'react-router-dom';
+import Footer from '../global/Footer';
+import { addMyPage } from '../../api/myPage';
 
 type CompleteProps = {
   user: User | undefined;
@@ -26,7 +26,7 @@ const Complete: React.FC<CompleteProps> = ({ user, result }) => {
   }, []);
 
   const addMyList = () => {
-    result.map((plant) => addMyPage(false, `${plant.rank}`));
+    result.map(plant => addMyPage(false, `${plant.rank}`));
   };
 
   useEffect(() => {

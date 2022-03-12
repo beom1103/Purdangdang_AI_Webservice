@@ -1,5 +1,5 @@
-import React from "react";
-import tw from "tailwind-styled-components";
+import React from 'react';
+import tw from 'tailwind-styled-components';
 
 type MyImageProps = {
   files: string[];
@@ -14,7 +14,7 @@ const MyImageUpload = ({
   checkedIdx,
   setChecked,
 }: MyImageProps) => {
-  const checkHandler = React.useCallback((num) => {
+  const checkHandler = React.useCallback(num => {
     setChecked(num + 1);
   }, []);
 
@@ -30,7 +30,7 @@ const MyImageUpload = ({
       {files.length > 0 && <Image alt="나만의 식물" src={files[idx]} />}
       <Div
         className={` ${checked ? `visible` : `invisible`}`}
-        style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
       >
         {idx + 1}
       </Div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 type CardProps = {
   kor: string;
@@ -23,7 +23,7 @@ const PlantCard: React.FC<CardProps> = ({
           className="card-img"
           style={{
             backgroundImage: `url(${image})`,
-            backgroundPositionY: "-40px",
+            backgroundPositionY: '-40px',
           }}
           onClick={onClickFunc}
         ></div>

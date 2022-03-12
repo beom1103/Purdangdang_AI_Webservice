@@ -30,13 +30,13 @@ const PlantReview = () => {
 
   const fetchReviews = async () => {
     const newReviews = await getDetailInfo(pathname);
-    newReviews.results.some((data: Reviews): void => {
+    newReviews.results.some((data: Reviews) => {
       if (data.username === user?.username) {
         setModifyReview(data);
         setIsPrev(true);
       }
     });
-    setReviews(newReviews.results);
+    setReviews(newReviews?.results);
     setNextReview(newReviews.next);
     setPrevReview(newReviews.previous);
   };
