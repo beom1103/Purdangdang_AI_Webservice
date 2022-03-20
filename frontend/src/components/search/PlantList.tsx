@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
 import { Plant } from '../../store/type';
 import SearchList from './SearchList';
 import { throttle } from 'lodash';
-import { url } from 'inspector';
 
 const TIME = 500;
 

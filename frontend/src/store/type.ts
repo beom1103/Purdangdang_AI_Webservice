@@ -16,6 +16,13 @@ export type User = {
   username: string;
 };
 
+export type Search = {
+  count?: number;
+  next?: string;
+  previous?: string;
+  results: Plant[];
+};
+
 export type Plant = {
   id: number;
   kor: string;

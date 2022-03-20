@@ -8,7 +8,7 @@ import {
   methodAtom,
   postReview,
 } from '../../api/search';
-import { Reviews } from '../../store/type';
+import { ReviewObj, Reviews } from '../../store/type';
 import tw from 'tailwind-styled-components';
 import ReviewModal from '../modal/ReviewModal';
 
@@ -29,16 +29,28 @@ const PlantReview = () => {
   const [isPrev, setIsPrev] = useState(false);
 
   const fetchReviews = async () => {
-    const newReviews = await getDetailInfo(pathname);
-    newReviews.results.some((data: Reviews) => {
+    const { results, next, previous }: ReviewObj = await getDetailInfo(
+      pathname,
+    );
+
+    if (results) {
+      preventReview(results);
+      setReviews(results);
+    }
+
+    if (next && previous) {
+      setNextReview(next);
+      setPrevReview(previous);
+    }
+  };
+
+  const preventReview = (results: Reviews[]) => {
+    results.some((data: Reviews) => {
       if (data.username === user?.username) {
         setModifyReview(data);
         setIsPrev(true);
       }
     });
-    setReviews(newReviews?.results);
-    setNextReview(newReviews.next);
-    setPrevReview(newReviews.previous);
   };
 
   const getNextReviews = async () => {
