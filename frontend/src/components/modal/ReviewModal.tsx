@@ -14,11 +14,11 @@ import Star from './Star';
 
 type ModalProps = {
   id: string;
-  modifyReview: Reviews;
+  modifyReview: Reviews | undefined;
   showReviewModal: MouseEventHandler<HTMLButtonElement>;
 };
 
-const ReviewModal: React.FC<ModalProps | any> = ({
+const ReviewModal: React.FC<ModalProps> = ({
   id,
   modifyReview,
   showReviewModal,
@@ -27,7 +27,7 @@ const ReviewModal: React.FC<ModalProps | any> = ({
   const [reviewState, setReviewState] = useRecoilState(reviewPostAtom);
   const { pathname } = useLocation();
   const { score, content } = reviewState;
-  const disabledButton = score > 0 && content.length > 0;
+  const disabledButton = score !== undefined && score > 0 && content.length > 0;
 
   const onSubmitReview = useCallback(async () => {
     if (!disabledButton) {

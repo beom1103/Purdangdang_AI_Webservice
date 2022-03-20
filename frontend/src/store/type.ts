@@ -55,9 +55,9 @@ export type Reviews = {
   content: string;
   created_at?: string;
   id?: number;
-  plant_id?: number;
+  plant_id?: number | string;
   plantname?: string;
-  score: number;
+  score?: number;
   updated_at?: string;
   username?: string;
 };

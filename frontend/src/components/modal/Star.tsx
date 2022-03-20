@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import tw from 'tailwind-styled-components';
 import { reviewPostAtom } from '../../api/search';
 type StarProps = {
-  score: number;
+  score?: number;
 };
 
 const Star: React.FC<StarProps> = ({ score }) => {
