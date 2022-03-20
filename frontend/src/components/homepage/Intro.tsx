@@ -34,7 +34,8 @@ const Intro = ({ textAnim }: AnimProps) => {
             <div className="intro-cardBack"></div>
             <div className="intro-cardCenter">
               <H3>
-                내가 잘 키울 수 있는 식물은 뭘까 ? 여러분의 환경에 적합한 식물을 추천해드려요.
+                내가 잘 키울 수 있는 식물은 뭘까 ? 여러분의 환경에 적합한 식물을
+                추천해드려요.
               </H3>
             </div>
           </Article>
@@ -46,9 +47,7 @@ const Intro = ({ textAnim }: AnimProps) => {
           >
             <div className="intro-cardBack"></div>
             <div className="intro-cardCenter">
-              <H3>
-                내 식물이 아픈거 아닐까? 내 식물의 건강을 확인해보세요. 
-              </H3>
+              <H3>내 식물이 아픈거 아닐까? 내 식물의 건강을 확인해보세요. </H3>
             </div>
           </Article>
         </section>

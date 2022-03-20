@@ -12,8 +12,9 @@ import { useNavigate } from 'react-router-dom';
 import { Plant } from '../../store/type';
 import SearchList from './SearchList';
 import { throttle } from 'lodash';
+import { url } from 'inspector';
 
-const TIME = 700;
+const TIME = 500;
 
 const PlantList = () => {
   const navigate = useNavigate();
@@ -21,7 +22,8 @@ const PlantList = () => {
   const fetchPlantList = useRecoilValueLoadable(searchPlant);
   const [plantsList, setPlantsList] = useRecoilState(plantListAtom);
   const filter = useRecoilValue(filterAtom);
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState(1);
+  const [isNext, setIsNext] = useState(false);
 
   const requestFetchPlant = useCallback((): void => {
     if (fetchPlantList === null || fetchPlantList === undefined) {
@@ -50,7 +52,7 @@ const PlantList = () => {
     throttle(async () => {
       const { scrollY, innerHeight } = window;
       const { scrollHeight } = document.documentElement;
-      if (innerHeight + scrollY > scrollHeight - 10) {
+      if (isNext && innerHeight + scrollY >= scrollHeight) {
         const pageUp = page + 1;
         setPage(pageUp);
         await getMorePlant(pageUp, filter);
@@ -63,10 +65,17 @@ const PlantList = () => {
   const getMorePlant = useCallback(
     async (page: number, filter: string) => {
       const newPlant = await scrollPage(page, filter);
+      stopScroll(newPlant.next);
       setPlantsList((prev: Plant[]) => [...prev, ...newPlant.results]);
     },
     [fetchPlantList],
   );
+
+  const stopScroll = (url: string) => {
+    if (url === null) {
+      setIsNext(false);
+    }
+  };
 
   //상세 페이지로 라우팅
   const goDetailPage = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
@@ -91,6 +100,7 @@ const PlantList = () => {
   useEffect(() => {
     requestFetchPlant();
     setPage(1);
+    setIsNext(true);
   }, [filter]);
 
   useEffect(() => {
