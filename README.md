@@ -1,5 +1,9 @@
 # 푸르댕댕🍀
-
+<strong> 프론트엔드 </strong> : https://purdangdang.vercel.app/
+<br/>
+<strong> 백엔드 </strong> :  
+<br/>
+<br/>
 <strong> 플랜테리어, 반려식물에 관심을 갖는 사람들에게 식물을 찾아주고 식물의 정보를 제공해주는 서비스  </strong>
 <br/>
 <br/>
